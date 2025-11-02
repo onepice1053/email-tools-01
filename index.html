@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Email Tools Suite</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20viewBox%3D%220%200%20200%20200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22logoGradient%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23667eea%22%3E%3C%2Fstop%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23764ba2%22%3E%3C%2Fstop%3E%0A%20%20%20%20%3C%2FlinearGradient%3E%0A%20%20%3C%2Fdefs%3E%0A%0A%20%20%3Cpath%20d%3D%22M40%2060%20L160%2060%20L160%20140%20L40%20140%20Z%22%20fill%3D%22url(%23logoGradient)%22%3E%3C%2Fpath%3E%0A%20%20%3Cpath%20d%3D%22M40%2060%20L100%20100%20L160%2060%22%20fill%3D%22white%22%20opacity%3D%220.3%22%3E%3C%2Fpath%3E%0A%20%20%3Ccircle%20cx%3D%22100%22%20cy%3D%22100%22%20r%3D%2224%22%20fill%3D%22white%22%20opacity%3D%220.2%22%3E%3C%2Fcircle%3E%0A%20%20%3Cg%20stroke%3D%22white%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%3E%0A%20%20%20%20%3Cline%20x1%3D%22100%22%20y1%3D%2276%22%20x2%3D%22100%22%20y2%3D%2268%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%22100%22%20y1%3D%22124%22%20x2%3D%22100%22%20y2%3D%22132%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%2276%22%20y1%3D%22100%22%20x2%3D%2268%22%20y2%3D%22100%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%22124%22%20y1%3D%22100%22%20x2%3D%22132%22%20y2%3D%22100%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%2283%22%20y1%3D%2283%22%20x2%3D%2277%22%20y2%3D%2277%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%22117%22%20y1%3D%22117%22%20x2%3D%22123%22%20y2%3D%22123%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%2283%22%20y1%3D%22117%22%20x2%3D%2277%22%20y2%3D%22123%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%22117%22%20y1%3D%2283%22%20x2%3D%22123%22%20y2%3D%2277%22%3E%3C%2Fline%3E%0A%20%20%3C%2Fg%3E%0A%20%20%3Cpath%20d%3D%22M60%2085%20L100%20110%20L140%2085%22%20stroke%3D%22white%22%20stroke-width%3D%226%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3C%2Fpath%3E%0A%3C%2Fsvg%3E%0A" />
+
+    <title>Email Tools Suite</title>
 
     <style>
         :root {
@@ -14,6 +15,7 @@
             --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             --warning-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --html-gradient: linear-gradient(135deg, #e44d26 0%, #f16529 100%);
             --card-shadow: 0 10px 30px rgba(0,0,0,0.1);
             --hover-shadow: 0 20px 40px rgba(0,0,0,0.15);
         }
@@ -116,6 +118,10 @@
             background: var(--warning-gradient);
         }
 
+        .tool-card:nth-child(5)::before {
+            background: var(--html-gradient);
+        }
+
         .tool-card:hover {
             transform: translateY(-10px);
             box-shadow: var(--hover-shadow);
@@ -175,6 +181,10 @@
             background: var(--warning-gradient);
         }
 
+        .tool-card:nth-child(5) .tool-badge {
+            background: var(--html-gradient);
+        }
+
         .footer {
             text-align: center;
             margin-top: 4rem;
@@ -222,6 +232,14 @@
                 <line x1="117" y1="83" x2="123" y2="77"/>
             </g>
             <path d="M60 85 L100 110 L140 85" stroke="white" stroke-width="6" fill="none" stroke-linecap="round"/>
+        </symbol>
+        
+        <!-- HTML Logo -->
+        <symbol id="htmlLogo" viewBox="0 0 128 128">
+            <path fill="#E44D26" d="M19.037 113.876L9.032 1.661h109.936l-10.016 112.198-45.019 12.48z"/>
+            <path fill="#F16529" d="M64 116.8l36.378-10.086 8.559-95.878H64z"/>
+            <path fill="#EBEBEB" d="M64 52.455H45.788L44.53 38.361H64V24.599H29.489l.33 3.692 3.382 37.927H64zm0 35.743l-.061.017-15.327-4.14-.979-10.975H33.816l1.928 21.609 28.193 7.826.063-.017z"/>
+            <path fill="#fff" d="M63.952 52.455v13.763h16.947l-1.597 17.849-15.35 4.143v14.319l28.215-7.82.207-2.325 3.234-36.233.335-3.696h-3.708zm0-27.856v13.762h33.244l.276-3.092.628-6.978.329-3.692z"/>
         </symbol>
     </svg>
 
@@ -281,6 +299,19 @@
                     domain verification, and disposable email detection.
                 </p>
                 <span class="tool-badge">Validation Tool</span>
+            </a>
+
+            <!-- HTML Viewer Pro Tool -->
+            <a href="html-viewer-pro.html" class="tool-card">
+                <div class="tool-icon">
+                    <svg><use href="#htmlLogo"></use></svg>
+                </div>
+                <h2 class="tool-title">HTML Viewer Pro</h2>
+                <p class="tool-description">
+                    Advanced HTML editor with live preview, code formatting, 
+                    templates, and export options. Perfect for email template development.
+                </p>
+                <span class="tool-badge">Development Tool</span>
             </a>
         </div>
 
