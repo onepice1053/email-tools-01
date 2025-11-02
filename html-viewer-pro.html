@@ -350,6 +350,70 @@
             50% { opacity: 1; }
             100% { opacity: 0.6; }
         }
+        /* Inspect Mode */
+        .inspect-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 15px;
+            font-size: 12px;
+        }
+        .inspect-toggle-btn {
+            background: transparent;
+            color: #ccc;
+            border: 1px solid #555;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+            transition: all 0.2s;
+        }
+        body.light-theme .inspect-toggle-btn {
+            color: #666;
+            border-color: #ccc;
+        }
+        .inspect-toggle-btn:hover {
+            background: #333;
+        }
+        body.light-theme .inspect-toggle-btn:hover {
+            background: #e5e7eb;
+        }
+        .inspect-toggle-btn.active {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+        .inspect-highlight {
+            outline: 2px solid #4f46e5 !important;
+            background-color: rgba(79, 70, 229, 0.1) !important;
+            cursor: pointer !important;
+        }
+        .inspect-edit-modal {
+            position: fixed;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 10000;
+            padding: 10px;
+            min-width: 200px;
+        }
+        .inspect-edit-textarea {
+            width: 100%;
+            min-height: 80px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            resize: vertical;
+        }
+        .inspect-edit-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            justify-content: flex-end;
+        }
         /* Responsive */
         @media (max-width: 1024px) {
             .container {
@@ -443,6 +507,10 @@
                     <div class="auto-preview-indicator">
                         <i class="fas fa-circle"></i>
                         <span>Auto Preview</span>
+                    </div>
+                    <div class="inspect-toggle">
+                        <span>Inspect:</span>
+                        <button class="inspect-toggle-btn" id="inspectToggle" onclick="toggleInspectMode()">Off</button>
                     </div>
                     <div class="device-selector">
                         <button class="device-btn active" onclick="setDevice('desktop')">Desktop</button>
@@ -571,6 +639,9 @@
 
         // DOM elements
         const preview = document.getElementById('preview');
+        let inspectMode = false;
+        let currentHighlightedElement = null;
+        let currentEditModal = null;
 
         // Update status bar
         editor.on('cursorActivity', () => {
@@ -600,10 +671,172 @@
                 doc.open();
                 doc.write(code);
                 doc.close();
+                
+                // Re-attach inspect mode event listeners if inspect mode is active
+                if (inspectMode) {
+                    setTimeout(attachInspectListeners, 100);
+                }
             } catch (e) {
                 // Silently handle errors for auto-preview
                 console.error('Preview update error:', e);
             }
+        }
+
+        // Inspect Mode Functions
+        function toggleInspectMode() {
+            inspectMode = !inspectMode;
+            const toggleBtn = document.getElementById('inspectToggle');
+            
+            if (inspectMode) {
+                toggleBtn.textContent = 'On';
+                toggleBtn.classList.add('active');
+                attachInspectListeners();
+            } else {
+                toggleBtn.textContent = 'Off';
+                toggleBtn.classList.remove('active');
+                removeInspectListeners();
+                removeHighlight();
+                removeEditModal();
+            }
+        }
+
+        function attachInspectListeners() {
+            try {
+                const doc = preview.contentDocument || preview.contentWindow.document;
+                if (!doc || !doc.body) return;
+                
+                // Remove existing listeners first
+                removeInspectListeners();
+                
+                // Add mouseover and click listeners to all elements
+                const allElements = doc.querySelectorAll('*');
+                allElements.forEach(element => {
+                    element.addEventListener('mouseover', handleElementMouseOver);
+                    element.addEventListener('mouseout', handleElementMouseOut);
+                    element.addEventListener('click', handleElementClick);
+                });
+            } catch (e) {
+                console.error('Error attaching inspect listeners:', e);
+            }
+        }
+
+        function removeInspectListeners() {
+            try {
+                const doc = preview.contentDocument || preview.contentWindow.document;
+                if (!doc || !doc.body) return;
+                
+                const allElements = doc.querySelectorAll('*');
+                allElements.forEach(element => {
+                    element.removeEventListener('mouseover', handleElementMouseOver);
+                    element.removeEventListener('mouseout', handleElementMouseOut);
+                    element.removeEventListener('click', handleElementClick);
+                });
+            } catch (e) {
+                console.error('Error removing inspect listeners:', e);
+            }
+        }
+
+        function handleElementMouseOver(e) {
+            e.stopPropagation();
+            removeHighlight();
+            currentHighlightedElement = e.target;
+            currentHighlightedElement.classList.add('inspect-highlight');
+        }
+
+        function handleElementMouseOut(e) {
+            e.stopPropagation();
+            if (currentHighlightedElement === e.target) {
+                removeHighlight();
+            }
+        }
+
+        function handleElementClick(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            if (currentHighlightedElement) {
+                showEditModal(currentHighlightedElement);
+            }
+        }
+
+        function removeHighlight() {
+            if (currentHighlightedElement) {
+                currentHighlightedElement.classList.remove('inspect-highlight');
+                currentHighlightedElement = null;
+            }
+        }
+
+        function showEditModal(element) {
+            removeEditModal();
+            
+            const rect = element.getBoundingClientRect();
+            const iframeRect = preview.getBoundingClientRect();
+            
+            currentEditModal = document.createElement('div');
+            currentEditModal.className = 'inspect-edit-modal';
+            currentEditModal.style.left = (rect.left + iframeRect.left) + 'px';
+            currentEditModal.style.top = (rect.bottom + iframeRect.top + 5) + 'px';
+            
+            const textarea = document.createElement('textarea');
+            textarea.className = 'inspect-edit-textarea';
+            textarea.value = element.textContent || element.innerHTML || '';
+            
+            const buttonContainer = document.createElement('div');
+            buttonContainer.className = 'inspect-edit-buttons';
+            
+            const saveBtn = document.createElement('button');
+            saveBtn.textContent = 'Save';
+            saveBtn.onclick = () => saveElementContent(element, textarea.value);
+            
+            const cancelBtn = document.createElement('button');
+            cancelBtn.textContent = 'Cancel';
+            cancelBtn.className = 'secondary';
+            cancelBtn.onclick = removeEditModal;
+            
+            buttonContainer.appendChild(cancelBtn);
+            buttonContainer.appendChild(saveBtn);
+            
+            currentEditModal.appendChild(textarea);
+            currentEditModal.appendChild(buttonContainer);
+            
+            document.body.appendChild(currentEditModal);
+            
+            // Focus the textarea
+            textarea.focus();
+            
+            // Close modal when clicking outside
+            setTimeout(() => {
+                document.addEventListener('click', handleOutsideClick, true);
+            }, 100);
+        }
+
+        function handleOutsideClick(e) {
+            if (currentEditModal && !currentEditModal.contains(e.target) && e.target !== currentHighlightedElement) {
+                removeEditModal();
+            }
+        }
+
+        function removeEditModal() {
+            if (currentEditModal) {
+                document.body.removeChild(currentEditModal);
+                currentEditModal = null;
+                document.removeEventListener('click', handleOutsideClick, true);
+            }
+        }
+
+        function saveElementContent(element, newContent) {
+            if (element.textContent !== undefined) {
+                element.textContent = newContent;
+            } else {
+                element.innerHTML = newContent;
+            }
+            removeEditModal();
+            removeHighlight();
+            
+            // Update the editor with the modified content
+            const doc = preview.contentDocument || preview.contentWindow.document;
+            const newHtml = doc.documentElement.outerHTML;
+            editor.setValue(newHtml);
         }
 
         // File upload function
