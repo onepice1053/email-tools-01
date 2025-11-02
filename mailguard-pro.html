@@ -1,0 +1,1324 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Email Header Cleaner Pro | Clean & Mask Email Headers</title>
+  <meta name="description" content="Professional email header cleaning tool. Mask domains, filter headers, and customize email source with ease.">
+
+  <style>
+    /* --- Reset & Basics --- */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #111827; 
+      transition: background 0.3s, color 0.3s;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url('https://lh7-rt.googleusercontent.com/docsz/AD_4nXdGJFYq-3s0kCkcvChsiaOjIIeoZ9-9EV6R0zDTIEUDlKRyUaOag4Uk90oPOzG7Hbpu7_gaO89GPniCDYj2QA7VN1LGcJyU2T4a8tn_FaBDWs02iRate_fZzLDa-djZ3yvNdQCI0g?key=kPCYD9-hSyEMaloJ2u6zGw');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0.15;
+      z-index: 0;
+      pointer-events: none;
+    }
+    body.dark-mode { 
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #f3f4f6; 
+    }
+    body.dark-mode::before {
+      opacity: 0.25;
+    }
+    body > * {
+      position: relative;
+      z-index: 1;
+    }
+    h1, h2 { color: #1f2937; transition: color 0.3s; }
+    body.dark-mode h1, body.dark-mode h2 { color: #f3f4f6; }
+
+    .container { 
+      width: 100%;
+      height: calc(100vh - 160px);
+      margin: 0;
+      padding: 0.75rem; 
+      display: flex; 
+      gap: 0.75rem;
+    }
+    header { 
+      text-align: center; 
+      padding: 1.5rem 1rem 1rem;
+      position: relative; 
+      color: white;
+    }
+    header h1 {
+      color: white;
+      font-size: 2rem;
+      font-weight: 700;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      margin-bottom: 0.25rem;
+    }
+    header p {
+      color: rgba(255,255,255,0.9);
+      font-size: 1rem;
+    }
+
+    .card { 
+      background: #ffffff; 
+      border-radius: 1rem; 
+      padding: 1.25rem; 
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+      display: flex; 
+      flex-direction: column; 
+      transition: all 0.3s;
+      flex: 1;
+      height: 100%;
+      overflow: hidden;
+    }
+    body.dark-mode .card { 
+      background: #1f2937; 
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.4), 0 10px 10px -5px rgba(0,0,0,0.3);
+    }
+    .card h2 { margin-bottom: 0.75rem; font-size: 1.2rem; font-weight: 600; }
+
+    textarea, #output { 
+      width: 100%; 
+      flex: 1; 
+      padding: 1rem; 
+      border-radius: 0.5rem; 
+      border: 2px solid #e5e7eb;
+      font-family: 'Courier New', Courier, monospace; 
+      font-size: 0.9rem; 
+      background: #f9fafb; 
+      color: #111827; 
+      overflow: auto; 
+      resize: none;
+      transition: all 0.3s;
+      line-height: 1.5;
+    }
+    textarea:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    body.dark-mode textarea, body.dark-mode #output { 
+      background: #111827; 
+      color: #f3f4f6; 
+      border-color: #374151;
+    }
+    body.dark-mode textarea:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+    }
+    #output { 
+      background: #f9fafb;
+      border: 2px dashed #e5e7eb;
+    }
+    body.dark-mode #output {
+      background: #111827;
+      border-color: #374151;
+    }
+    #output pre { white-space: pre-wrap; word-break: break-word; margin: 0; }
+    #output.has-content { border-style: solid; border-color: #10b981; }
+    body.dark-mode #output.has-content { border-color: #059669; }
+
+    .btn { 
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.625rem 1rem; 
+      border-radius: 0.5rem; 
+      font-weight: 600; 
+      text-decoration: none; 
+      cursor: pointer; 
+      transition: all 0.2s; 
+      border: none;
+      font-size: 0.875rem;
+      white-space: nowrap;
+    }
+    .btn-blue { background-color: #3b82f6; color: #ffffff; }
+    .btn-blue:hover { background-color: #2563eb; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); }
+    .btn-blue:active { transform: translateY(0); }
+    .btn-green { background-color: #10b981; color: #ffffff; }
+    .btn-green:hover { background-color: #059669; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4); }
+    .btn-gray { background-color: #6b7280; color: #ffffff; }
+    .btn-gray:hover { background-color: #4b5563; transform: translateY(-1px); }
+    .btn-red { background-color: #ef4444; color: #ffffff; }
+    .btn-red:hover { background-color: #dc2626; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4); }
+    .btn-icon { padding: 0.625rem; }
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .header-btns { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .btn-group { 
+      display: flex; 
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .settings-btn-container { 
+      position: absolute; 
+      top: 1.5rem; 
+      right: 1.5rem; 
+      display: flex; 
+      gap: 0.5rem;
+      z-index: 10;
+    }
+
+    .theme-toggle { 
+      width: 2.5rem; 
+      height: 2.5rem; 
+      border-radius: 0.75rem; 
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      color: white; 
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      cursor: pointer; 
+      font-size: 1.2rem; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      transition: all 0.3s;
+    }
+    .theme-toggle:hover { 
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+    }
+
+    .stats-bar {
+      display: flex;
+      gap: 1rem;
+      padding: 0.625rem 0.75rem;
+      background: #f3f4f6;
+      border-radius: 0.5rem;
+      margin-top: 0.75rem;
+      font-size: 0.8rem;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+    }
+    body.dark-mode .stats-bar {
+      background: #374151;
+    }
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      color: #6b7280;
+    }
+    body.dark-mode .stat-item {
+      color: #9ca3af;
+    }
+    .stat-value {
+      font-weight: 700;
+      color: #3b82f6;
+    }
+    body.dark-mode .stat-value {
+      color: #60a5fa;
+    }
+
+    .modal-overlay { 
+      display: none; 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      right: 0; 
+      bottom: 0; 
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(5px);
+      z-index: 1000; 
+      align-items: center; 
+      justify-content: center;
+      animation: fadeIn 0.2s ease-in-out;
+      padding: 1rem;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal { 
+      background: #1f2937; 
+      border-radius: 1rem; 
+      padding: 2rem; 
+      max-width: 600px; 
+      width: 100%; 
+      max-height: 90vh; 
+      overflow-y: auto; 
+      color: #f3f4f6; 
+      transition: background 0.3s;
+      animation: slideUp 0.3s ease-out;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+    body.dark-mode .modal { background: #374151; }
+    .modal-header { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      margin-bottom: 1.5rem;
+    }
+    .modal-header h2 { 
+      color: #f3f4f6; 
+      font-size: 1.5rem;
+    }
+    .modal-close { 
+      background: transparent; 
+      border: none; 
+      color: #9ca3af; 
+      font-size: 1.75rem; 
+      cursor: pointer; 
+      padding: 0; 
+      width: 2rem; 
+      height: 2rem; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center;
+      border-radius: 0.375rem;
+      transition: all 0.2s;
+    }
+    .modal-close:hover { 
+      color: #f3f4f6;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .modal-description { 
+      color: #9ca3af; 
+      margin-bottom: 2rem; 
+      font-size: 0.95rem;
+    }
+
+    .settings-group { 
+      background: #374151; 
+      border-radius: 0.75rem; 
+      padding: 1.5rem; 
+      transition: background 0.3s;
+      margin-bottom: 1.5rem;
+    }
+    body.dark-mode .settings-group { background: #1f2937; }
+    .settings-group h3 { 
+      color: #f3f4f6; 
+      font-size: 1.1rem; 
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .setting-item { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      padding: 1rem 0; 
+      border-bottom: 1px solid #4b5563;
+    }
+    .setting-item:last-child { border-bottom: none; }
+    .setting-info { flex: 1; }
+    .setting-label { 
+      color: #f3f4f6; 
+      font-weight: 600; 
+      display: block; 
+      margin-bottom: 0.25rem;
+    }
+    .setting-description { 
+      color: #9ca3af; 
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+
+    .toggle-switch { 
+      position: relative; 
+      width: 3rem; 
+      height: 1.5rem; 
+      margin-left: 1rem;
+      flex-shrink: 0;
+    }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider { 
+      position: absolute; 
+      cursor: pointer; 
+      top: 0; 
+      left: 0; 
+      right: 0; 
+      bottom: 0; 
+      background-color: #4b5563; 
+      border-radius: 1.5rem; 
+      transition: 0.3s;
+    }
+    .toggle-slider:before { 
+      position: absolute; 
+      content: ""; 
+      height: 1.25rem; 
+      width: 1.25rem; 
+      left: 0.125rem; 
+      bottom: 0.125rem; 
+      background-color: white; 
+      border-radius: 50%; 
+      transition: 0.3s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .toggle-switch input:checked + .toggle-slider { background-color: #3b82f6; }
+    .toggle-switch input:checked + .toggle-slider:before { transform: translateX(1.5rem); }
+
+    /* Checkbox List */
+    .checkbox-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      max-height: 350px;
+      overflow-y: auto;
+      padding: 0.5rem 0;
+    }
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.625rem;
+      background: #111827;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .checkbox-item:hover {
+      background: #4b5563;
+    }
+    .checkbox-item input[type="checkbox"] {
+      cursor: pointer;
+      width: 1.125rem;
+      height: 1.125rem;
+      accent-color: #3b82f6;
+    }
+    .checkbox-item label {
+      flex: 1;
+      cursor: pointer;
+      color: #f3f4f6;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    input[type="text"], textarea.settings-textarea {
+      width: 100%; 
+      padding: 0.625rem; 
+      border-radius: 0.5rem; 
+      border: 1px solid #4b5563; 
+      background: #1f2937; 
+      color: #f3f4f6; 
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    body.dark-mode input[type="text"], body.dark-mode textarea.settings-textarea {
+      background: #111827;
+      border-color: #374151;
+    }
+    input[type="text"]:focus, textarea.settings-textarea:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #10b981;
+      color: white;
+      padding: 1rem 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      display: none;
+      align-items: center;
+      gap: 0.75rem;
+      z-index: 2000;
+      animation: slideInRight 0.3s ease-out;
+      font-weight: 500;
+      max-width: 90vw;
+    }
+    .toast.show { display: flex; }
+    .toast.error { background: #ef4444; }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(100px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.85rem;
+    }
+    footer strong {
+      color: white;
+      font-weight: 700;
+    }
+
+    /* New styles for replacement fields */
+    .replacement-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .replacement-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .replacement-field label {
+      font-weight: 600;
+      color: #f3f4f6;
+      font-size: 0.9rem;
+    }
+    .replacement-field input {
+      width: 100%;
+      padding: 0.625rem;
+      border-radius: 0.5rem;
+      border: 1px solid #4b5563;
+      background: #1f2937;
+      color: #f3f4f6;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    body.dark-mode .replacement-field input {
+      background: #111827;
+      border-color: #374151;
+    }
+    .replacement-field input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    .replacement-field .field-description {
+      font-size: 0.75rem;
+      color: #9ca3af;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 1024px) { 
+      .container { 
+        flex-direction: column;
+        height: auto;
+        min-height: calc(100vh - 180px);
+      }
+      .card { min-height: 400px; }
+      .settings-btn-container { top: 1rem; right: 1rem; }
+      header h1 { font-size: 1.75rem; }
+      .btn-group { width: 100%; }
+      .btn-group .btn { flex: 1; }
+      .replacement-fields {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 640px) {
+      header { padding: 1rem 1rem 0.75rem; }
+      header h1 { font-size: 1.5rem; }
+      header p { font-size: 0.875rem; }
+      .card { padding: 1rem; min-height: 350px; }
+      textarea, #output { font-size: 0.8rem; padding: 0.75rem; }
+      .settings-btn-container { gap: 0.25rem; }
+      .theme-toggle, .btn-icon { width: 2.25rem; height: 2.25rem; font-size: 1rem; }
+      .stats-bar { font-size: 0.75rem; gap: 0.75rem; }
+      .modal { padding: 1.5rem; }
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 5px;
+    }
+    body.dark-mode ::-webkit-scrollbar-track {
+      background: #374151;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+    body.dark-mode ::-webkit-scrollbar-thumb {
+      background: #4b5563;
+    }
+    body.dark-mode ::-webkit-scrollbar-thumb:hover {
+      background: #6b7280;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>MailGuard Pro</h1>
+    <p>Clean, mask, and customize email headers with ease</p>
+    <div class="settings-btn-container">
+      <button id="themeToggle" class="theme-toggle" title="Toggle Dark Mode">🌙</button>
+      <button id="headerRemovalBtn" class="btn btn-gray btn-icon" title="Custom Header Removal">🚫</button>
+      <button id="replacementHeadersBtn" class="btn btn-gray btn-icon" title="Replacement Headers">🔄</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <section class="card">
+      <div class="header-btns">
+        <h2>📥 Paste Raw Email Source</h2>
+        <div class="btn-group">
+          <button id="cleanBtn" class="btn btn-blue">🧹 Clean</button>
+          <button id="clearInputBtn" class="btn btn-red">🗑️ Clear</button>
+        </div>
+      </div>
+      <textarea id="input" placeholder="Paste full email source (headers + body) here..." spellcheck="false"></textarea>
+      <div class="stats-bar">
+        <div class="stat-item">
+          <span>📄 Lines:</span>
+          <span class="stat-value" id="inputLines">0</span>
+        </div>
+        <div class="stat-item">
+          <span>💬 Characters:</span>
+          <span class="stat-value" id="inputChars">0</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="header-btns">
+        <h2>✅ Cleaned Source</h2>
+        <div class="btn-group">
+          <button id="copyBtn" class="btn btn-green" disabled>📋 Copy</button>
+          <button id="downloadBtn" class="btn btn-gray" disabled>💾 Download</button>
+          <button id="clearOutputBtn" class="btn btn-red">🗑️ Clear</button>
+        </div>
+      </div>
+      <div id="output"><pre id="outpre">[No output yet] Paste email source and click Clean to get started.</pre></div>
+      <div class="stats-bar">
+        <div class="stat-item">
+          <span>📄 Lines:</span>
+          <span class="stat-value" id="outputLines">0</span>
+        </div>
+        <div class="stat-item">
+          <span>💬 Characters:</span>
+          <span class="stat-value" id="outputChars">0</span>
+        </div>
+        <div class="stat-item">
+          <span>📖 Headers:</span>
+          <span class="stat-value" id="headersKept">0</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    Made by <strong>3221</strong> | 
+    <span style="opacity: 0.7; font-size: 0.8rem;">
+      <kbd style="background: rgba(255,255,255,0.2); padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-family: monospace;">Ctrl+Enter</kbd> to clean
+    </span>
+  </footer>
+
+  <div id="toast" class="toast">
+    <span id="toastMessage"></span>
+  </div>
+
+  <!-- Header Removal Modal -->
+  <div id="headerRemovalModal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>🚫 Custom Header Removal</h2>
+        <button class="modal-close" id="closeHeaderRemovalModal">×</button>
+      </div>
+      <p class="modal-description">Checked = REMOVE from email | Unchecked = KEEP in email</p>
+      
+      <div style="display: flex; gap: 0.75rem; margin-bottom: 1.5rem;">
+        <button id="selectAllHeadersBtn" class="btn btn-blue" style="flex: 1;">✓ Select All</button>
+        <button id="clearAllHeadersBtn" class="btn btn-gray" style="flex: 1;">Clear All</button>
+      </div>
+
+      <div class="settings-group">
+        <h3>Headers to Remove</h3>
+        <div class="checkbox-list" id="headerCheckboxList"></div>
+      </div>
+
+      <div class="settings-group">
+        <h3>Add Custom Header to Remove</h3>
+        <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem;">
+          <input type="text" id="customHeaderInput" placeholder="Enter header name (e.g., X-Custom-Header)" style="flex: 1;">
+          <button id="addCustomHeaderBtn" class="btn btn-blue">+ Add</button>
+        </div>
+        <div class="checkbox-list" id="customHeaderCheckboxList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Replacement Headers Modal -->
+  <div id="replacementHeadersModal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>🔄 Replacement Headers</h2>
+        <button class="modal-close" id="closeReplacementHeadersModal">×</button>
+      </div>
+      <p class="modal-description">Enter replacement headers (one per line). Existing headers will be replaced, new headers will be added.</p>
+      
+      <!-- New replacement fields -->
+      <div class="settings-group">
+        <h3>Quick Replacements</h3>
+        <div class="replacement-fields">
+          <div class="replacement-field">
+            <label for="replaceSubject">Replace Subject</label>
+            <input type="text" id="replaceSubject" placeholder="New subject line">
+            <div class="field-description">Replaces the entire Subject header</div>
+          </div>
+          <div class="replacement-field">
+            <label for="replaceFromDomain">Replace From Domain</label>
+            <input type="text" id="replaceFromDomain" placeholder="example.com">
+            <div class="field-description">Replaces domain in From header (after @)</div>
+          </div>
+          <div class="replacement-field">
+            <label for="replaceMessageIdPrefix">Replace Message-ID Prefix</label>
+            <input type="text" id="replaceMessageIdPrefix" placeholder="example2">
+            <div class="field-description">Adds prefix to Message-ID before @ and after first 4 characters</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <h3>Custom Replacement Headers</h3>
+        <textarea id="replacementHeaders" class="settings-textarea" placeholder="Enter headers to replace, one per line&#10;Example:&#10;To: [*to]&#10;From: [*from]&#10;Cc: [*cc]" style="min-height: 200px; font-family: 'Courier New', Courier, monospace; resize: vertical;"></textarea>
+      </div>
+
+      <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
+        <button id="applyReplacementHeadersBtn" class="btn btn-blue" style="flex: 1;">✔ Apply Headers</button>
+        <button id="clearReplacementHeadersBtn" class="btn btn-gray" style="flex: 1;">🗑️ Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const HEADERS_TO_KEEP = [
+      "received",
+      "from",
+      "sender",
+      "message-id",
+      "subject",
+      "mime-version",
+      "content-type",
+      "date",
+      "feedback-id",
+      "to",
+      "cc",
+      "delivered-to",
+      "list-unsubscribe",
+      "list-unsubscribe-post",
+      "in-reply-to",
+      "references",
+      "reply-to"
+    ];
+
+    const DEFAULT_HEADERS_TO_REMOVE = [
+      "arc-seal",
+      "arc-message-signature",
+      "arc-authentication-results",
+      "return-path",
+      "authentication-results",
+      "received-spf",
+      "dkim-signature",
+      "reply-to",
+      "delivered-to",
+      "to",
+      "cc",
+      "list-unsubscribe",
+      "list-unsubscribe-post",
+      "in-reply-to",
+      "references"
+    ];
+
+    let removeAllXHeaders = false;
+    let replacementHeadersText = '';
+    let replaceSubject = '';
+    let replaceFromDomain = '';
+    let replaceMessageIdPrefix = '';
+
+    // Elements
+    const inputEl = document.getElementById('input');
+    const outpre = document.getElementById('outpre');
+    const outputEl = document.getElementById('output');
+    const cleanBtn = document.getElementById('cleanBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const clearInputBtn = document.getElementById('clearInputBtn');
+    const clearOutputBtn = document.getElementById('clearOutputBtn');
+    const headerRemovalBtn = document.getElementById('headerRemovalBtn');
+    const replacementHeadersBtn = document.getElementById('replacementHeadersBtn');
+    const themeToggle = document.getElementById('themeToggle');
+    const headerRemovalModal = document.getElementById('headerRemovalModal');
+    const replacementHeadersModal = document.getElementById('replacementHeadersModal');
+    const closeHeaderRemovalModal = document.getElementById('closeHeaderRemovalModal');
+    const closeReplacementHeadersModal = document.getElementById('closeReplacementHeadersModal');
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toastMessage');
+
+    const inputLines = document.getElementById('inputLines');
+    const inputChars = document.getElementById('inputChars');
+    const outputLines = document.getElementById('outputLines');
+    const outputChars = document.getElementById('outputChars');
+    const headersKept = document.getElementById('headersKept');
+
+    // Header Removal elements
+    const headerCheckboxList = document.getElementById('headerCheckboxList');
+    const customHeaderCheckboxList = document.getElementById('customHeaderCheckboxList');
+    const customHeaderInput = document.getElementById('customHeaderInput');
+    const addCustomHeaderBtn = document.getElementById('addCustomHeaderBtn');
+    const selectAllHeadersBtn = document.getElementById('selectAllHeadersBtn');
+    const clearAllHeadersBtn = document.getElementById('clearAllHeadersBtn');
+
+    // Replacement Headers elements
+    const replacementHeadersTextarea = document.getElementById('replacementHeaders');
+    const applyReplacementHeadersBtn = document.getElementById('applyReplacementHeadersBtn');
+    const clearReplacementHeadersBtn = document.getElementById('clearReplacementHeadersBtn');
+    const replaceSubjectInput = document.getElementById('replaceSubject');
+    const replaceFromDomainInput = document.getElementById('replaceFromDomain');
+    const replaceMessageIdPrefixInput = document.getElementById('replaceMessageIdPrefix');
+
+    let headersToRemove = [...DEFAULT_HEADERS_TO_REMOVE];
+    let customHeaders = [];
+
+    function showToast(message, isError = false) {
+      toastMessage.textContent = message;
+      toast.classList.toggle('error', isError);
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    function initHeaderCheckboxes() {
+      headerCheckboxList.innerHTML = '';
+      
+      // Add X-Headers checkbox first
+      const xHeaderItem = document.createElement('div');
+      xHeaderItem.className = 'checkbox-item';
+      xHeaderItem.innerHTML = `
+        <input type="checkbox" id="header-x-headers" ${removeAllXHeaders ? 'checked' : ''}>
+        <label for="header-x-headers"><strong>X-Headers (all)</strong></label>
+      `;
+      headerCheckboxList.appendChild(xHeaderItem);
+      xHeaderItem.querySelector('input').addEventListener('change', () => {
+        removeAllXHeaders = xHeaderItem.querySelector('input').checked;
+        updateHeadersToRemove();
+        saveHeaderSettings();
+      });
+
+      // Add separator
+      const separator = document.createElement('div');
+      separator.style.borderTop = '1px solid #4b5563';
+      separator.style.margin = '0.75rem 0';
+      headerCheckboxList.appendChild(separator);
+
+      // Add standard headers
+      DEFAULT_HEADERS_TO_REMOVE.forEach((h, idx) => {
+        const item = document.createElement('div');
+        item.className = 'checkbox-item';
+        item.innerHTML = `
+          <input type="checkbox" id="header-${h}" ${headersToRemove.includes(h) ? 'checked' : ''}>
+          <label for="header-${h}">${h}</label>
+        `;
+        headerCheckboxList.appendChild(item);
+        item.querySelector('input').addEventListener('change', updateHeadersToRemove);
+      });
+    }
+
+    function initCustomHeaderCheckboxes() {
+      customHeaderCheckboxList.innerHTML = '';
+      customHeaders.forEach((h, idx) => {
+        const item = document.createElement('div');
+        item.className = 'checkbox-item';
+        item.innerHTML = `
+          <input type="checkbox" id="custom-header-${idx}" ${headersToRemove.includes(h) ? 'checked' : ''}>
+          <label for="custom-header-${idx}">${h}</label>
+          <button class="btn btn-red" style="padding: 0.375rem 0.625rem; font-size: 0.75rem;" onclick="removeCustomHeader(${idx})">Remove</button>
+        `;
+        customHeaderCheckboxList.appendChild(item);
+        item.querySelector('input').addEventListener('change', updateHeadersToRemove);
+      });
+    }
+
+    function removeCustomHeader(idx) {
+      customHeaders.splice(idx, 1);
+      headersToRemove = headersToRemove.filter(h => !customHeaders.includes(h) || DEFAULT_HEADERS_TO_REMOVE.includes(h));
+      saveHeaderSettings();
+      initCustomHeaderCheckboxes();
+    }
+
+    function updateHeadersToRemove() {
+      headersToRemove = [];
+      
+      // Add X-Headers if checked
+      if (removeAllXHeaders) {
+        headersToRemove.push('x-headers');
+      }
+      
+      // Add standard headers
+      const standardCheckboxes = headerCheckboxList.querySelectorAll('input[type="checkbox"]');
+      standardCheckboxes.forEach((cb, idx) => {
+        if (idx > 0 && cb.checked) { // Skip the first checkbox (X-Headers)
+          const label = cb.nextElementSibling.textContent.toLowerCase();
+          if (DEFAULT_HEADERS_TO_REMOVE.includes(label)) {
+            headersToRemove.push(label);
+          }
+        }
+      });
+      
+      // Add custom headers
+      const customCheckboxes = customHeaderCheckboxList.querySelectorAll('input[type="checkbox"]');
+      customCheckboxes.forEach((cb, idx) => {
+        if (cb.checked && customHeaders[idx]) {
+          headersToRemove.push(customHeaders[idx]);
+        }
+      });
+      
+      saveHeaderSettings();
+    }
+
+    function saveHeaderSettings() {
+      localStorage.setItem('removeAllXHeaders', removeAllXHeaders);
+      localStorage.setItem('headersToRemove', JSON.stringify(headersToRemove));
+      localStorage.setItem('customHeaders', JSON.stringify(customHeaders));
+    }
+
+    function loadHeaderSettings() {
+      removeAllXHeaders = localStorage.getItem('removeAllXHeaders') === 'true';
+      const savedHeadersToRemove = localStorage.getItem('headersToRemove');
+      if (savedHeadersToRemove) {
+        headersToRemove = JSON.parse(savedHeadersToRemove);
+      }
+      const savedCustomHeaders = localStorage.getItem('customHeaders');
+      if (savedCustomHeaders) {
+        customHeaders = JSON.parse(savedCustomHeaders);
+      }
+    }
+
+    function updateStats() {
+      const inputText = inputEl.value;
+      const outputText = outpre.textContent;
+      
+      inputLines.textContent = inputText ? inputText.split('\n').length : 0;
+      inputChars.textContent = inputText.length;
+      
+      if (outputText !== '[No output yet] Paste email source and click Clean to get started.') {
+        outputLines.textContent = outputText ? outputText.split('\n').length : 0;
+        outputChars.textContent = outputText.length;
+        
+        // Count headers in output
+        const headerCount = (outputText.match(/^[a-zA-Z0-9\-]+:/gm) || []).length;
+        headersKept.textContent = headerCount;
+      } else {
+        outputLines.textContent = 0;
+        outputChars.textContent = 0;
+        headersKept.textContent = 0;
+      }
+    }
+
+    function cleanEmail() {
+      const input = inputEl.value.trim();
+      if (!input) {
+        showToast('Please enter email source to clean', true);
+        return;
+      }
+
+      try {
+        const lines = input.split('\n');
+        const cleanedLines = [];
+        let inHeaders = true;
+        let headerCount = 0;
+        let skipCurrentHeader = false;
+        let currentHeaderName = '';
+
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i];
+          
+          // Check if we've reached the end of headers
+          if (inHeaders && line.trim() === '') {
+            inHeaders = false;
+            cleanedLines.push(line);
+            skipCurrentHeader = false;
+            continue;
+          }
+          
+          // Process headers
+          if (inHeaders) {
+            const headerMatch = line.match(/^([a-zA-Z0-9\-]+):\s*(.*)/);
+            
+            // If this is a new header line (not a continuation)
+            if (headerMatch) {
+              const headerName = headerMatch[1].toLowerCase();
+              const headerValue = headerMatch[2];
+              
+              // Check if we should remove this header
+              const shouldRemove = 
+                headersToRemove.includes(headerName) ||
+                (removeAllXHeaders && headerName.startsWith('x-'));
+              
+              if (shouldRemove) {
+                // Skip this entire header (including continuation lines)
+                skipCurrentHeader = true;
+                currentHeaderName = headerName;
+                continue;
+              } else {
+                // Keep this header
+                skipCurrentHeader = false;
+                
+                // Apply replacements if needed
+                let finalHeaderValue = headerValue;
+                
+                // Subject replacement
+                if (headerName === 'subject' && replaceSubject) {
+                  finalHeaderValue = replaceSubject;
+                }
+                
+                // From domain replacement
+                if (headerName === 'from' && replaceFromDomain) {
+                  finalHeaderValue = finalHeaderValue.replace(/@[^\s>]+/, '@' + replaceFromDomain);
+                }
+                
+                // Message-ID prefix replacement - add before @ and after first 4 characters
+                if (headerName === 'message-id' && replaceMessageIdPrefix) {
+                  // Extract the content between < and >
+                  const messageIdMatch = finalHeaderValue.match(/^<([^@]+)(@.*)>$/);
+                  if (messageIdMatch) {
+                    const beforeAt = messageIdMatch[1];
+                    const afterAt = messageIdMatch[2];
+                    
+                    // Insert prefix after first 4 characters
+                    if (beforeAt.length >= 4) {
+                      const firstPart = beforeAt.substring(0, 4);
+                      const restPart = beforeAt.substring(4);
+                      finalHeaderValue = `<${firstPart}${replaceMessageIdPrefix}${restPart}${afterAt}>`;
+                    } else {
+                      // If less than 4 characters, just prepend
+                      finalHeaderValue = `<${replaceMessageIdPrefix}${beforeAt}${afterAt}>`;
+                    }
+                  }
+                }
+                
+                cleanedLines.push(`${headerMatch[1]}: ${finalHeaderValue}`);
+                headerCount++;
+              }
+            } else {
+              // This is a continuation line (starts with space/tab)
+              if (!skipCurrentHeader && cleanedLines.length > 0) {
+                // Add continuation line to the current header
+                cleanedLines[cleanedLines.length - 1] += '\n' + line;
+              }
+              // If skipCurrentHeader is true, we skip this continuation line too
+            }
+          } else {
+            // Body content
+            cleanedLines.push(line);
+          }
+        }
+
+        // Apply custom replacement headers - FIXED: Insert them in proper position
+        if (replacementHeadersText) {
+          const replacementLines = replacementHeadersText.split('\n');
+          let replacementHeadersAdded = [];
+          
+          // Process replacement headers in reverse order to maintain proper insertion order
+          for (let i = replacementLines.length - 1; i >= 0; i--) {
+            const line = replacementLines[i].trim();
+            if (!line) continue;
+            
+            const headerMatch = line.match(/^([a-zA-Z0-9\-]+):\s*(.*)/);
+            if (headerMatch) {
+              const headerName = headerMatch[1];
+              const headerValue = headerMatch[2];
+              const headerNameLower = headerName.toLowerCase();
+              
+              // Check if this header already exists
+              let headerReplaced = false;
+              for (let j = 0; j < cleanedLines.length; j++) {
+                const existingHeaderMatch = cleanedLines[j].match(/^([a-zA-Z0-9\-]+):\s*(.*)/);
+                if (existingHeaderMatch && existingHeaderMatch[1].toLowerCase() === headerNameLower) {
+                  // Replace existing header
+                  cleanedLines[j] = `${headerName}: ${headerValue}`;
+                  headerReplaced = true;
+                  break;
+                }
+              }
+              
+              // If header doesn't exist, find the best position to insert it
+              if (!headerReplaced) {
+                // Find the position where this header should be inserted
+                let insertPosition = -1;
+                
+                // Common header order in emails
+                const headerOrder = [
+                  "return-path", "received", "from", "sender", "to", "cc", "bcc",
+                  "message-id", "in-reply-to", "references", "subject", "date",
+                  "mime-version", "content-type", "content-transfer-encoding"
+                ];
+                
+                const currentHeaderIndex = headerOrder.indexOf(headerNameLower);
+                
+                if (currentHeaderIndex !== -1) {
+                  // Find the position to insert based on header order
+                  for (let j = 0; j < cleanedLines.length; j++) {
+                    const existingHeaderMatch = cleanedLines[j].match(/^([a-zA-Z0-9\-]+):\s*(.*)/);
+                    if (existingHeaderMatch) {
+                      const existingHeaderName = existingHeaderMatch[1].toLowerCase();
+                      const existingHeaderIndex = headerOrder.indexOf(existingHeaderName);
+                      
+                      if (existingHeaderIndex !== -1 && existingHeaderIndex > currentHeaderIndex) {
+                        insertPosition = j;
+                        break;
+                      }
+                    }
+                  }
+                }
+                
+                // If no specific position found, insert before the body
+                if (insertPosition === -1) {
+                  const firstBodyLineIndex = cleanedLines.findIndex(line => line.trim() === '');
+                  insertPosition = firstBodyLineIndex !== -1 ? firstBodyLineIndex : cleanedLines.length;
+                }
+                
+                // Insert the new header
+                cleanedLines.splice(insertPosition, 0, `${headerName}: ${headerValue}`);
+                headerCount++;
+              }
+              
+              replacementHeadersAdded.push(headerName);
+            }
+          }
+          
+          if (replacementHeadersAdded.length > 0) {
+            showToast(`Added/replaced headers: ${replacementHeadersAdded.join(', ')}`);
+          }
+        }
+
+        const cleanedText = cleanedLines.join('\n');
+        outpre.textContent = cleanedText;
+        outputEl.classList.add('has-content');
+        copyBtn.disabled = false;
+        downloadBtn.disabled = false;
+        
+        updateStats();
+        showToast(`Email cleaned successfully! Kept ${headerCount} headers.`);
+      } catch (error) {
+        console.error('Error cleaning email:', error);
+        showToast('Error cleaning email. Please check the format.', true);
+      }
+    }
+
+    function copyOutput() {
+      const text = outpre.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('Copied to clipboard!');
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
+        showToast('Failed to copy to clipboard', true);
+      });
+    }
+
+    function downloadOutput() {
+      const text = outpre.textContent;
+      const blob = new Blob([text], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'cleaned-email.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('Downloaded cleaned email!');
+    }
+
+    function clearInput() {
+      inputEl.value = '';
+      updateStats();
+      showToast('Input cleared');
+    }
+
+    function clearOutput() {
+      outpre.textContent = '[No output yet] Paste email source and click Clean to get started.';
+      outputEl.classList.remove('has-content');
+      copyBtn.disabled = true;
+      downloadBtn.disabled = true;
+      updateStats();
+      showToast('Output cleared');
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+      const isDarkMode = document.body.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isDarkMode);
+      themeToggle.textContent = isDarkMode ? '☀️' : '🌙';
+    }
+
+    function initTheme() {
+      const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+      if (savedDarkMode) {
+        document.body.classList.add('dark-mode');
+        themeToggle.textContent = '☀️';
+      }
+    }
+
+    function loadReplacementHeaders() {
+      replacementHeadersText = localStorage.getItem('replacementHeaders') || '';
+      replacementHeadersTextarea.value = replacementHeadersText;
+      
+      replaceSubject = localStorage.getItem('replaceSubject') || '';
+      replaceSubjectInput.value = replaceSubject;
+      
+      replaceFromDomain = localStorage.getItem('replaceFromDomain') || '';
+      replaceFromDomainInput.value = replaceFromDomain;
+      
+      replaceMessageIdPrefix = localStorage.getItem('replaceMessageIdPrefix') || '';
+      replaceMessageIdPrefixInput.value = replaceMessageIdPrefix;
+    }
+
+    function saveReplacementHeaders() {
+      localStorage.setItem('replacementHeaders', replacementHeadersText);
+      localStorage.setItem('replaceSubject', replaceSubject);
+      localStorage.setItem('replaceFromDomain', replaceFromDomain);
+      localStorage.setItem('replaceMessageIdPrefix', replaceMessageIdPrefix);
+    }
+
+    // Event Listeners
+    cleanBtn.addEventListener('click', cleanEmail);
+    copyBtn.addEventListener('click', copyOutput);
+    downloadBtn.addEventListener('click', downloadOutput);
+    clearInputBtn.addEventListener('click', clearInput);
+    clearOutputBtn.addEventListener('click', clearOutput);
+
+    headerRemovalBtn.addEventListener('click', () => {
+      headerRemovalModal.classList.add('active');
+    });
+
+    replacementHeadersBtn.addEventListener('click', () => {
+      replacementHeadersModal.classList.add('active');
+    });
+
+    closeHeaderRemovalModal.addEventListener('click', () => {
+      headerRemovalModal.classList.remove('active');
+    });
+
+    closeReplacementHeadersModal.addEventListener('click', () => {
+      replacementHeadersModal.classList.remove('active');
+    });
+
+    themeToggle.addEventListener('click', toggleTheme);
+
+    // Header Removal Modal Events
+    addCustomHeaderBtn.addEventListener('click', () => {
+      const header = customHeaderInput.value.trim();
+      if (header) {
+        customHeaders.push(header);
+        customHeaderInput.value = '';
+        saveHeaderSettings();
+        initCustomHeaderCheckboxes();
+        showToast(`Added custom header: ${header}`);
+      }
+    });
+
+    selectAllHeadersBtn.addEventListener('click', () => {
+      const checkboxes = headerCheckboxList.querySelectorAll('input[type="checkbox"]');
+      const customCheckboxes = customHeaderCheckboxList.querySelectorAll('input[type="checkbox"]');
+      
+      checkboxes.forEach(cb => cb.checked = true);
+      customCheckboxes.forEach(cb => cb.checked = true);
+      
+      updateHeadersToRemove();
+    });
+
+    clearAllHeadersBtn.addEventListener('click', () => {
+      const checkboxes = headerCheckboxList.querySelectorAll('input[type="checkbox"]');
+      const customCheckboxes = customHeaderCheckboxList.querySelectorAll('input[type="checkbox"]');
+      
+      checkboxes.forEach(cb => cb.checked = false);
+      customCheckboxes.forEach(cb => cb.checked = false);
+      
+      updateHeadersToRemove();
+    });
+
+    // Replacement Headers Modal Events
+    applyReplacementHeadersBtn.addEventListener('click', () => {
+      replacementHeadersText = replacementHeadersTextarea.value;
+      replaceSubject = replaceSubjectInput.value;
+      replaceFromDomain = replaceFromDomainInput.value;
+      replaceMessageIdPrefix = replaceMessageIdPrefixInput.value;
+      
+      saveReplacementHeaders();
+      showToast('Replacement headers saved!');
+      replacementHeadersModal.classList.remove('active');
+    });
+
+    clearReplacementHeadersBtn.addEventListener('click', () => {
+      replacementHeadersTextarea.value = '';
+      replaceSubjectInput.value = '';
+      replaceFromDomainInput.value = '';
+      replaceMessageIdPrefixInput.value = '';
+      
+      replacementHeadersText = '';
+      replaceSubject = '';
+      replaceFromDomain = '';
+      replaceMessageIdPrefix = '';
+      
+      saveReplacementHeaders();
+      showToast('Replacement headers cleared!');
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        cleanEmail();
+      }
+    });
+
+    // Close modals when clicking outside
+    window.addEventListener('click', (e) => {
+      if (e.target === headerRemovalModal) {
+        headerRemovalModal.classList.remove('active');
+      }
+      if (e.target === replacementHeadersModal) {
+        replacementHeadersModal.classList.remove('active');
+      }
+    });
+
+    // Initialize
+    function init() {
+      initTheme();
+      loadHeaderSettings();
+      initHeaderCheckboxes();
+      initCustomHeaderCheckboxes();
+      loadReplacementHeaders();
+      updateStats();
+      
+      inputEl.addEventListener('input', updateStats);
+    }
+
+    init();
+  </script>
+</body>
+</html>

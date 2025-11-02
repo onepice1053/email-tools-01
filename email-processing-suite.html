@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Advanced Email Processing Suite</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary-color: #3f37c9;
+      --accent-color: #4895ef;
+      --text-color: #2b2d42;
+      --light-text: #8d99ae;
+      --bg-color: #f8f9fa;
+      --card-bg: #ffffff;
+      --sidebar-bg: #2b2d42;
+      --sidebar-text: #edf2f4;
+      --success-color: #4cc9f0;
+      --warning-color: #f8961e;
+      --error-color: #f72585;
+      --border-radius: 12px;
+      --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+      --gradient-primary: linear-gradient(135deg, #4361ee, #3f37c9);
+      --gradient-accent: linear-gradient(135deg, #4895ef, #4cc9f0);
+    }
+
+    body.dark-mode {
+      --primary-color: #6a8dff;
+      --primary-dark: #5372ff;
+      --secondary-color: #5d55e6;
+      --accent-color: #6ab0ff;
+      --text-color: #e0e0e0;
+      --light-text: #a0a0a0;
+      --bg-color: #1a1a1a;
+      --card-bg: #2a2a2a;
+      --sidebar-bg: #0f0f0f;
+      --sidebar-text: #f0f0f0;
+      --success-color: #5cdbff;
+      --warning-color: #ffa726;
+      --error-color: #ff4081;
+      --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-color);
+      margin: 0;
+      padding: 0;
+      color: var(--text-color);
+      display: flex;
+      min-height: 100vh;
+      transition: var(--transition);
+    }
+
+    .sidebar {
+      width: 280px;
+      background: var(--sidebar-bg);
+      color: var(--sidebar-text);
+      padding: 20px 0;
+      height: 100vh;
+      position: fixed;
+      transition: var(--transition);
+      z-index: 100;
+      box-shadow: 2px 0 20px rgba(0, 0, 0, 0.1);
+      overflow-y: auto;
+    }
+
+    .sidebar-header {
+      padding: 0 25px 25px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .sidebar-header h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+    }
+
+    .sidebar-header h2 i {
+      margin-right: 12px;
+      background: var(--gradient-accent);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-menu {
+      padding: 0 15px;
+    }
+
+    .nav-item {
+      margin-bottom: 8px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      padding: 14px 18px;
+      color: var(--sidebar-text);
+      text-decoration: none;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .nav-link:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateX(5px);
+    }
+
+    .nav-link.active {
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-link i {
+      margin-right: 12px;
+      font-size: 1.1rem;
+      width: 20px;
+      text-align: center;
+    }
+
+    .tool-button {
+      width: calc(100% - 30px);
+      padding: 14px;
+      margin: 25px 15px 0;
+      background: var(--gradient-primary);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+    }
+
+    .tool-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
+    }
+
+    .tool-button i {
+      margin-right: 10px;
+    }
+
+    .main-content {
+      flex: 1;
+      margin-left: 280px;
+      padding: 30px;
+      transition: var(--transition);
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 2rem;
+      margin: 0;
+      font-weight: 700;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      background: var(--card-bg);
+      padding: 8px 15px;
+      border-radius: 50px;
+      box-shadow: var(--box-shadow);
+    }
+
+    .user-profile img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      margin-right: 10px;
+      object-fit: cover;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 30px;
+      margin-bottom: 30px;
+      transition: var(--transition);
+      border: 1px solid rgba(0, 0, 0, 0.03);
+    }
+
+    .card:hover {
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+      transform: translateY(-5px);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .card-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .card-title i {
+      margin-right: 12px;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    textarea, input[type="file"], input[type="text"] {
+      width: 100%;
+      padding: 14px 18px;
+      font-size: 0.95rem;
+      border: 1px solid #e0e0e0;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      margin-bottom: 18px;
+      background-color: var(--card-bg);
+      color: var(--text-color);
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    textarea:focus, input[type="file"]:focus, input[type="text"]:focus {
+      border-color: var(--accent-color);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+    }
+
+    textarea {
+      min-height: 140px;
+      resize: vertical;
+      font-family: 'Inter', monospace;
+      line-height: 1.5;
+    }
+
+    .options {
+      margin: 25px 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .options label {
+      display: inline-flex;
+      align-items: center;
+      margin-right: 0;
+      margin-bottom: 0;
+      cursor: pointer;
+      font-weight: 500;
+      background: rgba(67, 97, 238, 0.05);
+      padding: 10px 15px;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+    }
+
+    .options label:hover {
+      background: rgba(67, 97, 238, 0.1);
+    }
+
+    .options input[type="checkbox"] {
+      margin-right: 10px;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary-color);
+    }
+
+    .btn {
+      padding: 14px 24px;
+      background: var(--gradient-primary);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-weight: 600;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 12px;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.2);
+    }
+
+    .btn:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(67, 97, 238, 0.3);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .btn i {
+      margin-right: 10px;
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #6c757d, #5a6268);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: linear-gradient(135deg, #5a6268, #495057);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, var(--success-color), #3ab7db);
+    }
+
+    .btn-success:hover:not(:disabled) {
+      background: linear-gradient(135deg, #3ab7db, #2aa5c9);
+    }
+
+    .btn-warning {
+      background: linear-gradient(135deg, var(--warning-color), #e68a19);
+    }
+
+    .btn-warning:hover:not(:disabled) {
+      background: linear-gradient(135deg, #e68a19, #d67a09);
+    }
+
+    .output {
+      margin-top: 25px;
+      white-space: pre-wrap;
+      background: #f1f8fe;
+      padding: 20px;
+      border-radius: var(--border-radius);
+      max-height: 400px;
+      overflow-y: auto;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.9rem;
+      border: 1px solid #e1e8ed;
+      word-break: break-word;
+      line-height: 1.5;
+    }
+
+    body.dark-mode .output {
+      background: #1e2a3a;
+      border-color: #3a4757;
+    }
+
+    .summary {
+      margin-top: 20px;
+      font-weight: 500;
+      padding: 16px 20px;
+      border-radius: var(--border-radius);
+      background-color: #f8f9fa;
+      border-left: 4px solid var(--primary-color);
+      font-size: 0.95rem;
+    }
+
+    .summary.success {
+      border-left-color: var(--success-color);
+      background-color: #f0f9ff;
+    }
+
+    .summary.warning {
+      border-left-color: var(--warning-color);
+      background-color: #fff9f0;
+    }
+
+    body.dark-mode .summary {
+      background-color: #2a2a2a;
+    }
+
+    body.dark-mode .summary.success {
+      background-color: #1e3a3a;
+    }
+
+    body.dark-mode .summary.warning {
+      background-color: #3a2a1e;
+    }
+
+    .progress {
+      margin: 18px 0;
+      height: 10px;
+      background: #e9ecef;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    body.dark-mode .progress {
+      background: #3a3a3a;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: var(--gradient-primary);
+      width: 0;
+      transition: width 0.3s ease-in-out;
+      border-radius: 5px;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .drop-zone {
+      border: 2px dashed #ddd;
+      border-radius: var(--border-radius);
+      padding: 40px;
+      text-align: center;
+      margin-bottom: 18px;
+      transition: var(--transition);
+      cursor: pointer;
+      display: none;
+    }
+
+    .drop-zone:hover, .drop-zone.dragover {
+      border-color: var(--accent-color);
+      background: rgba(67, 97, 238, 0.05);
+    }
+
+    .drop-zone p {
+      margin: 0;
+      color: var(--light-text);
+    }
+
+    body.dark-mode .drop-zone {
+      border-color: #4a4a4a;
+    }
+
+    body.dark-mode .drop-zone:hover, body.dark-mode .drop-zone.dragover {
+      background: rgba(106, 141, 255, 0.1);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+    }
+
+    .file-upload-area {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .file-info {
+      color: var(--light-text);
+      font-size: 0.9rem;
+      flex: 1;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      .sidebar.active {
+        transform: translateX(0);
+      }
+      .main-content {
+        margin-left: 0;
+        padding: 20px;
+      }
+      .mobile-menu-btn {
+        display: block;
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        z-index: 99;
+        background: var(--gradient-primary);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        transition: var(--transition);
+      }
+      .mobile-menu-btn:hover {
+        transform: scale(1.05);
+      }
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+      .user-profile {
+        align-self: flex-end;
+      }
+      .options {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .options label {
+        width: 100%;
+        margin-right: 0;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.3s ease-out forwards;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .stats-container {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .stat-card {
+      flex: 1;
+      min-width: 150px;
+      background: var(--card-bg);
+      padding: 15px;
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--light-text);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <button class="mobile-menu-btn" id="mobileMenuBtn">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h2><i class="fas fa-envelope-open-text"></i> Email Suite</h2>
+    </div>
+    <nav class="nav-menu">
+      <div class="nav-item">
+        <div class="nav-link active" data-tab="filter">
+          <i class="fas fa-filter"></i> Email Filter
+        </div>
+      </div>
+      <div class="nav-item">
+        <div class="nav-link" data-tab="dedupe">
+          <i class="fas fa-clone"></i> Deduplicate
+        </div>
+      </div>
+    </nav>
+    
+    <button class="tool-button" onclick="toggleDarkMode()">
+      <i class="fas fa-moon"></i> Toggle Dark Mode
+    </button>
+  </div>
+
+  <div class="main-content">
+    <div class="header">
+      <h1>Advanced Email Processing Suite</h1>
+      <div class="user-profile">
+        <img src="https://ui-avatars.com/api/?name=User+Name&background=4361ee&color=fff" alt="User">
+        <span>Welcome, User</span>
+      </div>
+    </div>
+
+    <div id="filter-tab" class="tab-content active fade-in">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-filter"></i> Filter Emails</h3>
+        </div>
+        <div class="card-body">
+          <label>Upload File:</label>
+          <div class="file-upload-area">
+            <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click()">
+              <i class="fas fa-upload"></i> Upload File
+            </button>
+            <input type="file" id="fileInput" accept=".txt,.csv" style="display: none;" />
+            <div class="file-info">
+              <span id="filterFileName">No file selected</span>
+            </div>
+          </div>
+          
+          <label>Paste Emails Here:</label>
+          <textarea id="filterInput" placeholder="Paste email addresses here (one per line)&#10;example1@gmail.com&#10;example2@yahoo.com&#10;example3@hotmail.com"></textarea>
+          
+          <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+
+          <label>Filter Keywords/Domains:</label>
+          <textarea id="keywords" placeholder="Enter keywords or domains to filter by (one per line), e.g.:&#10;@gmail.com&#10;@yahoo.com&#10;important-domain.com"></textarea>
+
+          <div class="options">
+            <label><input type="checkbox" id="reverse"> Reverse Filter (exclude matches)</label>
+            <label><input type="checkbox" id="caseSensitive"> Case Sensitive</label>
+            <label><input type="checkbox" id="useRegex"> Use Regular Expressions</label>
+            <label><input type="checkbox" id="validateEmails"> Validate Emails</label>
+          </div>
+
+          <div>
+            <button class="btn btn-success" id="filterBtn" onclick="processFilter()">
+              <i class="fas fa-filter"></i> Filter Emails
+            </button>
+            <button class="btn" onclick="downloadFile()">
+              <i class="fas fa-download"></i> Download Results
+            </button>
+            <button class="btn" onclick="copyResults()">
+              <i class="fas fa-copy"></i> Copy Results
+            </button>
+            <button class="btn btn-secondary" onclick="clearFilter()">
+              <i class="fas fa-times"></i> Clear
+            </button>
+          </div>
+
+          <div class="summary" id="summary">Ready to process your email list.</div>
+          <div class="stats-container" id="filterStats" style="display: none;">
+            <div class="stat-card">
+              <div class="stat-value" id="processedCount">0</div>
+              <div class="stat-label">Processed</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="filteredCount">0</div>
+              <div class="stat-label">Filtered</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="removedCount">0</div>
+              <div class="stat-label">Removed</div>
+            </div>
+          </div>
+          <div class="output" id="output"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="dedupe-tab" class="tab-content fade-in">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title"><i class="fas fa-clone"></i> Remove Duplicate Emails</h3>
+        </div>
+        <div class="card-body">
+          <div style="margin-bottom: 20px; color: var(--light-text);">
+            Upload a file or paste email addresses below to remove duplicates. The tool will keep only unique email addresses.
+          </div>
+          
+          <label>Upload File:</label>
+          <div class="file-upload-area">
+            <button class="btn btn-secondary" onclick="document.getElementById('duplicateFileInput').click()">
+              <i class="fas fa-upload"></i> Upload File
+            </button>
+            <input type="file" id="duplicateFileInput" accept=".txt,.csv" style="display: none;" />
+            <div class="file-info">
+              <span id="dedupeFileName">No file selected</span>
+            </div>
+          </div>
+          
+          <label>Paste Emails Here:</label>
+          <textarea id="duplicateInput" placeholder="Paste email addresses here (one per line)&#10;example1@gmail.com&#10;example2@yahoo.com&#10;example3@hotmail.com"></textarea>
+          
+          <div class="options">
+            <label><input type="checkbox" id="dedupeValidateEmails"> Validate Emails</label>
+            <label><input type="checkbox" id="dedupePreserveCase"> Preserve Original Case</label>
+          </div>
+
+          <div>
+            <button class="btn btn-success" id="dedupeBtn" onclick="removeDuplicates()">
+              <i class="fas fa-redo"></i> Remove Duplicates
+            </button>
+            <button class="btn" onclick="copyDedupeResults()">
+              <i class="fas fa-copy"></i> Copy Clean List
+            </button>
+            <button class="btn" onclick="downloadDedupeResults()">
+              <i class="fas fa-download"></i> Download Clean List
+            </button>
+            <button class="btn btn-secondary" onclick="clearDedupe()">
+              <i class="fas fa-times"></i> Clear
+            </button>
+          </div>
+
+          <div class="summary" id="dedupeSummary">Ready to deduplicate your email list.</div>
+          <div class="stats-container" id="dedupeStats" style="display: none;">
+            <div class="stat-card">
+              <div class="stat-value" id="originalCount">0</div>
+              <div class="stat-label">Original</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="uniqueCount">0</div>
+              <div class="stat-label">Unique</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="duplicatesCount">0</div>
+              <div class="stat-label">Duplicates</div>
+            </div>
+          </div>
+          <div class="output" id="dedupeOutput"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let filteredLines = [];
+    let deduplicatedEmails = [];
+    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    const CHUNK_SIZE = 10000;
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      const sidebar = document.getElementById('sidebar');
+      
+      mobileMenuBtn.addEventListener('click', function() {
+        sidebar.classList.toggle('active');
+      });
+
+      window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+          sidebar.classList.remove('active');
+        }
+      });
+
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function() {
+          const tabName = this.dataset.tab;
+          switchTab(tabName);
+        });
+      });
+
+      const fileInput = document.getElementById('fileInput');
+      const duplicateFileInput = document.getElementById('duplicateFileInput');
+      
+      fileInput.addEventListener('change', function() {
+        const fileName = this.files[0] ? this.files[0].name : 'No file selected';
+        document.getElementById('filterFileName').textContent = fileName;
+      });
+      
+      duplicateFileInput.addEventListener('change', function() {
+        const fileName = this.files[0] ? this.files[0].name : 'No file selected';
+        document.getElementById('dedupeFileName').textContent = fileName;
+      });
+
+      if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+      }
+    });
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isDark);
+    }
+
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+      });
+      
+      document.getElementById(`${tabName}-tab`).classList.add('active');
+      document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+      
+      if (window.innerWidth <= 768) {
+        document.getElementById('sidebar').classList.remove('active');
+      }
+    }
+
+    async function processFilter() {
+      const fileInput = document.getElementById('fileInput');
+      const textInput = document.getElementById('filterInput');
+      const keywordsText = document.getElementById('keywords').value;
+      const reverse = document.getElementById('reverse').checked;
+      const caseSensitive = document.getElementById('caseSensitive').checked;
+      const useRegex = document.getElementById('useRegex').checked;
+      const validate = document.getElementById('validateEmails').checked;
+      const progressBar = document.getElementById('progressBar');
+      const output = document.getElementById('output');
+      const summary = document.getElementById('summary');
+      const filterBtn = document.getElementById('filterBtn');
+
+      const keywords = keywordsText.split(/\r?\n/).map(k => k.trim()).filter(k => k);
+
+      if (keywords.length === 0) {
+        showAlert('Please enter at least one keyword or domain to filter by.', 'warning');
+        return;
+      }
+
+      filterBtn.disabled = true;
+      filterBtn.innerHTML = '<span class="spinner"></span> Processing...';
+      
+      let lines = [];
+      progressBar.style.width = '0%';
+
+      try {
+        if (fileInput.files[0]) {
+          const file = fileInput.files[0];
+          summary.textContent = `Processing file: ${file.name} (${formatBytes(file.size)})...`;
+          summary.className = 'summary warning';
+
+          const text = await file.text();
+          lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l);
+          progressBar.style.width = '50%';
+        } else if (textInput.value.trim()) {
+          lines = textInput.value.split(/\r?\n/).map(l => l.trim()).filter(l => l);
+          summary.textContent = 'Processing pasted text...';
+          summary.className = 'summary warning';
+          progressBar.style.width = '50%';
+        } else {
+          showAlert('Please upload a file or paste text first.', 'warning');
+          filterBtn.disabled = false;
+          filterBtn.innerHTML = '<i class="fas fa-filter"></i> Filter Emails';
+          return;
+        }
+
+        if (lines.length === 0) {
+          showAlert('No data found to process.', 'warning');
+          filterBtn.disabled = false;
+          filterBtn.innerHTML = '<i class="fas fa-filter"></i> Filter Emails';
+          return;
+        }
+
+        let regexPatterns = [];
+        if (useRegex) {
+          regexPatterns = keywords.map(k => {
+            try {
+              return new RegExp(k, caseSensitive ? '' : 'i');
+            } catch {
+              return null;
+            }
+          }).filter(r => r !== null);
+          
+          if (regexPatterns.length === 0) {
+            showAlert('No valid regex patterns found.', 'warning');
+            filterBtn.disabled = false;
+            filterBtn.innerHTML = '<i class="fas fa-filter"></i> Filter Emails';
+            return;
+          }
+        }
+
+        filteredLines = [];
+        const totalLines = lines.length;
+        let processed = 0;
+
+        for (let i = 0; i < lines.length; i += CHUNK_SIZE) {
+          const chunk = lines.slice(i, i + CHUNK_SIZE);
+          
+          await new Promise(resolve => setTimeout(resolve, 0));
+          
+          const chunkFiltered = chunk.filter(line => {
+            if (validate && !emailRegex.test(line)) return false;
+            
+            const lineToTest = caseSensitive ? line : line.toLowerCase();
+            let matches = false;
+            
+            if (useRegex) {
+              matches = regexPatterns.some(regex => regex.test(line));
+            } else {
+              matches = keywords.some(keyword => {
+                const keywordToTest = caseSensitive ? keyword : keyword.toLowerCase();
+                return lineToTest.includes(keywordToTest);
+              });
+            }
+            
+            return reverse ? !matches : matches;
+          });
+          
+          filteredLines.push(...chunkFiltered);
+          processed += chunk.length;
+          progressBar.style.width = `${50 + (processed / totalLines * 50)}%`;
+        }
+
+        output.textContent = filteredLines.slice(0, 200).join('\n') + 
+          (filteredLines.length > 200 ? `\n\n... and ${filteredLines.length - 200} more lines (use Download to get all results)` : '');
+
+        summary.textContent = `Processed ${totalLines.toLocaleString()} lines. Found ${filteredLines.length.toLocaleString()} matching ${reverse ? '(excluded)' : ''} results.`;
+        summary.className = 'summary success';
+        
+        // Update stats
+        document.getElementById('filterStats').style.display = 'flex';
+        document.getElementById('processedCount').textContent = totalLines.toLocaleString();
+        document.getElementById('filteredCount').textContent = filteredLines.length.toLocaleString();
+        document.getElementById('removedCount').textContent = (totalLines - filteredLines.length).toLocaleString();
+        
+        if (filteredLines.length === 0) {
+          summary.textContent = `Processed ${totalLines.toLocaleString()} lines. No matching lines found.`;
+          summary.className = 'summary warning';
+          output.textContent = '';
+        }
+
+        progressBar.style.width = '100%';
+        showAlert('Filtering completed successfully!', 'success');
+      } catch (error) {
+        summary.textContent = `Error: ${error.message}`;
+        summary.className = 'summary warning';
+        console.error(error);
+        showAlert('An error occurred during processing.', 'warning');
+      } finally {
+        filterBtn.disabled = false;
+        filterBtn.innerHTML = '<i class="fas fa-filter"></i> Filter Emails';
+      }
+    }
+
+    function downloadFile() {
+      if (filteredLines.length === 0) {
+        showAlert('No results to download. Please filter your data first.', 'warning');
+        return;
+      }
+      try {
+        const blob = new Blob([filteredLines.join('\n')], { type: 'text/plain' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `filtered_results_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.txt`;
+        a.click();
+        URL.revokeObjectURL(a.href);
+        showAlert('Download started successfully!', 'success');
+      } catch (error) {
+        showAlert('Failed to create download file.', 'warning');
+        console.error(error);
+      }
+    }
+
+    function copyResults() {
+      if (filteredLines.length === 0) {
+        showAlert('No results to copy. Please filter your data first.', 'warning');
+        return;
+      }
+      navigator.clipboard.writeText(filteredLines.join('\n'))
+        .then(() => showAlert(`${filteredLines.length.toLocaleString()} results copied to clipboard!`, 'success'))
+        .catch(() => showAlert('Failed to copy results to clipboard.', 'warning'));
+    }
+
+    function clearFilter() {
+      document.getElementById('fileInput').value = '';
+      document.getElementById('filterInput').value = '';
+      document.getElementById('keywords').value = '';
+      document.getElementById('output').textContent = '';
+      document.getElementById('summary').textContent = 'Ready to process your email list.';
+      document.getElementById('summary').className = 'summary';
+      document.getElementById('progressBar').style.width = '0%';
+      document.getElementById('filterFileName').textContent = 'No file selected';
+      document.getElementById('filterStats').style.display = 'none';
+      filteredLines = [];
+      
+      showAlert('Filter cleared successfully!', 'success');
+    }
+
+    async function removeDuplicates() {
+      const fileInput = document.getElementById('duplicateFileInput');
+      const textInput = document.getElementById('duplicateInput');
+      const validate = document.getElementById('dedupeValidateEmails').checked;
+      const preserveCase = document.getElementById('dedupePreserveCase').checked;
+      const output = document.getElementById('dedupeOutput');
+      const summary = document.getElementById('dedupeSummary');
+      const dedupeBtn = document.getElementById('dedupeBtn');
+      
+      let emails = [];
+      
+      dedupeBtn.disabled = true;
+      dedupeBtn.innerHTML = '<span class="spinner"></span> Processing...';
+      
+      try {
+        if (fileInput.files[0]) {
+          const file = fileInput.files[0];
+          summary.textContent = `Processing file: ${file.name} (${formatBytes(file.size)})...`;
+          summary.className = 'summary warning';
+          
+          const text = await file.text();
+          emails = text.split(/\r?\n/).map(e => e.trim()).filter(e => e);
+        } else if (textInput.value.trim()) {
+          emails = textInput.value.split(/\r?\n/).map(e => e.trim()).filter(e => e);
+          summary.textContent = 'Processing pasted text...';
+          summary.className = 'summary warning';
+        } else {
+          showAlert('Please upload a file or paste email addresses first.', 'warning');
+          dedupeBtn.disabled = false;
+          dedupeBtn.innerHTML = '<i class="fas fa-redo"></i> Remove Duplicates';
+          return;
+        }
+        
+        if (emails.length === 0) {
+          showAlert('No emails found to process.', 'warning');
+          dedupeBtn.disabled = false;
+          dedupeBtn.innerHTML = '<i class="fas fa-redo"></i> Remove Duplicates';
+          return;
+        }
+        
+        await new Promise(resolve => setTimeout(resolve, 0));
+        
+        let processedEmails = emails;
+        let invalidCount = 0;
+        
+        if (validate) {
+          processedEmails = processedEmails.filter(email => {
+            const isValid = emailRegex.test(email);
+            if (!isValid) invalidCount++;
+            return isValid;
+          });
+        }
+        
+        const emailMap = new Map();
+        
+        processedEmails.forEach(email => {
+          const key = preserveCase ? email : email.toLowerCase();
+          if (!emailMap.has(key)) {
+            emailMap.set(key, preserveCase ? email : email.toLowerCase());
+          }
+        });
+        
+        deduplicatedEmails = Array.from(emailMap.values());
+        
+        output.textContent = deduplicatedEmails.slice(0, 200).join('\n') + 
+          (deduplicatedEmails.length > 200 ? `\n\n... and ${deduplicatedEmails.length - 200} more emails (use Download to get all results)` : '');
+        
+        const duplicatesRemoved = emails.length - deduplicatedEmails.length;
+        let summaryText = `Original: ${emails.toLocaleString()} | Unique: ${deduplicatedEmails.length.toLocaleString()} | Duplicates Removed: ${duplicatesRemoved.toLocaleString()}`;
+        
+        if (validate && invalidCount > 0) {
+          summaryText += ` | Invalid: ${invalidCount.toLocaleString()}`;
+        }
+        
+        summary.textContent = summaryText;
+        summary.className = 'summary success';
+        
+        // Update stats
+        document.getElementById('dedupeStats').style.display = 'flex';
+        document.getElementById('originalCount').textContent = emails.length.toLocaleString();
+        document.getElementById('uniqueCount').textContent = deduplicatedEmails.length.toLocaleString();
+        document.getElementById('duplicatesCount').textContent = duplicatesRemoved.toLocaleString();
+        
+        if (duplicatesRemoved === 0) {
+          summary.textContent += ' (No duplicates found)';
+        }
+        
+        showAlert('Deduplication completed successfully!', 'success');
+      } catch (error) {
+        summary.textContent = `Error: ${error.message}`;
+        summary.className = 'summary warning';
+        console.error(error);
+        showAlert('An error occurred during processing.', 'warning');
+      } finally {
+        dedupeBtn.disabled = false;
+        dedupeBtn.innerHTML = '<i class="fas fa-redo"></i> Remove Duplicates';
+      }
+    }
+
+    function copyDedupeResults() {
+      if (!deduplicatedEmails || deduplicatedEmails.length === 0) {
+        showAlert('No results to copy. Please remove duplicates first.', 'warning');
+        return;
+      }
+      navigator.clipboard.writeText(deduplicatedEmails.join('\n'))
+        .then(() => showAlert(`${deduplicatedEmails.length.toLocaleString()} unique emails copied to clipboard!`, 'success'))
+        .catch(() => showAlert('Failed to copy results to clipboard.', 'warning'));
+    }
+
+    function downloadDedupeResults() {
+      if (!deduplicatedEmails || deduplicatedEmails.length === 0) {
+        showAlert('No results to download. Please remove duplicates first.', 'warning');
+        return;
+      }
+      try {
+        const blob = new Blob([deduplicatedEmails.join('\n')], { type: 'text/plain' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `deduplicated_emails_${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.txt`;
+        a.click();
+        URL.revokeObjectURL(a.href);
+        showAlert('Download started successfully!', 'success');
+      } catch (error) {
+        showAlert('Failed to create download file.', 'warning');
+        console.error(error);
+      }
+    }
+
+    function clearDedupe() {
+      document.getElementById('duplicateFileInput').value = '';
+      document.getElementById('duplicateInput').value = '';
+      document.getElementById('dedupeOutput').textContent = '';
+      document.getElementById('dedupeSummary').textContent = 'Ready to deduplicate your email list.';
+      document.getElementById('dedupeSummary').className = 'summary';
+      document.getElementById('dedupeFileName').textContent = 'No file selected';
+      document.getElementById('dedupeStats').style.display = 'none';
+      deduplicatedEmails = [];
+      
+      showAlert('Dedupe cleared successfully!', 'success');
+    }
+
+    function formatBytes(bytes, decimals = 2) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const dm = decimals < 0 ? 0 : decimals;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+    }
+
+    function showAlert(message, type = 'success') {
+      const alertDiv = document.createElement('div');
+      alertDiv.className = `summary ${type}`;
+      alertDiv.textContent = message;
+      alertDiv.style.position = 'fixed';
+      alertDiv.style.bottom = '20px';
+      alertDiv.style.right = '20px';
+      alertDiv.style.zIndex = '1000';
+      alertDiv.style.maxWidth = '350px';
+      alertDiv.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+      alertDiv.style.animation = 'fadeIn 0.3s ease-out';
+      
+      document.body.appendChild(alertDiv);
+      
+      setTimeout(() => {
+        alertDiv.style.opacity = '0';
+        alertDiv.style.transition = 'opacity 0.5s ease';
+        setTimeout(() => alertDiv.remove(), 500);
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

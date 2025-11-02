@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Tools Suite</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.9);
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .tool-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+        }
+        
+        .tool-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tool-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+        
+        .tool-description {
+            color: #64748b;
+            line-height: 1.6;
+        }
+        
+        .tool-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📧 Email Tools Suite</h1>
+        <p class="subtitle">Professional email processing and security tools</p>
+        
+        <div class="tools-grid">
+            <a href="email-processing-suite.html" class="tool-card">
+                <div class="tool-icon">📨</div>
+                <h2 class="tool-title">Email Processing Suite</h2>
+                <p class="tool-description">
+                    Filter and deduplicate email lists with advanced options. 
+                    Process large files with ease, validate emails, and export results.
+                </p>
+                <span class="tool-badge">Processing Tool</span>
+            </a>
+            
+            <a href="mailguard-pro.html" class="tool-card">
+                <div class="tool-icon">🛡️</div>
+                <h2 class="tool-title">MailGuard Pro</h2>
+                <p class="tool-description">
+                    Clean and mask email headers professionally. 
+                    Remove tracking headers, customize domains, and protect privacy.
+                </p>
+                <span class="tool-badge">Header Cleaner</span>
+            </a>
+            
+            <a href="email-security-scanner.html" class="tool-card">
+                <div class="tool-icon">🔍</div>
+                <h2 class="tool-title">Email Security Scanner</h2>
+                <p class="tool-description">
+                    Scan domains for SPF and DMARC vulnerabilities. 
+                    Identify security risks and export comprehensive reports.
+                </p>
+                <span class="tool-badge">Security Tool</span>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

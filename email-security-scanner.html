@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Security Scanner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --border: #334155;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 36px;
+            margin-bottom: 8px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        
+        .tagline {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 0;
+            min-height: 700px;
+        }
+        
+        .control-panel {
+            background: rgba(15, 23, 42, 0.5);
+            padding: 25px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            max-height: calc(100vh - 200px);
+        }
+        
+        .panel-section {
+            margin-bottom: 25px;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .file-upload-area {
+            border: 2px dashed rgba(99, 102, 241, 0.5);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            background: rgba(99, 102, 241, 0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+        
+        .file-upload-area:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: var(--primary);
+        }
+        
+        .file-upload-area i {
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+        
+        input[type="file"] {
+            display: none;
+        }
+        
+        .domains-input {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            resize: vertical;
+            font-size: 14px;
+            background: rgba(15, 23, 42, 0.5);
+            color: #e2e8f0;
+            transition: all 0.3s;
+        }
+        
+        .domains-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+        
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        
+        .setting-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 5px;
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+        
+        .setting-group input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: rgba(15, 23, 42, 0.5);
+            color: #e2e8f0;
+            transition: all 0.3s;
+        }
+        
+        .setting-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        button {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        
+        button:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger), #dc2626);
+            color: white;
+        }
+        
+        .filter-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        .filter-option:hover {
+            background: rgba(99, 102, 241, 0.1);
+        }
+        
+        .filter-option.active {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: var(--primary);
+        }
+        
+        .results-panel {
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .results-header h2 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .status-indicator {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .status-idle {
+            background: rgba(100, 116, 139, 0.2);
+            color: var(--gray);
+        }
+        
+        .status-scanning {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--primary);
+        }
+        
+        .status-complete {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+        
+        .results-container {
+            flex: 1;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            background: rgba(15, 23, 42, 0.3);
+            max-height: 450px;
+        }
+        
+        .results-table-container {
+            overflow: auto;
+            max-height: 450px;
+        }
+        
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        
+        .results-table th {
+            background: rgba(15, 23, 42, 0.8);
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #cbd5e1;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .results-table td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+        }
+        
+        .results-table tr:hover {
+            background: rgba(99, 102, 241, 0.05);
+        }
+        
+        .policy-badge {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 12px;
+            text-align: center;
+            display: inline-block;
+        }
+        
+        .policy-none {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+        }
+        
+        .policy-quarantine {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fcd34d;
+        }
+        
+        .policy-reject {
+            background: rgba(16, 185, 129, 0.2);
+            color: #6ee7b7;
+        }
+        
+        .qualifier-cell {
+            font-weight: 600;
+            border-radius: 4px;
+            padding: 4px 10px;
+            text-align: center;
+            display: inline-block;
+            min-width: 50px;
+        }
+        
+        .qualifier-plus {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+        }
+        
+        .qualifier-tilde {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fcd34d;
+        }
+        
+        .qualifier-minus {
+            background: rgba(16, 185, 129, 0.2);
+            color: #6ee7b7;
+        }
+        
+        .qualifier-none {
+            background: rgba(100, 116, 139, 0.2);
+            color: #cbd5e1;
+        }
+        
+        .qualifier-question {
+            background: rgba(168, 85, 247, 0.2);
+            color: #c084fc;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .badge-danger {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+        }
+        
+        .badge-success {
+            background: rgba(16, 185, 129, 0.2);
+            color: #6ee7b7;
+        }
+        
+        .badge-warning {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fcd34d;
+        }
+        
+        .badge-info {
+            background: rgba(99, 102, 241, 0.2);
+            color: #a5b4fc;
+        }
+        
+        .vulnerable-row {
+            background: rgba(239, 68, 68, 0.08) !important;
+        }
+        
+        .secure-row {
+            background: rgba(16, 185, 129, 0.08) !important;
+        }
+        
+        .progress-container {
+            margin-top: 15px;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 10px;
+            height: 8px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .summary-item {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .summary-item:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+        }
+        
+        .summary-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .summary-label {
+            font-size: 12px;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .pulse {
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .control-panel {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                max-height: none;
+            }
+
+            .summary {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.5);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-shield-halved"></i> Email Security Scanner</h1>
+            <p class="tagline">Analyze SPF and DMARC configurations simultaneously to identify email security vulnerabilities</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="control-panel">
+                <div class="panel-section">
+                    <div class="section-title">
+                        <i class="fas fa-upload"></i> Input
+                    </div>
+                    
+                    <div class="file-upload-area" id="fileUploadArea">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <div class="file-upload-text">Upload domains file</div>
+                        <div class="file-name" id="fileName" style="font-size: 12px; color: var(--gray); margin-top: 5px;">No file chosen</div>
+                        <input type="file" id="fileInput" accept=".txt,.csv">
+                    </div>
+                    
+                    <label style="display: block; font-weight: 500; margin-bottom: 8px; font-size: 13px; color: #cbd5e1;">Or enter domains:</label>
+                    <textarea id="domainsInput" class="domains-input" placeholder="example.com&#10;example.org&#10;example.net"></textarea>
+                </div>
+                
+                <div class="panel-section">
+                    <div class="section-title">
+                        <i class="fas fa-sliders-h"></i> Settings
+                    </div>
+                    
+                    <div class="settings-grid">
+                        <div class="setting-group">
+                            <label>Workers</label>
+                            <input type="number" id="workerCount" min="1" max="100" value="50">
+                        </div>
+                        <div class="setting-group">
+                            <label>Delay (ms)</label>
+                            <input type="number" id="delayMs" min="0" max="1000" value="10">
+                        </div>
+                    </div>
+                    
+                    <div class="buttons">
+                        <button id="startBtn" class="btn-primary">
+                            <i class="fas fa-play"></i> Start Scan
+                        </button>
+                        <button id="stopBtn" class="btn-danger" disabled>
+                            <i class="fas fa-stop"></i> Stop Scan
+                        </button>
+                        <button id="exportCsvBtn" class="btn-success">
+                            <i class="fas fa-download"></i> Export CSV
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="panel-section">
+                    <div class="section-title">
+                        <i class="fas fa-filter"></i> Filter
+                    </div>
+                    
+                    <div class="filter-options">
+                        <label class="filter-option active">
+                            <input type="checkbox" id="filterAll" checked>
+                            All
+                        </label>
+                        <label class="filter-option active">
+                            <input type="checkbox" id="filterVulnerable" checked>
+                            Vulnerable
+                        </label>
+                        <label class="filter-option active">
+                            <input type="checkbox" id="filterSecure" checked>
+                            Secure
+                        </label>
+                        <label class="filter-option active">
+                            <input type="checkbox" id="filterNoSPF" checked>
+                            No SPF
+                        </label>
+                        <label class="filter-option active">
+                            <input type="checkbox" id="filterNoDMARC" checked>
+                            No DMARC
+                        </label>
+                        <label class="filter-option active">
+                            <input type="checkbox" id="filterPlusAll" checked>
+                            +all
+                        </label>
+                        <label class="filter-option active">
+                            <input type="checkbox" id="filterTildeAll" checked>
+                            ~all
+                        </label>
+                        <label class="filter-option active">
+                            <input type="checkbox" id="filterMinusAll" checked>
+                            -all
+                        </label>
+                        <label class="filter-option active">
+                            <input type="checkbox" id="filterQuestionAll" checked>
+                            ?all
+                        </label>
+                        <label class="filter-option active">
+                            <input type="checkbox" id="filterNoAll" checked>
+                            No all
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="results-panel">
+                <div class="results-header">
+                    <h2>Email Security Scan Results</h2>
+                    <div class="status-indicator status-idle" id="statusIndicator">
+                        <i class="fas fa-circle"></i> Idle
+                    </div>
+                </div>
+                
+                <div class="results-container">
+                    <div class="results-table-container">
+                        <table class="results-table">
+                            <thead>
+                                <tr>
+                                    <th>Domain</th>
+                                    <th>Qualifier</th>
+                                    <th>SPF Record</th>
+                                    <th>DMARC Record</th>
+                                    <th>SPF Status</th>
+                                    <th>DMARC Status</th>
+                                    <th>Overall Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resultsBody">
+                                <tr>
+                                    <td colspan="7" style="text-align: center; padding: 40px; color: var(--gray);">
+                                        <i class="fas fa-search" style="font-size: 40px; margin-bottom: 15px; opacity: 0.5;"></i>
+                                        <div>No results yet. Start a scan to see results here.</div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                
+                <div class="summary">
+                    <div class="summary-item">
+                        <div class="summary-value" id="totalDomains">0</div>
+                        <div class="summary-label">Total</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-value" id="vulnerableDomains">0</div>
+                        <div class="summary-label">Vulnerable</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-value" id="secureDomains">0</div>
+                        <div class="summary-label">Secure</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-value" id="noSpfDomains">0</div>
+                        <div class="summary-label">No SPF</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-value" id="noDmarcDomains">0</div>
+                        <div class="summary-label">No DMARC</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('fileInput');
+            const fileUploadArea = document.getElementById('fileUploadArea');
+            const fileName = document.getElementById('fileName');
+            const domainsInput = document.getElementById('domainsInput');
+            const workerCount = document.getElementById('workerCount');
+            const delayMs = document.getElementById('delayMs');
+            const startBtn = document.getElementById('startBtn');
+            const stopBtn = document.getElementById('stopBtn');
+            const exportCsvBtn = document.getElementById('exportCsvBtn');
+            const statusIndicator = document.getElementById('statusIndicator');
+            const progressBar = document.getElementById('progressBar');
+            const resultsBody = document.getElementById('resultsBody');
+            
+            // Filter elements
+            const filterAll = document.getElementById('filterAll');
+            const filterVulnerable = document.getElementById('filterVulnerable');
+            const filterSecure = document.getElementById('filterSecure');
+            const filterNoSPF = document.getElementById('filterNoSPF');
+            const filterNoDMARC = document.getElementById('filterNoDMARC');
+            const filterPlusAll = document.getElementById('filterPlusAll');
+            const filterTildeAll = document.getElementById('filterTildeAll');
+            const filterMinusAll = document.getElementById('filterMinusAll');
+            const filterQuestionAll = document.getElementById('filterQuestionAll');
+            const filterNoAll = document.getElementById('filterNoAll');
+            
+            const totalDomainsEl = document.getElementById('totalDomains');
+            const vulnerableDomainsEl = document.getElementById('vulnerableDomains');
+            const secureDomainsEl = document.getElementById('secureDomains');
+            const noSpfDomainsEl = document.getElementById('noSpfDomains');
+            const noDmarcDomainsEl = document.getElementById('noDmarcDomains');
+            
+            let results = [];
+            let filteredResults = [];
+            let isScanning = false;
+            let scanAborted = false;
+            
+            fileInput.addEventListener('change', handleFileSelect);
+            fileUploadArea.addEventListener('click', () => fileInput.click());
+            startBtn.addEventListener('click', startScan);
+            stopBtn.addEventListener('click', stopScan);
+            exportCsvBtn.addEventListener('click', exportToCSV);
+            
+            const filterOptions = document.querySelectorAll('.filter-option input');
+            filterOptions.forEach(option => {
+                option.addEventListener('change', applyFilter);
+            });
+            
+            function handleFileSelect(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    fileName.textContent = file.name;
+                    readFile(file).then(text => {
+                        if (text) domainsInput.value = text;
+                    });
+                } else {
+                    fileName.textContent = 'No file chosen';
+                }
+            }
+            
+            async function startScan() {
+                const domainsText = domainsInput.value.trim();
+                if (!domainsText) {
+                    alert('Please enter domains or upload a file');
+                    return;
+                }
+                
+                const domains = extractDomains(domainsText);
+                const uniqueDomains = [...new Set(domains)];
+                
+                if (uniqueDomains.length === 0) {
+                    alert('No valid domains found');
+                    return;
+                }
+                
+                results = [];
+                filteredResults = [];
+                resultsBody.innerHTML = '';
+                updateSummary();
+                setScanningState(true);
+                scanAborted = false;
+                
+                scanDomains(uniqueDomains, parseInt(workerCount.value), parseInt(delayMs.value));
+            }
+            
+            function extractDomains(text) {
+                const domainRegex = /([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}/g;
+                const domains = text.match(domainRegex) || [];
+                return domains.map(domain => domain.split('/')[0]);
+            }
+            
+            function readFile(file) {
+                return new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.onerror = () => resolve(null);
+                    reader.readAsText(file);
+                });
+            }
+            
+            async function scanDomains(domains, maxWorkers, delay) {
+                const total = domains.length;
+                let completed = 0;
+                let index = 0;
+                const workers = [];
+                
+                progressBar.style.width = '0%';
+                statusIndicator.className = 'status-indicator status-scanning';
+                statusIndicator.innerHTML = '<i class="fas fa-sync-alt pulse"></i> Scanning';
+                
+                async function worker() {
+                    while (index < total && !scanAborted) {
+                        const currentIndex = index++;
+                        const domain = domains[currentIndex];
+                        
+                        if (delay > 0) {
+                            await new Promise(resolve => setTimeout(resolve, delay));
+                        }
+                        
+                        try {
+                            const result = await processDomain(domain);
+                            results.push(result);
+                            filteredResults.push(result);
+                            renderResult(result);
+                            updateSummary();
+                            
+                            completed++;
+                            const progress = (completed / total) * 100;
+                            progressBar.style.width = `${progress}%`;
+                            
+                            if (completed === total) {
+                                finishScan();
+                            }
+                        } catch (error) {
+                            console.error(`Error processing ${domain}:`, error);
+                            completed++;
+                        }
+                    }
+                }
+                
+                for (let i = 0; i < maxWorkers; i++) {
+                    workers.push(worker());
+                }
+                
+                await Promise.all(workers);
+                
+                if (scanAborted) {
+                    statusIndicator.className = 'status-indicator status-idle';
+                    statusIndicator.innerHTML = '<i class="fas fa-stop-circle"></i> Stopped';
+                }
+            }
+            
+            async function processDomain(domain) {
+                try {
+                    // Process SPF record
+                    const spfResponse = await fetch(`https://cloudflare-dns.com/dns-query?name=${domain}&type=TXT`, {
+                        headers: { 'Accept': 'application/dns-json' }
+                    });
+                    
+                    const spfData = await spfResponse.json();
+                    
+                    const spfRecords = spfData.Answer 
+                        ? spfData.Answer.filter(record => record.data.includes('v=spf1'))
+                        : [];
+                    
+                    let spfRecord = spfRecords.length > 0 ? spfRecords[0].data.replace(/"/g, '') : 'No SPF record found';
+                    let spfQualifier = 'none';
+                    let spfVulnerable = false;
+                    let spfStatus = 'No SPF';
+                    
+                    if (spfRecords.length > 0) {
+                        const allMatch = spfRecord.match(/([+~?-]?)(all)/);
+                        if (allMatch) {
+                            spfQualifier = allMatch[1] || '+';
+                            
+                            // Determine SPF vulnerability
+                            spfVulnerable = spfQualifier === '+' || spfQualifier === '~' || spfQualifier === '?' || spfQualifier === 'none';
+                            
+                            if (spfQualifier === '+') {
+                                spfStatus = 'Vulnerable';
+                            } else if (spfQualifier === '~') {
+                                spfStatus = 'Soft Fail';
+                            } else if (spfQualifier === '-') {
+                                spfStatus = 'Secure';
+                            } else if (spfQualifier === '?') {
+                                spfStatus = 'Neutral';
+                            } else {
+                                spfStatus = 'No all';
+                            }
+                        }
+                    } else {
+                        spfVulnerable = true;
+                    }
+                    
+                    // Process DMARC record
+                    const dmarcDomain = `_dmarc.${domain}`;
+                    const dmarcResponse = await fetch(`https://cloudflare-dns.com/dns-query?name=${dmarcDomain}&type=TXT`, {
+                        headers: { 'Accept': 'application/dns-json' }
+                    });
+                    
+                    const dmarcData = await dmarcResponse.json();
+                    
+                    const dmarcRecords = dmarcData.Answer 
+                        ? dmarcData.Answer.filter(record => record.data.includes('v=DMARC1'))
+                        : [];
+                    
+                    let dmarcRecord = dmarcRecords.length > 0 ? dmarcRecords[0].data.replace(/"/g, '') : 'No DMARC record found';
+                    let dmarcPolicy = 'none';
+                    let dmarcPercentage = 100;
+                    let dmarcVulnerable = false;
+                    let dmarcStatus = 'No DMARC';
+                    
+                    if (dmarcRecords.length > 0) {
+                        const record = dmarcRecords[0].data.replace(/"/g, '');
+                        const policyMatch = record.match(/p=([^;]+)/);
+                        const pctMatch = record.match(/pct=(\d+)/);
+                        
+                        dmarcPolicy = policyMatch ? policyMatch[1].trim() : 'none';
+                        dmarcPercentage = pctMatch ? parseInt(pctMatch[1]) : 100;
+                        
+                        // Determine DMARC vulnerability
+                        dmarcVulnerable = dmarcPolicy === 'none' || dmarcPercentage < 100;
+                        
+                        if (dmarcPolicy === 'none') {
+                            dmarcStatus = 'Vulnerable';
+                        } else if (dmarcPolicy === 'quarantine') {
+                            dmarcStatus = dmarcPercentage === 100 ? 'Protected' : 'Partial';
+                        } else if (dmarcPolicy === 'reject') {
+                            dmarcStatus = dmarcPercentage === 100 ? 'Secure' : 'Partial';
+                        }
+                    } else {
+                        dmarcVulnerable = true;
+                    }
+                    
+                    // Determine overall vulnerability
+                    const overallVulnerable = spfVulnerable || dmarcVulnerable;
+                    
+                    return {
+                        domain,
+                        spfRecord,
+                        spfQualifier,
+                        spfVulnerable,
+                        spfStatus,
+                        dmarcRecord,
+                        dmarcPolicy,
+                        dmarcPercentage,
+                        dmarcVulnerable,
+                        dmarcStatus,
+                        overallVulnerable,
+                        rawSpfTxt: spfData.Answer ? spfData.Answer.map(r => r.data).join('; ') : 'No TXT records',
+                        rawDmarcTxt: dmarcData.Answer ? dmarcData.Answer.map(r => r.data).join('; ') : 'No TXT records'
+                    };
+                } catch (error) {
+                    console.error(`Error processing ${domain}:`, error);
+                    return {
+                        domain,
+                        spfRecord: 'Error querying DNS',
+                        spfQualifier: 'error',
+                        spfVulnerable: true,
+                        spfStatus: 'Error',
+                        dmarcRecord: 'Error querying DNS',
+                        dmarcPolicy: 'error',
+                        dmarcPercentage: 0,
+                        dmarcVulnerable: true,
+                        dmarcStatus: 'Error',
+                        overallVulnerable: true,
+                        rawSpfTxt: `Error: ${error.message}`,
+                        rawDmarcTxt: `Error: ${error.message}`
+                    };
+                }
+            }
+            
+            function renderResult(result) {
+                if (resultsBody.firstChild && resultsBody.firstChild.colSpan) {
+                    resultsBody.innerHTML = '';
+                }
+                
+                const row = document.createElement('tr');
+                
+                if (result.overallVulnerable) {
+                    row.classList.add('vulnerable-row');
+                } else {
+                    row.classList.add('secure-row');
+                }
+                
+                // SPF qualifier class
+                let spfQualifierClass = '';
+                let qualifierText = '';
+                
+                if (result.spfQualifier === '+') {
+                    spfQualifierClass = 'qualifier-plus';
+                    qualifierText = '+all';
+                } else if (result.spfQualifier === '~') {
+                    spfQualifierClass = 'qualifier-tilde';
+                    qualifierText = '~all';
+                } else if (result.spfQualifier === '-') {
+                    spfQualifierClass = 'qualifier-minus';
+                    qualifierText = '-all';
+                } else if (result.spfQualifier === '?') {
+                    spfQualifierClass = 'qualifier-question';
+                    qualifierText = '?all';
+                } else {
+                    spfQualifierClass = 'qualifier-none';
+                    qualifierText = 'No all';
+                }
+                
+                // DMARC policy class
+                let dmarcPolicyClass = '';
+                if (result.dmarcPolicy === 'none' || result.dmarcRecord.includes('No DMARC')) {
+                    dmarcPolicyClass = 'policy-none';
+                } else if (result.dmarcPolicy === 'quarantine') {
+                    dmarcPolicyClass = 'policy-quarantine';
+                } else if (result.dmarcPolicy === 'reject') {
+                    dmarcPolicyClass = 'policy-reject';
+                }
+                
+                // Status badges
+                let spfStatusBadge = '';
+                if (result.spfStatus === 'Vulnerable' || result.spfStatus === 'No SPF') {
+                    spfStatusBadge = '<span class="badge badge-danger">' + result.spfStatus + '</span>';
+                } else if (result.spfStatus === 'Soft Fail' || result.spfStatus === 'Neutral' || result.spfStatus === 'No all') {
+                    spfStatusBadge = '<span class="badge badge-warning">' + result.spfStatus + '</span>';
+                } else {
+                    spfStatusBadge = '<span class="badge badge-success">' + result.spfStatus + '</span>';
+                }
+                
+                let dmarcStatusBadge = '';
+                if (result.dmarcStatus === 'Vulnerable' || result.dmarcStatus === 'No DMARC') {
+                    dmarcStatusBadge = '<span class="badge badge-danger">' + result.dmarcStatus + '</span>';
+                } else if (result.dmarcStatus === 'Partial') {
+                    dmarcStatusBadge = '<span class="badge badge-warning">' + result.dmarcStatus + '</span>';
+                } else {
+                    dmarcStatusBadge = '<span class="badge badge-success">' + result.dmarcStatus + '</span>';
+                }
+                
+                let overallStatusBadge = '';
+                if (result.overallVulnerable) {
+                    overallStatusBadge = '<span class="badge badge-danger">Vulnerable</span>';
+                } else {
+                    overallStatusBadge = '<span class="badge badge-success">Secure</span>';
+                }
+                
+                row.innerHTML = `
+                    <td>${result.domain}</td>
+                    <td><span class="qualifier-cell ${spfQualifierClass}">${qualifierText}</span></td>
+                    <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${result.spfRecord}">
+                        ${result.spfRecord}
+                    </td>
+                    <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${result.dmarcRecord}">
+                        ${result.dmarcRecord}
+                    </td>
+                    <td>${spfStatusBadge}</td>
+                    <td>${dmarcStatusBadge}</td>
+                    <td>${overallStatusBadge}</td>
+                `;
+                
+                resultsBody.appendChild(row);
+            }
+            
+            function applyFilter() {
+                const showAll = filterAll.checked;
+                const showVulnerable = filterVulnerable.checked;
+                const showSecure = filterSecure.checked;
+                const showNoSPF = filterNoSPF.checked;
+                const showNoDMARC = filterNoDMARC.checked;
+                const showPlusAll = filterPlusAll.checked;
+                const showTildeAll = filterTildeAll.checked;
+                const showMinusAll = filterMinusAll.checked;
+                const showQuestionAll = filterQuestionAll.checked;
+                const showNoAll = filterNoAll.checked;
+                
+                // Update filter option styles
+                document.querySelectorAll('.filter-option').forEach(option => {
+                    const checkbox = option.querySelector('input');
+                    if (checkbox.checked) {
+                        option.classList.add('active');
+                    } else {
+                        option.classList.remove('active');
+                    }
+                });
+                
+                filteredResults = [];
+                resultsBody.innerHTML = '';
+                
+                if (results.length === 0) {
+                    resultsBody.innerHTML = `
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 40px; color: var(--gray);">
+                                <i class="fas fa-search" style="font-size: 40px; margin-bottom: 15px; opacity: 0.5;"></i>
+                                <div>No results yet. Start a scan to see results here.</div>
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                // Filter results based on selections
+                results.forEach(result => {
+                    let shouldShow = false;
+                    
+                    if (showAll) {
+                        shouldShow = true;
+                    } else {
+                        // Check status filters
+                        if (showVulnerable && result.overallVulnerable) shouldShow = true;
+                        if (showSecure && !result.overallVulnerable) shouldShow = true;
+                        if (showNoSPF && result.spfRecord.includes('No SPF')) shouldShow = true;
+                        if (showNoDMARC && result.dmarcRecord.includes('No DMARC')) shouldShow = true;
+                        
+                        // Check SPF qualifier filters
+                        if (showPlusAll && result.spfQualifier === '+') shouldShow = true;
+                        if (showTildeAll && result.spfQualifier === '~') shouldShow = true;
+                        if (showMinusAll && result.spfQualifier === '-') shouldShow = true;
+                        if (showQuestionAll && result.spfQualifier === '?') shouldShow = true;
+                        if (showNoAll && result.spfQualifier === 'none') shouldShow = true;
+                    }
+                    
+                    if (shouldShow) {
+                        filteredResults.push(result);
+                        renderResult(result);
+                    }
+                });
+                
+                if (filteredResults.length === 0) {
+                    resultsBody.innerHTML = `
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 40px; color: var(--gray);">
+                                <i class="fas fa-filter" style="font-size: 40px; margin-bottom: 15px; opacity: 0.5;"></i>
+                                <div>No results match the selected filters.</div>
+                            </td>
+                        </tr>
+                    `;
+                }
+                
+                updateSummary();
+            }
+            
+            function updateSummary() {
+                const total = results.length;
+                const vulnerable = results.filter(r => r.overallVulnerable).length;
+                const secure = total - vulnerable;
+                const noSpf = results.filter(r => r.spfRecord.includes('No SPF')).length;
+                const noDmarc = results.filter(r => r.dmarcRecord.includes('No DMARC')).length;
+                
+                totalDomainsEl.textContent = total;
+                vulnerableDomainsEl.textContent = vulnerable;
+                secureDomainsEl.textContent = secure;
+                noSpfDomainsEl.textContent = noSpf;
+                noDmarcDomainsEl.textContent = noDmarc;
+            }
+            
+            function setScanningState(scanning) {
+                isScanning = scanning;
+                startBtn.disabled = scanning;
+                stopBtn.disabled = !scanning;
+                
+                if (!scanning && !scanAborted) {
+                    statusIndicator.className = 'status-indicator status-complete';
+                    statusIndicator.innerHTML = '<i class="fas fa-check-circle"></i> Complete';
+                }
+            }
+            
+            function finishScan() {
+                setScanningState(false);
+                scanAborted = false;
+                applyFilter(); // Apply initial filter after scan completes
+            }
+            
+            function stopScan() {
+                scanAborted = true;
+                setScanningState(false);
+            }
+            
+            function exportToCSV() {
+                if (results.length === 0) {
+                    alert('No data to export');
+                    return;
+                }
+                
+                const headers = ['Domain', 'Qualifier', 'SPF Record', 'DMARC Record', 'SPF Status', 'DMARC Status', 'Overall Status'];
+                const csvContent = [
+                    headers.join(','),
+                    ...results.map(row => [
+                        row.domain,
+                        row.spfQualifier === '+' ? '+all' : 
+                        row.spfQualifier === '~' ? '~all' : 
+                        row.spfQualifier === '-' ? '-all' : 
+                        row.spfQualifier === '?' ? '?all' : 'No all',
+                        `"${row.spfRecord.replace(/"/g, '""')}"`,
+                        `"${row.dmarcRecord.replace(/"/g, '""')}"`,
+                        row.spfStatus,
+                        row.dmarcStatus,
+                        row.overallVulnerable ? 'Vulnerable' : 'Secure'
+                    ].join(','))
+                ].join('\n');
+                
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement('a');
+                const url = URL.createObjectURL(blob);
+                link.setAttribute('href', url);
+                link.setAttribute('download', 'email_security_scan_results.csv');
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        });
+    </script>
+</body>
+</html>
