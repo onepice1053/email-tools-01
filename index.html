@@ -427,6 +427,198 @@
             box-shadow: var(--shadow-lg);
         }
 
+        /* Settings Button */
+        .settings-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            background: var(--primary-500);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition);
+        }
+
+        .settings-button:hover {
+            transform: scale(1.05);
+            background: var(--primary-600);
+        }
+
+        .settings-button svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Settings Modal */
+        .settings-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .settings-modal.open {
+            display: flex;
+        }
+
+        .settings-content {
+            background: var(--bg-primary);
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+        }
+
+        .settings-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .settings-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-button:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .close-button svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .settings-body {
+            padding: 24px;
+        }
+
+        .setting-group {
+            margin-bottom: 24px;
+        }
+
+        .setting-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .setting-description {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .setting-control {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .checkbox-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .checkbox-control input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-500);
+        }
+
+        .text-input {
+            width: 80px;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: var(--primary-500);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .text-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .settings-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-500);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-600);
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-primary);
+        }
+
         /* Responsive */
         @media (max-width: 1024px) {
             .sidebar {
@@ -459,6 +651,10 @@
             .content-header {
                 margin-bottom: 2.5rem;
             }
+            .settings-button {
+                bottom: 20px;
+                right: 20px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -470,6 +666,9 @@
             }
             .main-content {
                 padding: 20px 15px;
+            }
+            .settings-content {
+                width: 95%;
             }
         }
 
@@ -557,6 +756,15 @@
             <circle cx="8" cy="8" r="1" fill="currentColor"/>
             <circle cx="16" cy="16" r="1" fill="currentColor"/>
         </symbol>
+        
+        <!-- Settings and Close Icons -->
+        <symbol id="settings-icon" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 15a3 3 0 100-6 3 3 0 000 6z"/>
+            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+        </symbol>
+        <symbol id="close-icon" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M18 6L6 18M6 6l12 12"/>
+        </symbol>
     </svg>
 
     <!-- Mobile Menu Toggle -->
@@ -565,6 +773,94 @@
             <path d="M3 12h18M3 6h18M3 18h18"/>
         </svg>
     </button>
+
+    <!-- Settings Button -->
+    <button class="settings-button" id="settingsButton">
+        <svg><use href="#settings-icon"></use></svg>
+    </button>
+
+    <!-- Settings Modal -->
+    <div class="settings-modal" id="settingsModal">
+        <div class="settings-content">
+            <div class="settings-header">
+                <h2 class="settings-title">Settings</h2>
+                <button class="close-button" id="closeSettings">
+                    <svg><use href="#close-icon"></use></svg>
+                </button>
+            </div>
+            <div class="settings-body">
+                <div class="setting-group">
+                    <h3 class="setting-label">Theme</h3>
+                    <div class="setting-control">
+                        <label class="checkbox-control">
+                            <input type="checkbox" id="darkMode" checked>
+                            <span>Dark Mode</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="setting-group">
+                    <h3 class="setting-label">Color Scheme:</h3>
+                    <p class="setting-description">Choose your preferred color scheme</p>
+                    <div class="setting-control">
+                        <label class="checkbox-control">
+                            <input type="checkbox" id="colorScheme" checked>
+                            <span>Dark Mode</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="setting-group">
+                    <h3 class="setting-label">Text Size</h3>
+                    <p class="setting-description">Adjust the font size for better readability</p>
+                    <div class="setting-control">
+                        <span>Font Size:</span>
+                        <input type="text" class="text-input" id="fontSize" value="14px">
+                    </div>
+                </div>
+                
+                <div class="setting-group">
+                    <h3 class="setting-label">Layout</h3>
+                    <p class="setting-description">Customize the layout of the application</p>
+                    <div class="setting-control">
+                        <span>Sidebar Width:</span>
+                        <input type="text" class="text-input" id="sidebarWidth" value="280px">
+                    </div>
+                </div>
+                
+                <div class="setting-group">
+                    <div class="setting-control">
+                        <label class="checkbox-control">
+                            <input type="checkbox" id="saveSettings" checked>
+                            <span>Save Settings</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="setting-group">
+                    <div class="setting-control">
+                        <label class="checkbox-control">
+                            <input type="checkbox" id="saveChanges" checked>
+                            <span>Save Changes</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="setting-group">
+                    <div class="setting-control">
+                        <label class="checkbox-control">
+                            <input type="checkbox" id="resetDefaults">
+                            <span>Reset to Defaults</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="settings-footer">
+                <button class="btn btn-secondary" id="cancelSettings">Cancel</button>
+                <button class="btn btn-primary" id="applySettings">Apply Changes</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Sidebar -->
     <nav class="sidebar" id="sidebar">
@@ -767,6 +1063,13 @@
         const mobileMenuToggle = document.getElementById('mobileMenuToggle');
         const sidebar = document.getElementById('sidebar');
         
+        // Settings elements
+        const settingsButton = document.getElementById('settingsButton');
+        const settingsModal = document.getElementById('settingsModal');
+        const closeSettings = document.getElementById('closeSettings');
+        const cancelSettings = document.getElementById('cancelSettings');
+        const applySettings = document.getElementById('applySettings');
+        
         // Check system preference
         const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
         
@@ -821,6 +1124,116 @@
                     sidebar.classList.remove('open');
                 }
             });
+        });
+        
+        // Settings modal functionality
+        settingsButton.addEventListener('click', () => {
+            settingsModal.classList.add('open');
+        });
+        
+        closeSettings.addEventListener('click', () => {
+            settingsModal.classList.remove('open');
+        });
+        
+        cancelSettings.addEventListener('click', () => {
+            settingsModal.classList.remove('open');
+        });
+        
+        applySettings.addEventListener('click', () => {
+            // Apply settings logic here
+            const darkMode = document.getElementById('darkMode').checked;
+            const colorScheme = document.getElementById('colorScheme').checked;
+            const fontSize = document.getElementById('fontSize').value;
+            const sidebarWidth = document.getElementById('sidebarWidth').value;
+            const saveSettings = document.getElementById('saveSettings').checked;
+            const saveChanges = document.getElementById('saveChanges').checked;
+            const resetDefaults = document.getElementById('resetDefaults').checked;
+            
+            // Apply theme changes
+            if (darkMode) {
+                themeRoot.classList.add('dark');
+                themeIcon.innerHTML = '<use href="#moon-icon"></use>';
+                themeText.textContent = 'Dark Mode';
+            } else {
+                themeRoot.classList.remove('dark');
+                themeIcon.innerHTML = '<use href="#sun-icon"></use>';
+                themeText.textContent = 'Light Mode';
+            }
+            
+            // Apply font size
+            document.documentElement.style.fontSize = fontSize;
+            
+            // Apply sidebar width
+            document.querySelector('.sidebar').style.width = sidebarWidth;
+            document.querySelector('.main-content').style.marginLeft = sidebarWidth;
+            
+            // Reset to defaults if selected
+            if (resetDefaults) {
+                document.getElementById('darkMode').checked = prefersDark;
+                document.getElementById('colorScheme').checked = prefersDark;
+                document.getElementById('fontSize').value = '14px';
+                document.getElementById('sidebarWidth').value = '280px';
+                document.getElementById('saveSettings').checked = true;
+                document.getElementById('saveChanges').checked = true;
+                document.getElementById('resetDefaults').checked = false;
+                
+                // Apply default values
+                document.documentElement.style.fontSize = '14px';
+                document.querySelector('.sidebar').style.width = '280px';
+                document.querySelector('.main-content').style.marginLeft = '280px';
+                
+                if (prefersDark) {
+                    themeRoot.classList.add('dark');
+                    themeIcon.innerHTML = '<use href="#moon-icon"></use>';
+                    themeText.textContent = 'Dark Mode';
+                } else {
+                    themeRoot.classList.remove('dark');
+                    themeIcon.innerHTML = '<use href="#sun-icon"></use>';
+                    themeText.textContent = 'Light Mode';
+                }
+            }
+            
+            // Save settings if selected
+            if (saveSettings) {
+                // Save to localStorage or backend
+                const settings = {
+                    darkMode,
+                    colorScheme,
+                    fontSize,
+                    sidebarWidth,
+                    saveChanges
+                };
+                localStorage.setItem('emailSuiteSettings', JSON.stringify(settings));
+            }
+            
+            // Show confirmation and close modal
+            alert('Settings applied successfully!');
+            settingsModal.classList.remove('open');
+        });
+        
+        // Load saved settings on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedSettings = localStorage.getItem('emailSuiteSettings');
+            if (savedSettings) {
+                const settings = JSON.parse(savedSettings);
+                
+                document.getElementById('darkMode').checked = settings.darkMode;
+                document.getElementById('colorScheme').checked = settings.colorScheme;
+                document.getElementById('fontSize').value = settings.fontSize;
+                document.getElementById('sidebarWidth').value = settings.sidebarWidth;
+                document.getElementById('saveChanges').checked = settings.saveChanges;
+                
+                // Apply saved settings
+                if (settings.darkMode) {
+                    themeRoot.classList.add('dark');
+                    themeIcon.innerHTML = '<use href="#moon-icon"></use>';
+                    themeText.textContent = 'Dark Mode';
+                }
+                
+                document.documentElement.style.fontSize = settings.fontSize;
+                document.querySelector('.sidebar').style.width = settings.sidebarWidth;
+                document.querySelector('.main-content').style.marginLeft = settings.sidebarWidth;
+            }
         });
     </script>
 </body>
