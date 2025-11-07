@@ -389,6 +389,14 @@
             <circle cx="16" cy="12" r="2" fill="currentColor"/>
             <path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 4v4M8 8l8 8M4 12h4M16 12h4M8 16l8-8M12 16v4"/>
         </symbol>
+        <!-- DNS Record Generator Icon -->
+        <symbol id="icon-dns" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 2a10 10 0 100 20 10 10 0 000-20z"/>
+            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 6v4l3 3M12 12l-3 3m6 0l3 3"/>
+            <circle cx="12" cy="12" r="1" fill="currentColor"/>
+            <circle cx="8" cy="8" r="1" fill="currentColor"/>
+            <circle cx="16" cy="16" r="1" fill="currentColor"/>
+        </symbol>
     </svg>
 
     <div class="container">
@@ -473,6 +481,18 @@
                 <h2 class="tool-title">IP Address Extractor</h2>
                 <p class="tool-description">Extract IPv4 and IPv6 addresses from text, logs, or any content. Advanced filtering options for security analysis and network monitoring.</p>
                 <span class="tool-badge">Network Analysis</span>
+            </a>
+
+            <!-- DNS Record Generator Tool Card -->
+            <a href="dns-record-generator.html" class="tool-card">
+                <div class="tool-icon">
+                    <div class="icon-wrapper">
+                        <svg><use href="#icon-dns"></use></svg>
+                    </div>
+                </div>
+                <h2 class="tool-title">DNS Record Generator</h2>
+                <p class="tool-description">Generate SPF, DKIM, and DMARC records for your domain. Professional email authentication setup with enterprise-grade security.</p>
+                <span class="tool-badge">Email Security</span>
             </a>
         </div>
 
