@@ -1,0 +1,726 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNS Record Generator | Email Tools Suite</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 20px 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            color: #1e293b;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .panel-header h2 {
+            font-size: 1.3rem;
+            color: #1e293b;
+        }
+
+        .panel-header i {
+            color: #6366f1;
+            font-size: 1.3rem;
+        }
+
+        .record-type-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .record-type-btn {
+            flex: 1;
+            min-width: 150px;
+            padding: 12px 20px;
+            border: 2px solid #e2e8f0;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            color: #64748b;
+        }
+
+        .record-type-btn:hover {
+            border-color: #6366f1;
+            color: #6366f1;
+        }
+
+        .record-type-btn.active {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border-color: transparent;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        input[type="text"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        textarea {
+            min-height: 120px;
+            font-family: 'Courier New', monospace;
+            resize: vertical;
+        }
+
+        .ip-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .ip-item {
+            display: flex;
+            gap: 10px;
+        }
+
+        .ip-item input {
+            flex: 1;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary {
+            background: #64748b;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #475569;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 0.85rem;
+        }
+
+        .output-area {
+            position: relative;
+        }
+
+        #output {
+            background: #1e293b;
+            color: #e2e8f0;
+            min-height: 200px;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .help-text {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .record-type-selector {
+                flex-direction: column;
+            }
+
+            .record-type-btn {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-home"></i> Back to Home
+        </a>
+
+        <div class="header">
+            <h1><i class="fas fa-cog"></i> DNS Record Generator</h1>
+            <p>Generate SPF, DKIM, and DMARC records for your domain</p>
+        </div>
+
+        <div class="main-content">
+            <div class="panel">
+                <div class="panel-header">
+                    <i class="fas fa-edit"></i>
+                    <h2>Configure Record</h2>
+                </div>
+
+                <div class="record-type-selector">
+                    <button class="record-type-btn active" onclick="selectRecordType('spf')">
+                        <i class="fas fa-shield-alt"></i> SPF
+                    </button>
+                    <button class="record-type-btn" onclick="selectRecordType('dkim')">
+                        <i class="fas fa-key"></i> DKIM
+                    </button>
+                    <button class="record-type-btn" onclick="selectRecordType('dmarc')">
+                        <i class="fas fa-lock"></i> DMARC
+                    </button>
+                </div>
+
+                <!-- SPF Section -->
+                <div id="spf-section" class="section active">
+                    <div class="form-group">
+                        <label>SPF Version</label>
+                        <input type="text" value="v=spf1" readonly>
+                        <div class="help-text">SPF version (always v=spf1)</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>IP Addresses (IPv4/IPv6)</label>
+                        <div id="ipList" class="ip-list">
+                            <div class="ip-item">
+                                <input type="text" placeholder="e.g., 192.168.1.1 or 2001:db8::1" class="ip-input">
+                                <button class="btn btn-danger btn-small" onclick="removeIP(this)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary btn-small" onclick="addIP()">
+                            <i class="fas fa-plus"></i> Add IP
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Include Domains</label>
+                        <textarea id="spfDomains" placeholder="Enter domains to include, one per line&#10;Example:&#10;_spf.google.com&#10;spf.protection.outlook.com"></textarea>
+                        <div class="help-text">Domains whose SPF records should be included</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>SPF Qualifier</label>
+                        <select id="spfQualifier">
+                            <option value="-all">-all (Fail - Reject unauthorized)</option>
+                            <option value="~all">~all (SoftFail - Mark as suspicious)</option>
+                            <option value="?all">?all (Neutral - No policy)</option>
+                            <option value="+all">+all (Pass - Not recommended)</option>
+                        </select>
+                        <div class="help-text">How to handle emails from unauthorized sources</div>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="generateSPF()">
+                        <i class="fas fa-cog"></i> Generate SPF Record
+                    </button>
+                </div>
+
+                <!-- DKIM Section -->
+                <div id="dkim-section" class="section">
+                    <div class="form-group">
+                        <label>Domain</label>
+                        <input type="text" id="dkimDomain" placeholder="example.com">
+                        <div class="help-text">Your domain name</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Selector</label>
+                        <input type="text" id="dkimSelector" placeholder="default" value="default">
+                        <div class="help-text">DKIM selector (e.g., default, google, selector1)</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Public Key</label>
+                        <textarea id="dkimPublicKey" placeholder="Paste your DKIM public key here (without BEGIN/END markers)"></textarea>
+                        <div class="help-text">Your DKIM public key (RSA public key in base64)</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Key Type</label>
+                        <select id="dkimKeyType">
+                            <option value="rsa">RSA</option>
+                            <option value="ed25519">Ed25519</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="generateDKIM()">
+                        <i class="fas fa-cog"></i> Generate DKIM Record
+                    </button>
+                </div>
+
+                <!-- DMARC Section -->
+                <div id="dmarc-section" class="section">
+                    <div class="form-group">
+                        <label>Domain</label>
+                        <input type="text" id="dmarcDomain" placeholder="example.com">
+                        <div class="help-text">Your domain name</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Policy</label>
+                        <select id="dmarcPolicy">
+                            <option value="none">none (Monitor only)</option>
+                            <option value="quarantine">quarantine (Send to spam)</option>
+                            <option value="reject">reject (Reject email)</option>
+                        </select>
+                        <div class="help-text">What to do with emails that fail DMARC</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Subdomain Policy (Optional)</label>
+                        <select id="dmarcSubdomainPolicy">
+                            <option value="">Same as domain policy</option>
+                            <option value="none">none</option>
+                            <option value="quarantine">quarantine</option>
+                            <option value="reject">reject</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Percentage (%)</label>
+                        <input type="text" id="dmarcPercentage" value="100" placeholder="100">
+                        <div class="help-text">Percentage of emails to apply policy to (1-100)</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Aggregate Report Email</label>
+                        <input type="text" id="dmarcRua" placeholder="dmarc-reports@example.com">
+                        <div class="help-text">Email to receive aggregate reports (RUA)</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Forensic Report Email (Optional)</label>
+                        <input type="text" id="dmarcRuf" placeholder="dmarc-forensic@example.com">
+                        <div class="help-text">Email to receive forensic reports (RUF)</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Alignment Mode</label>
+                        <select id="dmarcAlignment">
+                            <option value="r">Relaxed</option>
+                            <option value="s">Strict</option>
+                        </select>
+                        <div class="help-text">SPF and DKIM alignment mode</div>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="generateDMARC()">
+                        <i class="fas fa-cog"></i> Generate DMARC Record
+                    </button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <i class="fas fa-code"></i>
+                    <h2>Generated Record</h2>
+                </div>
+
+                <div class="output-area">
+                    <div id="output">Your generated DNS record will appear here...</div>
+                </div>
+
+                <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="btn btn-success" onclick="copyRecord()">
+                        <i class="fas fa-copy"></i> Copy Record
+                    </button>
+                    <button class="btn btn-secondary" onclick="downloadRecord()">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                    <button class="btn btn-danger" onclick="clearRecord()">
+                        <i class="fas fa-broom"></i> Clear
+                    </button>
+                </div>
+
+                <div id="instructions" style="margin-top: 20px; padding: 15px; background: #f1f5f9; border-radius: 8px; display: none;">
+                    <h3 style="margin-bottom: 10px; color: #1e293b;">DNS Setup Instructions:</h3>
+                    <div id="instructionsContent" style="font-size: 0.9rem; color: #475569; line-height: 1.6;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentRecordType = 'spf';
+        let generatedRecord = '';
+        let recordName = '';
+
+        function selectRecordType(type) {
+            currentRecordType = type;
+
+            // Update buttons
+            document.querySelectorAll('.record-type-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.closest('.record-type-btn').classList.add('active');
+
+            // Update sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(`${type}-section`).classList.add('active');
+
+            // Clear output
+            clearRecord();
+        }
+
+        function addIP() {
+            const ipList = document.getElementById('ipList');
+            const newItem = document.createElement('div');
+            newItem.className = 'ip-item';
+            newItem.innerHTML = `
+                <input type="text" placeholder="e.g., 192.168.1.1 or 2001:db8::1" class="ip-input">
+                <button class="btn btn-danger btn-small" onclick="removeIP(this)">
+                    <i class="fas fa-trash"></i>
+                </button>
+            `;
+            ipList.appendChild(newItem);
+        }
+
+        function removeIP(btn) {
+            const ipList = document.getElementById('ipList');
+            if (ipList.children.length > 1) {
+                btn.parentElement.remove();
+            } else {
+                alert('You must have at least one IP address field');
+            }
+        }
+
+        function generateSPF() {
+            const ipInputs = document.querySelectorAll('.ip-input');
+            const domains = document.getElementById('spfDomains').value.trim();
+            const qualifier = document.getElementById('spfQualifier').value;
+
+            let record = 'v=spf1';
+
+            // Add IPs
+            ipInputs.forEach(input => {
+                const ip = input.value.trim();
+                if (ip) {
+                    if (ip.includes(':')) {
+                        // IPv6
+                        record += ` ip6:${ip}`;
+                    } else {
+                        // IPv4
+                        record += ` ip4:${ip}`;
+                    }
+                }
+            });
+
+            // Add domains
+            if (domains) {
+                const domainList = domains.split('\n').filter(d => d.trim());
+                domainList.forEach(domain => {
+                    record += ` include:${domain.trim()}`;
+                });
+            }
+
+            // Add qualifier
+            record += ` ${qualifier}`;
+
+            generatedRecord = record;
+            recordName = 'SPF Record for @ (root domain)';
+            displayRecord();
+            showInstructions('spf');
+        }
+
+        function generateDKIM() {
+            const domain = document.getElementById('dkimDomain').value.trim();
+            const selector = document.getElementById('dkimSelector').value.trim();
+            const publicKey = document.getElementById('dkimPublicKey').value.trim();
+            const keyType = document.getElementById('dkimKeyType').value;
+
+            if (!domain) {
+                alert('Please enter a domain name');
+                return;
+            }
+
+            if (!selector) {
+                alert('Please enter a selector');
+                return;
+            }
+
+            if (!publicKey) {
+                alert('Please enter a public key');
+                return;
+            }
+
+            // Remove whitespace and newlines from public key
+            const cleanKey = publicKey.replace(/\s+/g, '');
+
+            let record = `v=DKIM1; k=${keyType}; p=${cleanKey}`;
+
+            generatedRecord = record;
+            recordName = `${selector}._domainkey.${domain}`;
+            displayRecord();
+            showInstructions('dkim', selector, domain);
+        }
+
+        function generateDMARC() {
+            const domain = document.getElementById('dmarcDomain').value.trim();
+            const policy = document.getElementById('dmarcPolicy').value;
+            const subdomainPolicy = document.getElementById('dmarcSubdomainPolicy').value;
+            const percentage = document.getElementById('dmarcPercentage').value.trim();
+            const rua = document.getElementById('dmarcRua').value.trim();
+            const ruf = document.getElementById('dmarcRuf').value.trim();
+            const alignment = document.getElementById('dmarcAlignment').value;
+
+            if (!domain) {
+                alert('Please enter a domain name');
+                return;
+            }
+
+            let record = `v=DMARC1; p=${policy}`;
+
+            if (subdomainPolicy) {
+                record += `; sp=${subdomainPolicy}`;
+            }
+
+            if (percentage && percentage !== '100') {
+                record += `; pct=${percentage}`;
+            }
+
+            if (rua) {
+                record += `; rua=mailto:${rua}`;
+            }
+
+            if (ruf) {
+                record += `; ruf=mailto:${ruf}`;
+            }
+
+            record += `; adkim=${alignment}; aspf=${alignment}`;
+
+            generatedRecord = record;
+            recordName = `_dmarc.${domain}`;
+            displayRecord();
+            showInstructions('dmarc', null, domain);
+        }
+
+        function displayRecord() {
+            const output = document.getElementById('output');
+            output.textContent = `Record Name: ${recordName}\n\nRecord Value:\n${generatedRecord}`;
+        }
+
+        function showInstructions(type, selector = '', domain = '') {
+            const instructions = document.getElementById('instructions');
+            const content = document.getElementById('instructionsContent');
+
+            let text = '';
+
+            if (type === 'spf') {
+                text = `
+                    <p><strong>1.</strong> Log in to your DNS provider (e.g., Cloudflare, GoDaddy, Namecheap)</p>
+                    <p><strong>2.</strong> Add a new TXT record</p>
+                    <p><strong>3.</strong> Set the Name/Host to: <code>@</code> (or leave blank for root domain)</p>
+                    <p><strong>4.</strong> Paste the generated value into the Value/Content field</p>
+                    <p><strong>5.</strong> Set TTL to 3600 (1 hour) or use automatic</p>
+                    <p><strong>6.</strong> Save the record</p>
+                    <p style="margin-top: 10px;"><strong>Note:</strong> DNS changes may take up to 48 hours to propagate worldwide</p>
+                `;
+            } else if (type === 'dkim') {
+                text = `
+                    <p><strong>1.</strong> Log in to your DNS provider</p>
+                    <p><strong>2.</strong> Add a new TXT record</p>
+                    <p><strong>3.</strong> Set the Name/Host to: <code>${selector}._domainkey</code></p>
+                    <p><strong>4.</strong> Paste the generated value into the Value/Content field</p>
+                    <p><strong>5.</strong> Set TTL to 3600 (1 hour) or use automatic</p>
+                    <p><strong>6.</strong> Save the record</p>
+                    <p style="margin-top: 10px;"><strong>Full Record Name:</strong> <code>${selector}._domainkey.${domain}</code></p>
+                `;
+            } else if (type === 'dmarc') {
+                text = `
+                    <p><strong>1.</strong> Log in to your DNS provider</p>
+                    <p><strong>2.</strong> Add a new TXT record</p>
+                    <p><strong>3.</strong> Set the Name/Host to: <code>_dmarc</code></p>
+                    <p><strong>4.</strong> Paste the generated value into the Value/Content field</p>
+                    <p><strong>5.</strong> Set TTL to 3600 (1 hour) or use automatic</p>
+                    <p><strong>6.</strong> Save the record</p>
+                    <p style="margin-top: 10px;"><strong>Full Record Name:</strong> <code>_dmarc.${domain}</code></p>
+                    <p style="margin-top: 10px;"><strong>Important:</strong> Make sure you have SPF and DKIM records configured before enabling DMARC with a strict policy</p>
+                `;
+            }
+
+            content.innerHTML = text;
+            instructions.style.display = 'block';
+        }
+
+        function copyRecord() {
+            if (!generatedRecord) {
+                alert('Please generate a record first');
+                return;
+            }
+
+            const fullText = `Record Name: ${recordName}\n\nRecord Value:\n${generatedRecord}`;
+            navigator.clipboard.writeText(fullText).then(() => {
+                alert('Record copied to clipboard!');
+            }).catch(() => {
+                alert('Failed to copy to clipboard');
+            });
+        }
+
+        function downloadRecord() {
+            if (!generatedRecord) {
+                alert('Please generate a record first');
+                return;
+            }
+
+            const fullText = `Record Name: ${recordName}\n\nRecord Value:\n${generatedRecord}`;
+            const blob = new Blob([fullText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${currentRecordType}-record.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function clearRecord() {
+            generatedRecord = '';
+            recordName = '';
+            document.getElementById('output').textContent = 'Your generated DNS record will appear here...';
+            document.getElementById('instructions').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
