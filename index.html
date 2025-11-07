@@ -103,51 +103,159 @@
             color: var(--text-primary);
             line-height: 1.5;
             min-height: 100vh;
+            transition: background-color 0.3s ease;
+            display: flex;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 280px;
+            background: var(--bg-primary);
+            border-right: 1px solid var(--border-color);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+            transition: var(--transition);
+            z-index: 1000;
+            box-shadow: var(--shadow-md);
+        }
+
+        .sidebar-header {
+            padding: 25px 20px;
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 12px;
+        }
+
+        .sidebar-logo {
+            width: 40px;
+            height: 40px;
+        }
+
+        .sidebar-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--primary-600), var(--secondary-600));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-section {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0 20px 12px 20px;
+        }
+
+        .nav-links {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 4px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            border-left: 3px solid transparent;
+        }
+
+        .nav-link:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border-left-color: var(--primary-500);
+        }
+
+        .nav-link.active {
+            background: var(--primary-50);
+            color: var(--primary-700);
+            border-left-color: var(--primary-600);
+            font-weight: 600;
+        }
+
+        .dark .nav-link.active {
+            background: rgba(79, 70, 229, 0.15);
+            color: var(--primary-300);
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            color: inherit;
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            background: var(--primary-500);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .sidebar-footer {
             padding: 20px;
-            transition: background-color 0.3s ease;
-        }
-
-        .container {
-            max-width: 1280px;
-            width: 100%;
-        }
-
-        /* Header */
-        .header {
-            text-align: center;
-            margin-bottom: 3.5rem;
-            padding: 0 1rem;
-            position: relative;
+            margin-top: auto;
+            border-top: 1px solid var(--border-color);
         }
 
         .theme-toggle {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background: var(--card-bg);
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg-secondary);
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             cursor: pointer;
             transition: var(--transition);
-            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+            font-weight: 500;
         }
 
         .theme-toggle:hover {
-            background: var(--bg-secondary);
+            background: var(--bg-primary);
+            border-color: var(--primary-300);
         }
 
         .theme-toggle svg {
-            width: 20px;
-            height: 20px;
-            color: var(--text-secondary);
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 30px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 0 1rem;
         }
 
         .logo-container {
@@ -300,7 +408,44 @@
             vertical-align: middle;
         }
 
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1100;
+            background: var(--primary-500);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            width: 44px;
+            height: 44px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+        }
+
         /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+            }
+        }
+
         @media (max-width: 768px) {
             .tools-grid {
                 grid-template-columns: 1fr;
@@ -311,13 +456,8 @@
             .subtitle {
                 font-size: 1rem;
             }
-            .header {
+            .content-header {
                 margin-bottom: 2.5rem;
-            }
-            .theme-toggle {
-                top: -45px;
-                right: 0;
-                left: auto;
             }
         }
 
@@ -327,6 +467,9 @@
             }
             .logo-text {
                 font-size: 1.75rem;
+            }
+            .main-content {
+                padding: 20px 15px;
             }
         }
 
@@ -362,7 +505,27 @@
             <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
         </symbol>
 
-        <!-- Professional Icons -->
+        <!-- Navigation Icons -->
+        <symbol id="nav-dashboard" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M9 22V12h6v10"/>
+        </symbol>
+        <symbol id="nav-email" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M22 6l-10 7L2 6"/>
+        </symbol>
+        <symbol id="nav-security" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </symbol>
+        <symbol id="nav-tools" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+        </symbol>
+        <symbol id="nav-settings" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+            <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/>
+        </symbol>
+
+        <!-- Tool Icons -->
         <symbol id="icon-process" viewBox="0 0 24 24">
             <path fill="none" stroke="currentColor" stroke-width="1.8" d="M3 10h18M3 14h18M3 18h18M3 6h18"/>
         </symbol>
@@ -376,12 +539,10 @@
         <symbol id="icon-code" viewBox="0 0 24 24">
             <path fill="none" stroke="currentColor" stroke-width="1.8" d="M8 18l-4-4 4-4M16 6l4 4-4 4M10 3l2 18"/>
         </symbol>
-        <!-- Domain Extractor Icon -->
         <symbol id="icon-globe" viewBox="0 0 24 24">
             <path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16z"/>
             <path fill="none" stroke="currentColor" stroke-width="1.8" d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
         </symbol>
-        <!-- IP Address Extractor Icon -->
         <symbol id="icon-network" viewBox="0 0 24 24">
             <path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 2a10 10 0 100 20 10 10 0 000-20z"/>
             <circle cx="12" cy="12" r="2" fill="currentColor"/>
@@ -389,7 +550,6 @@
             <circle cx="16" cy="12" r="2" fill="currentColor"/>
             <path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 4v4M8 8l8 8M4 12h4M16 12h4M8 16l8-8M12 16v4"/>
         </symbol>
-        <!-- DNS Record Generator Icon -->
         <symbol id="icon-dns" viewBox="0 0 24 24">
             <path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 2a10 10 0 100 20 10 10 0 000-20z"/>
             <path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 6v4l3 3M12 12l-3 3m6 0l3 3"/>
@@ -399,13 +559,111 @@
         </symbol>
     </svg>
 
-    <div class="container">
-        <div class="header">
-            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 12h18M3 6h18M3 18h18"/>
+        </svg>
+    </button>
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <svg class="sidebar-logo"><use href="#emailLogo"></use></svg>
+            <div class="sidebar-title">Email Suite</div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-title">Main</div>
+            <ul class="nav-links">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <svg class="nav-icon"><use href="#nav-dashboard"></use></svg>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <svg class="nav-icon"><use href="#nav-email"></use></svg>
+                        Email Analytics
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-title">Security Tools</div>
+            <ul class="nav-links">
+                <li class="nav-item">
+                    <a href="mailguard-pro.html" class="nav-link">
+                        <svg class="nav-icon"><use href="#icon-shield"></use></svg>
+                        MailGuard Pro
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="email-security-scanner.html" class="nav-link">
+                        <svg class="nav-icon"><use href="#icon-scan"></use></svg>
+                        Security Scanner
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="dns-record-generator.html" class="nav-link">
+                        <svg class="nav-icon"><use href="#icon-dns"></use></svg>
+                        DNS Generator
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-title">Data Tools</div>
+            <ul class="nav-links">
+                <li class="nav-item">
+                    <a href="email-processing-suite.html" class="nav-link">
+                        <svg class="nav-icon"><use href="#icon-process"></use></svg>
+                        List Processor
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="domain-Extractor.html" class="nav-link">
+                        <svg class="nav-icon"><use href="#icon-globe"></use></svg>
+                        Domain Extractor
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="IP-Address-Extractor.html" class="nav-link">
+                        <svg class="nav-icon"><use href="#icon-network"></use></svg>
+                        IP Extractor
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-title">Development</div>
+            <ul class="nav-links">
+                <li class="nav-item">
+                    <a href="html-viewer-pro.html" class="nav-link">
+                        <svg class="nav-icon"><use href="#icon-code"></use></svg>
+                        HTML Inspector
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="sidebar-footer">
+            <button class="theme-toggle" id="theme-toggle">
                 <svg id="theme-icon">
                     <use href="#sun-icon"></use>
                 </svg>
+                <span id="theme-text">Light Mode</span>
             </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-header">
             <div class="logo-container">
                 <svg class="logo"><use href="#emailLogo"></use></svg>
                 <h1 class="logo-text font-display">Email Tools Suite</h1>
@@ -459,7 +717,6 @@
                 <span class="tool-badge">Development</span>
             </a>
 
-            <!-- Domain Extractor Tool Card -->
             <a href="domain-Extractor.html" class="tool-card">
                 <div class="tool-icon">
                     <div class="icon-wrapper">
@@ -471,7 +728,6 @@
                 <span class="tool-badge">Data Extraction</span>
             </a>
 
-            <!-- IP Address Extractor Tool Card -->
             <a href="IP-Address-Extractor.html" class="tool-card">
                 <div class="tool-icon">
                     <div class="icon-wrapper">
@@ -483,7 +739,6 @@
                 <span class="tool-badge">Network Analysis</span>
             </a>
 
-            <!-- DNS Record Generator Tool Card -->
             <a href="dns-record-generator.html" class="tool-card">
                 <div class="tool-icon">
                     <div class="icon-wrapper">
@@ -499,13 +754,18 @@
         <div class="footer">
             <p>© 2025 Email Tools Suite | Enterprise Email Infrastructure Solutions</p>
         </div>
-    </div>
+    </main>
 
     <script>
-        // Theme toggle without localStorage
+        // Theme toggle
         const themeToggle = document.getElementById('theme-toggle');
         const themeIcon = document.getElementById('theme-icon');
+        const themeText = document.getElementById('theme-text');
         const themeRoot = document.getElementById('theme-root');
+        
+        // Mobile menu toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const sidebar = document.getElementById('sidebar');
         
         // Check system preference
         const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -514,9 +774,11 @@
         if (prefersDark) {
             themeRoot.classList.add('dark');
             themeIcon.innerHTML = '<use href="#moon-icon"></use>';
+            themeText.textContent = 'Dark Mode';
         } else {
             themeRoot.classList.remove('dark');
             themeIcon.innerHTML = '<use href="#sun-icon"></use>';
+            themeText.textContent = 'Light Mode';
         }
         
         // Toggle theme
@@ -524,10 +786,41 @@
             themeRoot.classList.toggle('dark');
             const isDark = themeRoot.classList.contains('dark');
             
-            // Update icon
-            themeIcon.innerHTML = isDark 
-                ? '<use href="#moon-icon"></use>' 
-                : '<use href="#sun-icon"></use>';
+            // Update icon and text
+            if (isDark) {
+                themeIcon.innerHTML = '<use href="#moon-icon"></use>';
+                themeText.textContent = 'Dark Mode';
+            } else {
+                themeIcon.innerHTML = '<use href="#sun-icon"></use>';
+                themeText.textContent = 'Light Mode';
+            }
+        });
+        
+        // Mobile menu toggle
+        mobileMenuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+        });
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 1024) {
+                if (!sidebar.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+                    sidebar.classList.remove('open');
+                }
+            }
+        });
+        
+        // Update active nav link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Close sidebar on mobile after selection
+                if (window.innerWidth <= 1024) {
+                    sidebar.classList.remove('open');
+                }
+            });
         });
     </script>
 </body>
