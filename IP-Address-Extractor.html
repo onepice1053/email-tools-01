@@ -1,0 +1,373 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPv4 Converter | Email Tools Suite</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 20px 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            color: #1e293b;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header p {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        .converter-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .input-section {
+            background: linear-gradient(135deg, #1e3a8a, #1e40af);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .input-wrapper {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .input-wrapper input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .convert-btn {
+            padding: 15px 30px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .convert-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+        .formats-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 20px;
+        }
+
+        .formats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .format-box {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 20px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+
+        .format-box:hover {
+            border-color: #6366f1;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.1);
+        }
+
+        .format-label {
+            font-size: 0.85rem;
+            color: #64748b;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .format-value-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .format-value {
+            flex: 1;
+            padding: 12px 15px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            color: #1e293b;
+            word-break: break-all;
+        }
+
+        .copy-btn {
+            padding: 10px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .copy-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .copy-btn.copied {
+            background: #10b981;
+        }
+
+        @media (max-width: 768px) {
+            .formats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .input-wrapper {
+                flex-direction: column;
+            }
+
+            .convert-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-home"></i> Back to Home
+        </a>
+
+        <div class="header">
+            <h1>
+                <i class="fas fa-exchange-alt"></i>
+                IPv4 Converter
+            </h1>
+            <p>Convert IP addresses to decimal format, integer format, and more!</p>
+        </div>
+
+        <div class="converter-panel">
+            <div class="input-section">
+                <div class="input-wrapper">
+                    <input 
+                        type="text" 
+                        id="ipInput" 
+                        placeholder="5.135.9.214" 
+                        value="5.135.9.214"
+                    >
+                    <button class="convert-btn" onclick="convertIP()">
+                        <i class="fas fa-sync-alt"></i> Convert
+                    </button>
+                </div>
+            </div>
+
+            <h2 class="formats-title">Formats</h2>
+
+            <div class="formats-grid">
+                <div class="format-box">
+                    <div class="format-label">IPv4</div>
+                    <div class="format-value-wrapper">
+                        <div class="format-value" id="ipv4Value">-</div>
+                        <button class="copy-btn" onclick="copyValue('ipv4Value', this)">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="format-box">
+                    <div class="format-label">IPv6 (short)</div>
+                    <div class="format-value-wrapper">
+                        <div class="format-value" id="ipv6ShortValue">-</div>
+                        <button class="copy-btn" onclick="copyValue('ipv6ShortValue', this)">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="format-box">
+                    <div class="format-label">Integer</div>
+                    <div class="format-value-wrapper">
+                        <div class="format-value" id="integerValue">-</div>
+                        <button class="copy-btn" onclick="copyValue('integerValue', this)">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="format-box">
+                    <div class="format-label">IPv6 (long)</div>
+                    <div class="format-value-wrapper">
+                        <div class="format-value" id="ipv6LongValue">-</div>
+                        <button class="copy-btn" onclick="copyValue('ipv6LongValue', this)">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="format-box">
+                    <div class="format-label">Hex</div>
+                    <div class="format-value-wrapper">
+                        <div class="format-value" id="hexValue">-</div>
+                        <button class="copy-btn" onclick="copyValue('hexValue', this)">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Convert on page load with default value
+        window.addEventListener('load', () => {
+            convertIP();
+        });
+
+        // Allow Enter key to trigger conversion
+        document.getElementById('ipInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                convertIP();
+            }
+        });
+
+        function convertIP() {
+            const ipInput = document.getElementById('ipInput').value.trim();
+            
+            if (!isValidIPv4(ipInput)) {
+                alert('Please enter a valid IPv4 address (e.g., 5.135.9.214)');
+                return;
+            }
+
+            const parts = ipInput.split('.').map(Number);
+            
+            // IPv4
+            document.getElementById('ipv4Value').textContent = ipInput;
+
+            // Integer
+            const intValue = (parts[0] << 24) + (parts[1] << 16) + (parts[2] << 8) + parts[3];
+            document.getElementById('integerValue').textContent = intValue >>> 0; // Unsigned
+
+            // Hex
+            const hexValue = '0x' + parts.map(p => {
+                return p.toString(16).padStart(2, '0').toUpperCase();
+            }).join('');
+            document.getElementById('hexValue').textContent = hexValue;
+
+            // IPv6 (short) - IPv4-mapped IPv6 address
+            const hexOctets = parts.map(p => p.toString(16).padStart(2, '0'));
+            const ipv6Short = `::ffff:${hexOctets[0]}${hexOctets[1]}:${hexOctets[2]}${hexOctets[3]}`;
+            document.getElementById('ipv6ShortValue').textContent = ipv6Short;
+
+            // IPv6 (long) - Full notation
+            const ipv6Long = `0000:0000:0000:0000:0000:ffff:${hexOctets[0]}${hexOctets[1]}:${hexOctets[2]}${hexOctets[3]}`;
+            document.getElementById('ipv6LongValue').textContent = ipv6Long;
+        }
+
+        function isValidIPv4(ip) {
+            const ipv4Regex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+            return ipv4Regex.test(ip);
+        }
+
+        function copyValue(elementId, button) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent;
+
+            if (text === '-') {
+                return;
+            }
+
+            navigator.clipboard.writeText(text).then(() => {
+                // Visual feedback
+                const icon = button.querySelector('i');
+                const originalClass = icon.className;
+                
+                button.classList.add('copied');
+                icon.className = 'fas fa-check';
+                
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    icon.className = originalClass;
+                }, 1500);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                alert('Failed to copy to clipboard');
+            });
+        }
+    </script>
+</body>
+</html>
