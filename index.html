@@ -756,6 +756,10 @@
             <circle cx="8" cy="8" r="1" fill="currentColor"/>
             <circle cx="16" cy="16" r="1" fill="currentColor"/>
         </symbol>
+        <symbol id="icon-convert" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M8 7h12M8 13h12M8 19h12M4 7v0M4 13v0M4 19v0"/>
+            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M4 7h4v4H4zM4 13h4v4H4zM4 19h4v4H4z"/>
+        </symbol>
         
         <!-- Settings and Close Icons -->
         <symbol id="settings-icon" viewBox="0 0 24 24">
@@ -932,6 +936,12 @@
                         IP Extractor
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="IPv4-Converter.html" class="nav-link">
+                        <svg class="nav-icon"><use href="#icon-convert"></use></svg>
+                        IPv4 Converter
+                    </a>
+                </li>
             </ul>
         </div>
 
@@ -1044,6 +1054,17 @@
                 <h2 class="tool-title">DNS Record Generator</h2>
                 <p class="tool-description">Generate SPF, DKIM, and DMARC records for your domain. Professional email authentication setup with enterprise-grade security.</p>
                 <span class="tool-badge">Email Security</span>
+            </a>
+
+            <a href="IPv4-Converter.html" class="tool-card">
+                <div class="tool-icon">
+                    <div class="icon-wrapper">
+                        <svg><use href="#icon-convert"></use></svg>
+                    </div>
+                </div>
+                <h2 class="tool-title">IPv4 Converter</h2>
+                <p class="tool-description">Convert IP addresses between different formats including decimal, integer, hex, and IPv6 representations. Essential for network analysis and security work.</p>
+                <span class="tool-badge">Network Analysis</span>
             </a>
         </div>
 
