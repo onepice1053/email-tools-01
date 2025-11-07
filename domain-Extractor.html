@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domain Extractor</title>
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --dark: #2d3436;
+            --light: #f8f9fa;
+            --success: #00b894;
+            --danger: #e17055;
+            --info: #0984e3;
+            --warning: #fdcb6e;
+            --gray: #6c757d;
+            --white: #ffffff;
+            --black: #000000;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--dark);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .back-btn:hover {
+            background-color: #554ad1;
+            transform: translateY(-2px);
+        }
+
+        .app-title {
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .app-title h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .app-title p {
+            font-size: 14px;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+
+        .app-title svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--primary);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background-color: var(--white);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .card-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .card-header svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--primary);
+        }
+
+        .input-area {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .input-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            resize: vertical;
+            font-family: inherit;
+            font-size: 14px;
+            line-height: 1.5;
+            transition: var(--transition);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+        }
+
+        .textarea-placeholder {
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        .filter-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .filter-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .domain-extensions {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .domain-extensions:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+        }
+
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 10px 0;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .filter-option input {
+            accent-color: var(--primary);
+        }
+
+        .filter-option label {
+            font-size: 14px;
+            color: var(--dark);
+            cursor: pointer;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: #554ad1;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: var(--white);
+        }
+
+        .btn-danger:hover {
+            background-color: #d65a4d;
+            transform: translateY(-2px);
+        }
+
+        .results-area {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .results-display {
+            width: 100%;
+            min-height: 200px;
+            background-color: var(--dark);
+            color: var(--white);
+            padding: 15px;
+            border-radius: 8px;
+            overflow-y: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--gray);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: var(--white);
+        }
+
+        .btn-success:hover {
+            background-color: #00a780;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: var(--white);
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Icons */
+        .icon-copy {
+            fill: var(--white);
+        }
+
+        .icon-download {
+            fill: var(--white);
+        }
+
+        .icon-clear {
+            fill: var(--white);
+        }
+
+        .icon-play {
+            fill: var(--white);
+        }
+
+        .icon-trash {
+            fill: var(--white);
+        }
+
+        .icon-list {
+            fill: var(--primary);
+        }
+
+        .icon-globe {
+            fill: var(--primary);
+        }
+
+        .icon-home {
+            fill: var(--white);
+        }
+
+        /* Loading state */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            color: var(--gray);
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary);
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Empty state */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        /* Responsive design */
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .app-title {
+                padding: 15px;
+            }
+            
+            .app-title h1 {
+                font-size: 20px;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+            
+            .button-group,
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .stats-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="back-btn">
+                <svg class="icon icon-home" viewBox="0 0 24 24">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                Back to Home
+            </button>
+        </div>
+
+        <div class="app-title">
+            <svg class="icon icon-globe" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            <div>
+                <h1>Domain Extractor</h1>
+                <p>Extract domain names from text, URLs, or email addresses</p>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="card">
+                <div class="card-header">
+                    <svg class="icon icon-list" viewBox="0 0 24 24">
+                        <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/>
+                    </svg>
+                    <h2>Input</h2>
+                </div>
+                <div class="input-area">
+                    <label class="input-label">Enter Text:</label>
+                    <textarea id="inputText" placeholder="Paste your text here...&#10;&#10;Examples:&#10;https://www.example.com/page&#10;user@domain.org&#10;Check out example.net for more info&#10;subdomain.example.co.uk"></textarea>
+                    
+                    <div class="filter-section">
+                        <label class="filter-label">Domain Extensions (optional):</label>
+                        <input type="text" id="domainExtensions" class="domain-extensions" placeholder="Example: .com,.net,.org (leave empty for all)">
+                    </div>
+                    
+                    <div class="filter-section">
+                        <label class="filter-label">Filter Options:</label>
+                        <div class="filter-options">
+                            <div class="filter-option">
+                                <input type="radio" id="allDomains" name="filterType" value="all" checked>
+                                <label for="allDomains">All Domains</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="radio" id="validDomains" name="filterType" value="valid">
+                                <label for="validDomains">Valid Domains</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="radio" id="subdomains" name="filterType" value="subdomains">
+                                <label for="subdomains">Subdomains</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button id="extractBtn" class="btn btn-primary">
+                            <svg class="icon icon-play" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                            Extract Domains
+                        </button>
+                        <button id="clearBtn" class="btn btn-danger">
+                            <svg class="icon icon-trash" viewBox="0 0 24 24">
+                                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                            </svg>
+                            Clear
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <svg class="icon icon-list" viewBox="0 0 24 24">
+                        <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/>
+                    </svg>
+                    <h2>Results</h2>
+                </div>
+                <div class="results-area">
+                    <div id="resultsDisplay" class="results-display">
+                        <div class="empty-state">Results will appear here...</div>
+                    </div>
+                    
+                    <div class="stats-container">
+                        <div class="stat-item">
+                            <div id="totalDomains" class="stat-value">0</div>
+                            <div class="stat-label">Total Domains</div>
+                        </div>
+                        <div class="stat-item">
+                            <div id="uniqueDomains" class="stat-value">0</div>
+                            <div class="stat-label">Unique Domains</div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button id="copyBtn" class="btn btn-success">
+                            <svg class="icon icon-copy" viewBox="0 0 24 24">
+                                <path d="M16 1H4c-1.1 0-2 .9-2 2v14h4V5h12V1zm3 4h-6v14h6V5z"/>
+                            </svg>
+                            Copy Results
+                        </button>
+                        <button id="downloadBtn" class="btn btn-secondary">
+                            <svg class="icon icon-download" viewBox="0 0 24 24">
+                                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                            </svg>
+                            Download
+                        </button>
+                        <button id="clearResultsBtn" class="btn btn-danger">
+                            <svg class="icon icon-clear" viewBox="0 0 24 24">
+                                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
+                            </svg>
+                            Clear Results
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const inputText = document.getElementById('inputText');
+        const domainExtensions = document.getElementById('domainExtensions');
+        const extractBtn = document.getElementById('extractBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const resultsDisplay = document.getElementById('resultsDisplay');
+        const totalDomains = document.getElementById('totalDomains');
+        const uniqueDomains = document.getElementById('uniqueDomains');
+        const copyBtn = document.getElementById('copyBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const clearResultsBtn = document.getElementById('clearResultsBtn');
+        
+        // Radio buttons
+        const filterTypeRadios = document.querySelectorAll('input[name="filterType"]');
+        
+        // Global variables
+        let extractedDomains = [];
+        
+        // Function to extract domains from text
+        function extractDomains(text, extensions = '', filterType = 'all') {
+            if (!text || text.trim() === '') {
+                return [];
+            }
+            
+            // Create a regex pattern for domain extraction
+            let domainPattern;
+            if (extensions) {
+                // If extensions are specified, create a pattern that matches those extensions
+                const extList = extensions.split(',').map(ext => ext.trim()).filter(ext => ext.length > 0);
+                if (extList.length > 0) {
+                    const escapedExtensions = extList.map(ext => ext.replace(/\./g, '\\.')).join('|');
+                    domainPattern = new RegExp(`[a-zA-Z0-9][a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9]\\.[${escapedExtensions}]`, 'gi');
+                } else {
+                    // Default pattern if no extensions specified
+                    domainPattern = /[a-zA-Z0-9][a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/gi;
+                }
+            } else {
+                // Default pattern for any domain
+                domainPattern = /[a-zA-Z0-9][a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}/gi;
+            }
+            
+            // Also match email addresses
+            const emailPattern = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/gi;
+            
+            // Find all matches
+            const domainMatches = text.match(domainPattern) || [];
+            const emailMatches = text.match(emailPattern) || [];
+            
+            // Extract domains from emails
+            const emailDomains = emailMatches.map(email => {
+                const parts = email.split('@');
+                return parts[1];
+            });
+            
+            // Combine all domains
+            let allDomains = [...domainMatches, ...emailDomains];
+            
+            // Filter based on selected option
+            if (filterType === 'valid') {
+                // Filter for valid domains (basic validation)
+                allDomains = allDomains.filter(domain => {
+                    // Basic validation: should have at least one dot and not start/end with dot
+                    return domain.includes('.') && !domain.startsWith('.') && !domain.endsWith('.');
+                });
+            } else if (filterType === 'subdomains') {
+                // Filter for subdomains (domains with more than one dot)
+                allDomains = allDomains.filter(domain => {
+                    return domain.split('.').length > 2;
+                });
+            }
+            
+            // Remove duplicates while preserving order
+            const uniqueDomains = [...new Set(allDomains)];
+            
+            return uniqueDomains;
+        }
+        
+        // Function to update results display
+        function updateResults(domains) {
+            if (domains.length === 0) {
+                resultsDisplay.innerHTML = '<div class="empty-state">No domains found. Try entering some text with URLs or email addresses.</div>';
+                totalDomains.textContent = '0';
+                uniqueDomains.textContent = '0';
+                extractedDomains = [];
+                return;
+            }
+            
+            // Display results
+            resultsDisplay.innerHTML = domains.join('\n');
+            
+            // Update stats
+            totalDomains.textContent = domains.length;
+            uniqueDomains.textContent = domains.length;
+            
+            // Store for later use
+            extractedDomains = domains;
+        }
+        
+        // Event listeners
+        extractBtn.addEventListener('click', () => {
+            const text = inputText.value;
+            const extensions = domainExtensions.value;
+            const filterType = Array.from(filterTypeRadios).find(radio => radio.checked).value;
+            
+            // Show loading state
+            resultsDisplay.innerHTML = '<div class="loading"><div class="spinner"></div>Processing...</div>';
+            
+            // Extract domains (using setTimeout to allow UI to update)
+            setTimeout(() => {
+                const domains = extractDomains(text, extensions, filterType);
+                updateResults(domains);
+            }, 100);
+        });
+        
+        clearBtn.addEventListener('click', () => {
+            inputText.value = '';
+            domainExtensions.value = '';
+            // Reset to All Domains
+            document.getElementById('allDomains').checked = true;
+        });
+        
+        clearResultsBtn.addEventListener('click', () => {
+            resultsDisplay.innerHTML = '<div class="empty-state">Results will appear here...</div>';
+            totalDomains.textContent = '0';
+            uniqueDomains.textContent = '0';
+            extractedDomains = [];
+        });
+        
+        copyBtn.addEventListener('click', () => {
+            if (extractedDomains.length === 0) {
+                alert('No results to copy!');
+                return;
+            }
+            
+            navigator.clipboard.writeText(extractedDomains.join('\n'))
+                .then(() => {
+                    alert('Results copied to clipboard!');
+                })
+                .catch(err => {
+                    alert('Failed to copy: ' + err);
+                });
+        });
+        
+        downloadBtn.addEventListener('click', () => {
+            if (extractedDomains.length === 0) {
+                alert('No results to download!');
+                return;
+            }
+            
+            const content = extractedDomains.join('\n');
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'domains.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+        
+        // Add event listener for back button
+        document.querySelector('.back-btn').addEventListener('click', () => {
+            alert('Back to Home functionality would be implemented here in a real application.');
+        });
+    </script>
+</body>
+</html>
+
