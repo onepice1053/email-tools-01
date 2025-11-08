@@ -1,12 +1,96 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="theme-root">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>IPv4 Converter | Email Tools Suite</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20viewBox%3D%220%200%20200%20200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22logoGradient%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%234338ca%22%3E%3C%2Fstop%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%237e22ce%22%3E%3C%2Fstop%3E%0A%20%20%20%20%3C%2FlinearGradient%3E%0A%20%20%3C%2Fdefs%3E%0A%0A%20%20%3Cpath%20d%3D%22M40%2060%20L160%2060%20L160%20140%20L40%20140%20Z%22%20fill%3D%22url(%23logoGradient)%22%3E%3C%2Fpath%3E%0A%20%20%3Cpath%20d%3D%22M40%2060%20L100%20100%20L160%2060%22%20fill%3D%22white%22%20opacity%3D%220.3%22%3E%3C%2Fpath%3E%0A%20%20%3Ccircle%20cx%3D%22100%22%20cy%3D%22100%22%20r%3D%2224%22%20fill%3D%22white%22%20opacity%3D%220.2%22%3E%3C%2Fcircle%3E%0A%20%20%3Cg%20stroke%3D%22white%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%3E%0A%20%20%20%20%3Cline%20x1%3D%22100%22%20y1%3D%2276%22%20x2%3D%22100%22%20y2%3D%2268%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%22100%22%20y1%3D%22124%22%20x2%3D%22100%22%20y2%3D%22132%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%2276%22%20y1%3D%22100%22%20x2%3D%2268%22%20y2%3D%22100%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%22124%22%20y1%3D%22100%22%20x2%3D%22132%22%20y2%3D%22100%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%2283%22%20y1%3D%2283%22%20x2%3D%2277%22%20y2%3D%2277%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%22117%22%20y1%3D%22117%22%20x2%3D%22123%22%20y2%3D%22123%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%2283%22%20y1%3D%22117%22%20x2%3D%2277%22%20y2%3D%22123%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%22117%22%20y1%3D%2283%22%20x2%3D%22123%22%20y2%3D%2277%22%3E%3C%2Fline%3E%0A%20%20%3C%2Fg%3E%0A%20%20%3Cpath%20d%3D%22M60%2085%20L100%20110%20L140%2085%22%20stroke%3D%22white%22%20stroke-width%3D%226%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3C%2Fpath%3E%0A%3C%2Fsvg%3E%0A" />
+
     <style>
+        :root {
+            /* Light Theme Colors */
+            --primary-50: #f0f5ff;
+            --primary-100: #e0e7ff;
+            --primary-200: #c7d2fe;
+            --primary-300: #a5b4fc;
+            --primary-400: #818cf8;
+            --primary-500: #6366f1;
+            --primary-600: #4f46e5;
+            --primary-700: #4338ca;
+            --primary-800: #3730a3;
+            --primary-900: #312e81;
+            
+            --secondary-50: #f5f3ff;
+            --secondary-100: #ede9fe;
+            --secondary-200: #ddd6fe;
+            --secondary-300: #c4b5fd;
+            --secondary-400: #a78bfa;
+            --secondary-500: #8b5cf6;
+            --secondary-600: #7c3aed;
+            --secondary-700: #6d28d9;
+            --secondary-800: #5b21b6;
+            --secondary-900: #4c1d95;
+            
+            --neutral-50: #f9fafb;
+            --neutral-100: #f3f4f6;
+            --neutral-200: #e5e7eb;
+            --neutral-300: #d1d5db;
+            --neutral-400: #9ca3af;
+            --neutral-500: #6b7280;
+            --neutral-600: #4b5563;
+            --neutral-700: #374151;
+            --neutral-800: #1f2937;
+            --neutral-900: #111827;
+            
+            --success-500: #10b981;
+            --warning-500: #f59e0b;
+            --error-500: #ef4444;
+            --info-500: #3b82f6;
+            
+            /* Light Theme Specific */
+            --bg-primary: #ffffff;
+            --bg-secondary: var(--neutral-50);
+            --text-primary: var(--neutral-900);
+            --text-secondary: var(--neutral-600);
+            --border-color: var(--neutral-200);
+            --card-bg: #ffffff;
+            --icon-bg: var(--primary-50);
+            --icon-color: var(--primary-700);
+            --badge-bg: var(--neutral-100);
+            --badge-text: var(--neutral-700);
+            --header-bg: transparent;
+            --footer-text: var(--neutral-500);
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+            
+            /* Radius & Transition */
+            --border-radius: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Dark Theme */
+        .dark {
+            --bg-primary: var(--neutral-900);
+            --bg-secondary: var(--neutral-800);
+            --text-primary: #f9fafb;
+            --text-secondary: var(--neutral-400);
+            --border-color: var(--neutral-700);
+            --card-bg: var(--neutral-800);
+            --icon-bg: rgba(79, 70, 229, 0.15);
+            --icon-color: var(--primary-300);
+            --badge-bg: var(--neutral-700);
+            --badge-text: var(--neutral-200);
+            --header-bg: transparent;
+            --footer-text: var(--neutral-500);
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.25);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -15,72 +99,128 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
+            transition: background-color 0.3s ease;
         }
 
         .container {
             max-width: 1000px;
-            margin: 0 auto;
+            width: 100%;
         }
 
+        /* Header */
         .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 16px;
-            padding: 20px 30px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 3.5rem;
+            padding: 0 1rem;
+            position: relative;
         }
 
-        .header h1 {
-            font-size: 1.8rem;
-            color: #1e293b;
-            margin-bottom: 5px;
+        .theme-toggle {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
-            gap: 15px;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
         }
 
-        .header p {
-            color: #64748b;
-            font-size: 0.95rem;
+        .theme-toggle:hover {
+            background: var(--bg-secondary);
         }
 
+        .theme-toggle svg {
+            width: 20px;
+            height: 20px;
+            color: var(--text-secondary);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+        }
+
+        .logo-text {
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            background: linear-gradient(to right, var(--primary-600), var(--secondary-600));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 650px;
+            margin: 0 auto;
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+        /* Back Button */
         .back-btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: linear-gradient(135deg, #4f46e5, #7c3aed);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 10px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
             text-decoration: none;
             font-weight: 600;
-            margin-bottom: 15px;
-            transition: all 0.3s;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
         }
 
         .back-btn:hover {
+            background: var(--bg-secondary);
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+            box-shadow: var(--shadow-md);
         }
 
+        /* Converter Panel */
         .converter-panel {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
         }
 
         .input-section {
-            background: linear-gradient(135deg, #1e3a8a, #1e40af);
-            padding: 30px;
-            border-radius: 12px;
-            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--primary-700), var(--secondary-700));
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2.5rem;
+            box-shadow: var(--shadow-md);
         }
 
         .input-wrapper {
@@ -91,59 +231,75 @@
 
         .input-wrapper input {
             flex: 1;
-            padding: 15px 20px;
+            padding: 16px 20px;
             border: none;
-            border-radius: 8px;
+            border-radius: var(--border-radius);
             font-size: 1rem;
             outline: none;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .input-wrapper input:focus {
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
         }
 
         .convert-btn {
-            padding: 15px 30px;
-            background: #2563eb;
+            padding: 16px 30px;
+            background: var(--primary-600);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: var(--border-radius);
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: var(--transition);
             font-size: 1rem;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .convert-btn:hover {
-            background: #1d4ed8;
+            background: var(--primary-700);
             transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
         .formats-title {
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 20px;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .formats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            gap: 1.5rem;
         }
 
         .format-box {
-            background: #f8fafc;
-            border-radius: 10px;
-            padding: 20px;
-            border: 2px solid #e2e8f0;
-            transition: all 0.3s;
+            background: var(--bg-secondary);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
         }
 
         .format-box:hover {
-            border-color: #6366f1;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.1);
+            border-color: var(--primary-300);
+            box-shadow: var(--shadow-sm);
         }
 
         .format-label {
             font-size: 0.85rem;
-            color: #64748b;
+            color: var(--text-secondary);
             font-weight: 600;
             margin-bottom: 10px;
             text-transform: uppercase;
@@ -159,39 +315,51 @@
         .format-value {
             flex: 1;
             padding: 12px 15px;
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
             font-family: 'Courier New', monospace;
             font-size: 0.95rem;
-            color: #1e293b;
+            color: var(--text-primary);
             word-break: break-all;
+            transition: var(--transition);
         }
 
         .copy-btn {
             padding: 10px;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            background: linear-gradient(135deg, var(--primary-600), var(--secondary-600));
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: var(--transition);
             width: 40px;
             height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: var(--shadow-sm);
         }
 
         .copy-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+            transform: scale(1.05);
+            box-shadow: var(--shadow-md);
         }
 
         .copy-btn.copied {
-            background: #10b981;
+            background: var(--success-500);
         }
 
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 3.5rem;
+            color: var(--footer-text);
+            font-size: 0.875rem;
+            padding: 0 1rem;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
             .formats-grid {
                 grid-template-columns: 1fr;
@@ -203,22 +371,111 @@
 
             .convert-btn {
                 width: 100%;
+                justify-content: center;
             }
+            
+            .logo-text {
+                font-size: 1.875rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .header {
+                margin-bottom: 2.5rem;
+            }
+            
+            .theme-toggle {
+                top: -45px;
+                right: 0;
+                left: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .converter-panel {
+                padding: 1.5rem;
+            }
+            
+            .logo-text {
+                font-size: 1.75rem;
+            }
+        }
+
+        .font-display {
+            font-family: 'Inter', system-ui, sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 700;
         }
     </style>
 </head>
 <body>
+    <!-- SVG Definitions -->
+    <svg style="display:none">
+        <!-- Main Logo -->
+        <symbol id="emailLogo" viewBox="0 0 200 200">
+            <defs>
+                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#4338ca" />
+                    <stop offset="100%" stop-color="#7e22ce" />
+                </linearGradient>
+            </defs>
+            <path d="M40 60 L160 60 L160 140 L40 140 Z" fill="url(#logoGradient)"/>
+            <path d="M40 60 L100 100 L160 60" fill="white" opacity="0.3"/>
+            <circle cx="100" cy="100" r="24" fill="white" opacity="0.2"/>
+            <path d="M60 85 L100 110 L140 85" stroke="white" stroke-width="6" fill="none" stroke-linecap="round"/>
+        </symbol>
+
+        <!-- Theme Icons -->
+        <symbol id="sun-icon" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+        </symbol>
+        <symbol id="moon-icon" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+        </symbol>
+
+        <!-- Tool Icons -->
+        <symbol id="icon-convert" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+        </symbol>
+        <symbol id="icon-ipv4" viewBox="0 0 24 24">
+            <rect x="2" y="2" width="20" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/>
+            <circle cx="7" cy="7" r="1" fill="currentColor"/>
+            <circle cx="12" cy="7" r="1" fill="currentColor"/>
+            <circle cx="17" cy="7" r="1" fill="currentColor"/>
+            <circle cx="7" cy="12" r="1" fill="currentColor"/>
+            <circle cx="12" cy="12" r="1" fill="currentColor"/>
+            <circle cx="17" cy="12" r="1" fill="currentColor"/>
+            <circle cx="7" cy="17" r="1" fill="currentColor"/>
+            <circle cx="12" cy="17" r="1" fill="currentColor"/>
+            <circle cx="17" cy="17" r="1" fill="currentColor"/>
+        </symbol>
+        <symbol id="icon-copy" viewBox="0 0 24 24">
+            <rect x="9" y="9" width="13" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/>
+            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+        </symbol>
+    </svg>
+
     <div class="container">
         <a href="index.html" class="back-btn">
-            <i class="fas fa-home"></i> Back to Home
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Back to Home
         </a>
 
         <div class="header">
-            <h1>
-                <i class="fas fa-exchange-alt"></i>
-                IPv4 Converter
-            </h1>
-            <p>Convert IP addresses to decimal format, integer format, and more!</p>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+                <svg id="theme-icon">
+                    <use href="#sun-icon"></use>
+                </svg>
+            </button>
+            <div class="logo-container">
+                <svg class="logo"><use href="#emailLogo"></use></svg>
+                <h1 class="logo-text font-display">IPv4 Converter</h1>
+            </div>
+            <p class="subtitle">Convert IP addresses to decimal format, integer format, and more with enterprise-grade precision.</p>
         </div>
 
         <div class="converter-panel">
@@ -231,12 +488,20 @@
                         value="5.135.9.214"
                     >
                     <button class="convert-btn" onclick="convertIP()">
-                        <i class="fas fa-sync-alt"></i> Convert
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <use href="#icon-convert"></use>
+                        </svg>
+                        Convert
                     </button>
                 </div>
             </div>
 
-            <h2 class="formats-title">Formats</h2>
+            <h2 class="formats-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <use href="#icon-ipv4"></use>
+                </svg>
+                Formats
+            </h2>
 
             <div class="formats-grid">
                 <div class="format-box">
@@ -244,7 +509,9 @@
                     <div class="format-value-wrapper">
                         <div class="format-value" id="ipv4Value">-</div>
                         <button class="copy-btn" onclick="copyValue('ipv4Value', this)">
-                            <i class="fas fa-copy"></i>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <use href="#icon-copy"></use>
+                            </svg>
                         </button>
                     </div>
                 </div>
@@ -254,7 +521,9 @@
                     <div class="format-value-wrapper">
                         <div class="format-value" id="ipv6ShortValue">-</div>
                         <button class="copy-btn" onclick="copyValue('ipv6ShortValue', this)">
-                            <i class="fas fa-copy"></i>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <use href="#icon-copy"></use>
+                            </svg>
                         </button>
                     </div>
                 </div>
@@ -264,7 +533,9 @@
                     <div class="format-value-wrapper">
                         <div class="format-value" id="integerValue">-</div>
                         <button class="copy-btn" onclick="copyValue('integerValue', this)">
-                            <i class="fas fa-copy"></i>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <use href="#icon-copy"></use>
+                            </svg>
                         </button>
                     </div>
                 </div>
@@ -274,7 +545,9 @@
                     <div class="format-value-wrapper">
                         <div class="format-value" id="ipv6LongValue">-</div>
                         <button class="copy-btn" onclick="copyValue('ipv6LongValue', this)">
-                            <i class="fas fa-copy"></i>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <use href="#icon-copy"></use>
+                            </svg>
                         </button>
                     </div>
                 </div>
@@ -284,15 +557,49 @@
                     <div class="format-value-wrapper">
                         <div class="format-value" id="hexValue">-</div>
                         <button class="copy-btn" onclick="copyValue('hexValue', this)">
-                            <i class="fas fa-copy"></i>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <use href="#icon-copy"></use>
+                            </svg>
                         </button>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="footer">
+            <p>© 2025 Email Tools Suite | Enterprise Email Infrastructure Solutions</p>
+        </div>
     </div>
 
     <script>
+        // Theme toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const themeRoot = document.getElementById('theme-root');
+        
+        // Check system preference
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        // Set initial theme based on system preference
+        if (prefersDark) {
+            themeRoot.classList.add('dark');
+            themeIcon.innerHTML = '<use href="#moon-icon"></use>';
+        } else {
+            themeRoot.classList.remove('dark');
+            themeIcon.innerHTML = '<use href="#sun-icon"></use>';
+        }
+        
+        // Toggle theme
+        themeToggle.addEventListener('click', () => {
+            themeRoot.classList.toggle('dark');
+            const isDark = themeRoot.classList.contains('dark');
+            
+            // Update icon
+            themeIcon.innerHTML = isDark 
+                ? '<use href="#moon-icon"></use>' 
+                : '<use href="#sun-icon"></use>';
+        });
+
         // Convert on page load with default value
         window.addEventListener('load', () => {
             convertIP();
@@ -353,15 +660,15 @@
 
             navigator.clipboard.writeText(text).then(() => {
                 // Visual feedback
-                const icon = button.querySelector('i');
-                const originalClass = icon.className;
+                const icon = button.querySelector('svg use');
+                const originalHref = icon.getAttribute('href');
                 
                 button.classList.add('copied');
-                icon.className = 'fas fa-check';
+                icon.setAttribute('href', '#icon-check');
                 
                 setTimeout(() => {
                     button.classList.remove('copied');
-                    icon.className = originalClass;
+                    icon.setAttribute('href', originalHref);
                 }, 1500);
             }).catch(err => {
                 console.error('Failed to copy:', err);
@@ -371,4 +678,3 @@
     </script>
 </body>
 </html>
-
