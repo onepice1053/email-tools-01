@@ -1,12 +1,85 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="theme-root">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DNS Record Generator | Email Tools Suite</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20viewBox%3D%220%200%20200%20200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22logoGradient%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%234338ca%22%3E%3C%2Fstop%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%237e22ce%22%3E%3C%2Fstop%3E%0A%20%20%20%20%3C%2FlinearGradient%3E%0A%20%20%3C%2Fdefs%3E%0A%0A%20%20%3Cpath%20d%3D%22M40%2060%20L160%2060%20L160%20140%20L40%20140%20Z%22%20fill%3D%22url(%23logoGradient)%22%3E%3C%2Fpath%3E%0A%20%20%3Cpath%20d%3D%22M40%2060%20L100%20100%20L160%2060%22%20fill%3D%22white%22%20opacity%3D%220.3%22%3E%3C%2Fpath%3E%0A%20%20%3Ccircle%20cx%3D%22100%22%20cy%3D%22100%22%20r%3D%2224%22%20fill%3D%22white%22%20opacity%3D%220.2%22%3E%3C%2Fcircle%3E%0A%20%20%3Cg%20stroke%3D%22white%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%3E%0A%20%20%20%20%3Cline%20x1%3D%22100%22%20y1%3D%2276%22%20x2%3D%22100%22%20y2%3D%2268%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%22100%22%20y1%3D%22124%22%20x2%3D%22100%22%20y2%3D%22132%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%2276%22%20y1%3D%22100%22%20x2%3D%2268%22%20y2%3D%22100%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%22124%22%20y1%3D%22100%22%20x2%3D%22132%22%20y2%3D%22100%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%2283%22%20y1%3D%2283%22%20x2%3D%2277%22%20y2%3D%2277%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%22117%22%20y1%3D%22117%22%20x2%3D%22123%22%20y2%3D%22123%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%2283%22%20y1%3D%22117%22%20x2%3D%2277%22%20y2%3D%22123%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%22117%22%20y1%3D%2283%22%20x2%3D%22123%22%20y2%3D%2277%22%3E%3C%2Fline%3E%0A%20%20%3C%2Fg%3E%0A%20%20%3Cpath%20d%3D%22M60%2085%20L100%20110%20L140%2085%22%20stroke%3D%22white%22%20stroke-width%3D%226%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3C%2Fpath%3E%0A%3C%2Fsvg%3E%0A" />
     <style>
+        :root {
+            --primary-50: #f0f5ff;
+            --primary-100: #e0e7ff;
+            --primary-200: #c7d2fe;
+            --primary-300: #a5b4fc;
+            --primary-400: #818cf8;
+            --primary-500: #6366f1;
+            --primary-600: #4f46e5;
+            --primary-700: #4338ca;
+            --primary-800: #3730a3;
+            --primary-900: #312e81;
+            
+            --secondary-50: #f5f3ff;
+            --secondary-100: #ede9fe;
+            --secondary-200: #ddd6fe;
+            --secondary-300: #c4b5fd;
+            --secondary-400: #a78bfa;
+            --secondary-500: #8b5cf6;
+            --secondary-600: #7c3aed;
+            --secondary-700: #6d28d9;
+            --secondary-800: #5b21b6;
+            --secondary-900: #4c1d95;
+            
+            --neutral-50: #f9fafb;
+            --neutral-100: #f3f4f6;
+            --neutral-200: #e5e7eb;
+            --neutral-300: #d1d5db;
+            --neutral-400: #9ca3af;
+            --neutral-500: #6b7280;
+            --neutral-600: #4b5563;
+            --neutral-700: #374151;
+            --neutral-800: #1f2937;
+            --neutral-900: #111827;
+            
+            --success-500: #10b981;
+            --warning-500: #f59e0b;
+            --error-500: #ef4444;
+            
+            --bg-primary: #ffffff;
+            --bg-secondary: var(--neutral-50);
+            --text-primary: var(--neutral-900);
+            --text-secondary: var(--neutral-600);
+            --border-color: var(--neutral-200);
+            --card-bg: #ffffff;
+            --icon-bg: var(--primary-50);
+            --icon-color: var(--primary-700);
+            --badge-bg: var(--neutral-100);
+            --badge-text: var(--neutral-700);
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+            
+            --border-radius: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dark {
+            --bg-primary: var(--neutral-900);
+            --bg-secondary: var(--neutral-800);
+            --text-primary: #f9fafb;
+            --text-secondary: var(--neutral-400);
+            --border-color: var(--neutral-700);
+            --card-bg: var(--neutral-800);
+            --icon-bg: rgba(79, 70, 229, 0.15);
+            --icon-color: var(--primary-300);
+            --badge-bg: var(--neutral-700);
+            --badge-text: var(--neutral-200);
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.25);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -15,9 +88,12 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
             min-height: 100vh;
             padding: 20px;
+            transition: background-color 0.3s ease;
         }
 
         .container {
@@ -26,150 +102,254 @@
         }
 
         .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 16px;
-            padding: 20px 30px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            padding: 0 0.5rem;
         }
 
-        .header h1 {
-            font-size: 1.8rem;
-            color: #1e293b;
-            margin-bottom: 5px;
-        }
-
-        .header p {
-            color: #64748b;
-            font-size: 0.95rem;
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
         .back-btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: linear-gradient(135deg, #4f46e5, #7c3aed);
-            color: white;
-            padding: 10px 20px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            padding: 10px 18px;
             border-radius: 10px;
             text-decoration: none;
             font-weight: 600;
-            margin-bottom: 15px;
-            transition: all 0.3s;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
         }
 
         .back-btn:hover {
+            background: var(--bg-secondary);
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+            box-shadow: var(--shadow-md);
+        }
+
+        .theme-toggle {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .theme-toggle:hover {
+            background: var(--bg-secondary);
+            transform: translateY(-2px);
+        }
+
+        .theme-toggle svg {
+            width: 20px;
+            height: 20px;
+            color: var(--text-secondary);
+        }
+
+        .title-section {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .title-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-600), var(--secondary-600));
+        }
+
+        .title-section h1 {
+            font-size: 1.875rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, var(--primary-600), var(--secondary-600));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .title-section p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
         }
 
         .main-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 1.75rem;
         }
 
         .panel {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 16px;
-            padding: 25px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-600), var(--secondary-600));
         }
 
         .panel-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #e2e8f0;
+            gap: 12px;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .panel-header h2 {
-            font-size: 1.3rem;
-            color: #1e293b;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
         }
 
-        .panel-header i {
-            color: #6366f1;
-            font-size: 1.3rem;
+        .icon-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: var(--icon-bg);
+            color: var(--icon-color);
+        }
+
+        .icon-wrapper svg {
+            width: 18px;
+            height: 18px;
         }
 
         .record-type-selector {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 1.5rem;
         }
 
         .record-type-btn {
-            flex: 1;
-            min-width: 150px;
-            padding: 12px 20px;
-            border: 2px solid #e2e8f0;
-            background: white;
+            padding: 14px 20px;
+            border: 2px solid var(--border-color);
+            background: var(--card-bg);
             border-radius: 10px;
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.3s;
-            color: #64748b;
+            transition: var(--transition);
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: inherit;
         }
 
         .record-type-btn:hover {
-            border-color: #6366f1;
-            color: #6366f1;
+            border-color: var(--primary-400);
+            color: var(--primary-600);
+            background: var(--icon-bg);
         }
 
         .record-type-btn.active {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            background: linear-gradient(135deg, var(--primary-600), var(--secondary-600));
             color: white;
             border-color: transparent;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
         }
 
         label {
             display: block;
             font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 0.9375rem;
         }
 
         input[type="text"],
         select,
         textarea {
             width: 100%;
-            padding: 10px 15px;
-            border: 2px solid #e2e8f0;
+            padding: 12px 14px;
+            border: 2px solid var(--border-color);
             border-radius: 8px;
-            font-size: 0.9rem;
-            transition: all 0.3s;
+            font-size: 0.9375rem;
+            transition: var(--transition);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: inherit;
         }
 
         input[type="text"]:focus,
         select:focus,
         textarea:focus {
             outline: none;
-            border-color: #6366f1;
+            border-color: var(--primary-500);
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        input[type="text"]:read-only {
+            background: var(--bg-secondary);
+            cursor: not-allowed;
         }
 
         textarea {
             min-height: 120px;
             font-family: 'Courier New', monospace;
             resize: vertical;
+            line-height: 1.6;
+        }
+
+        .help-text {
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+            margin-top: 0.375rem;
+            line-height: 1.4;
         }
 
         .ip-list {
             display: flex;
             flex-direction: column;
             gap: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .ip-item {
@@ -182,73 +362,81 @@
         }
 
         .btn {
-            padding: 12px 24px;
+            padding: 12px 20px;
             border: none;
             border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: var(--transition);
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            font-size: 0.9rem;
+            font-size: 0.9375rem;
+            font-family: inherit;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            background: linear-gradient(135deg, var(--primary-600), var(--secondary-600));
             color: white;
+            box-shadow: var(--shadow-sm);
         }
 
-        .btn-primary:hover {
+        .btn-primary:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
         }
 
         .btn-secondary {
-            background: #64748b;
+            background: var(--neutral-500);
             color: white;
         }
 
-        .btn-secondary:hover {
-            background: #475569;
+        .btn-secondary:hover:not(:disabled) {
+            background: var(--neutral-600);
+            transform: translateY(-2px);
         }
 
         .btn-success {
-            background: #10b981;
+            background: var(--success-500);
             color: white;
         }
 
-        .btn-success:hover {
+        .btn-success:hover:not(:disabled) {
             background: #059669;
+            transform: translateY(-2px);
         }
 
         .btn-danger {
-            background: #ef4444;
+            background: var(--error-500);
             color: white;
         }
 
-        .btn-danger:hover {
+        .btn-danger:hover:not(:disabled) {
             background: #dc2626;
         }
 
         .btn-small {
-            padding: 8px 16px;
-            font-size: 0.85rem;
-        }
-
-        .output-area {
-            position: relative;
+            padding: 8px 14px;
+            font-size: 0.875rem;
         }
 
         #output {
-            background: #1e293b;
-            color: #e2e8f0;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
             min-height: 200px;
-            padding: 15px;
-            border-radius: 8px;
+            padding: 1.25rem;
+            border-radius: 10px;
             font-family: 'Courier New', monospace;
             white-space: pre-wrap;
-            word-break: break-all;
+            word-break: break-word;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            border: 1px solid var(--border-color);
         }
 
         .section {
@@ -259,54 +447,174 @@
             display: block;
         }
 
-        .help-text {
-            font-size: 0.85rem;
-            color: #64748b;
-            margin-top: 5px;
+        .button-group {
+            margin-top: 1.25rem;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
-        @media (max-width: 768px) {
+        .instructions-box {
+            margin-top: 1.5rem;
+            padding: 1.25rem;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            display: none;
+            border: 1px solid var(--border-color);
+        }
+
+        .instructions-box.active {
+            display: block;
+        }
+
+        .instructions-box h3 {
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            font-size: 1.125rem;
+            font-weight: 700;
+        }
+
+        .instructions-box p {
+            font-size: 0.9375rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 0.75rem;
+        }
+
+        .instructions-box code {
+            background: var(--card-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            color: var(--primary-600);
+            border: 1px solid var(--border-color);
+        }
+
+        .instructions-box strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        @media (max-width: 1024px) {
             .main-content {
                 grid-template-columns: 1fr;
             }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+
+            .header-left {
+                justify-content: space-between;
+            }
 
             .record-type-selector {
+                grid-template-columns: 1fr;
+            }
+
+            .title-section h1 {
+                font-size: 1.5rem;
+            }
+
+            .panel {
+                padding: 1.5rem;
+            }
+
+            .button-group {
                 flex-direction: column;
             }
 
-            .record-type-btn {
-                min-width: 100%;
+            .button-group .btn {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <a href="index.html" class="back-btn">
-            <i class="fas fa-home"></i> Back to Home
-        </a>
+    <svg style="display:none">
+        <symbol id="sun-icon" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+        </symbol>
+        <symbol id="moon-icon" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+        </symbol>
+        <symbol id="icon-shield" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 22s8-4 8-10V6l-8-4-8 4v6c0 6 8 10 8 10z"/>
+        </symbol>
+        <symbol id="icon-key" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+        </symbol>
+        <symbol id="icon-lock" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+        </symbol>
+        <symbol id="icon-home" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+        </symbol>
+        <symbol id="icon-settings" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path fill="none" stroke="currentColor" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+        </symbol>
+        <symbol id="icon-code" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+        </symbol>
+        <symbol id="icon-copy" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+        </symbol>
+        <symbol id="icon-download" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+        </symbol>
+        <symbol id="icon-trash" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+        </symbol>
+        <symbol id="icon-plus" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 4v16m8-8H4"/>
+        </symbol>
+    </svg>
 
+    <div class="container">
         <div class="header">
-            <h1><i class="fas fa-cog"></i> DNS Record Generator</h1>
-            <p>Generate SPF, DKIM, and DMARC records for your domain</p>
+            <div class="header-left">
+                <a href="index.html" class="back-btn">
+                    <svg width="16" height="16"><use href="#icon-home"></use></svg>
+                    Back to Home
+                </a>
+            </div>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+                <svg id="theme-icon"><use href="#sun-icon"></use></svg>
+            </button>
+        </div>
+
+        <div class="title-section">
+            <h1>DNS Record Generator</h1>
+            <p>Generate enterprise-grade SPF, DKIM, and DMARC records for secure email authentication</p>
         </div>
 
         <div class="main-content">
             <div class="panel">
                 <div class="panel-header">
-                    <i class="fas fa-edit"></i>
+                    <div class="icon-wrapper">
+                        <svg><use href="#icon-settings"></use></svg>
+                    </div>
                     <h2>Configure Record</h2>
                 </div>
 
                 <div class="record-type-selector">
                     <button class="record-type-btn active" onclick="selectRecordType('spf')">
-                        <i class="fas fa-shield-alt"></i> SPF
+                        <svg width="16" height="16"><use href="#icon-shield"></use></svg>
+                        SPF
                     </button>
                     <button class="record-type-btn" onclick="selectRecordType('dkim')">
-                        <i class="fas fa-key"></i> DKIM
+                        <svg width="16" height="16"><use href="#icon-key"></use></svg>
+                        DKIM
                     </button>
                     <button class="record-type-btn" onclick="selectRecordType('dmarc')">
-                        <i class="fas fa-lock"></i> DMARC
+                        <svg width="16" height="16"><use href="#icon-lock"></use></svg>
+                        DMARC
                     </button>
                 </div>
 
@@ -324,12 +632,13 @@
                             <div class="ip-item">
                                 <input type="text" placeholder="e.g., 192.168.1.1 or 2001:db8::1" class="ip-input">
                                 <button class="btn btn-danger btn-small" onclick="removeIP(this)">
-                                    <i class="fas fa-trash"></i>
+                                    <svg width="14" height="14"><use href="#icon-trash"></use></svg>
                                 </button>
                             </div>
                         </div>
                         <button class="btn btn-secondary btn-small" onclick="addIP()">
-                            <i class="fas fa-plus"></i> Add IP
+                            <svg width="14" height="14"><use href="#icon-plus"></use></svg>
+                            Add IP
                         </button>
                     </div>
 
@@ -351,7 +660,8 @@
                     </div>
 
                     <button class="btn btn-primary" onclick="generateSPF()">
-                        <i class="fas fa-cog"></i> Generate SPF Record
+                        <svg width="16" height="16"><use href="#icon-settings"></use></svg>
+                        Generate SPF Record
                     </button>
                 </div>
 
@@ -384,7 +694,8 @@
                     </div>
 
                     <button class="btn btn-primary" onclick="generateDKIM()">
-                        <i class="fas fa-cog"></i> Generate DKIM Record
+                        <svg width="16" height="16"><use href="#icon-settings"></use></svg>
+                        Generate DKIM Record
                     </button>
                 </div>
 
@@ -444,42 +755,62 @@
                     </div>
 
                     <button class="btn btn-primary" onclick="generateDMARC()">
-                        <i class="fas fa-cog"></i> Generate DMARC Record
+                        <svg width="16" height="16"><use href="#icon-settings"></use></svg>
+                        Generate DMARC Record
                     </button>
                 </div>
             </div>
 
             <div class="panel">
                 <div class="panel-header">
-                    <i class="fas fa-code"></i>
+                    <div class="icon-wrapper">
+                        <svg><use href="#icon-code"></use></svg>
+                    </div>
                     <h2>Generated Record</h2>
                 </div>
 
-                <div class="output-area">
-                    <div id="output">Your generated DNS record will appear here...</div>
-                </div>
+                <div id="output">Your generated DNS record will appear here...</div>
 
-                <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
+                <div class="button-group">
                     <button class="btn btn-success" onclick="copyRecord()">
-                        <i class="fas fa-copy"></i> Copy Record
+                        <svg width="16" height="16"><use href="#icon-copy"></use></svg>
+                        Copy Record
                     </button>
                     <button class="btn btn-secondary" onclick="downloadRecord()">
-                        <i class="fas fa-download"></i> Download
+                        <svg width="16" height="16"><use href="#icon-download"></use></svg>
+                        Download
                     </button>
                     <button class="btn btn-danger" onclick="clearRecord()">
-                        <i class="fas fa-broom"></i> Clear
+                        <svg width="16" height="16"><use href="#icon-trash"></use></svg>
+                        Clear
                     </button>
                 </div>
 
-                <div id="instructions" style="margin-top: 20px; padding: 15px; background: #f1f5f9; border-radius: 8px; display: none;">
-                    <h3 style="margin-bottom: 10px; color: #1e293b;">DNS Setup Instructions:</h3>
-                    <div id="instructionsContent" style="font-size: 0.9rem; color: #475569; line-height: 1.6;"></div>
-                </div>
+                <div id="instructions" class="instructions-box"></div>
             </div>
         </div>
     </div>
 
     <script>
+        // Theme toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const themeRoot = document.getElementById('theme-root');
+        
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (prefersDark) {
+            themeRoot.classList.add('dark');
+            themeIcon.innerHTML = '<use href="#moon-icon"></use>';
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            themeRoot.classList.toggle('dark');
+            const isDark = themeRoot.classList.contains('dark');
+            themeIcon.innerHTML = isDark ? '<use href="#moon-icon"></use>' : '<use href="#sun-icon"></use>';
+        });
+
+        // DNS Record Generator Logic
         let currentRecordType = 'spf';
         let generatedRecord = '';
         let recordName = '';
@@ -487,19 +818,16 @@
         function selectRecordType(type) {
             currentRecordType = type;
 
-            // Update buttons
             document.querySelectorAll('.record-type-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             event.target.closest('.record-type-btn').classList.add('active');
 
-            // Update sections
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.remove('active');
             });
             document.getElementById(`${type}-section`).classList.add('active');
 
-            // Clear output
             clearRecord();
         }
 
@@ -510,7 +838,7 @@
             newItem.innerHTML = `
                 <input type="text" placeholder="e.g., 192.168.1.1 or 2001:db8::1" class="ip-input">
                 <button class="btn btn-danger btn-small" onclick="removeIP(this)">
-                    <i class="fas fa-trash"></i>
+                    <svg width="14" height="14"><use href="#icon-trash"></use></svg>
                 </button>
             `;
             ipList.appendChild(newItem);
@@ -532,21 +860,17 @@
 
             let record = 'v=spf1';
 
-            // Add IPs
             ipInputs.forEach(input => {
                 const ip = input.value.trim();
                 if (ip) {
                     if (ip.includes(':')) {
-                        // IPv6
                         record += ` ip6:${ip}`;
                     } else {
-                        // IPv4
                         record += ` ip4:${ip}`;
                     }
                 }
             });
 
-            // Add domains
             if (domains) {
                 const domainList = domains.split('\n').filter(d => d.trim());
                 domainList.forEach(domain => {
@@ -554,7 +878,6 @@
                 });
             }
 
-            // Add qualifier
             record += ` ${qualifier}`;
 
             generatedRecord = record;
@@ -584,9 +907,7 @@
                 return;
             }
 
-            // Remove whitespace and newlines from public key
             const cleanKey = publicKey.replace(/\s+/g, '');
-
             let record = `v=DKIM1; k=${keyType}; p=${cleanKey}`;
 
             generatedRecord = record;
@@ -642,12 +963,11 @@
 
         function showInstructions(type, selector = '', domain = '') {
             const instructions = document.getElementById('instructions');
-            const content = document.getElementById('instructionsContent');
-
             let text = '';
 
             if (type === 'spf') {
                 text = `
+                    <h3>DNS Setup Instructions:</h3>
                     <p><strong>1.</strong> Log in to your DNS provider (e.g., Cloudflare, GoDaddy, Namecheap)</p>
                     <p><strong>2.</strong> Add a new TXT record</p>
                     <p><strong>3.</strong> Set the Name/Host to: <code>@</code> (or leave blank for root domain)</p>
@@ -658,6 +978,7 @@
                 `;
             } else if (type === 'dkim') {
                 text = `
+                    <h3>DNS Setup Instructions:</h3>
                     <p><strong>1.</strong> Log in to your DNS provider</p>
                     <p><strong>2.</strong> Add a new TXT record</p>
                     <p><strong>3.</strong> Set the Name/Host to: <code>${selector}._domainkey</code></p>
@@ -668,6 +989,7 @@
                 `;
             } else if (type === 'dmarc') {
                 text = `
+                    <h3>DNS Setup Instructions:</h3>
                     <p><strong>1.</strong> Log in to your DNS provider</p>
                     <p><strong>2.</strong> Add a new TXT record</p>
                     <p><strong>3.</strong> Set the Name/Host to: <code>_dmarc</code></p>
@@ -679,8 +1001,8 @@
                 `;
             }
 
-            content.innerHTML = text;
-            instructions.style.display = 'block';
+            instructions.innerHTML = text;
+            instructions.classList.add('active');
         }
 
         function copyRecord() {
@@ -719,7 +1041,7 @@
             generatedRecord = '';
             recordName = '';
             document.getElementById('output').textContent = 'Your generated DNS record will appear here...';
-            document.getElementById('instructions').style.display = 'none';
+            document.getElementById('instructions').classList.remove('active');
         }
     </script>
 </body>
