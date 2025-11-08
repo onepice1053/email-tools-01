@@ -8,7 +8,6 @@
 
     <style>
         :root {
-            /* Light Theme Colors */
             --primary-50: #f0f5ff;
             --primary-100: #e0e7ff;
             --primary-200: #c7d2fe;
@@ -19,7 +18,6 @@
             --primary-700: #4338ca;
             --primary-800: #3730a3;
             --primary-900: #312e81;
-            
             --secondary-50: #f5f3ff;
             --secondary-100: #ede9fe;
             --secondary-200: #ddd6fe;
@@ -30,7 +28,6 @@
             --secondary-700: #6d28d9;
             --secondary-800: #5b21b6;
             --secondary-900: #4c1d95;
-            
             --neutral-50: #f9fafb;
             --neutral-100: #f3f4f6;
             --neutral-200: #e5e7eb;
@@ -41,13 +38,10 @@
             --neutral-700: #374151;
             --neutral-800: #1f2937;
             --neutral-900: #111827;
-            
             --success-500: #10b981;
             --warning-500: #f59e0b;
             --error-500: #ef4444;
             --info-500: #3b82f6;
-            
-            /* Light Theme Specific */
             --bg-primary: #ffffff;
             --bg-secondary: var(--neutral-50);
             --text-primary: var(--neutral-900);
@@ -58,19 +52,13 @@
             --icon-color: var(--primary-700);
             --sidebar-bg: #ffffff;
             --overlay-bg: rgba(0, 0, 0, 0.5);
-            
-            /* Shadows */
             --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
             --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            
-            /* Radius & Transition */
             --border-radius: 12px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
-        /* Dark Theme */
         .dark {
             --bg-primary: var(--neutral-900);
             --bg-secondary: var(--neutral-800);
@@ -82,19 +70,12 @@
             --icon-color: var(--primary-300);
             --sidebar-bg: var(--neutral-800);
             --overlay-bg: rgba(0, 0, 0, 0.7);
-            
             --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.25);
             --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
             --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg-primary);
@@ -103,573 +84,201 @@
             min-height: 100vh;
             transition: background-color 0.3s ease;
         }
-
-        /* Sidebar Overlay */
         .sidebar-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--overlay-bg);
-            z-index: 998;
-            opacity: 0;
-            visibility: hidden;
-            transition: var(--transition);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--overlay-bg); z-index: 998;
+            opacity: 0; visibility: hidden; transition: var(--transition);
         }
-
-        .sidebar-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* Sidebar */
+        .sidebar-overlay.active { opacity: 1; visibility: visible; }
         .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 320px;
-            height: 100vh;
-            background: var(--sidebar-bg);
-            border-right: 1px solid var(--border-color);
-            transform: translateX(-100%);
-            transition: var(--transition);
-            z-index: 999;
-            overflow-y: auto;
-            box-shadow: var(--shadow-xl);
+            position: fixed; left: 0; top: 0; width: 320px; height: 100vh;
+            background: var(--sidebar-bg); border-right: 1px solid var(--border-color);
+            transform: translateX(-100%); transition: var(--transition);
+            z-index: 999; overflow-y: auto; box-shadow: var(--shadow-xl);
         }
-
-        .sidebar.active {
-            transform: translateX(0);
-        }
-
+        .sidebar.active { transform: translateX(0); }
         .sidebar-header {
-            padding: 24px 20px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            padding: 24px 20px; border-bottom: 1px solid var(--border-color);
+            display: flex; align-items: center; justify-content: space-between;
         }
-
-        .sidebar-branding {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .sidebar-logo {
-            width: 40px;
-            height: 40px;
-        }
-
+        .sidebar-branding { display: flex; align-items: center; gap: 12px; }
+        .sidebar-logo { width: 40px; height: 40px; }
         .sidebar-title {
-            font-size: 1.3rem;
-            font-weight: 800;
+            font-size: 1.3rem; font-weight: 800;
             background: linear-gradient(to right, var(--primary-600), var(--secondary-600));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            -webkit-background-clip: text; background-clip: text; color: transparent;
         }
-
         .sidebar-close {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
+            background: none; border: none; color: var(--text-secondary);
+            cursor: pointer; padding: 8px; border-radius: 6px;
+            display: flex; align-items: center; justify-content: center; transition: var(--transition);
         }
-
-        .sidebar-close:hover {
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-        }
-
-        .sidebar-close svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        .nav-section {
-            padding: 20px 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-
+        .sidebar-close:hover { background: var(--bg-secondary); color: var(--text-primary); }
+        .sidebar-close svg { width: 20px; height: 20px; }
+        .nav-section { padding: 20px 0; border-bottom: 1px solid var(--border-color); }
         .nav-title {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            padding: 0 20px 12px 20px;
+            font-size: 0.75rem; font-weight: 600; color: var(--text-secondary);
+            text-transform: uppercase; letter-spacing: 0.05em; padding: 0 20px 12px 20px;
         }
-
-        .nav-links {
-            list-style: none;
-        }
-
-        .nav-item {
-            margin-bottom: 4px;
-        }
-
+        .nav-links { list-style: none; }
+        .nav-item { margin-bottom: 4px; }
         .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 20px;
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: var(--transition);
-            border-left: 3px solid transparent;
+            display: flex; align-items: center; gap: 12px; padding: 12px 20px;
+            color: var(--text-secondary); text-decoration: none;
+            transition: var(--transition); border-left: 3px solid transparent;
         }
-
         .nav-link:hover {
-            background: var(--bg-secondary);
-            color: var(--text-primary);
+            background: var(--bg-secondary); color: var(--text-primary);
             border-left-color: var(--primary-500);
         }
-
         .nav-link.active {
-            background: var(--primary-50);
-            color: var(--primary-700);
-            border-left-color: var(--primary-600);
-            font-weight: 600;
+            background: var(--primary-50); color: var(--primary-700);
+            border-left-color: var(--primary-600); font-weight: 600;
         }
-
         .dark .nav-link.active {
-            background: rgba(79, 70, 229, 0.15);
-            color: var(--primary-300);
+            background: rgba(79, 70, 229, 0.15); color: var(--primary-300);
         }
-
-        .nav-icon {
-            width: 20px;
-            height: 20px;
-            flex-shrink: 0;
-        }
-
-        .sidebar-footer {
-            padding: 20px;
-            border-top: 1px solid var(--border-color);
-        }
-
+        .nav-icon { width: 20px; height: 20px; flex-shrink: 0; }
+        .sidebar-footer { padding: 20px; border-top: 1px solid var(--border-color); }
         .theme-toggle {
-            width: 100%;
-            padding: 12px 16px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--text-secondary);
-            font-weight: 500;
+            width: 100%; padding: 12px 16px; background: var(--bg-secondary);
+            border: 1px solid var(--border-color); border-radius: 8px;
+            cursor: pointer; transition: var(--transition);
+            display: flex; align-items: center; gap: 10px;
+            color: var(--text-secondary); font-weight: 500;
         }
-
-        .theme-toggle:hover {
-            background: var(--bg-primary);
-            border-color: var(--primary-300);
-        }
-
-        .theme-toggle svg {
-            width: 18px;
-            height: 18px;
-        }
-
-        /* Top Navigation */
+        .theme-toggle:hover { background: var(--bg-primary); border-color: var(--primary-300); }
+        .theme-toggle svg { width: 18px; height: 18px; }
         .top-nav {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: var(--bg-primary);
-            border-bottom: 1px solid var(--border-color);
-            padding: 16px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            backdrop-filter: blur(10px);
+            position: sticky; top: 0; z-index: 100;
             background: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 24px; display: flex; align-items: center; justify-content: space-between;
+            backdrop-filter: blur(10px);
         }
-
-        .dark .top-nav {
-            background: rgba(17, 24, 39, 0.9);
-        }
-
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
+        .dark .top-nav { background: rgba(17, 24, 39, 0.9); }
+        .nav-left { display: flex; align-items: center; gap: 20px; }
         .menu-toggle {
-            background: var(--primary-500);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: var(--transition);
-            box-shadow: var(--shadow-md);
+            background: var(--primary-500); color: white; border: none; border-radius: 8px;
+            width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: var(--transition); box-shadow: var(--shadow-md);
         }
-
-        .menu-toggle:hover {
-            background: var(--primary-600);
-            transform: scale(1.05);
-        }
-
-        .menu-toggle svg {
-            width: 22px;
-            height: 22px;
-        }
-
-        .top-nav-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .user-section {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
+        .menu-toggle:hover { background: var(--primary-600); transform: scale(1.05); }
+        .menu-toggle svg { width: 22px; height: 22px; }
+        .top-nav-title { font-size: 1.25rem; font-weight: 700; color: var(--text-primary); }
+        .user-section { display: flex; align-items: center; gap: 16px; }
         .telegram-login-btn {
             background: linear-gradient(135deg, #0088cc, #00a2e8);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: var(--transition);
-            box-shadow: var(--shadow-md);
+            color: white; border: none; padding: 10px 20px; border-radius: 8px;
+            cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px;
+            transition: var(--transition); box-shadow: var(--shadow-md);
         }
-
-        .telegram-login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
+        .telegram-login-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
         .user-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 8px 16px;
-            background: var(--bg-secondary);
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
+            display: flex; align-items: center; gap: 12px; padding: 8px 16px;
+            background: var(--bg-secondary); border-radius: 8px; border: 1px solid var(--border-color);
         }
-
         .user-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
+            width: 32px; height: 32px; border-radius: 50%;
             background: linear-gradient(135deg, var(--primary-500), var(--secondary-500));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 14px;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 600; font-size: 14px;
         }
-
-        .user-details {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .user-name {
-            font-weight: 600;
-            font-size: 14px;
-            color: var(--text-primary);
-        }
-
-        .user-username {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
+        .user-details { display: flex; flex-direction: column; }
+        .user-name { font-weight: 600; font-size: 14px; color: var(--text-primary); }
+        .user-username { font-size: 12px; color: var(--text-secondary); }
         .logout-btn {
-            background: var(--error-500);
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
-            transition: var(--transition);
+            background: var(--error-500); color: white; border: none;
+            padding: 6px 12px; border-radius: 6px; cursor: pointer;
+            font-size: 12px; transition: var(--transition);
         }
-
-        .logout-btn:hover {
-            background: #dc2626;
-            transform: scale(1.05);
-        }
-
-        /* Main Content */
-        .main-content {
-            min-height: 100vh;
-            padding: 40px 24px;
-        }
-
-        .welcome-section {
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .hero-logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 24px;
-        }
-
+        .logout-btn:hover { background: #dc2626; transform: scale(1.05); }
+        .main-content { min-height: 100vh; padding: 40px 24px; }
+        .welcome-section { max-width: 1200px; margin: 0 auto; text-align: center; }
+        .hero-logo { width: 80px; height: 80px; margin: 0 auto 24px; }
         .hero-title {
-            font-size: 3.5rem;
-            font-weight: 900;
+            font-size: 3.5rem; font-weight: 900;
             background: linear-gradient(to right, var(--primary-600), var(--secondary-600));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 16px;
-            line-height: 1.2;
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            margin-bottom: 16px; line-height: 1.2;
         }
-
         .enterprise-badge {
             display: inline-block;
             background: linear-gradient(90deg, var(--primary-600), var(--secondary-600));
-            color: white;
-            padding: 8px 20px;
-            border-radius: 9999px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin-bottom: 24px;
+            color: white; padding: 8px 20px; border-radius: 9999px;
+            font-size: 0.875rem; font-weight: 600; margin-bottom: 24px;
         }
-
         .hero-description {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            max-width: 800px;
-            margin: 0 auto 48px;
-            line-height: 1.8;
+            font-size: 1.25rem; color: var(--text-secondary);
+            max-width: 800px; margin: 0 auto 48px; line-height: 1.8;
         }
-
         .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 24px;
-            max-width: 1000px;
-            margin: 0 auto 48px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px; max-width: 1000px; margin: 0 auto 48px;
         }
-
         .stat-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            padding: 32px 24px;
-            text-align: center;
-            transition: var(--transition);
-            box-shadow: var(--shadow-md);
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: var(--border-radius); padding: 32px 24px;
+            text-align: center; transition: var(--transition); box-shadow: var(--shadow-md);
         }
-
-        .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--primary-300);
-        }
-
+        .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary-300); }
         .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
+            font-size: 2.5rem; font-weight: 800;
             background: linear-gradient(to right, var(--primary-600), var(--secondary-600));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 8px;
+            -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px;
         }
-
-        .stat-label {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .cta-section {
-            margin-top: 48px;
-        }
-
-        .cta-text {
-            font-size: 1.125rem;
-            color: var(--text-secondary);
-            margin-bottom: 16px;
-        }
-
+        .stat-label { font-size: 0.95rem; color: var(--text-secondary); font-weight: 500; }
+        .cta-section { margin-top: 48px; }
+        .cta-text { font-size: 1.125rem; color: var(--text-secondary); margin-bottom: 16px; }
         .cta-hint {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--primary-50);
-            color: var(--primary-700);
-            padding: 12px 24px;
-            border-radius: 9999px;
-            font-weight: 600;
-            animation: pulse 2s infinite;
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--primary-50); color: var(--primary-700);
+            padding: 12px 24px; border-radius: 9999px; font-weight: 600; animation: pulse 2s infinite;
         }
-
-        .dark .cta-hint {
-            background: rgba(79, 70, 229, 0.15);
-            color: var(--primary-300);
-        }
-
-        .cta-hint svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.7;
-            }
-        }
-
-        .features-section {
-            margin-top: 64px;
-            max-width: 1000px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
+        .dark .cta-hint { background: rgba(79, 70, 229, 0.15); color: var(--primary-300); }
+        .cta-hint svg { width: 20px; height: 20px; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+        .features-section { margin-top: 64px; max-width: 1000px; margin-left: auto; margin-right: auto; }
         .features-title {
-            font-size: 2rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 32px;
-            color: var(--text-primary);
+            font-size: 2rem; font-weight: 700; text-align: center;
+            margin-bottom: 32px; color: var(--text-primary);
         }
-
         .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;
         }
-
         .feature-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            padding: 24px;
-            transition: var(--transition);
+            background: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: var(--border-radius); padding: 24px; transition: var(--transition);
         }
-
-        .feature-card:hover {
-            border-color: var(--primary-300);
-        }
-
+        .feature-card:hover { border-color: var(--primary-300); }
         .feature-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--icon-bg);
-            color: var(--icon-color);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 16px;
+            width: 48px; height: 48px; background: var(--icon-bg); color: var(--icon-color);
+            border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
         }
-
-        .feature-icon svg {
-            width: 24px;
-            height: 24px;
-        }
-
+        .feature-icon svg { width: 24px; height: 24px; }
         .feature-title {
-            font-size: 1.125rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--text-primary);
+            font-size: 1.125rem; font-weight: 700; margin-bottom: 8px; color: var(--text-primary);
         }
-
-        .feature-description {
-            font-size: 0.9375rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        /* Telegram Widget Container */
-        .telegram-widget-container {
-            margin: 20px 0;
-            display: flex;
-            justify-content: center;
-        }
-
-        /* Responsive */
+        .feature-description { font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.6; }
+        .telegram-widget-container { margin: 20px 0; display: flex; justify-content: center; }
         @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.5rem;
-            }
-
-            .hero-description {
-                font-size: 1.125rem;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .sidebar {
-                width: 280px;
-            }
-
-            .main-content {
-                padding: 24px 16px;
-            }
-
-            .top-nav {
-                padding: 12px 16px;
-            }
-
-            .user-info {
-                padding: 6px 12px;
-            }
-
-            .user-details {
-                display: none;
-            }
+            .hero-title { font-size: 2.5rem; }
+            .hero-description { font-size: 1.125rem; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .sidebar { width: 280px; }
+            .main-content { padding: 24px 16px; }
+            .top-nav { padding: 12px 16px; }
+            .user-info { padding: 6px 12px; }
+            .user-details { display: none; }
         }
-
         @media (max-width: 480px) {
-            .hero-title {
-                font-size: 2rem;
-            }
-
-            .stat-number {
-                font-size: 2rem;
-            }
-
-            .telegram-login-btn {
-                padding: 8px 16px;
-                font-size: 14px;
-            }
+            .hero-title { font-size: 2rem; }
+            .stat-number { font-size: 2rem; }
+            .telegram-login-btn { padding: 8px 16px; font-size: 14px; }
         }
     </style>
 </head>
 <body>
-    <!-- SVG Definitions -->
     <svg style="display:none">
         <symbol id="emailLogo" viewBox="0 0 200 200">
             <defs>
@@ -683,94 +292,74 @@
             <circle cx="100" cy="100" r="24" fill="white" opacity="0.2"/>
             <path d="M60 85 L100 110 L140 85" stroke="white" stroke-width="6" fill="none" stroke-linecap="round"/>
         </symbol>
-
         <symbol id="sun-icon" viewBox="0 0 24 24">
             <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
         </symbol>
-
         <symbol id="moon-icon" viewBox="0 0 24 24">
             <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
         </symbol>
-
         <symbol id="menu-icon" viewBox="0 0 24 24">
             <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M3 12h18M3 6h18M3 18h18"/>
         </symbol>
-
         <symbol id="close-icon" viewBox="0 0 24 24">
             <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M18 6L6 18M6 6l12 12"/>
         </symbol>
-
         <symbol id="nav-dashboard" viewBox="0 0 24 24">
             <path fill="none" stroke="currentColor" stroke-width="1.8" d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
             <path fill="none" stroke="currentColor" stroke-width="1.8" d="M9 22V12h6v10"/>
         </symbol>
-
         <symbol id="icon-shield" viewBox="0 0 24 24">
             <path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 22s8-4 8-10V6l-8-4-8 4v6c0 6 8 10 8 10z"/>
         </symbol>
-
         <symbol id="icon-scan" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
             <path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 7v10M7 12h10"/>
         </symbol>
-
         <symbol id="icon-dns" viewBox="0 0 24 24">
             <path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 2a10 10 0 100 20 10 10 0 000-20z"/>
             <path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 6v4l3 3M12 12l-3 3m6 0l3 3"/>
             <circle cx="12" cy="12" r="1" fill="currentColor"/>
         </symbol>
-
         <symbol id="icon-process" viewBox="0 0 24 24">
             <path fill="none" stroke="currentColor" stroke-width="1.8" d="M3 10h18M3 14h18M3 18h18M3 6h18"/>
         </symbol>
-
         <symbol id="icon-globe" viewBox="0 0 24 24">
             <path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16z"/>
             <path fill="none" stroke="currentColor" stroke-width="1.8" d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
         </symbol>
-
         <symbol id="icon-network" viewBox="0 0 24 24">
             <path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 2a10 10 0 100 20 10 10 0 000-20z"/>
             <circle cx="12" cy="12" r="2" fill="currentColor"/>
             <circle cx="8" cy="12" r="2" fill="currentColor"/>
             <circle cx="16" cy="12" r="2" fill="currentColor"/>
         </symbol>
-
         <symbol id="icon-convert" viewBox="0 0 24 24">
             <path fill="none" stroke="currentColor" stroke-width="1.8" d="M8 7h12M8 13h12M8 19h12M4 7v0M4 13v0M4 19v0"/>
         </symbol>
-
         <symbol id="icon-code" viewBox="0 0 24 24">
             <path fill="none" stroke="currentColor" stroke-width="1.8" d="M8 18l-4-4 4-4M16 6l4 4-4 4M10 3l2 18"/>
         </symbol>
-
         <symbol id="icon-arrow-right" viewBox="0 0 24 24">
             <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/>
         </symbol>
-
         <symbol id="icon-zap" viewBox="0 0 24 24">
             <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
         </symbol>
-
         <symbol id="icon-shield-check" viewBox="0 0 24 24">
             <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
             <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"/>
         </symbol>
-
         <symbol id="icon-lock" viewBox="0 0 24 24">
             <rect x="3" y="11" width="18" height="11" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="2"/>
             <path fill="none" stroke="currentColor" stroke-width="2" d="M7 11V7a5 5 0 0110 0v4"/>
         </symbol>
-
         <symbol id="telegram-icon" viewBox="0 0 24 24">
             <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.78 5.42-.9 6.8-.06.67-.36.89-.89.56-2.45-1.83-3.57-2.98-5.79-4.78-.54-.45-.92-.68-.88-1.07.03-.28.42-.44.92-.64 2.17-.91 3.61-1.51 5.71-2.41.58-.25 1.11-.08.9.47z"/>
         </symbol>
     </svg>
 
-    <!-- Sidebar Overlay -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <!-- Sidebar -->
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <div class="sidebar-branding">
@@ -870,7 +459,6 @@
         </div>
     </nav>
 
-    <!-- Top Navigation -->
     <div class="top-nav">
         <div class="nav-left">
             <button class="menu-toggle" id="menuToggle">
@@ -880,13 +468,11 @@
         </div>
         
         <div class="user-section" id="userSection">
-            <!-- Telegram Login Button will be shown when user is not logged in -->
             <button class="telegram-login-btn" id="telegramLoginBtn" style="display: none;">
                 <svg width="18" height="18"><use href="#telegram-icon"></use></svg>
                 Login with Telegram
             </button>
             
-            <!-- User Info will be shown when user is logged in -->
             <div class="user-info" id="userInfo" style="display: none;">
                 <div class="user-avatar" id="userAvatar">U</div>
                 <div class="user-details">
@@ -898,7 +484,6 @@
         </div>
     </div>
 
-    <!-- Main Content -->
     <main class="main-content">
         <div class="welcome-section">
             <svg class="hero-logo"><use href="#emailLogo"></use></svg>
@@ -913,7 +498,6 @@
                 and enhance security posture.
             </p>
 
-            <!-- Telegram Login Widget -->
             <div class="telegram-widget-container" id="telegramWidgetContainer">
                 <script async 
                     src="https://telegram.org/js/telegram-widget.js?22" 
@@ -979,7 +563,6 @@
     </main>
 
     <script>
-        // Elements
         const sidebar = document.getElementById('sidebar');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
         const menuToggle = document.getElementById('menuToggle');
@@ -996,7 +579,6 @@
         const logoutBtn = document.getElementById('logoutBtn');
         const telegramWidgetContainer = document.getElementById('telegramWidgetContainer');
 
-        // Toggle sidebar
         function openSidebar() {
             sidebar.classList.add('active');
             sidebarOverlay.classList.add('active');
@@ -1013,14 +595,12 @@
         sidebarClose.addEventListener('click', closeSidebar);
         sidebarOverlay.addEventListener('click', closeSidebar);
 
-        // Close sidebar on escape key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && sidebar.classList.contains('active')) {
                 closeSidebar();
             }
         });
 
-        // Theme toggle
         const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
         
         if (prefersDark) {
@@ -1046,10 +626,8 @@
             }
         });
 
-        // Active nav link
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', function(e) {
-                // Only prevent default if it's the dashboard link
                 if (this.getAttribute('href') === '#') {
                     e.preventDefault();
                 }
@@ -1057,40 +635,48 @@
                 document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
                 this.classList.add('active');
                 
-                // Close sidebar after selection
                 setTimeout(closeSidebar, 300);
             });
         });
 
-        // Telegram Login Functions
+        // UPDATED: Telegram Login with Notification System
         function onTelegramAuth(user) {
-            // Save user data to localStorage
             localStorage.setItem('telegram_user', JSON.stringify(user));
             localStorage.setItem('is_logged_in', 'true');
             
-            // Update UI
             updateUserInterface(user);
+            sendUserNotification(user);
             
-            // Show success message
-            alert(`Welcome, ${user.first_name}! You have successfully logged in.`);
+            alert(`Welcome, ${user.first_name}!`);
+        }
+
+        function sendUserNotification(user) {
+            const webAppUrl = 'https://script.google.com/macros/s/AKfycbz_aNcjtBiLcHu-DqpZaIPiBE-y69tkcUN73GVF_9l5N2pMyQEPmLLW6QcR2I3wNouq/exec';
+            
+            fetch(webAppUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ user: user })
+            }).then(() => {
+                console.log('Notification sent successfully');
+            }).catch(error => {
+                console.log('Notification error:', error);
+            });
         }
 
         function updateUserInterface(user) {
             if (user) {
-                // Show user info, hide login button
                 userInfo.style.display = 'flex';
                 telegramLoginBtn.style.display = 'none';
                 telegramWidgetContainer.style.display = 'none';
                 
-                // Update user details
                 userName.textContent = user.first_name + (user.last_name ? ' ' + user.last_name : '');
                 userUsername.textContent = user.username ? '@' + user.username : 'No username';
                 
-                // Set avatar initial
                 const initial = user.first_name ? user.first_name.charAt(0).toUpperCase() : 'U';
                 userAvatar.textContent = initial;
             } else {
-                // Show login button, hide user info
                 userInfo.style.display = 'none';
                 telegramLoginBtn.style.display = 'flex';
                 telegramWidgetContainer.style.display = 'flex';
@@ -1098,28 +684,17 @@
         }
 
         function logout() {
-            // Clear user data
             localStorage.removeItem('telegram_user');
             localStorage.removeItem('is_logged_in');
             
-            // Update UI
             updateUserInterface(null);
             
-            // Show logout message
             alert('You have been logged out successfully.');
         }
 
-        // Manual login trigger
-        telegramLoginBtn.addEventListener('click', function() {
-            // This will trigger the Telegram widget
-            // The widget might need to be re-initialized if it was removed
-            location.reload();
-        });
-
-        // Logout button
+        telegramLoginBtn.addEventListener('click', () => location.reload());
         logoutBtn.addEventListener('click', logout);
 
-        // Check login status on page load
         window.addEventListener('DOMContentLoaded', function() {
             const isLoggedIn = localStorage.getItem('is_logged_in');
             const userData = localStorage.getItem('telegram_user');
@@ -1131,10 +706,6 @@
                 updateUserInterface(null);
             }
         });
-
-        // Replace 'your_bot_username' with your actual bot username
-        // You need to set up your bot with @BotFather and configure the domain
     </script>
 </body>
 </html>
-
