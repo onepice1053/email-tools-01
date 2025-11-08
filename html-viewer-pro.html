@@ -509,6 +509,132 @@
                 overflow-x: auto;
             }
         }
+
+        /* Edit Mode Styles */
+        .preview-frame.edit-mode {
+            cursor: pointer;
+        }
+
+        .edit-popup {
+            position: fixed;
+            background: #2d2d2d;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 10000;
+            min-width: 300px;
+            max-width: 500px;
+            display: none;
+        }
+
+        body.light-theme .edit-popup {
+            background: white;
+            color: #333;
+        }
+
+        .edit-popup.active {
+            display: block;
+        }
+
+        .edit-popup-header {
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .edit-popup-close {
+            background: transparent;
+            color: #ccc;
+            padding: 4px 8px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        body.light-theme .edit-popup-close {
+            color: #666;
+        }
+
+        .edit-popup-content {
+            margin-bottom: 16px;
+        }
+
+        .edit-popup label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: #aaa;
+        }
+
+        body.light-theme .edit-popup label {
+            color: #666;
+        }
+
+        .edit-popup input,
+        .edit-popup textarea {
+            width: 100%;
+            padding: 10px;
+            background: #3d3d3d;
+            border: 1px solid #555;
+            color: #fff;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        body.light-theme .edit-popup input,
+        body.light-theme .edit-popup textarea {
+            background: white;
+            border-color: #ccc;
+            color: #333;
+        }
+
+        .edit-popup textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .edit-popup-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .edit-highlight {
+            outline: 2px solid var(--primary) !important;
+            outline-offset: 2px;
+            background-color: rgba(79, 70, 229, 0.1) !important;
+        }
+
+        .edit-mode-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            background: #10b981;
+            color: white;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .edit-mode-badge i {
+            animation: pulse 2s infinite;
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .error-message.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -567,8 +693,6 @@
         <div class="toolbar-separator"></div>
         <button class="toolbar-btn" onclick="execCmd('undo')" title="Undo"><i class="fas fa-undo"></i></button>
         <button class="toolbar-btn" onclick="execCmd('redo')" title="Redo"><i class="fas fa-redo"></i></button>
-        <div class="toolbar-separator"></div>
-        <button class="toolbar-btn" onclick="toggleEditMode()" title="Toggle Edit Mode"><i class="fas fa-edit"></i> <span id="edit-mode-text">View</span></button>
     </div>
 
     <div class="container">
@@ -587,10 +711,17 @@
             <div class="pane-header">
                 <span><i class="fas fa-eye"></i> Live Preview</span>
                 <div style="display: flex; gap: 10px; align-items: center;">
+                    <div id="editModeBadge" class="edit-mode-badge" style="display: none;">
+                        <i class="fas fa-edit"></i>
+                        <span>Edit Mode Active</span>
+                    </div>
                     <div class="auto-preview-indicator">
                         <i class="fas fa-circle"></i>
                         <span>Live</span>
                     </div>
+                    <button onclick="toggleEditMode()" id="editModeToggle">
+                        <i class="fas fa-edit"></i> <span id="edit-mode-text">Edit Mode</span>
+                    </button>
                     <div class="device-selector">
                         <button class="device-btn active" onclick="setDevice('desktop')">Desktop</button>
                         <button class="device-btn" onclick="setDevice('laptop')">Laptop</button>
@@ -684,6 +815,29 @@
             <div class="modal-footer">
                 <button class="secondary" onclick="closeModal('encoding-modal')">Close</button>
             </div>
+        </div>
+    </div>
+
+    <div class="edit-popup" id="editPopup">
+        <div class="edit-popup-header">
+            <span><i class="fas fa-edit"></i> Edit Element</span>
+            <button class="edit-popup-close" onclick="closeEditPopup()">&times;</button>
+        </div>
+        <div class="edit-popup-content">
+            <div id="textEditSection">
+                <label for="editText">Text Content:</label>
+                <textarea id="editText" placeholder="Enter text content..."></textarea>
+                <div class="error-message" id="textError">Please enter valid text</div>
+            </div>
+            <div id="linkEditSection" style="display: none;">
+                <label for="editLink">Link URL:</label>
+                <input type="url" id="editLink" placeholder="https://example.com">
+                <div class="error-message" id="linkError">Please enter a valid URL (e.g., https://example.com)</div>
+            </div>
+        </div>
+        <div class="edit-popup-actions">
+            <button class="secondary" onclick="closeEditPopup()">Cancel</button>
+            <button onclick="saveEdit()"><i class="fas fa-save"></i> Save</button>
         </div>
     </div>
 
@@ -1117,10 +1271,218 @@
             }
         }
 
+        let currentEditElement = null;
+        let currentEditParent = null;
+
         function toggleEditMode() {
             isEditMode = !isEditMode;
-            document.getElementById('edit-mode-text').textContent = isEditMode ? 'Code' : 'View';
-            setStatus(`Switched to ${isEditMode ? 'edit' : 'view'} mode`, 'success');
+            const frame = document.getElementById('preview-frame');
+            const badge = document.getElementById('editModeBadge');
+            const toggleBtn = document.getElementById('editModeToggle');
+            
+            if (isEditMode) {
+                document.getElementById('edit-mode-text').textContent = 'Exit Edit Mode';
+                toggleBtn.style.background = '#ef4444';
+                badge.style.display = 'inline-flex';
+                frame.classList.add('edit-mode');
+                enableEditMode();
+                setStatus('Edit Mode activated - Click on any text to edit', 'success');
+            } else {
+                document.getElementById('edit-mode-text').textContent = 'Edit Mode';
+                toggleBtn.style.background = '';
+                badge.style.display = 'none';
+                frame.classList.remove('edit-mode');
+                disableEditMode();
+                setStatus('Edit Mode deactivated', 'success');
+            }
+        }
+
+        function enableEditMode() {
+            const frame = document.getElementById('preview-frame');
+            
+            frame.addEventListener('load', attachEditListeners);
+            attachEditListeners();
+        }
+
+        function disableEditMode() {
+            const frame = document.getElementById('preview-frame');
+            
+            try {
+                const doc = frame.contentDocument || frame.contentWindow.document;
+                const allElements = doc.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span, div, li, a, td, th');
+                allElements.forEach(el => {
+                    el.removeEventListener('click', handleEditClick);
+                    el.classList.remove('edit-highlight');
+                });
+            } catch (e) {
+                console.error('Error disabling edit mode:', e);
+            }
+            
+            closeEditPopup();
+        }
+
+        function attachEditListeners() {
+            if (!isEditMode) return;
+            
+            try {
+                const frame = document.getElementById('preview-frame');
+                const doc = frame.contentDocument || frame.contentWindow.document;
+                
+                const allElements = doc.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span, div, li, a, td, th');
+                
+                allElements.forEach(el => {
+                    el.addEventListener('click', handleEditClick);
+                    el.style.cursor = 'pointer';
+                });
+            } catch (e) {
+                console.error('Error attaching edit listeners:', e);
+            }
+        }
+
+        function handleEditClick(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const element = e.target;
+            
+            // Remove previous highlights
+            const frame = document.getElementById('preview-frame');
+            const doc = frame.contentDocument || frame.contentWindow.document;
+            doc.querySelectorAll('.edit-highlight').forEach(el => el.classList.remove('edit-highlight'));
+            
+            // Highlight current element
+            element.classList.add('edit-highlight');
+            
+            // Store current element
+            currentEditElement = element;
+            currentEditParent = element.parentElement;
+            
+            // Open edit popup
+            showEditPopup(element, e);
+        }
+
+        function showEditPopup(element, event) {
+            const popup = document.getElementById('editPopup');
+            const textInput = document.getElementById('editText');
+            const linkInput = document.getElementById('editLink');
+            const linkSection = document.getElementById('linkEditSection');
+            const textError = document.getElementById('textError');
+            const linkError = document.getElementById('linkError');
+            
+            // Reset errors
+            textError.classList.remove('active');
+            linkError.classList.remove('active');
+            
+            // Get text content
+            let textContent = '';
+            if (element.tagName === 'A') {
+                textContent = element.textContent;
+                linkInput.value = element.href || '';
+                linkSection.style.display = 'block';
+            } else {
+                textContent = element.textContent;
+                linkSection.style.display = 'none';
+            }
+            
+            textInput.value = textContent;
+            
+            // Position popup near the click
+            const frame = document.getElementById('preview-frame');
+            const frameRect = frame.getBoundingClientRect();
+            
+            popup.classList.add('active');
+            
+            // Position relative to click within viewport
+            const x = Math.min(event.clientX, window.innerWidth - 350);
+            const y = Math.min(event.clientY, window.innerHeight - 300);
+            
+            popup.style.left = x + 'px';
+            popup.style.top = y + 'px';
+            
+            // Focus on text input
+            setTimeout(() => textInput.focus(), 100);
+        }
+
+        function closeEditPopup() {
+            const popup = document.getElementById('editPopup');
+            popup.classList.remove('active');
+            
+            // Remove highlights
+            if (currentEditElement) {
+                currentEditElement.classList.remove('edit-highlight');
+            }
+            
+            currentEditElement = null;
+            currentEditParent = null;
+            
+            // Clear errors
+            document.getElementById('textError').classList.remove('active');
+            document.getElementById('linkError').classList.remove('active');
+        }
+
+        function validateURL(url) {
+            try {
+                const urlObj = new URL(url);
+                return urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
+            } catch (e) {
+                return false;
+            }
+        }
+
+        function saveEdit() {
+            if (!currentEditElement) return;
+            
+            const textInput = document.getElementById('editText');
+            const linkInput = document.getElementById('editLink');
+            const textError = document.getElementById('textError');
+            const linkError = document.getElementById('linkError');
+            
+            // Reset errors
+            textError.classList.remove('active');
+            linkError.classList.remove('active');
+            
+            const newText = textInput.value.trim();
+            
+            // Validate text
+            if (!newText) {
+                textError.classList.add('active');
+                return;
+            }
+            
+            // Validate link if it's a link element
+            if (currentEditElement.tagName === 'A') {
+                const newLink = linkInput.value.trim();
+                if (!newLink || !validateURL(newLink)) {
+                    linkError.classList.add('active');
+                    return;
+                }
+                currentEditElement.href = newLink;
+            }
+            
+            // Update text content
+            currentEditElement.textContent = newText;
+            
+            // Update the code editor with the new HTML
+            try {
+                const frame = document.getElementById('preview-frame');
+                const doc = frame.contentDocument || frame.contentWindow.document;
+                const newHTML = doc.documentElement.outerHTML;
+                
+                // Format and update editor
+                const formatted = html_beautify(newHTML, {
+                    indent_size: 2,
+                    wrap_line_length: 80,
+                    preserve_newlines: true
+                });
+                editor.setValue(formatted);
+                
+                setStatus('Changes saved successfully', 'success');
+            } catch (error) {
+                console.error('Error updating code:', error);
+                setStatus('Error saving changes', 'error');
+            }
+            
+            closeEditPopup();
         }
 
         function openEncodingModal() {
