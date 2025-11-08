@@ -1,24 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="theme-root">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Domain Extractor</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Domain Extractor | Email Tools Suite</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20viewBox%3D%220%200%20200%20200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22logoGradient%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%234338ca%22%3E%3C%2Fstop%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%237e22ce%22%3E%3C%2Fstop%3E%0A%20%20%20%20%3C%2FlinearGradient%3E%0A%20%20%3C%2Fdefs%3E%0A%0A%20%20%3Cpath%20d%3D%22M40%2060%20L160%2060%20L160%20140%20L40%20140%20Z%22%20fill%3D%22url(%23logoGradient)%22%3E%3C%2Fpath%3E%0A%20%20%3Cpath%20d%3D%22M40%2060%20L100%20100%20L160%2060%22%20fill%3D%22white%22%20opacity%3D%220.3%22%3E%3C%2Fpath%3E%0A%20%20%3Ccircle%20cx%3D%22100%22%20cy%3D%22100%22%20r%3D%2224%22%20fill%3D%22white%22%20opacity%3D%220.2%22%3E%3C%2Fcircle%3E%0A%20%20%3Cg%20stroke%3D%22white%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%3E%0A%20%20%20%20%3Cline%20x1%3D%22100%22%20y1%3D%2276%22%20x2%3D%22100%22%20y2%3D%2268%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%22100%22%20y1%3D%22124%22%20x2%3D%22100%22%20y2%3D%22132%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%2276%22%20y1%3D%22100%22%20x2%3D%2268%22%20y2%3D%22100%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%22124%22%20y1%3D%22100%22%20x2%3D%22132%22%20y2%3D%22100%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%2283%22%20y1%3D%2283%22%20x2%3D%2277%22%20y2%3D%2277%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%22117%22%20y1%3D%22117%22%20x2%3D%22123%22%20y2%3D%22123%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%2283%22%20y1%3D%22117%22%20x2%3D%2277%22%20y2%3D%22123%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%22117%22%20y1%3D%2283%22%20x2%3D%22123%22%20y2%3D%2277%22%3E%3C%2Fline%3E%0A%20%20%3C%2Fg%3E%0A%20%20%3Cpath%20d%3D%22M60%2085%20L100%20110%20L140%2085%22%20stroke%3D%22white%22%20stroke-width%3D%226%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3C%2Fpath%3E%0A%3C%2Fsvg%3E%0A" />
+
     <style>
         :root {
-            --primary: #6c5ce7;
-            --secondary: #a29bfe;
-            --dark: #2d3436;
-            --light: #f8f9fa;
-            --success: #00b894;
-            --danger: #e17055;
-            --info: #0984e3;
-            --warning: #fdcb6e;
-            --gray: #6c757d;
-            --white: #ffffff;
-            --black: #000000;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
+            /* Light Theme Colors */
+            --primary-50: #f0f5ff;
+            --primary-100: #e0e7ff;
+            --primary-200: #c7d2fe;
+            --primary-300: #a5b4fc;
+            --primary-400: #818cf8;
+            --primary-500: #6366f1;
+            --primary-600: #4f46e5;
+            --primary-700: #4338ca;
+            --primary-800: #3730a3;
+            --primary-900: #312e81;
+            
+            --secondary-50: #f5f3ff;
+            --secondary-100: #ede9fe;
+            --secondary-200: #ddd6fe;
+            --secondary-300: #c4b5fd;
+            --secondary-400: #a78bfa;
+            --secondary-500: #8b5cf6;
+            --secondary-600: #7c3aed;
+            --secondary-700: #6d28d9;
+            --secondary-800: #5b21b6;
+            --secondary-900: #4c1d95;
+            
+            --neutral-50: #f9fafb;
+            --neutral-100: #f3f4f6;
+            --neutral-200: #e5e7eb;
+            --neutral-300: #d1d5db;
+            --neutral-400: #9ca3af;
+            --neutral-500: #6b7280;
+            --neutral-600: #4b5563;
+            --neutral-700: #374151;
+            --neutral-800: #1f2937;
+            --neutral-900: #111827;
+            
+            --success-500: #10b981;
+            --warning-500: #f59e0b;
+            --error-500: #ef4444;
+            --info-500: #3b82f6;
+            
+            /* Light Theme Specific */
+            --bg-primary: #ffffff;
+            --bg-secondary: var(--neutral-50);
+            --text-primary: var(--neutral-900);
+            --text-secondary: var(--neutral-600);
+            --border-color: var(--neutral-200);
+            --card-bg: #ffffff;
+            --icon-bg: var(--primary-50);
+            --icon-color: var(--primary-700);
+            --badge-bg: var(--neutral-100);
+            --badge-text: var(--neutral-700);
+            --header-bg: transparent;
+            --footer-text: var(--neutral-500);
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+            
+            /* Radius & Transition */
+            --border-radius: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Dark Theme */
+        .dark {
+            --bg-primary: var(--neutral-900);
+            --bg-secondary: var(--neutral-800);
+            --text-primary: #f9fafb;
+            --text-secondary: var(--neutral-400);
+            --border-color: var(--neutral-700);
+            --card-bg: var(--neutral-800);
+            --icon-bg: rgba(79, 70, 229, 0.15);
+            --icon-color: var(--primary-300);
+            --badge-bg: var(--neutral-700);
+            --badge-text: var(--neutral-200);
+            --header-bg: transparent;
+            --footer-text: var(--neutral-500);
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.25);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
         }
 
         * {
@@ -28,255 +98,341 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
-            color: var(--dark);
+            transition: background-color 0.3s ease;
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 1280px;
+            width: 100%;
         }
 
+        /* Header */
         .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
+            text-align: center;
+            margin-bottom: 3.5rem;
+            padding: 0 1rem;
+            position: relative;
         }
 
-        .back-btn {
-            background-color: var(--primary);
-            color: var(--white);
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
+        .theme-toggle {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
             display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .theme-toggle:hover {
+            background: var(--bg-secondary);
+        }
+
+        .theme-toggle svg {
+            width: 20px;
+            height: 20px;
+            color: var(--text-secondary);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+        }
+
+        .logo-text {
+            font-size: 2.25rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            background: linear-gradient(to right, var(--primary-600), var(--secondary-600));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .subtitle {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 650px;
+            margin: 0 auto;
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+        /* Back Button */
+        .back-btn {
+            display: inline-flex;
             align-items: center;
             gap: 8px;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
             font-weight: 600;
+            margin-bottom: 2rem;
             transition: var(--transition);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
         }
 
         .back-btn:hover {
-            background-color: #554ad1;
+            background: var(--bg-secondary);
             transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
-        .app-title {
-            background-color: var(--white);
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .app-title h1 {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--dark);
-        }
-
-        .app-title p {
-            font-size: 14px;
-            color: var(--gray);
-            margin-top: 5px;
-        }
-
-        .app-title svg {
-            width: 24px;
-            height: 24px;
-            fill: var(--primary);
-        }
-
+        /* Main Content */
         .main-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 2rem;
+            padding: 0 1rem;
         }
 
-        @media (max-width: 768px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-        }
-
+        /* Cards */
         .card {
-            background-color: var(--white);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: var(--shadow);
-            display: flex;
-            flex-direction: column;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-600), var(--secondary-600));
         }
 
         .card-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #e9ecef;
+            gap: 12px;
+            margin-bottom: 1.5rem;
         }
 
         .card-header h2 {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--dark);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
         }
 
-        .card-header svg {
+        /* Icons */
+        .tool-icon {
+            display: flex;
+            align-items: center;
+        }
+
+        .icon-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: var(--icon-bg);
+            color: var(--icon-color);
+        }
+
+        .tool-icon svg {
             width: 20px;
             height: 20px;
-            fill: var(--primary);
+            stroke-width: 2;
         }
 
+        /* Input Area */
         .input-area {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 1.5rem;
         }
 
         .input-label {
-            font-size: 14px;
+            font-size: 0.9375rem;
             font-weight: 600;
-            color: var(--dark);
+            color: var(--text-primary);
         }
 
         textarea {
             width: 100%;
             min-height: 200px;
-            padding: 12px;
-            border: 1px solid #ced4da;
-            border-radius: 8px;
-            resize: vertical;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: var(--bg-primary);
+            color: var(--text-primary);
             font-family: inherit;
-            font-size: 14px;
+            font-size: 0.9375rem;
             line-height: 1.5;
+            resize: vertical;
             transition: var(--transition);
         }
 
         textarea:focus {
             outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
-        }
-
-        .textarea-placeholder {
-            color: #6c757d;
-            font-style: italic;
+            border-color: var(--primary-500);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
         }
 
         .filter-section {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-        }
-
-        .filter-label {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--dark);
+            gap: 0.75rem;
         }
 
         .domain-extensions {
             width: 100%;
-            padding: 8px 12px;
-            border: 1px solid #ced4da;
-            border-radius: 8px;
-            font-size: 14px;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 0.9375rem;
             transition: var(--transition);
         }
 
         .domain-extensions:focus {
             outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+            border-color: var(--primary-500);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
         }
 
         .filter-options {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
-            margin: 10px 0;
+            gap: 1rem;
         }
 
         .filter-option {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 0.5rem;
             cursor: pointer;
         }
 
         .filter-option input {
-            accent-color: var(--primary);
+            accent-color: var(--primary-500);
         }
 
         .filter-option label {
-            font-size: 14px;
-            color: var(--dark);
+            font-size: 0.875rem;
+            color: var(--text-primary);
             cursor: pointer;
         }
 
+        /* Buttons */
         .button-group {
             display: flex;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 1rem;
+            margin-top: 1rem;
         }
 
         .btn {
-            padding: 8px 16px;
+            padding: 0.75rem 1.5rem;
             border: none;
-            border-radius: 8px;
+            border-radius: var(--border-radius);
             cursor: pointer;
             font-weight: 600;
             transition: var(--transition);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 0.5rem;
+            font-size: 0.9375rem;
         }
 
         .btn-primary {
-            background-color: var(--primary);
-            color: var(--white);
+            background: var(--primary-600);
+            color: white;
         }
 
         .btn-primary:hover {
-            background-color: #554ad1;
+            background: var(--primary-700);
             transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
         .btn-danger {
-            background-color: var(--danger);
-            color: var(--white);
+            background: var(--error-500);
+            color: white;
         }
 
         .btn-danger:hover {
-            background-color: #d65a4d;
+            background: #dc2626;
             transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
+        .btn-success {
+            background: var(--success-500);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: var(--neutral-500);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: var(--neutral-600);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Results Area */
         .results-area {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 1.5rem;
         }
 
         .results-display {
             width: 100%;
             min-height: 200px;
-            background-color: var(--dark);
-            color: var(--white);
-            padding: 15px;
-            border-radius: 8px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
             overflow-y: auto;
             font-family: 'Courier New', Courier, monospace;
-            font-size: 14px;
+            font-size: 0.875rem;
             line-height: 1.5;
             white-space: pre-wrap;
             word-break: break-all;
@@ -285,10 +441,10 @@
         .stats-container {
             display: flex;
             justify-content: space-around;
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
         }
 
         .stat-item {
@@ -296,80 +452,24 @@
         }
 
         .stat-value {
-            font-size: 24px;
+            font-size: 1.5rem;
             font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 5px;
+            color: var(--primary-600);
+            margin-bottom: 0.25rem;
         }
 
         .stat-label {
-            font-size: 12px;
-            color: var(--gray);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .action-buttons {
             display: flex;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 1rem;
+            margin-top: 1rem;
             flex-wrap: wrap;
-        }
-
-        .btn-success {
-            background-color: var(--success);
-            color: var(--white);
-        }
-
-        .btn-success:hover {
-            background-color: #00a780;
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background-color: #6c757d;
-            color: var(--white);
-        }
-
-        .btn-secondary:hover {
-            background-color: #5a6268;
-            transform: translateY(-2px);
-        }
-
-        .icon {
-            width: 16px;
-            height: 16px;
-        }
-
-        /* Icons */
-        .icon-copy {
-            fill: var(--white);
-        }
-
-        .icon-download {
-            fill: var(--white);
-        }
-
-        .icon-clear {
-            fill: var(--white);
-        }
-
-        .icon-play {
-            fill: var(--white);
-        }
-
-        .icon-trash {
-            fill: var(--white);
-        }
-
-        .icon-list {
-            fill: var(--primary);
-        }
-
-        .icon-globe {
-            fill: var(--primary);
-        }
-
-        .icon-home {
-            fill: var(--white);
         }
 
         /* Loading state */
@@ -378,13 +478,13 @@
             justify-content: center;
             align-items: center;
             height: 100%;
-            color: var(--gray);
+            color: var(--text-secondary);
         }
 
         .spinner {
             width: 20px;
             height: 20px;
-            border: 2px solid var(--primary);
+            border: 2px solid var(--primary-500);
             border-top: 2px solid transparent;
             border-radius: 50%;
             animation: spin 1s linear infinite;
@@ -403,26 +503,41 @@
             align-items: center;
             justify-content: center;
             height: 100%;
-            color: #6c757d;
+            color: var(--text-secondary);
             font-style: italic;
         }
 
-        /* Responsive design */
-        @media (max-width: 480px) {
-            .container {
-                padding: 10px;
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 3.5rem;
+            color: var(--footer-text);
+            font-size: 0.875rem;
+            padding: 0 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
             }
             
-            .app-title {
-                padding: 15px;
+            .logo-text {
+                font-size: 1.875rem;
             }
             
-            .app-title h1 {
-                font-size: 20px;
+            .subtitle {
+                font-size: 1rem;
             }
             
-            .card {
-                padding: 15px;
+            .header {
+                margin-bottom: 2.5rem;
+            }
+            
+            .theme-toggle {
+                top: -45px;
+                right: 0;
+                left: auto;
             }
             
             .button-group,
@@ -437,38 +552,111 @@
             
             .stats-container {
                 flex-direction: column;
-                gap: 10px;
+                gap: 1rem;
             }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 1.5rem;
+            }
+            
+            .logo-text {
+                font-size: 1.75rem;
+            }
+        }
+
+        .font-display {
+            font-family: 'Inter', system-ui, sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 700;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <button class="back-btn">
-                <svg class="icon icon-home" viewBox="0 0 24 24">
-                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-                </svg>
-                Back to Home
-            </button>
-        </div>
+    <!-- SVG Definitions -->
+    <svg style="display:none">
+        <!-- Main Logo -->
+        <symbol id="emailLogo" viewBox="0 0 200 200">
+            <defs>
+                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#4338ca" />
+                    <stop offset="100%" stop-color="#7e22ce" />
+                </linearGradient>
+            </defs>
+            <path d="M40 60 L160 60 L160 140 L40 140 Z" fill="url(#logoGradient)"/>
+            <path d="M40 60 L100 100 L160 60" fill="white" opacity="0.3"/>
+            <circle cx="100" cy="100" r="24" fill="white" opacity="0.2"/>
+            <path d="M60 85 L100 110 L140 85" stroke="white" stroke-width="6" fill="none" stroke-linecap="round"/>
+        </symbol>
 
-        <div class="app-title">
-            <svg class="icon icon-globe" viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+        <!-- Theme Icons -->
+        <symbol id="sun-icon" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+        </symbol>
+        <symbol id="moon-icon" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+        </symbol>
+
+        <!-- Tool Icons -->
+        <symbol id="icon-globe" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.66 0 3-4.03 3-9s-1.34-9-3-9m0 18c-1.66 0-3-4.03-3-9s1.34-9 3-9m-9 9a9 9 0 019-9"/>
+        </symbol>
+        <symbol id="icon-list" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>
+        </symbol>
+        <symbol id="icon-play" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M5 3l14 9-14 9V3z"/>
+        </symbol>
+        <symbol id="icon-trash" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+        </symbol>
+        <symbol id="icon-copy" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+        </symbol>
+        <symbol id="icon-download" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M12 15V3m0 12l-4-4m4 4l4-4m2 5l4 4M6 21h12a2 2 0 002-2V5a2 2 0 00-2-2H6a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+        </symbol>
+        <symbol id="icon-clear" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+        </symbol>
+        <symbol id="icon-home" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+        </symbol>
+        <symbol id="icon-check" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+        </symbol>
+    </svg>
+
+    <div class="container">
+        <a href="index.html" class="back-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <use href="#icon-home"></use>
             </svg>
-            <div>
-                <h1>Domain Extractor</h1>
-                <p>Extract domain names from text, URLs, or email addresses</p>
+            Back to Home
+        </a>
+
+        <div class="header">
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+                <svg id="theme-icon">
+                    <use href="#sun-icon"></use>
+                </svg>
+            </button>
+            <div class="logo-container">
+                <svg class="logo"><use href="#emailLogo"></use></svg>
+                <h1 class="logo-text font-display">Domain Extractor</h1>
             </div>
+            <p class="subtitle">Extract domain names from text, URLs, or email addresses with enterprise-grade precision.</p>
         </div>
 
         <div class="main-content">
             <div class="card">
                 <div class="card-header">
-                    <svg class="icon icon-list" viewBox="0 0 24 24">
-                        <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/>
-                    </svg>
+                    <div class="tool-icon">
+                        <div class="icon-wrapper">
+                            <svg><use href="#icon-list"></use></svg>
+                        </div>
+                    </div>
                     <h2>Input</h2>
                 </div>
                 <div class="input-area">
@@ -476,12 +664,12 @@
                     <textarea id="inputText" placeholder="Paste your text here...&#10;&#10;Examples:&#10;https://www.example.com/page&#10;user@domain.org&#10;Check out example.net for more info&#10;subdomain.example.co.uk"></textarea>
                     
                     <div class="filter-section">
-                        <label class="filter-label">Domain Extensions (optional):</label>
+                        <label class="input-label">Domain Extensions (optional):</label>
                         <input type="text" id="domainExtensions" class="domain-extensions" placeholder="Example: .com,.net,.org (leave empty for all)">
                     </div>
                     
                     <div class="filter-section">
-                        <label class="filter-label">Filter Options:</label>
+                        <label class="input-label">Filter Options:</label>
                         <div class="filter-options">
                             <div class="filter-option">
                                 <input type="radio" id="allDomains" name="filterType" value="all" checked>
@@ -500,14 +688,14 @@
                     
                     <div class="button-group">
                         <button id="extractBtn" class="btn btn-primary">
-                            <svg class="icon icon-play" viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z"/>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <use href="#icon-play"></use>
                             </svg>
                             Extract Domains
                         </button>
                         <button id="clearBtn" class="btn btn-danger">
-                            <svg class="icon icon-trash" viewBox="0 0 24 24">
-                                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <use href="#icon-trash"></use>
                             </svg>
                             Clear
                         </button>
@@ -517,9 +705,11 @@
 
             <div class="card">
                 <div class="card-header">
-                    <svg class="icon icon-list" viewBox="0 0 24 24">
-                        <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/>
-                    </svg>
+                    <div class="tool-icon">
+                        <div class="icon-wrapper">
+                            <svg><use href="#icon-globe"></use></svg>
+                        </div>
+                    </div>
                     <h2>Results</h2>
                 </div>
                 <div class="results-area">
@@ -540,20 +730,20 @@
                     
                     <div class="action-buttons">
                         <button id="copyBtn" class="btn btn-success">
-                            <svg class="icon icon-copy" viewBox="0 0 24 24">
-                                <path d="M16 1H4c-1.1 0-2 .9-2 2v14h4V5h12V1zm3 4h-6v14h6V5z"/>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <use href="#icon-copy"></use>
                             </svg>
                             Copy Results
                         </button>
                         <button id="downloadBtn" class="btn btn-secondary">
-                            <svg class="icon icon-download" viewBox="0 0 24 24">
-                                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <use href="#icon-download"></use>
                             </svg>
                             Download
                         </button>
                         <button id="clearResultsBtn" class="btn btn-danger">
-                            <svg class="icon icon-clear" viewBox="0 0 24 24">
-                                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <use href="#icon-clear"></use>
                             </svg>
                             Clear Results
                         </button>
@@ -561,9 +751,41 @@
                 </div>
             </div>
         </div>
+
+        <div class="footer">
+            <p>© 2025 Email Tools Suite | Enterprise Email Infrastructure Solutions</p>
+        </div>
     </div>
 
     <script>
+        // Theme toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const themeRoot = document.getElementById('theme-root');
+        
+        // Check system preference
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        // Set initial theme based on system preference
+        if (prefersDark) {
+            themeRoot.classList.add('dark');
+            themeIcon.innerHTML = '<use href="#moon-icon"></use>';
+        } else {
+            themeRoot.classList.remove('dark');
+            themeIcon.innerHTML = '<use href="#sun-icon"></use>';
+        }
+        
+        // Toggle theme
+        themeToggle.addEventListener('click', () => {
+            themeRoot.classList.toggle('dark');
+            const isDark = themeRoot.classList.contains('dark');
+            
+            // Update icon
+            themeIcon.innerHTML = isDark 
+                ? '<use href="#moon-icon"></use>' 
+                : '<use href="#sun-icon"></use>';
+        });
+
         // DOM Elements
         const inputText = document.getElementById('inputText');
         const domainExtensions = document.getElementById('domainExtensions');
@@ -700,7 +922,18 @@
             
             navigator.clipboard.writeText(extractedDomains.join('\n'))
                 .then(() => {
-                    alert('Results copied to clipboard!');
+                    // Visual feedback
+                    const originalText = copyBtn.innerHTML;
+                    copyBtn.innerHTML = `
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <use href="#icon-check"></use>
+                        </svg>
+                        Copied!
+                    `;
+                    
+                    setTimeout(() => {
+                        copyBtn.innerHTML = originalText;
+                    }, 1500);
                 })
                 .catch(err => {
                     alert('Failed to copy: ' + err);
@@ -727,9 +960,8 @@
         
         // Add event listener for back button
         document.querySelector('.back-btn').addEventListener('click', () => {
-            alert('Back to Home functionality would be implemented here in a real application.');
+            window.location.href = 'index.html';
         });
     </script>
 </body>
 </html>
-
