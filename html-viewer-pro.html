@@ -621,6 +621,14 @@
             font-weight: 600;
         }
 
+        .save-btn {
+            background: #10b981;
+        }
+
+        .save-btn:hover {
+            background: #059669;
+        }
+
         .edit-mode-badge i {
             animation: pulse 2s infinite;
         }
@@ -634,6 +642,128 @@
 
         .error-message.active {
             display: block;
+        }
+
+        .project-item {
+            background: #3d3d3d;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        body.light-theme .project-item {
+            background: #f3f4f6;
+        }
+
+        .project-item:hover {
+            background: #4d4d4d;
+        }
+
+        body.light-theme .project-item:hover {
+            background: #e5e7eb;
+        }
+
+        .project-info {
+            flex: 1;
+        }
+
+        .project-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #fff;
+        }
+
+        body.light-theme .project-name {
+            color: #333;
+        }
+
+        .project-date {
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        body.light-theme .project-date {
+            color: #666;
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .project-btn {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .theme-card {
+            cursor: pointer;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .theme-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+        }
+
+        .theme-preview {
+            height: 80px;
+            width: 100%;
+        }
+
+        .theme-name {
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+            background: #3d3d3d;
+            color: #fff;
+        }
+
+        body.light-theme .theme-name {
+            background: #f3f4f6;
+            color: #333;
+        }
+
+        body.midnight-theme .header,
+        body.midnight-theme .pane-header,
+        body.midnight-theme .status-bar,
+        body.midnight-theme .modal-content {
+            background: #1e293b;
+        }
+
+        body.forest-theme .header,
+        body.forest-theme .pane-header,
+        body.forest-theme .status-bar,
+        body.forest-theme .modal-content {
+            background: #065f46;
+        }
+
+        body.sunset-theme .header,
+        body.sunset-theme .pane-header,
+        body.sunset-theme .status-bar,
+        body.sunset-theme .modal-content {
+            background: #78350f;
+        }
+
+        body.purple-theme .header,
+        body.purple-theme .pane-header,
+        body.purple-theme .status-bar,
+        body.purple-theme .modal-content {
+            background: #581c87;
+        }
+
+        body.ocean-theme .header,
+        body.ocean-theme .pane-header,
+        body.ocean-theme .status-bar,
+        body.ocean-theme .modal-content {
+            background: #134e4a;
         }
     </style>
 </head>
@@ -651,7 +781,8 @@
             <span>HTML Editor Pro</span>
         </div>
         <div class="controls">
-            <button onclick="toggleTheme()"><i class="fas fa-moon"></i> Theme</button>
+            <button onclick="openProjectManager()"><i class="fas fa-folder"></i> Projects</button>
+            <button onclick="toggleTheme()"><i class="fas fa-palette"></i> Theme</button>
             <button onclick="formatCode()"><i class="fas fa-magic"></i> Format</button>
             <button onclick="cleanHTML()"><i class="fas fa-broom"></i> Clean</button>
             <div class="file-upload-container">
@@ -662,37 +793,6 @@
             <button onclick="openEncodingModal()"><i class="fas fa-key"></i> Encode</button>
             <button class="danger" onclick="clearCode()"><i class="fas fa-trash"></i> Clear</button>
         </div>
-    </div>
-
-    <div class="wysiwyg-toolbar">
-        <select onchange="formatBlock(this.value)">
-            <option value="">Paragraph</option>
-            <option value="h1">Heading 1</option>
-            <option value="h2">Heading 2</option>
-            <option value="h3">Heading 3</option>
-            <option value="h4">Heading 4</option>
-            <option value="h5">Heading 5</option>
-            <option value="h6">Heading 6</option>
-        </select>
-        <div class="toolbar-separator"></div>
-        <button class="toolbar-btn" onclick="execCmd('bold')" title="Bold"><i class="fas fa-bold"></i></button>
-        <button class="toolbar-btn" onclick="execCmd('italic')" title="Italic"><i class="fas fa-italic"></i></button>
-        <button class="toolbar-btn" onclick="execCmd('underline')" title="Underline"><i class="fas fa-underline"></i></button>
-        <button class="toolbar-btn" onclick="execCmd('strikeThrough')" title="Strikethrough"><i class="fas fa-strikethrough"></i></button>
-        <div class="toolbar-separator"></div>
-        <button class="toolbar-btn" onclick="execCmd('justifyLeft')" title="Align Left"><i class="fas fa-align-left"></i></button>
-        <button class="toolbar-btn" onclick="execCmd('justifyCenter')" title="Center"><i class="fas fa-align-center"></i></button>
-        <button class="toolbar-btn" onclick="execCmd('justifyRight')" title="Align Right"><i class="fas fa-align-right"></i></button>
-        <button class="toolbar-btn" onclick="execCmd('justifyFull')" title="Justify"><i class="fas fa-align-justify"></i></button>
-        <div class="toolbar-separator"></div>
-        <button class="toolbar-btn" onclick="execCmd('insertUnorderedList')" title="Bullet List"><i class="fas fa-list-ul"></i></button>
-        <button class="toolbar-btn" onclick="execCmd('insertOrderedList')" title="Numbered List"><i class="fas fa-list-ol"></i></button>
-        <div class="toolbar-separator"></div>
-        <button class="toolbar-btn" onclick="insertLink()" title="Insert Link"><i class="fas fa-link"></i></button>
-        <button class="toolbar-btn" onclick="insertImage()" title="Insert Image"><i class="fas fa-image"></i></button>
-        <div class="toolbar-separator"></div>
-        <button class="toolbar-btn" onclick="execCmd('undo')" title="Undo"><i class="fas fa-undo"></i></button>
-        <button class="toolbar-btn" onclick="execCmd('redo')" title="Redo"><i class="fas fa-redo"></i></button>
     </div>
 
     <div class="container">
@@ -799,6 +899,9 @@
                     <div class="encoding-buttons">
                         <button onclick="encodeBase64()">Encode</button>
                         <button onclick="decodeBase64()">Decode</button>
+                        <button onclick="copyEncodingResult('base64Output')" class="secondary">
+                            <i class="fas fa-copy"></i> Copy Result
+                        </button>
                     </div>
                     <textarea id="base64Output" readonly placeholder="Result..."></textarea>
                 </div>
@@ -808,6 +911,9 @@
                     <div class="encoding-buttons">
                         <button onclick="encodeQuotedPrintable()">Encode</button>
                         <button onclick="decodeQuotedPrintable()">Decode</button>
+                        <button onclick="copyEncodingResult('qpOutput')" class="secondary">
+                            <i class="fas fa-copy"></i> Copy Result
+                        </button>
                     </div>
                     <textarea id="qpOutput" readonly placeholder="Result..."></textarea>
                 </div>
@@ -834,10 +940,78 @@
                 <input type="url" id="editLink" placeholder="https://example.com">
                 <div class="error-message" id="linkError">Please enter a valid URL (e.g., https://example.com)</div>
             </div>
+            <div id="imageEditSection" style="display: none;">
+                <label for="editImage">Image URL:</label>
+                <input type="url" id="editImage" placeholder="https://example.com/image.jpg">
+                <div class="error-message" id="imageError">Please enter a valid image URL</div>
+            </div>
         </div>
         <div class="edit-popup-actions">
             <button class="secondary" onclick="closeEditPopup()">Cancel</button>
             <button onclick="saveEdit()"><i class="fas fa-save"></i> Save</button>
+        </div>
+    </div>
+
+    <div class="modal" id="project-manager-modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header"><i class="fas fa-folder"></i> Project Manager</div>
+            <div class="modal-body">
+                <div class="encoding-section">
+                    <h4>Save Current Project</h4>
+                    <input type="text" id="project-name-input" placeholder="Enter project name">
+                    <button class="save-btn" onclick="saveCurrentProject()"><i class="fas fa-save"></i> Save</button>
+                </div>
+                <div class="encoding-section">
+                    <h4>Your Saved Projects</h4>
+                    <div id="saved-projects-list" style="max-height: 300px; overflow-y: auto;">
+                        <p style="text-align: center; color: #aaa; padding: 40px 20px;">No saved projects yet</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="secondary" onclick="closeModal('project-manager-modal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="theme-modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header"><i class="fas fa-palette"></i> Choose Your Theme</div>
+            <div class="modal-body">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px;">
+                    <div class="theme-card" onclick="selectTheme('dark')">
+                        <div class="theme-preview" style="background: linear-gradient(135deg, #1e1e1e, #252526);"></div>
+                        <div class="theme-name">Dark</div>
+                    </div>
+                    <div class="theme-card" onclick="selectTheme('light')">
+                        <div class="theme-preview" style="background: linear-gradient(135deg, #ffffff, #f9fafb);"></div>
+                        <div class="theme-name">Light</div>
+                    </div>
+                    <div class="theme-card" onclick="selectTheme('midnight')">
+                        <div class="theme-preview" style="background: linear-gradient(135deg, #0f172a, #1e293b);"></div>
+                        <div class="theme-name">Midnight Blue</div>
+                    </div>
+                    <div class="theme-card" onclick="selectTheme('forest')">
+                        <div class="theme-preview" style="background: linear-gradient(135deg, #064e3b, #065f46);"></div>
+                        <div class="theme-name">Forest Green</div>
+                    </div>
+                    <div class="theme-card" onclick="selectTheme('sunset')">
+                        <div class="theme-preview" style="background: linear-gradient(135deg, #451a03, #78350f);"></div>
+                        <div class="theme-name">Sunset Orange</div>
+                    </div>
+                    <div class="theme-card" onclick="selectTheme('purple')">
+                        <div class="theme-preview" style="background: linear-gradient(135deg, #3b0764, #581c87);"></div>
+                        <div class="theme-name">Purple Haze</div>
+                    </div>
+                    <div class="theme-card" onclick="selectTheme('ocean')">
+                        <div class="theme-preview" style="background: linear-gradient(135deg, #042f2e, #134e4a);"></div>
+                        <div class="theme-name">Ocean Teal</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="secondary" onclick="closeModal('theme-modal')">Cancel</button>
+            </div>
         </div>
     </div>
 
@@ -991,16 +1165,125 @@
             }, 3000);
         }
 
-        function toggleTheme() {
-            try {
-                document.body.classList.toggle('light-theme');
-                const isLight = document.body.classList.contains('light-theme');
-                editor.setOption('theme', isLight ? 'eclipse' : 'monokai');
-                setStatus(`Switched to ${isLight ? 'light' : 'dark'} theme`, 'success');
-            } catch (error) {
-                console.error('Theme toggle error:', error);
-                setStatus('Error changing theme', 'error');
+        const themes = {
+            dark: {
+                name: 'Dark',
+                bodyClass: '',
+                editorTheme: 'monokai',
+                primary: '#4f46e5',
+                primaryDark: '#4338ca',
+                darkBg: '#1e1e1e',
+                darkHeader: '#252526',
+                darkBorder: '#3e3e42'
+            },
+            light: {
+                name: 'Light',
+                bodyClass: 'light-theme',
+                editorTheme: 'eclipse',
+                primary: '#4f46e5',
+                primaryDark: '#4338ca',
+                lightBg: '#ffffff',
+                lightHeader: '#f9fafb',
+                lightBorder: '#e5e7eb'
+            },
+            midnight: {
+                name: 'Midnight Blue',
+                bodyClass: 'midnight-theme',
+                editorTheme: 'monokai',
+                primary: '#3b82f6',
+                primaryDark: '#2563eb',
+                darkBg: '#0f172a',
+                darkHeader: '#1e293b',
+                darkBorder: '#334155'
+            },
+            forest: {
+                name: 'Forest Green',
+                bodyClass: 'forest-theme',
+                editorTheme: 'monokai',
+                primary: '#10b981',
+                primaryDark: '#059669',
+                darkBg: '#064e3b',
+                darkHeader: '#065f46',
+                darkBorder: '#047857'
+            },
+            sunset: {
+                name: 'Sunset Orange',
+                bodyClass: 'sunset-theme',
+                editorTheme: 'monokai',
+                primary: '#f59e0b',
+                primaryDark: '#d97706',
+                darkBg: '#451a03',
+                darkHeader: '#78350f',
+                darkBorder: '#92400e'
+            },
+            purple: {
+                name: 'Purple Haze',
+                bodyClass: 'purple-theme',
+                editorTheme: 'monokai',
+                primary: '#a855f7',
+                primaryDark: '#9333ea',
+                darkBg: '#3b0764',
+                darkHeader: '#581c87',
+                darkBorder: '#6b21a8'
+            },
+            ocean: {
+                name: 'Ocean Teal',
+                bodyClass: 'ocean-theme',
+                editorTheme: 'monokai',
+                primary: '#14b8a6',
+                primaryDark: '#0d9488',
+                darkBg: '#042f2e',
+                darkHeader: '#134e4a',
+                darkBorder: '#115e59'
             }
+        };
+
+        let currentTheme = 'dark';
+
+        function applyTheme(themeName) {
+            try {
+                const theme = themes[themeName];
+                if (!theme) return;
+
+                // Remove all theme classes
+                Object.values(themes).forEach(t => {
+                    if (t.bodyClass) document.body.classList.remove(t.bodyClass);
+                });
+
+                // Apply new theme class
+                if (theme.bodyClass) {
+                    document.body.classList.add(theme.bodyClass);
+                }
+
+                // Update CSS variables
+                document.documentElement.style.setProperty('--primary', theme.primary);
+                document.documentElement.style.setProperty('--primary-dark', theme.primaryDark);
+                
+                if (theme.darkBg) {
+                    document.documentElement.style.setProperty('--dark-bg', theme.darkBg);
+                    document.documentElement.style.setProperty('--dark-header', theme.darkHeader);
+                    document.documentElement.style.setProperty('--dark-border', theme.darkBorder);
+                }
+
+                // Update editor theme
+                editor.setOption('theme', theme.editorTheme);
+
+                currentTheme = themeName;
+                localStorage.setItem('editorTheme', themeName);
+                setStatus(`Switched to ${theme.name} theme`, 'success');
+            } catch (error) {
+                console.error('Theme apply error:', error);
+                setStatus('Error applying theme', 'error');
+            }
+        }
+
+        function toggleTheme() {
+            document.getElementById('theme-modal').classList.add('active');
+        }
+
+        function selectTheme(themeName) {
+            applyTheme(themeName);
+            closeModal('theme-modal');
         }
 
         function formatCode() {
@@ -1181,6 +1464,31 @@
             }
         }
 
+        function saveCode() {
+            try {
+                const code = editor.getValue();
+                navigator.clipboard.writeText(code).then(() => {
+                    setStatus('Code copied to clipboard! Paste it into html-viewer-pro.html to save changes', 'success');
+                    
+                    // Show a helpful modal
+                    if (confirm('Code copied to clipboard!\n\nTo save your changes:\n1. Open html-viewer-pro.html in the file editor\n2. Paste (Ctrl+V / Cmd+V) the code\n3. Save the file\n\nWould you like to download the code as a backup file too?')) {
+                        const blob = new Blob([code], { type: 'text/html' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'html-backup.html';
+                        a.click();
+                        URL.revokeObjectURL(url);
+                    }
+                }).catch(() => {
+                    setStatus('Error copying to clipboard', 'error');
+                });
+            } catch (error) {
+                console.error('Save error:', error);
+                setStatus('Error saving code', 'error');
+            }
+        }
+
         function setDevice(device) {
             try {
                 const wrapper = document.getElementById('preview-wrapper');
@@ -1289,7 +1597,7 @@
                 setStatus('Edit Mode activated - Click on any text to edit', 'success');
             } else {
                 document.getElementById('edit-mode-text').textContent = 'Edit Mode';
-                toggleBtn.style.background = '';
+                toggleBtn.style.background = '#4f46e5';
                 badge.style.display = 'none';
                 frame.classList.remove('edit-mode');
                 disableEditMode();
@@ -1309,7 +1617,7 @@
             
             try {
                 const doc = frame.contentDocument || frame.contentWindow.document;
-                const allElements = doc.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span, div, li, a, td, th');
+                const allElements = doc.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span, div, li, a, td, th, img');
                 allElements.forEach(el => {
                     el.removeEventListener('click', handleEditClick);
                     el.classList.remove('edit-highlight');
@@ -1328,7 +1636,7 @@
                 const frame = document.getElementById('preview-frame');
                 const doc = frame.contentDocument || frame.contentWindow.document;
                 
-                const allElements = doc.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span, div, li, a, td, th');
+                const allElements = doc.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span, div, li, a, td, th, img');
                 
                 allElements.forEach(el => {
                     el.addEventListener('click', handleEditClick);
@@ -1365,26 +1673,50 @@
             const popup = document.getElementById('editPopup');
             const textInput = document.getElementById('editText');
             const linkInput = document.getElementById('editLink');
+            const imageInput = document.getElementById('editImage');
             const linkSection = document.getElementById('linkEditSection');
+            const imageSection = document.getElementById('imageEditSection');
+            const textSection = document.getElementById('textEditSection');
             const textError = document.getElementById('textError');
             const linkError = document.getElementById('linkError');
+            const imageError = document.getElementById('imageError');
             
             // Reset errors
             textError.classList.remove('active');
             linkError.classList.remove('active');
+            imageError.classList.remove('active');
             
-            // Get text content
-            let textContent = '';
-            if (element.tagName === 'A') {
-                textContent = element.textContent;
+            // Reset sections
+            linkSection.style.display = 'none';
+            imageSection.style.display = 'none';
+            textSection.style.display = 'block';
+            
+            // Check if it's an image
+            if (element.tagName === 'IMG') {
+                imageInput.value = element.src || '';
+                imageSection.style.display = 'block';
+                textInput.value = element.alt || '';
+                
+                // Check if image is inside a link
+                if (element.parentElement && element.parentElement.tagName === 'A') {
+                    linkInput.value = element.parentElement.href || '';
+                    linkSection.style.display = 'block';
+                }
+            } else if (element.tagName === 'A') {
+                // Check if link contains an image
+                const img = element.querySelector('img');
+                if (img) {
+                    imageInput.value = img.src || '';
+                    imageSection.style.display = 'block';
+                    textInput.value = img.alt || '';
+                } else {
+                    textInput.value = element.textContent;
+                }
                 linkInput.value = element.href || '';
                 linkSection.style.display = 'block';
             } else {
-                textContent = element.textContent;
-                linkSection.style.display = 'none';
+                textInput.value = element.textContent;
             }
-            
-            textInput.value = textContent;
             
             // Position popup near the click
             const frame = document.getElementById('preview-frame');
@@ -1418,6 +1750,7 @@
             // Clear errors
             document.getElementById('textError').classList.remove('active');
             document.getElementById('linkError').classList.remove('active');
+            document.getElementById('imageError').classList.remove('active');
         }
 
         function validateURL(url) {
@@ -1434,33 +1767,78 @@
             
             const textInput = document.getElementById('editText');
             const linkInput = document.getElementById('editLink');
+            const imageInput = document.getElementById('editImage');
             const textError = document.getElementById('textError');
             const linkError = document.getElementById('linkError');
+            const imageError = document.getElementById('imageError');
             
             // Reset errors
             textError.classList.remove('active');
             linkError.classList.remove('active');
+            imageError.classList.remove('active');
             
             const newText = textInput.value.trim();
+            const newLink = linkInput.value.trim();
+            const newImage = imageInput.value.trim();
             
-            // Validate text
-            if (!newText) {
-                textError.classList.add('active');
-                return;
-            }
-            
-            // Validate link if it's a link element
-            if (currentEditElement.tagName === 'A') {
-                const newLink = linkInput.value.trim();
-                if (!newLink || !validateURL(newLink)) {
-                    linkError.classList.add('active');
-                    return;
+            // Handle image elements
+            if (currentEditElement.tagName === 'IMG') {
+                // Update image source if provided
+                if (newImage) {
+                    currentEditElement.src = newImage;
                 }
-                currentEditElement.href = newLink;
+                
+                // Update alt text (can be empty)
+                currentEditElement.alt = newText;
+                
+                // Handle parent link if exists
+                if (currentEditElement.parentElement && currentEditElement.parentElement.tagName === 'A') {
+                    if (newLink && validateURL(newLink)) {
+                        currentEditElement.parentElement.href = newLink;
+                    } else if (!newLink) {
+                        // Remove link if empty
+                        const parent = currentEditElement.parentElement;
+                        parent.replaceWith(currentEditElement);
+                    }
+                } else if (newLink && validateURL(newLink)) {
+                    // Wrap image in a link if link provided
+                    const link = document.createElement('a');
+                    link.href = newLink;
+                    link.target = '_blank';
+                    currentEditElement.parentElement.insertBefore(link, currentEditElement);
+                    link.appendChild(currentEditElement);
+                }
+            } else if (currentEditElement.tagName === 'A') {
+                // Handle link elements
+                const img = currentEditElement.querySelector('img');
+                
+                if (img && newImage) {
+                    // Update image inside link
+                    img.src = newImage;
+                    img.alt = newText;
+                }
+                
+                // Update text content (allow empty for image-only links)
+                if (!img) {
+                    currentEditElement.textContent = newText;
+                }
+                
+                // Update link URL
+                if (newLink && validateURL(newLink)) {
+                    currentEditElement.href = newLink;
+                } else if (!newLink) {
+                    // Remove link wrapper if empty, keep content
+                    if (img) {
+                        currentEditElement.replaceWith(img);
+                    } else {
+                        const textNode = document.createTextNode(newText);
+                        currentEditElement.replaceWith(textNode);
+                    }
+                }
+            } else {
+                // Handle text elements (allow empty text)
+                currentEditElement.textContent = newText;
             }
-            
-            // Update text content
-            currentEditElement.textContent = newText;
             
             // Update the code editor with the new HTML
             try {
@@ -1581,6 +1959,30 @@
             }
         }
 
+        function copyEncodingResult(outputId) {
+            try {
+                const output = document.getElementById(outputId);
+                const text = output.value;
+                
+                if (!text) {
+                    alert('No result to copy');
+                    return;
+                }
+                
+                navigator.clipboard.writeText(text).then(() => {
+                    setStatus('Result copied to clipboard', 'success');
+                }).catch(() => {
+                    // Fallback method
+                    output.select();
+                    document.execCommand('copy');
+                    setStatus('Result copied to clipboard', 'success');
+                });
+            } catch (error) {
+                console.error('Copy error:', error);
+                setStatus('Error copying result', 'error');
+            }
+        }
+
         function closeModal(modalId) {
             document.getElementById(modalId).classList.remove('active');
         }
@@ -1591,7 +1993,122 @@
             }
         }
 
-        window.addEventListener('DOMContentLoaded', initEditor);
+        function openProjectManager() {
+            loadSavedProjects();
+            document.getElementById('project-manager-modal').classList.add('active');
+        }
+
+        function saveCurrentProject() {
+            try {
+                const projectName = document.getElementById('project-name-input').value.trim();
+                
+                if (!projectName) {
+                    alert('Please enter a project name');
+                    return;
+                }
+
+                const projects = JSON.parse(localStorage.getItem('htmlEditorProjects') || '[]');
+                
+                const project = {
+                    id: Date.now(),
+                    name: projectName,
+                    code: editor.getValue(),
+                    date: new Date().toISOString()
+                };
+
+                projects.push(project);
+                localStorage.setItem('htmlEditorProjects', JSON.stringify(projects));
+                
+                document.getElementById('project-name-input').value = '';
+                loadSavedProjects();
+                setStatus(`Project "${projectName}" saved successfully`, 'success');
+            } catch (error) {
+                console.error('Save project error:', error);
+                setStatus('Error saving project', 'error');
+            }
+        }
+
+        function loadSavedProjects() {
+            try {
+                const projects = JSON.parse(localStorage.getItem('htmlEditorProjects') || '[]');
+                const listContainer = document.getElementById('saved-projects-list');
+                
+                if (projects.length === 0) {
+                    listContainer.innerHTML = '<p style="text-align: center; color: #aaa; padding: 40px 20px;">No saved projects yet</p>';
+                    return;
+                }
+
+                listContainer.innerHTML = projects.map(project => {
+                    const date = new Date(project.date).toLocaleString();
+                    return `
+                        <div class="project-item">
+                            <div class="project-info">
+                                <div class="project-name">${escapeHtml(project.name)}</div>
+                                <div class="project-date">${date}</div>
+                            </div>
+                            <div class="project-actions">
+                                <button class="project-btn" onclick="loadProject(${project.id})">
+                                    <i class="fas fa-folder-open"></i> Load
+                                </button>
+                                <button class="project-btn danger" onclick="deleteProject(${project.id})">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Load projects error:', error);
+            }
+        }
+
+        function loadProject(projectId) {
+            try {
+                const projects = JSON.parse(localStorage.getItem('htmlEditorProjects') || '[]');
+                const project = projects.find(p => p.id === projectId);
+                
+                if (project) {
+                    if (confirm(`Load project "${project.name}"? Your current work will be replaced.`)) {
+                        editor.setValue(project.code);
+                        closeModal('project-manager-modal');
+                        setStatus(`Project "${project.name}" loaded`, 'success');
+                    }
+                }
+            } catch (error) {
+                console.error('Load project error:', error);
+                setStatus('Error loading project', 'error');
+            }
+        }
+
+        function deleteProject(projectId) {
+            try {
+                const projects = JSON.parse(localStorage.getItem('htmlEditorProjects') || '[]');
+                const project = projects.find(p => p.id === projectId);
+                
+                if (project && confirm(`Delete project "${project.name}"?`)) {
+                    const updatedProjects = projects.filter(p => p.id !== projectId);
+                    localStorage.setItem('htmlEditorProjects', JSON.stringify(updatedProjects));
+                    loadSavedProjects();
+                    setStatus(`Project "${project.name}" deleted`, 'success');
+                }
+            } catch (error) {
+                console.error('Delete project error:', error);
+                setStatus('Error deleting project', 'error');
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initEditor();
+            // Load saved theme
+            const savedTheme = localStorage.getItem('editorTheme') || 'dark';
+            applyTheme(savedTheme);
+        });
     </script>
 </body>
 </html>
