@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Viewer Pro</title>
-    <link rel="icon" type="image/svg+xml" href="https://cdn.qwenlm.ai/output/29483eff-0b49-44cd-820b-7d21f4df3db8/t2i/81e0c8a0-3b7f-4fd2-a886-8d5276e46979/1762106292.png?key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNvdXJjZV91c2VyX2lkIjoiMjk0ODNlZmYtMGI0OS00NGNkLTgyMGItN2QyMWY0ZGYzZGI4IiwicmVzb3VyY2VfaWQiOiIxNzYyMTA2MjkyIiwicmVzb3VyY2VfY2hhdF9pZCI6ImM0ODJkNGQ4LWYxZmItNGYxNy1iMGU0LTZkYmM1MGMxOTMxMyJ9.D-7-2uIcjyFALTovtW7WlJNxrs4iwdIn-jy7C7aSiKQ&x-oss-process=image/resize,m_mfit,w_450,h_450" />
-
+    <title>HTML Editor Pro - Ultimate Edition</title>
+    
     <!-- CodeMirror -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
@@ -13,8 +12,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/fold/foldgutter.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/show-hint.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/dialog/dialog.min.css">
-    <!-- Icons -->
+    
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/htmlmixed/htmlmixed.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/xml/xml.min.js"></script>
@@ -27,14 +29,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/fold/xml-fold.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/show-hint.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/html-hint.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/css-hint.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/javascript-hint.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/search/search.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/search/searchcursor.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/dialog/dialog.min.js"></script>
-    <!-- Utilities -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.4.0/purify.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.7/beautify-html.min.js"></script>
+    
     <style>
         :root {
             --primary: #4f46e5;
@@ -47,75 +48,67 @@
             --light-bg: #ffffff;
             --light-header: #f9fafb;
             --light-border: #e5e7eb;
-            --text-dark: #111827;
-            --text-light: #f9fafb;
-            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-            --radius: 8px;
         }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
             height: 100vh;
             display: flex;
             flex-direction: column;
             background: var(--dark-bg);
-            color: var(--text-light);
+            color: #fff;
             overflow: hidden;
         }
+
         body.light-theme {
             background: var(--light-bg);
-            color: var(--text-dark);
+            color: #333;
         }
+
         .header {
             background: var(--dark-header);
-            padding: 12px 20px;
+            padding: 10px 16px;
             border-bottom: 2px solid var(--primary);
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 12px;
-            flex-shrink: 0;
+            gap: 10px;
         }
+
         body.light-theme .header {
             background: var(--light-header);
-            border-bottom: 2px solid var(--primary);
         }
+
         .logo {
             display: flex;
             align-items: center;
             gap: 10px;
             font-weight: 700;
-            font-size: 1.25rem;
+            font-size: 1.2rem;
         }
+
         .logo i {
             color: var(--primary);
         }
+
         .controls {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
         }
-        .btn-group {
-            display: flex;
-            gap: 6px;
-            background: rgba(255,255,255,0.05);
-            padding: 4px;
-            border-radius: 6px;
-            align-items: center;
-        }
-        body.light-theme .btn-group {
-            background: #f3f4f6;
-        }
+
         button {
             background: var(--primary);
             color: white;
             border: none;
-            padding: 8px 14px;
+            padding: 7px 12px;
             border-radius: 6px;
             cursor: pointer;
             font-size: 13px;
@@ -123,41 +116,113 @@
             transition: all 0.2s;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
         }
+
         button:hover {
             background: var(--primary-dark);
+            transform: translateY(-1px);
         }
+
+        button:active {
+            transform: translateY(0);
+        }
+
         button.secondary {
             background: #555;
         }
+
         button.secondary:hover {
             background: #666;
         }
+
         button.danger {
             background: var(--danger);
         }
+
         button.danger:hover {
             background: #dc2626;
         }
+
+        .wysiwyg-toolbar {
+            background: #2a2a2a;
+            padding: 10px;
+            border-bottom: 1px solid var(--dark-border);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+        }
+
+        body.light-theme .wysiwyg-toolbar {
+            background: #f3f4f6;
+        }
+
+        .wysiwyg-toolbar select {
+            background: #3d3d3d;
+            border: 1px solid #555;
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        body.light-theme .wysiwyg-toolbar select {
+            background: white;
+            border-color: #ccc;
+            color: #333;
+        }
+
+        .toolbar-separator {
+            width: 1px;
+            height: 24px;
+            background: #555;
+            margin: 0 4px;
+        }
+
+        .toolbar-btn {
+            background: #3d3d3d;
+            padding: 6px 10px;
+            font-size: 13px;
+        }
+
+        body.light-theme .toolbar-btn {
+            background: white;
+            border: 1px solid #ccc;
+            color: #333;
+        }
+
+        .toolbar-btn:hover {
+            background: #4d4d4d;
+        }
+
+        body.light-theme .toolbar-btn:hover {
+            background: #e5e7eb;
+        }
+
         .container {
             display: flex;
             flex: 1;
             overflow: hidden;
         }
-        .editor-section, .preview-section {
+
+        .pane {
             flex: 1;
             display: flex;
             flex-direction: column;
             min-width: 0;
         }
-        .editor-section {
+
+        .code-pane {
             border-right: 1px solid var(--dark-border);
         }
-        body.light-theme .editor-section {
+
+        body.light-theme .code-pane {
             border-right: 1px solid var(--light-border);
         }
-        .section-header {
+
+        .pane-header {
             background: var(--dark-header);
             padding: 10px 16px;
             border-bottom: 1px solid var(--dark-border);
@@ -166,23 +231,25 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-shrink: 0;
         }
-        body.light-theme .section-header {
+
+        body.light-theme .pane-header {
             background: #f3f4f6;
             border-bottom: 1px solid var(--light-border);
-            color: var(--text-dark);
+            color: #333;
         }
-        .section-actions {
+
+        .pane-actions {
             display: flex;
-            gap: 8px;
+            gap: 6px;
         }
+
         .CodeMirror {
             height: 100% !important;
             font-size: 14px;
             font-family: 'Consolas', 'Monaco', monospace;
-            flex: 1;
         }
+
         .preview-wrapper {
             flex: 1;
             display: flex;
@@ -192,9 +259,11 @@
             padding: 20px;
             overflow: auto;
         }
+
         body.light-theme .preview-wrapper {
             background: #f9fafb;
         }
+
         .preview-frame {
             width: 100%;
             height: 100%;
@@ -203,109 +272,35 @@
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
             transition: all 0.3s;
         }
+
         .preview-wrapper.mobile .preview-frame { max-width: 375px; }
-        .preview-wrapper.iphone .preview-frame { max-width: 390px; }
         .preview-wrapper.tablet .preview-frame { max-width: 768px; }
-        .preview-wrapper.ipad .preview-frame { max-width: 820px; }
         .preview-wrapper.laptop .preview-frame { max-width: 1366px; }
+
         .device-selector {
             display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
+            gap: 4px;
         }
+
         .device-btn {
             background: transparent;
             color: #ccc;
             border: 1px solid #555;
-            padding: 5px 10px;
-            border-radius: 4px;
-            cursor: pointer;
+            padding: 4px 8px;
             font-size: 11px;
-            transition: all 0.2s;
         }
+
         body.light-theme .device-btn {
             color: #666;
             border-color: #ccc;
         }
-        .device-btn:hover {
-            background: #333;
-        }
-        body.light-theme .device-btn:hover {
-            background: #e5e7eb;
-        }
+
         .device-btn.active {
             background: var(--primary);
             color: white;
             border-color: var(--primary);
         }
-        /* Modals */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.6);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        .modal.active {
-            display: flex;
-        }
-        .modal-content {
-            background: white;
-            border-radius: var(--radius);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            max-width: 90%;
-            max-height: 90vh;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-        .modal-header {
-            padding: 20px;
-            border-bottom: 1px solid #eee;
-            font-size: 18px;
-            font-weight: 600;
-        }
-        .modal-body {
-            padding: 20px;
-            overflow-y: auto;
-            flex: 1;
-        }
-        .modal-footer {
-            padding: 16px 20px;
-            border-top: 1px solid #eee;
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-        /* Encoding textareas */
-        .encoding-textarea {
-            width: 100%;
-            min-height: 120px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-family: monospace;
-            resize: vertical;
-        }
-        .encoding-section {
-            margin-bottom: 20px;
-        }
-        .encoding-section h4 {
-            margin: 10px 0;
-            color: #333;
-        }
-        .encoding-buttons {
-            display: flex;
-            gap: 10px;
-            margin: 10px 0;
-        }
-        /* Status Bar */
+
         .status-bar {
             background: var(--dark-header);
             padding: 6px 16px;
@@ -313,17 +308,175 @@
             color: #aaa;
             display: flex;
             justify-content: space-between;
-            flex-shrink: 0;
+            flex-wrap: wrap;
+            gap: 10px;
         }
+
         body.light-theme .status-bar {
             background: #f3f4f6;
             color: #666;
         }
-        /* File Upload */
+
+        .auto-preview-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--success);
+        }
+
+        .auto-preview-indicator i {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #2d2d2d;
+            border-radius: 8px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body.light-theme .modal-content {
+            background: white;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #3d3d3d;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        body.light-theme .modal-header {
+            border-bottom: 1px solid #e5e7eb;
+            color: #333;
+        }
+
+        .modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .modal-footer {
+            padding: 16px 20px;
+            border-top: 1px solid #3d3d3d;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        body.light-theme .modal-footer {
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .modal-content input,
+        .modal-content textarea {
+            width: 100%;
+            padding: 10px;
+            background: #3d3d3d;
+            border: 1px solid #555;
+            color: #fff;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            font-family: inherit;
+        }
+
+        body.light-theme .modal-content input,
+        body.light-theme .modal-content textarea {
+            background: white;
+            border-color: #ccc;
+            color: #333;
+        }
+
+        .modal-content textarea {
+            min-height: 100px;
+            font-family: monospace;
+            resize: vertical;
+        }
+
+        .encoding-section {
+            margin-bottom: 20px;
+        }
+
+        .encoding-section h4 {
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        body.light-theme .encoding-section h4 {
+            color: #333;
+        }
+
+        .encoding-buttons {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .spinner {
+            border: 4px solid #3d3d3d;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         .file-upload-container {
             position: relative;
             display: inline-block;
         }
+
         .file-upload-input {
             position: absolute;
             left: 0;
@@ -333,184 +486,110 @@
             height: 100%;
             cursor: pointer;
         }
-        /* Auto-preview indicator */
-        .auto-preview-indicator {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            color: var(--success);
-            margin-left: 10px;
-        }
-        .auto-preview-indicator i {
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { opacity: 0.6; }
-            50% { opacity: 1; }
-            100% { opacity: 0.6; }
-        }
-        /* Inspect Mode */
-        .inspect-toggle {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-left: 15px;
-            font-size: 12px;
-        }
-        .inspect-toggle-btn {
-            background: transparent;
-            color: #ccc;
-            border: 1px solid #555;
-            padding: 4px 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 11px;
-            transition: all 0.2s;
-        }
-        body.light-theme .inspect-toggle-btn {
-            color: #666;
-            border-color: #ccc;
-        }
-        .inspect-toggle-btn:hover {
-            background: #333;
-        }
-        body.light-theme .inspect-toggle-btn:hover {
-            background: #e5e7eb;
-        }
-        .inspect-toggle-btn.active {
-            background: var(--success);
-            color: white;
-            border-color: var(--success);
-        }
-        .inspect-highlight {
-            outline: 2px solid #4f46e5 !important;
-            background-color: rgba(79, 70, 229, 0.1) !important;
-            cursor: pointer !important;
-        }
-        .inspect-edit-modal {
-            position: fixed;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 10000;
-            padding: 10px;
-            min-width: 200px;
-        }
-        .inspect-edit-textarea {
-            width: 100%;
-            min-height: 80px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 8px;
-            font-family: inherit;
-            font-size: 14px;
-            resize: vertical;
-        }
-        .inspect-edit-buttons {
-            display: flex;
-            gap: 8px;
-            margin-top: 8px;
-            justify-content: flex-end;
-        }
-        /* Responsive */
+
         @media (max-width: 1024px) {
             .container {
                 flex-direction: column;
             }
-            .editor-section {
+            .code-pane {
                 border-right: none;
                 border-bottom: 1px solid var(--dark-border);
                 max-height: 45vh;
             }
-            body.light-theme .editor-section {
+            body.light-theme .code-pane {
                 border-bottom: 1px solid var(--light-border);
             }
         }
+
         @media (max-width: 768px) {
             .header {
                 flex-direction: column;
-                align-items: stretch;
             }
-            .logo {
-                justify-content: center;
+            .wysiwyg-toolbar {
+                overflow-x: auto;
             }
-            .controls {
-                justify-content: center;
-            }
-        }
-        
-        /* Custom styles for the encoding modal */
-        #encodingModal .modal-content {
-            width: 800px;
-            height: 800px;
-            max-width: 800px;
-            max-height: 800px;
-        }
-        
-        #encodingModal .modal-body {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-        
-        #encodingModal .encoding-section {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        #encodingModal .encoding-textarea {
-            flex: 1;
-            min-height: 200px;
         }
     </style>
 </head>
 <body>
+    <div class="loading-overlay" id="loading-overlay">
+        <div style="text-align: center;">
+            <div class="spinner"></div>
+            <div style="margin-top: 16px;">Loading editor...</div>
+        </div>
+    </div>
+
     <div class="header">
         <div class="logo">
             <i class="fas fa-code"></i>
-            <span>HTML Viewer Pro</span>
+            <span>HTML Editor Pro</span>
         </div>
         <div class="controls">
-            <div class="btn-group">
-                <button onclick="toggleTheme()"><i class="fas fa-moon"></i> Theme</button>
-                <button onclick="openEncodingModal()"><i class="fas fa-key"></i> Encode</button>
+            <button onclick="toggleTheme()"><i class="fas fa-moon"></i> Theme</button>
+            <button onclick="formatCode()"><i class="fas fa-magic"></i> Format</button>
+            <button onclick="cleanHTML()"><i class="fas fa-broom"></i> Clean</button>
+            <div class="file-upload-container">
+                <button><i class="fas fa-upload"></i> Upload</button>
+                <input type="file" class="file-upload-input" accept=".html,.htm,.txt" onchange="handleFileUpload(event)">
             </div>
-            <div class="btn-group">
-                <button onclick="formatCode()"><i class="fas fa-magic"></i> Format</button>
-                <div class="file-upload-container">
-                    <button><i class="fas fa-upload"></i> Upload</button>
-                    <input type="file" id="fileUpload" class="file-upload-input" accept=".html,.htm,.txt" onchange="handleFileUpload(event)">
-                </div>
-                <button onclick="showExportOptions()"><i class="fas fa-download"></i> Export</button>
-                <button class="danger" onclick="clearCode()"><i class="fas fa-trash"></i> Clear</button>
-            </div>
+            <button onclick="showExportOptions()"><i class="fas fa-download"></i> Export</button>
+            <button onclick="openEncodingModal()"><i class="fas fa-key"></i> Encode</button>
+            <button class="danger" onclick="clearCode()"><i class="fas fa-trash"></i> Clear</button>
         </div>
     </div>
+
+    <div class="wysiwyg-toolbar">
+        <select onchange="formatBlock(this.value)">
+            <option value="">Paragraph</option>
+            <option value="h1">Heading 1</option>
+            <option value="h2">Heading 2</option>
+            <option value="h3">Heading 3</option>
+            <option value="h4">Heading 4</option>
+            <option value="h5">Heading 5</option>
+            <option value="h6">Heading 6</option>
+        </select>
+        <div class="toolbar-separator"></div>
+        <button class="toolbar-btn" onclick="execCmd('bold')" title="Bold"><i class="fas fa-bold"></i></button>
+        <button class="toolbar-btn" onclick="execCmd('italic')" title="Italic"><i class="fas fa-italic"></i></button>
+        <button class="toolbar-btn" onclick="execCmd('underline')" title="Underline"><i class="fas fa-underline"></i></button>
+        <button class="toolbar-btn" onclick="execCmd('strikeThrough')" title="Strikethrough"><i class="fas fa-strikethrough"></i></button>
+        <div class="toolbar-separator"></div>
+        <button class="toolbar-btn" onclick="execCmd('justifyLeft')" title="Align Left"><i class="fas fa-align-left"></i></button>
+        <button class="toolbar-btn" onclick="execCmd('justifyCenter')" title="Center"><i class="fas fa-align-center"></i></button>
+        <button class="toolbar-btn" onclick="execCmd('justifyRight')" title="Align Right"><i class="fas fa-align-right"></i></button>
+        <button class="toolbar-btn" onclick="execCmd('justifyFull')" title="Justify"><i class="fas fa-align-justify"></i></button>
+        <div class="toolbar-separator"></div>
+        <button class="toolbar-btn" onclick="execCmd('insertUnorderedList')" title="Bullet List"><i class="fas fa-list-ul"></i></button>
+        <button class="toolbar-btn" onclick="execCmd('insertOrderedList')" title="Numbered List"><i class="fas fa-list-ol"></i></button>
+        <div class="toolbar-separator"></div>
+        <button class="toolbar-btn" onclick="insertLink()" title="Insert Link"><i class="fas fa-link"></i></button>
+        <button class="toolbar-btn" onclick="insertImage()" title="Insert Image"><i class="fas fa-image"></i></button>
+        <div class="toolbar-separator"></div>
+        <button class="toolbar-btn" onclick="execCmd('undo')" title="Undo"><i class="fas fa-undo"></i></button>
+        <button class="toolbar-btn" onclick="execCmd('redo')" title="Redo"><i class="fas fa-redo"></i></button>
+        <div class="toolbar-separator"></div>
+        <button class="toolbar-btn" onclick="toggleEditMode()" title="Toggle Edit Mode"><i class="fas fa-edit"></i> <span id="edit-mode-text">View</span></button>
+    </div>
+
     <div class="container">
-        <div class="editor-section">
-            <div class="section-header">
-                <span><i class="fas fa-edit"></i> HTML Editor</span>
-                <div class="section-actions">
-                    <button onclick="findText()"><i class="fas fa-search"></i> Find</button>
-                    <button onclick="replaceText()"><i class="fas fa-exchange-alt"></i> Replace</button>
+        <div class="pane code-pane">
+            <div class="pane-header">
+                <span><i class="fas fa-code"></i> Source Code</span>
+                <div class="pane-actions">
+                    <button onclick="findText()"><i class="fas fa-search"></i></button>
+                    <button onclick="replaceText()"><i class="fas fa-exchange-alt"></i></button>
+                    <button onclick="copyCode()"><i class="fas fa-copy"></i></button>
                 </div>
             </div>
-            <textarea id="htmlCode"></textarea>
+            <textarea id="code-editor"></textarea>
         </div>
-        <div class="preview-section">
-            <div class="section-header">
-                <span><i class="fas fa-eye"></i> Preview</span>
-                <div style="display: flex; align-items: center;">
+        <div class="pane preview-pane">
+            <div class="pane-header">
+                <span><i class="fas fa-eye"></i> Live Preview</span>
+                <div style="display: flex; gap: 10px; align-items: center;">
                     <div class="auto-preview-indicator">
                         <i class="fas fa-circle"></i>
-                        <span>Auto Preview</span>
-                    </div>
-                    <div class="inspect-toggle">
-                        <span>Inspect:</span>
-                        <button class="inspect-toggle-btn" id="inspectToggle" onclick="toggleInspectMode()">Off</button>
+                        <span>Live</span>
                     </div>
                     <div class="device-selector">
                         <button class="device-btn active" onclick="setDevice('desktop')">Desktop</button>
@@ -520,20 +599,52 @@
                     </div>
                 </div>
             </div>
-            <div class="preview-wrapper" id="previewWrapper">
-                <iframe id="preview" class="preview-frame"></iframe>
+            <div class="preview-wrapper" id="preview-wrapper">
+                <iframe id="preview-frame" class="preview-frame"></iframe>
             </div>
         </div>
     </div>
+
     <div class="status-bar">
-        <span id="statusLine">Line: 1, Column: 1</span>
-        <span id="statusChars">Chars: 0</span>
+        <div>
+            <span id="statusLine">Line: 1, Col: 1</span>
+            <span style="margin-left: 20px;">Chars: <span id="char-count">0</span></span>
+            <span style="margin-left: 20px;">Words: <span id="word-count">0</span></span>
+        </div>
+        <div id="status-message">Ready</div>
     </div>
 
-    <!-- Modals -->
-    <div class="modal" id="exportModal">
+    <div class="modal" id="link-modal">
         <div class="modal-content">
-            <div class="modal-header">💾 Export Options</div>
+            <div class="modal-header"><i class="fas fa-link"></i> Insert Link</div>
+            <div class="modal-body">
+                <input type="text" id="link-url" placeholder="Enter URL (e.g., https://example.com)">
+                <input type="text" id="link-text" placeholder="Link text (optional)">
+            </div>
+            <div class="modal-footer">
+                <button class="secondary" onclick="closeModal('link-modal')">Cancel</button>
+                <button onclick="insertLinkSubmit()">Insert</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="image-modal">
+        <div class="modal-content">
+            <div class="modal-header"><i class="fas fa-image"></i> Insert Image</div>
+            <div class="modal-body">
+                <input type="text" id="image-url" placeholder="Enter image URL">
+                <input type="text" id="image-alt" placeholder="Alt text (optional)">
+            </div>
+            <div class="modal-footer">
+                <button class="secondary" onclick="closeModal('image-modal')">Cancel</button>
+                <button onclick="insertImageSubmit()">Insert</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="export-modal">
+        <div class="modal-content">
+            <div class="modal-header"><i class="fas fa-download"></i> Export Options</div>
             <div class="modal-body">
                 <div style="display: grid; gap: 12px;">
                     <button onclick="exportHTML()"><i class="fas fa-file-code"></i> Download HTML</button>
@@ -542,545 +653,583 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="secondary" onclick="closeModal('exportModal')">Close</button>
+                <button class="secondary" onclick="closeModal('export-modal')">Close</button>
             </div>
         </div>
     </div>
 
-    <div class="modal" id="encodingModal">
-        <div class="modal-content">
-            <div class="modal-header">🔧 Encoding Tools</div>
+    <div class="modal" id="encoding-modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header"><i class="fas fa-key"></i> Encoding Tools</div>
             <div class="modal-body">
                 <div class="encoding-section">
                     <h4>Base64</h4>
-                    <textarea class="encoding-textarea" id="base64Input" placeholder="Enter text..."></textarea>
+                    <textarea id="base64Input" placeholder="Enter text to encode/decode..."></textarea>
                     <div class="encoding-buttons">
                         <button onclick="encodeBase64()">Encode</button>
                         <button onclick="decodeBase64()">Decode</button>
                     </div>
-                    <textarea class="encoding-textarea" id="base64Output" readonly></textarea>
+                    <textarea id="base64Output" readonly placeholder="Result..."></textarea>
                 </div>
                 <div class="encoding-section">
                     <h4>Quoted-Printable</h4>
-                    <textarea class="encoding-textarea" id="qpInput" placeholder="Enter text..."></textarea>
+                    <textarea id="qpInput" placeholder="Enter text to encode/decode..."></textarea>
                     <div class="encoding-buttons">
-                        <button onclick="encodeQP()">Encode</button>
-                        <button onclick="decodeQP()">Decode</button>
+                        <button onclick="encodeQuotedPrintable()">Encode</button>
+                        <button onclick="decodeQuotedPrintable()">Decode</button>
                     </div>
-                    <textarea class="encoding-textarea" id="qpOutput" readonly></textarea>
+                    <textarea id="qpOutput" readonly placeholder="Result..."></textarea>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="secondary" onclick="closeModal('encodingModal')">Close</button>
+                <button class="secondary" onclick="closeModal('encoding-modal')">Close</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Initialize editor
-        let editor = CodeMirror.fromTextArea(document.getElementById('htmlCode'), {
-            mode: 'htmlmixed',
-            theme: 'monokai',
-            lineNumbers: true,
-            autoCloseTags: true,
-            matchTags: {bothTags: true},
-            foldGutter: true,
-            gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
-            extraKeys: {
-                'Ctrl-Space': 'autocomplete',
-                'Ctrl-Shift-F': formatCode,
-                'Cmd-Shift-F': formatCode,
-                'Ctrl-F': findText,
-                'Cmd-F': findText,
-                'Ctrl-H': replaceText,
-                'Cmd-H': replaceText,
-                'Ctrl-/': 'toggleComment',
-                'Cmd-/': 'toggleComment'
-            },
-            lineWrapping: true
-        });
+        let editor;
+        let updateTimeout;
+        let isEditMode = false;
 
-        // Default code
-        const defaultCode = `<!DOCTYPE html>
+        function initEditor() {
+            const loading = document.getElementById('loading-overlay');
+            loading.classList.add('active');
+
+            setTimeout(() => {
+                try {
+                    editor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
+                        mode: 'htmlmixed',
+                        theme: 'monokai',
+                        lineNumbers: true,
+                        lineWrapping: true,
+                        autoCloseTags: true,
+                        matchTags: {bothTags: true},
+                        matchBrackets: true,
+                        foldGutter: true,
+                        gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
+                        indentUnit: 2,
+                        tabSize: 2,
+                        extraKeys: {
+                            'Ctrl-Space': 'autocomplete',
+                            'Ctrl-F': () => editor.execCommand('find'),
+                            'Cmd-F': () => editor.execCommand('find'),
+                            'Ctrl-H': () => editor.execCommand('replace'),
+                            'Cmd-H': () => editor.execCommand('replace')
+                        }
+                    });
+
+                    editor.setSize('100%', '100%');
+
+                    const initialHTML = `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Page</title>
+    <title>HTML Editor Pro</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            line-height: 1.6;
             background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
         }
         .container {
             background: white;
             padding: 40px;
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            text-align: center;
-            max-width: 500px;
+            color: #333;
         }
         h1 { color: #667eea; }
+        ul { margin: 20px 0; }
+        li { margin: 8px 0; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to HTML Viewer Pro! 🎉</h1>
-        <p>Start editing to see real-time preview.</p>
+        <h1>Welcome to HTML Editor Pro!</h1>
+        <p>This is the ultimate HTML editor combining powerful features:</p>
+        <h2>Features</h2>
+        <ul>
+            <li>WYSIWYG editing with toolbar</li>
+            <li>Live preview with auto-sync</li>
+            <li>Syntax highlighting</li>
+            <li>HTML cleaning & formatting</li>
+            <li>Responsive device preview</li>
+            <li>Export to HTML & Screenshot</li>
+            <li>Base64 & URL encoding tools</li>
+            <li>Search and replace functionality</li>
+        </ul>
+        <h2>Get Started</h2>
+        <p>Start editing in the code pane and see your changes live!</p>
     </div>
 </body>
 </html>`;
-        editor.setValue(defaultCode);
 
-        // DOM elements
-        const preview = document.getElementById('preview');
-        let inspectMode = false;
-        let currentHighlightedElement = null;
-        let currentEditModal = null;
+                    editor.setValue(initialHTML);
+                    editor.on('change', () => {
+                        clearTimeout(updateTimeout);
+                        updateTimeout = setTimeout(updatePreview, 300);
+                        updateStats();
+                    });
 
-        // Update status bar
-        editor.on('cursorActivity', () => {
-            const cursor = editor.getCursor();
-            document.getElementById('statusLine').textContent = 
-                `Line: ${cursor.line + 1}, Column: ${cursor.ch + 1}`;
-            document.getElementById('statusChars').textContent = 
-                `Chars: ${editor.getValue().length}`;
-        });
-
-        // Auto-preview functionality
-        let previewTimeout;
-        editor.on('change', () => {
-            // Clear existing timeout
-            if (previewTimeout) {
-                clearTimeout(previewTimeout);
-            }
-            
-            // Set new timeout to update preview after a short delay
-            previewTimeout = setTimeout(updatePreview, 300);
-        });
+                    editor.on('cursorActivity', updateCursorPosition);
+                    updatePreview();
+                    updateStats();
+                    loading.classList.remove('active');
+                    setStatus('Editor loaded successfully', 'success');
+                } catch (error) {
+                    console.error('Editor initialization error:', error);
+                    loading.classList.remove('active');
+                    setStatus('Error loading editor', 'error');
+                    alert('Failed to initialize editor. Please refresh the page.');
+                }
+            }, 500);
+        }
 
         function updatePreview() {
-            const code = editor.getValue();
             try {
-                const doc = preview.contentDocument || preview.contentWindow.document;
-                doc.open();
-                doc.write(code);
-                doc.close();
-                
-                // Re-attach inspect mode event listeners if inspect mode is active
-                if (inspectMode) {
-                    setTimeout(attachInspectListeners, 100);
-                }
-            } catch (e) {
-                // Silently handle errors for auto-preview
-                console.error('Preview update error:', e);
-            }
-        }
-
-        // Inspect Mode Functions
-        function toggleInspectMode() {
-            inspectMode = !inspectMode;
-            const toggleBtn = document.getElementById('inspectToggle');
-            
-            if (inspectMode) {
-                toggleBtn.textContent = 'On';
-                toggleBtn.classList.add('active');
-                attachInspectListeners();
-            } else {
-                toggleBtn.textContent = 'Off';
-                toggleBtn.classList.remove('active');
-                removeInspectListeners();
-                removeHighlight();
-                removeEditModal();
-            }
-        }
-
-        function attachInspectListeners() {
-            try {
-                const doc = preview.contentDocument || preview.contentWindow.document;
-                if (!doc || !doc.body) return;
-                
-                // Remove existing listeners first
-                removeInspectListeners();
-                
-                // Add mouseover and click listeners to all elements
-                const allElements = doc.querySelectorAll('*');
-                allElements.forEach(element => {
-                    element.addEventListener('mouseover', handleElementMouseOver);
-                    element.addEventListener('mouseout', handleElementMouseOut);
-                    element.addEventListener('click', handleElementClick);
+                const code = editor.getValue();
+                const frame = document.getElementById('preview-frame');
+                const sanitized = DOMPurify.sanitize(code, {
+                    ADD_TAGS: ['style', 'script'],
+                    ADD_ATTR: ['target']
                 });
-            } catch (e) {
-                console.error('Error attaching inspect listeners:', e);
+                frame.srcdoc = sanitized;
+            } catch (error) {
+                console.error('Preview update error:', error);
+                setStatus('Error updating preview', 'error');
             }
         }
 
-        function removeInspectListeners() {
+        function updateStats() {
             try {
-                const doc = preview.contentDocument || preview.contentWindow.document;
-                if (!doc || !doc.body) return;
-                
-                const allElements = doc.querySelectorAll('*');
-                allElements.forEach(element => {
-                    element.removeEventListener('mouseover', handleElementMouseOver);
-                    element.removeEventListener('mouseout', handleElementMouseOut);
-                    element.removeEventListener('click', handleElementClick);
-                });
-            } catch (e) {
-                console.error('Error removing inspect listeners:', e);
+                const code = editor.getValue();
+                const charCount = code.length;
+                const wordCount = code.trim().split(/\s+/).filter(w => w.length > 0).length;
+                document.getElementById('char-count').textContent = charCount;
+                document.getElementById('word-count').textContent = wordCount;
+            } catch (error) {
+                console.error('Stats update error:', error);
             }
         }
 
-        function handleElementMouseOver(e) {
-            e.stopPropagation();
-            removeHighlight();
-            currentHighlightedElement = e.target;
-            currentHighlightedElement.classList.add('inspect-highlight');
-        }
-
-        function handleElementMouseOut(e) {
-            e.stopPropagation();
-            if (currentHighlightedElement === e.target) {
-                removeHighlight();
+        function updateCursorPosition() {
+            try {
+                const cursor = editor.getCursor();
+                document.getElementById('statusLine').textContent = `Line: ${cursor.line + 1}, Col: ${cursor.ch + 1}`;
+            } catch (error) {
+                console.error('Cursor position error:', error);
             }
         }
 
-        function handleElementClick(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            if (currentHighlightedElement) {
-                showEditModal(currentHighlightedElement);
-            }
-        }
-
-        function removeHighlight() {
-            if (currentHighlightedElement) {
-                currentHighlightedElement.classList.remove('inspect-highlight');
-                currentHighlightedElement = null;
-            }
-        }
-
-        function showEditModal(element) {
-            removeEditModal();
-            
-            const rect = element.getBoundingClientRect();
-            const iframeRect = preview.getBoundingClientRect();
-            
-            currentEditModal = document.createElement('div');
-            currentEditModal.className = 'inspect-edit-modal';
-            currentEditModal.style.left = (rect.left + iframeRect.left) + 'px';
-            currentEditModal.style.top = (rect.bottom + iframeRect.top + 5) + 'px';
-            
-            const textarea = document.createElement('textarea');
-            textarea.className = 'inspect-edit-textarea';
-            textarea.value = element.textContent || element.innerHTML || '';
-            
-            const buttonContainer = document.createElement('div');
-            buttonContainer.className = 'inspect-edit-buttons';
-            
-            const saveBtn = document.createElement('button');
-            saveBtn.textContent = 'Save';
-            saveBtn.onclick = () => saveElementContent(element, textarea.value);
-            
-            const cancelBtn = document.createElement('button');
-            cancelBtn.textContent = 'Cancel';
-            cancelBtn.className = 'secondary';
-            cancelBtn.onclick = removeEditModal;
-            
-            buttonContainer.appendChild(cancelBtn);
-            buttonContainer.appendChild(saveBtn);
-            
-            currentEditModal.appendChild(textarea);
-            currentEditModal.appendChild(buttonContainer);
-            
-            document.body.appendChild(currentEditModal);
-            
-            // Focus the textarea
-            textarea.focus();
-            
-            // Close modal when clicking outside
+        function setStatus(message, type = 'info') {
+            const statusEl = document.getElementById('status-message');
+            statusEl.textContent = message;
+            statusEl.style.color = type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#aaa';
             setTimeout(() => {
-                document.addEventListener('click', handleOutsideClick, true);
-            }, 100);
+                statusEl.textContent = 'Ready';
+                statusEl.style.color = '#aaa';
+            }, 3000);
         }
 
-        function handleOutsideClick(e) {
-            if (currentEditModal && !currentEditModal.contains(e.target) && e.target !== currentHighlightedElement) {
-                removeEditModal();
-            }
-        }
-
-        function removeEditModal() {
-            if (currentEditModal) {
-                document.body.removeChild(currentEditModal);
-                currentEditModal = null;
-                document.removeEventListener('click', handleOutsideClick, true);
-            }
-        }
-
-        function saveElementContent(element, newContent) {
-            if (element.textContent !== undefined) {
-                element.textContent = newContent;
-            } else {
-                element.innerHTML = newContent;
-            }
-            removeEditModal();
-            removeHighlight();
-            
-            // Update the editor with the modified content
-            const doc = preview.contentDocument || preview.contentWindow.document;
-            const newHtml = doc.documentElement.outerHTML;
-            editor.setValue(newHtml);
-        }
-
-        // File upload function
-        function handleFileUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            
-            const fileName = file.name.toLowerCase();
-            if (!fileName.endsWith('.html') && !fileName.endsWith('.htm') && !fileName.endsWith('.txt')) {
-                alert('Please upload an HTML file (.html, .htm) or text file (.txt)');
-                return;
-            }
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const content = e.target.result;
-                editor.setValue(content);
-                // Preview will update automatically due to the change event
-            };
-            reader.onerror = function() {
-                alert('Error reading file');
-            };
-            reader.readAsText(file);
-            
-            // Reset the file input
-            event.target.value = '';
-        }
-
-        // Theme toggle
         function toggleTheme() {
-            document.body.classList.toggle('light-theme');
-            const isLight = document.body.classList.contains('light-theme');
-            editor.setOption('theme', isLight ? 'eclipse' : 'monokai');
+            try {
+                document.body.classList.toggle('light-theme');
+                const isLight = document.body.classList.contains('light-theme');
+                editor.setOption('theme', isLight ? 'eclipse' : 'monokai');
+                setStatus(`Switched to ${isLight ? 'light' : 'dark'} theme`, 'success');
+            } catch (error) {
+                console.error('Theme toggle error:', error);
+                setStatus('Error changing theme', 'error');
+            }
         }
 
-        // Device preview
-        function setDevice(device) {
-            document.querySelectorAll('.device-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            document.getElementById('previewWrapper').className = 'preview-wrapper ' + device;
+        function formatCode() {
+            try {
+                const formatted = html_beautify(editor.getValue(), {
+                    indent_size: 2,
+                    wrap_line_length: 80,
+                    preserve_newlines: true
+                });
+                editor.setValue(formatted);
+                setStatus('Code formatted successfully', 'success');
+            } catch (error) {
+                console.error('Format error:', error);
+                setStatus('Error formatting code', 'error');
+            }
         }
 
-        // Export functions
+        function cleanHTML() {
+            try {
+                const cleaned = DOMPurify.sanitize(editor.getValue(), {
+                    ALLOWED_TAGS: ['html', 'head', 'body', 'title', 'meta', 'link', 'style', 'script',
+                        'div', 'span', 'p', 'a', 'img', 'ul', 'ol', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+                        'strong', 'em', 'u', 'br', 'hr', 'table', 'tr', 'td', 'th', 'thead', 'tbody',
+                        'form', 'input', 'button', 'select', 'option', 'textarea', 'label'],
+                    ALLOWED_ATTR: ['class', 'id', 'style', 'href', 'src', 'alt', 'title', 'target',
+                        'type', 'name', 'value', 'placeholder', 'required']
+                });
+                editor.setValue(cleaned);
+                setStatus('HTML cleaned successfully', 'success');
+            } catch (error) {
+                console.error('Clean error:', error);
+                setStatus('Error cleaning HTML', 'error');
+            }
+        }
+
+        function handleFileUpload(event) {
+            try {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        editor.setValue(e.target.result);
+                        setStatus(`File "${file.name}" loaded successfully`, 'success');
+                    } catch (error) {
+                        console.error('File read error:', error);
+                        setStatus('Error reading file', 'error');
+                    }
+                };
+                reader.onerror = () => {
+                    setStatus('Error loading file', 'error');
+                };
+                reader.readAsText(file);
+                event.target.value = '';
+            } catch (error) {
+                console.error('Upload error:', error);
+                setStatus('Error uploading file', 'error');
+            }
+        }
+
+        function showExportOptions() {
+            document.getElementById('export-modal').classList.add('active');
+        }
+
         function exportHTML() {
-            const blob = new Blob([editor.getValue()], {type: 'text/html'});
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'page.html';
-            a.click();
-            URL.revokeObjectURL(url);
-            closeModal('exportModal');
+            try {
+                const blob = new Blob([editor.getValue()], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'export.html';
+                a.click();
+                URL.revokeObjectURL(url);
+                setStatus('HTML exported successfully', 'success');
+                closeModal('export-modal');
+            } catch (error) {
+                console.error('Export error:', error);
+                setStatus('Error exporting HTML', 'error');
+            }
         }
 
         function exportScreenshot() {
-            html2canvas(preview.contentDocument.body).then(canvas => {
-                const link = document.createElement('a');
-                link.download = 'screenshot.png';
-                link.href = canvas.toDataURL();
-                link.click();
-                closeModal('exportModal');
-            }).catch(e => {
-                alert('Screenshot failed: ' + e.message);
-            });
-        }
-
-        function exportCodePen() {
-            const code = editor.getValue();
-            const html = code.match(/<body[^>]*>([\s\S]*)<\/body>/i)?.[1] || code;
-            const css = code.match(/<style[^>]*>([\s\S]*)<\/style>/i)?.[1] || '';
-            const js = code.match(/<script[^>]*>([\s\S]*?)<\/script>/i)?.[1] || '';
-            
-            const form = document.createElement('form');
-            form.action = 'https://codepen.io/pen/define';
-            form.method = 'POST';
-            form.target = '_blank';
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'data';
-            input.value = JSON.stringify({html, css, js});
-            form.appendChild(input);
-            document.body.appendChild(form);
-            form.submit();
-            document.body.removeChild(form);
-            closeModal('exportModal');
-        }
-
-        // Formatting
-        function formatCode() {
             try {
-                const formatted = html_beautify(editor.getValue(), { indent_size: 2 });
-                editor.setValue(formatted);
-                // Preview will update automatically due to the change event
-            } catch (e) {
-                alert('Formatting failed: ' + e.message);
+                const frame = document.getElementById('preview-frame');
+                setStatus('Generating screenshot...', 'info');
+                
+                html2canvas(frame.contentDocument.body).then(canvas => {
+                    canvas.toBlob(blob => {
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'screenshot.png';
+                        a.click();
+                        URL.revokeObjectURL(url);
+                        setStatus('Screenshot saved successfully', 'success');
+                    });
+                }).catch(error => {
+                    console.error('Screenshot error:', error);
+                    setStatus('Error generating screenshot', 'error');
+                });
+                closeModal('export-modal');
+            } catch (error) {
+                console.error('Screenshot error:', error);
+                setStatus('Error generating screenshot', 'error');
             }
         }
 
-        // Base64 Encoding
+        function exportCodePen() {
+            try {
+                const html = editor.getValue();
+                const form = document.createElement('form');
+                form.action = 'https://codepen.io/pen/define';
+                form.method = 'POST';
+                form.target = '_blank';
+                
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'data';
+                input.value = JSON.stringify({
+                    title: 'HTML Editor Pro Export',
+                    html: html
+                });
+                
+                form.appendChild(input);
+                document.body.appendChild(form);
+                form.submit();
+                document.body.removeChild(form);
+                
+                setStatus('Opening in CodePen...', 'success');
+                closeModal('export-modal');
+            } catch (error) {
+                console.error('CodePen export error:', error);
+                setStatus('Error exporting to CodePen', 'error');
+            }
+        }
+
+        function clearCode() {
+            if (confirm('Are you sure you want to clear all code?')) {
+                try {
+                    editor.setValue('');
+                    setStatus('Code cleared', 'success');
+                } catch (error) {
+                    console.error('Clear error:', error);
+                    setStatus('Error clearing code', 'error');
+                }
+            }
+        }
+
+        function findText() {
+            try {
+                editor.execCommand('find');
+            } catch (error) {
+                console.error('Find error:', error);
+                setStatus('Error opening find dialog', 'error');
+            }
+        }
+
+        function replaceText() {
+            try {
+                editor.execCommand('replace');
+            } catch (error) {
+                console.error('Replace error:', error);
+                setStatus('Error opening replace dialog', 'error');
+            }
+        }
+
+        function copyCode() {
+            try {
+                navigator.clipboard.writeText(editor.getValue()).then(() => {
+                    setStatus('Code copied to clipboard', 'success');
+                }).catch(() => {
+                    setStatus('Error copying to clipboard', 'error');
+                });
+            } catch (error) {
+                console.error('Copy error:', error);
+                setStatus('Error copying code', 'error');
+            }
+        }
+
+        function setDevice(device) {
+            try {
+                const wrapper = document.getElementById('preview-wrapper');
+                const buttons = document.querySelectorAll('.device-btn');
+                
+                buttons.forEach(btn => btn.classList.remove('active'));
+                event.target.classList.add('active');
+                
+                wrapper.className = 'preview-wrapper ' + device;
+                setStatus(`Switched to ${device} view`, 'success');
+            } catch (error) {
+                console.error('Device switch error:', error);
+                setStatus('Error switching device view', 'error');
+            }
+        }
+
+        function execCmd(command) {
+            try {
+                document.execCommand(command, false, null);
+            } catch (error) {
+                console.error('Command execution error:', error);
+            }
+        }
+
+        function formatBlock(tag) {
+            if (tag) {
+                try {
+                    document.execCommand('formatBlock', false, tag);
+                } catch (error) {
+                    console.error('Format block error:', error);
+                }
+            }
+        }
+
+        function insertLink() {
+            document.getElementById('link-modal').classList.add('active');
+            document.getElementById('link-url').focus();
+        }
+
+        function insertLinkSubmit() {
+            try {
+                const url = document.getElementById('link-url').value;
+                const text = document.getElementById('link-text').value;
+                
+                if (!url) {
+                    alert('Please enter a URL');
+                    return;
+                }
+                
+                const linkHTML = `<a href="${url}" target="_blank">${text || url}</a>`;
+                document.execCommand('insertHTML', false, linkHTML);
+                
+                document.getElementById('link-url').value = '';
+                document.getElementById('link-text').value = '';
+                closeModal('link-modal');
+                setStatus('Link inserted', 'success');
+            } catch (error) {
+                console.error('Link insert error:', error);
+                setStatus('Error inserting link', 'error');
+            }
+        }
+
+        function insertImage() {
+            document.getElementById('image-modal').classList.add('active');
+            document.getElementById('image-url').focus();
+        }
+
+        function insertImageSubmit() {
+            try {
+                const url = document.getElementById('image-url').value;
+                const alt = document.getElementById('image-alt').value;
+                
+                if (!url) {
+                    alert('Please enter an image URL');
+                    return;
+                }
+                
+                const imgHTML = `<img src="${url}" alt="${alt || 'Image'}" style="max-width: 100%;">`;
+                document.execCommand('insertHTML', false, imgHTML);
+                
+                document.getElementById('image-url').value = '';
+                document.getElementById('image-alt').value = '';
+                closeModal('image-modal');
+                setStatus('Image inserted', 'success');
+            } catch (error) {
+                console.error('Image insert error:', error);
+                setStatus('Error inserting image', 'error');
+            }
+        }
+
+        function toggleEditMode() {
+            isEditMode = !isEditMode;
+            document.getElementById('edit-mode-text').textContent = isEditMode ? 'Code' : 'View';
+            setStatus(`Switched to ${isEditMode ? 'edit' : 'view'} mode`, 'success');
+        }
+
+        function openEncodingModal() {
+            document.getElementById('encoding-modal').classList.add('active');
+        }
+
         function encodeBase64() {
             try {
                 const input = document.getElementById('base64Input').value;
-                document.getElementById('base64Output').value = btoa(unescape(encodeURIComponent(input)));
-            } catch (e) {
-                document.getElementById('base64Output').value = 'Error: ' + e.message;
+                const encoded = btoa(unescape(encodeURIComponent(input)));
+                document.getElementById('base64Output').value = encoded;
+            } catch (error) {
+                console.error('Base64 encode error:', error);
+                alert('Error encoding to Base64');
             }
         }
 
         function decodeBase64() {
             try {
                 const input = document.getElementById('base64Input').value;
-                document.getElementById('base64Output').value = decodeURIComponent(escape(atob(input)));
-            } catch (e) {
-                document.getElementById('base64Output').value = 'Error: ' + e.message;
+                const decoded = decodeURIComponent(escape(atob(input)));
+                document.getElementById('base64Output').value = decoded;
+            } catch (error) {
+                console.error('Base64 decode error:', error);
+                alert('Error decoding Base64. Make sure the input is valid.');
             }
         }
 
-        // Quoted-Printable Encoding
-        function encodeQP() {
+        function encodeQuotedPrintable() {
             try {
                 const input = document.getElementById('qpInput').value;
-                document.getElementById('qpOutput').value = quotedPrintableEncode(input);
-            } catch (e) {
-                document.getElementById('qpOutput').value = 'Error: ' + e.message;
+                let encoded = '';
+                
+                for (let i = 0; i < input.length; i++) {
+                    const char = input[i];
+                    const code = char.charCodeAt(0);
+                    
+                    // Encode if non-printable, =, or code > 126
+                    if (code < 33 || code > 126 || char === '=') {
+                        if (char === '\r') continue; // Skip CR
+                        if (char === '\n') {
+                            encoded += '=0D=0A'; // CRLF
+                        } else if (char === ' ') {
+                            // Space at end of line should be encoded
+                            encoded += (i === input.length - 1 || input[i + 1] === '\n') ? '=20' : ' ';
+                        } else {
+                            const hex = code.toString(16).toUpperCase().padStart(2, '0');
+                            encoded += '=' + hex;
+                        }
+                    } else {
+                        encoded += char;
+                    }
+                }
+                
+                // Add soft line breaks every 76 characters
+                let result = '';
+                for (let i = 0; i < encoded.length; i += 76) {
+                    result += encoded.substring(i, i + 76);
+                    if (i + 76 < encoded.length) {
+                        result += '=\r\n'; // Soft line break
+                    }
+                }
+                
+                document.getElementById('qpOutput').value = result;
+            } catch (error) {
+                console.error('Quoted-Printable encode error:', error);
+                alert('Error encoding to Quoted-Printable');
             }
         }
 
-        function decodeQP() {
+        function decodeQuotedPrintable() {
             try {
                 const input = document.getElementById('qpInput').value;
-                document.getElementById('qpOutput').value = quotedPrintableDecode(input);
-            } catch (e) {
-                document.getElementById('qpOutput').value = 'Error: ' + e.message;
-            }
-        }
-
-        // Quoted-Printable Implementation
-        function quotedPrintableEncode(str) {
-            // Convert to UTF-8 bytes
-            const utf8Bytes = new TextEncoder().encode(str);
-            let result = '';
-            
-            for (let i = 0; i < utf8Bytes.length; i++) {
-                const byte = utf8Bytes[i];
+                let decoded = '';
                 
-                // Check if character needs encoding
-                if ((byte >= 33 && byte <= 60) || (byte >= 62 && byte <= 126) || byte === 32) {
-                    // Printable ASCII character (excluding =)
-                    result += String.fromCharCode(byte);
-                } else if (byte === 61) {
-                    // Equal sign must be encoded
-                    result += '=3D';
-                } else if (byte === 9) {
-                    // Tab
-                    result += '\t';
-                } else if (byte === 32 && (i === utf8Bytes.length - 1 || utf8Bytes[i + 1] === 10 || utf8Bytes[i + 1] === 13)) {
-                    // Space at end of line must be encoded
-                    result += '=20';
-                } else {
-                    // Non-printable character
-                    result += '=' + byte.toString(16).toUpperCase().padStart(2, '0');
-                }
-                
-                // Soft line breaks every 76 characters (excluding the = at the end)
-                if (result.length > 0 && (result.length - result.lastIndexOf('\n') - 1) >= 75) {
-                    result += '=\n';
-                }
-            }
-            
-            return result;
-        }
-
-        function quotedPrintableDecode(str) {
-            let result = '';
-            let i = 0;
-            
-            while (i < str.length) {
-                const char = str[i];
-                
-                if (char === '=') {
-                    // Check if this is a soft line break
-                    if (i + 1 < str.length && (str[i + 1] === '\r' || str[i + 1] === '\n')) {
-                        // Soft line break - skip the = and the line break
-                        i += 2;
-                        if (str[i - 1] === '\r' && i < str.length && str[i] === '\n') {
-                            i++; // Skip \n after \r
+                for (let i = 0; i < input.length; i++) {
+                    if (input[i] === '=') {
+                        if (input[i + 1] === '\r' || input[i + 1] === '\n') {
+                            // Soft line break - skip it
+                            i += (input[i + 1] === '\r' && input[i + 2] === '\n') ? 2 : 1;
+                        } else {
+                            // Hex encoded character
+                            const hex = input.substring(i + 1, i + 3);
+                            decoded += String.fromCharCode(parseInt(hex, 16));
+                            i += 2;
                         }
-                        continue;
+                    } else {
+                        decoded += input[i];
                     }
-                    
-                    // Regular encoded character
-                    if (i + 2 < str.length) {
-                        const hex = str.substring(i + 1, i + 3);
-                        if (/^[0-9A-Fa-f]{2}$/.test(hex)) {
-                            result += String.fromCharCode(parseInt(hex, 16));
-                            i += 3;
-                            continue;
-                        }
-                    }
-                    
-                    // If we get here, it's an invalid encoding
-                    result += char;
-                    i++;
-                } else {
-                    result += char;
-                    i++;
                 }
-            }
-            
-            // Convert from UTF-8 bytes to string
-            const bytes = new Uint8Array(result.length);
-            for (let j = 0; j < result.length; j++) {
-                bytes[j] = result.charCodeAt(j);
-            }
-            
-            try {
-                return new TextDecoder('utf-8').decode(bytes);
-            } catch (e) {
-                return result; // Fallback if UTF-8 decoding fails
+                
+                document.getElementById('qpOutput').value = decoded;
+            } catch (error) {
+                console.error('Quoted-Printable decode error:', error);
+                alert('Error decoding Quoted-Printable. Make sure the input is valid.');
             }
         }
 
-        // Utility functions
-        function findText() { editor.execCommand('find'); }
-        function replaceText() { editor.execCommand('replace'); }
-        function openEncodingModal() { document.getElementById('encodingModal').classList.add('active'); }
-        function showExportOptions() { document.getElementById('exportModal').classList.add('active'); }
-        function clearCode() {
-            if (confirm('Clear all code?')) {
-                editor.setValue('');
-                preview.src = 'about:blank';
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
             }
         }
-        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
-        // Close modals on outside click
-        document.querySelectorAll('.modal').forEach(modal => {
-            modal.addEventListener('click', e => {
-                if (e.target === modal) closeModal(modal.id);
-            });
-        });
-
-        // Initialize preview on load
-        window.addEventListener('load', updatePreview);
+        window.addEventListener('DOMContentLoaded', initEditor);
     </script>
 </body>
 </html>
