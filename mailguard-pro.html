@@ -18,6 +18,25 @@
       position: relative;
       overflow-x: hidden;
     }
+    body.light-theme {
+      background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+      color: #111827;
+    }
+    body.midnight-theme {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    }
+    body.forest-theme {
+      background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+    }
+    body.sunset-theme {
+      background: linear-gradient(135deg, #451a03 0%, #78350f 100%);
+    }
+    body.purple-theme {
+      background: linear-gradient(135deg, #3b0764 0%, #581c87 100%);
+    }
+    body.ocean-theme {
+      background: linear-gradient(135deg, #042f2e 0%, #134e4a 100%);
+    }
     body::before {
       content: '';
       position: fixed;
@@ -131,6 +150,22 @@
     #output pre { white-space: pre-wrap; word-break: break-word; margin: 0; }
     #output.has-content { border-style: solid; border-color: #10b981; }
     body.dark-mode #output.has-content { border-color: #059669; }
+
+    /* Syntax highlighting for email headers */
+    .email-header {
+      color: #3b82f6;
+      font-weight: 600;
+    }
+    body.dark-mode .email-header {
+      color: #60a5fa;
+    }
+    .email-header-name {
+      color: #8b5cf6;
+      font-weight: 700;
+    }
+    body.dark-mode .email-header-name {
+      color: #a78bfa;
+    }
 
     .btn { 
       display: inline-flex;
@@ -449,7 +484,7 @@
     }
     .toast.show { display: flex; }
     .toast.error { background: #ef4444; }
-    
+
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
@@ -531,6 +566,25 @@
         grid-template-columns: 1fr;
       }
     }
+    .theme-option:hover {
+      border-color: #3b82f6 !important;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
+    }
+
+    .theme-option.active {
+      border-color: #10b981 !important;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+    }
+
+    .insertion-position-option input[type="radio"]:checked ~ div {
+      color: #60a5fa !important;
+    }
+
+    .insertion-position-option:hover {
+      background: #1e293b !important;
+    }
+
     @media (max-width: 640px) {
       header { padding: 1rem 1rem 0.75rem; }
       header h1 { font-size: 1.5rem; }
@@ -541,6 +595,7 @@
       .theme-toggle, .btn-icon { width: 2.25rem; height: 2.25rem; font-size: 1rem; }
       .stats-bar { font-size: 0.75rem; gap: 0.75rem; }
       .modal { padding: 1.5rem; }
+      .theme-grid { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)) !important; }
     }
 
     ::-webkit-scrollbar {
@@ -575,9 +630,11 @@
     <h1>MailGuard Pro</h1>
     <p>Clean, mask, and customize email headers with ease</p>
     <div class="settings-btn-container">
-      <button id="themeToggle" class="theme-toggle" title="Toggle Dark Mode">🌙</button>
+      <button id="themeToggle" class="theme-toggle" title="Choose Theme">🎨</button>
+      <button id="projectManagerBtn" class="btn btn-gray btn-icon" title="Project Manager">📁</button>
       <button id="headerRemovalBtn" class="btn btn-gray btn-icon" title="Custom Header Removal">🚫</button>
       <button id="replacementHeadersBtn" class="btn btn-gray btn-icon" title="Replacement Headers">🔄</button>
+      <button id="smartInsertBtn" class="btn btn-gray btn-icon" title="Smart Insert">➕</button>
     </div>
   </header>
 
@@ -587,6 +644,7 @@
         <h2>📥 Paste Raw Email Source</h2>
         <div class="btn-group">
           <button id="cleanBtn" class="btn btn-blue">🧹 Clean</button>
+          <button id="batchUploadBtn" class="btn btn-green">📦 Batch Upload</button>
           <button id="clearInputBtn" class="btn btn-red">🗑️ Clear</button>
         </div>
       </div>
@@ -649,7 +707,7 @@
         <button class="modal-close" id="closeHeaderRemovalModal">×</button>
       </div>
       <p class="modal-description">Checked = REMOVE from email | Unchecked = KEEP in email</p>
-      
+
       <div style="display: flex; gap: 0.75rem; margin-bottom: 1.5rem;">
         <button id="selectAllHeadersBtn" class="btn btn-blue" style="flex: 1;">✓ Select All</button>
         <button id="clearAllHeadersBtn" class="btn btn-gray" style="flex: 1;">Clear All</button>
@@ -668,6 +726,230 @@
         </div>
         <div class="checkbox-list" id="customHeaderCheckboxList"></div>
       </div>
+
+      <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
+        <button id="saveHeaderSettingsBtn" class="btn btn-green" style="flex: 1;">💾 Save Settings</button>
+        <button id="closeHeaderRemovalBtn" class="btn btn-gray" style="flex: 1;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project Manager Modal -->
+  <div id="projectManagerModal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>📁 Project Manager</h2>
+        <button class="modal-close" id="closeProjectManagerModal">×</button>
+      </div>
+      <p class="modal-description">Save and load your header configurations</p>
+
+      <div class="settings-group">
+        <h3>Save Current Project</h3>
+        <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem;">
+          <input type="text" id="projectNameInput" placeholder="Enter project name" style="flex: 1;">
+          <button id="saveProjectBtn" class="btn btn-blue">💾 Save</button>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <h3>Import/Export Project</h3>
+        <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem;">
+          <input type="file" id="importProjectFile" accept=".json" style="display: none;">
+          <button id="importProjectBtn" class="btn btn-blue" style="flex: 1;">📤 Import Project</button>
+          <button id="exportProjectBtn" class="btn btn-green" style="flex: 1;">📥 Export Current</button>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <h3>Your Saved Projects</h3>
+        <div id="savedProjectsList" style="display: flex; flex-direction: column; gap: 0.75rem; max-height: 300px; overflow-y: auto;">
+          <p style="color: #9ca3af; text-align: center; padding: 2rem;">No saved projects yet</p>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
+        <button id="closeProjectManagerBtn" class="btn btn-gray" style="flex: 1;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Theme Selection Modal -->
+  <div id="themeModal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>🎨 Choose Your Theme</h2>
+        <button class="modal-close" id="closeThemeModal">×</button>
+      </div>
+
+      <div class="theme-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+        <div class="theme-option" data-theme="dark" style="cursor: pointer; border-radius: 0.75rem; overflow: hidden; border: 2px solid transparent; transition: all 0.2s;">
+          <div style="height: 100px; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);"></div>
+          <div style="padding: 0.75rem; background: #374151; text-align: center; font-weight: 600; color: #f3f4f6;">Dark</div>
+        </div>
+
+        <div class="theme-option" data-theme="light" style="cursor: pointer; border-radius: 0.75rem; overflow: hidden; border: 2px solid transparent; transition: all 0.2s;">
+          <div style="height: 100px; background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);"></div>
+          <div style="padding: 0.75rem; background: #374151; text-align: center; font-weight: 600; color: #f3f4f6;">Light</div>
+        </div>
+
+        <div class="theme-option" data-theme="midnight" style="cursor: pointer; border-radius: 0.75rem; overflow: hidden; border: 2px solid transparent; transition: all 0.2s;">
+          <div style="height: 100px; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);"></div>
+          <div style="padding: 0.75rem; background: #374151; text-align: center; font-weight: 600; color: #f3f4f6;">Midnight Blue</div>
+        </div>
+
+        <div class="theme-option" data-theme="forest" style="cursor: pointer; border-radius: 0.75rem; overflow: hidden; border: 2px solid transparent; transition: all 0.2s;">
+          <div style="height: 100px; background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);"></div>
+          <div style="padding: 0.75rem; background: #374151; text-align: center; font-weight: 600; color: #f3f4f6;">Forest Green</div>
+        </div>
+
+        <div class="theme-option" data-theme="sunset" style="cursor: pointer; border-radius: 0.75rem; overflow: hidden; border: 2px solid transparent; transition: all 0.2s;">
+          <div style="height: 100px; background: linear-gradient(135deg, #451a03 0%, #78350f 100%);"></div>
+          <div style="padding: 0.75rem; background: #374151; text-align: center; font-weight: 600; color: #f3f4f6;">Sunset Orange</div>
+        </div>
+
+        <div class="theme-option" data-theme="purple" style="cursor: pointer; border-radius: 0.75rem; overflow: hidden; border: 2px solid transparent; transition: all 0.2s;">
+          <div style="height: 100px; background: linear-gradient(135deg, #3b0764 0%, #581c87 100%);"></div>
+          <div style="padding: 0.75rem; background: #374151; text-align: center; font-weight: 600; color: #f3f4f6;">Purple Haze</div>
+        </div>
+
+        <div class="theme-option" data-theme="ocean" style="cursor: pointer; border-radius: 0.75rem; overflow: hidden; border: 2px solid transparent; transition: all 0.2s;">
+          <div style="height: 100px; background: linear-gradient(135deg, #042f2e 0%, #134e4a 100%);"></div>
+          <div style="padding: 0.75rem; background: #374151; text-align: center; font-weight: 600; color: #f3f4f6;">Ocean Teal</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Smart Insert Modal -->
+  <div id="smartInsertModal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>➕ Smart Insert</h2>
+        <button class="modal-close" id="closeSmartInsertModal">×</button>
+      </div>
+      <p class="modal-description">Paste content below and choose where to insert it in the cleaned email source.</p>
+
+      <div class="settings-group">
+        <h3>Insertion Position</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem;">
+          <label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem; background: #111827; border-radius: 0.5rem; cursor: pointer; border: 2px solid transparent; transition: all 0.2s;" class="insertion-position-option">
+            <input type="radio" name="insertionPosition" value="after-transfer-encoding" checked style="cursor: pointer;">
+            <div style="flex: 1;">
+              <div style="font-weight: 600; color: #f3f4f6; font-size: 0.9rem;">After Transfer Encoding</div>
+              <div style="font-size: 0.75rem; color: #9ca3af;">Under Content-Transfer-Encoding</div>
+            </div>
+          </label>
+          <label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem; background: #111827; border-radius: 0.5rem; cursor: pointer; border: 2px solid transparent; transition: all 0.2s;" class="insertion-position-option">
+            <input type="radio" name="insertionPosition" value="after-content-type" style="cursor: pointer;">
+            <div style="flex: 1;">
+              <div style="font-weight: 600; color: #f3f4f6; font-size: 0.9rem;">After Content-Type</div>
+              <div style="font-size: 0.75rem; color: #9ca3af;">Right after Content-Type header</div>
+            </div>
+          </label>
+          <label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem; background: #111827; border-radius: 0.5rem; cursor: pointer; border: 2px solid transparent; transition: all 0.2s;" class="insertion-position-option">
+            <input type="radio" name="insertionPosition" value="before-body" style="cursor: pointer;">
+            <div style="flex: 1;">
+              <div style="font-weight: 600; color: #f3f4f6; font-size: 0.9rem;">Before Body</div>
+              <div style="font-size: 0.75rem; color: #9ca3af;">Just before email body content</div>
+            </div>
+          </label>
+          <label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem; background: #111827; border-radius: 0.5rem; cursor: pointer; border: 2px solid transparent; transition: all 0.2s;" class="insertion-position-option">
+            <input type="radio" name="insertionPosition" value="after-headers" style="cursor: pointer;">
+            <div style="flex: 1;">
+              <div style="font-weight: 600; color: #f3f4f6; font-size: 0.9rem;">After All Headers</div>
+              <div style="font-size: 0.75rem; color: #9ca3af;">After the blank line separator</div>
+            </div>
+          </label>
+          <label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem; background: #111827; border-radius: 0.5rem; cursor: pointer; border: 2px solid transparent; transition: all 0.2s;" class="insertion-position-option">
+            <input type="radio" name="insertionPosition" value="before-doctype" style="cursor: pointer;">
+            <div style="flex: 1;">
+              <div style="font-weight: 600; color: #f3f4f6; font-size: 0.9rem;">Before DOCTYPE</div>
+              <div style="font-size: 0.75rem; color: #9ca3af;">Above &lt;!DOCTYPE html&gt; tag</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <h3>Content to Insert</h3>
+        <textarea id="smartInsertContent" placeholder="Paste your HTML or text content here..." style="min-height: 250px; font-family: 'Courier New', Courier, monospace; resize: vertical;"></textarea>
+        <div style="margin-top: 1rem; padding: 0.75rem; background: #111827; border-radius: 0.5rem;">
+          <div style="display: flex; align-items: center; gap: 0.5rem; color: #9ca3af; font-size: 0.9rem; margin-bottom: 0.5rem;">
+            <span style="font-weight: 600;">Content Type:</span>
+            <span id="contentTypeDetection" style="color: #3b82f6;">Waiting for input...</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.5rem; color: #9ca3af; font-size: 0.9rem; margin-bottom: 0.5rem;">
+            <span style="font-weight: 600;">Encoding Detected:</span>
+            <span id="encodingDetection" style="color: #8b5cf6;">-</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.5rem; color: #9ca3af; font-size: 0.9rem; margin-bottom: 0.5rem;">
+            <span style="font-weight: 600;">Encoding Validation:</span>
+            <span id="encodingValidation" style="color: #10b981;">-</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.5rem; color: #9ca3af; font-size: 0.9rem;">
+            <span style="font-weight: 600;">Characters:</span>
+            <span id="insertContentChars" style="color: #10b981;">0</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
+        <button id="applySmartInsertBtn" class="btn btn-green" style="flex: 1;">✔ Insert Content</button>
+        <button id="clearSmartInsertBtn" class="btn btn-gray" style="flex: 1;">🗑️ Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Batch Upload Modal -->
+  <div id="batchUploadModal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>📦 Batch Upload & Clean</h2>
+        <button class="modal-close" id="closeBatchUploadModal">×</button>
+      </div>
+      <p class="modal-description">Upload multiple .txt files to clean them all at once and export as a zip file</p>
+
+      <div class="settings-group">
+        <h3>Upload Files</h3>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <input type="file" id="batchFileInput" accept=".txt" multiple style="display: none;">
+          <button id="selectFilesBtn" class="btn btn-blue" style="width: 100%;">
+            📁 Select Files (.txt)
+          </button>
+          <div id="fileListContainer" style="max-height: 300px; overflow-y: auto; background: #111827; border-radius: 0.5rem; padding: 1rem;">
+            <p style="color: #9ca3af; text-align: center;">No files selected</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-group">
+        <h3>Processing Status</h3>
+        <div id="batchProgressContainer" style="display: none;">
+          <div style="background: #111827; border-radius: 0.5rem; padding: 1rem; margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+              <span style="color: #f3f4f6;">Progress:</span>
+              <span id="batchProgressText" style="color: #3b82f6; font-weight: 600;">0 / 0</span>
+            </div>
+            <div style="background: #374151; border-radius: 0.25rem; height: 8px; overflow: hidden;">
+              <div id="batchProgressBar" style="background: #3b82f6; height: 100%; width: 0%; transition: width 0.3s;"></div>
+            </div>
+          </div>
+          <div id="batchStatusLog" style="background: #111827; border-radius: 0.5rem; padding: 1rem; max-height: 150px; overflow-y: auto; font-family: monospace; font-size: 0.85rem; color: #9ca3af;">
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
+        <button id="processBatchBtn" class="btn btn-green" style="flex: 1;" disabled>
+          🧹 Process All Files
+        </button>
+        <button id="exportBatchBtn" class="btn btn-blue" style="flex: 1;" disabled>
+          📥 Export as ZIP
+        </button>
+        <button id="closeBatchBtn" class="btn btn-gray" style="flex: 1;">
+          Close
+        </button>
+      </div>
     </div>
   </div>
 
@@ -679,7 +961,7 @@
         <button class="modal-close" id="closeReplacementHeadersModal">×</button>
       </div>
       <p class="modal-description">Enter replacement headers (one per line). Existing headers will be replaced, new headers will be added.</p>
-      
+
       <!-- New replacement fields -->
       <div class="settings-group">
         <h3>Quick Replacements</h3>
@@ -695,9 +977,37 @@
             <div class="field-description">Replaces domain in From header (after @)</div>
           </div>
           <div class="replacement-field">
+            <label for="replaceFromEmail">Replace From Email</label>
+            <input type="text" id="replaceFromEmail" placeholder="example@example.com">
+            <label style="display: flex; align-items: center; gap: 0.375rem; cursor: pointer; margin: 0.5rem 0 0 0;">
+              <input type="checkbox" id="replaceFromEmailEnabled" style="cursor: pointer; width: auto; margin: 0;">
+              <span style="font-size: 0.85rem; color: #9ca3af;">Enable replacement</span>
+            </label>
+            <div class="field-description">Replaces the entire email address in From header</div>
+          </div>
+          <div class="replacement-field">
+            <label for="replaceFromName">Replace From Name</label>
+            <input type="text" id="replaceFromName" placeholder="New Display Name">
+            <label style="display: flex; align-items: center; gap: 0.375rem; cursor: pointer; margin: 0.5rem 0 0 0;">
+              <input type="checkbox" id="replaceFromNameEnabled" style="cursor: pointer; width: auto; margin: 0;">
+              <span style="font-size: 0.85rem; color: #9ca3af;">Enable replacement</span>
+            </label>
+            <div class="field-description">Replaces the display name in From header</div>
+          </div>
+          <div class="replacement-field">
             <label for="replaceMessageIdPrefix">Replace Message-ID Prefix</label>
             <input type="text" id="replaceMessageIdPrefix" placeholder="example2">
-            <div class="field-description">Adds prefix to Message-ID before @ and after first 4 characters</div>
+            <div style="display: flex; gap: 1rem; margin-top: 0.5rem; align-items: center;">
+              <label style="display: flex; align-items: center; gap: 0.375rem; cursor: pointer; margin: 0;">
+                <input type="radio" name="messageIdPosition" value="start" style="cursor: pointer; width: auto; margin: 0;">
+                <span style="font-size: 0.85rem; color: #9ca3af;">At the start</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.375rem; cursor: pointer; margin: 0;">
+                <input type="radio" name="messageIdPosition" value="beforeAt" checked style="cursor: pointer; width: auto; margin: 0;">
+                <span style="font-size: 0.85rem; color: #9ca3af;">Before @ symbol</span>
+              </label>
+            </div>
+            <div class="field-description">Choose where to add the prefix in Message-ID</div>
           </div>
         </div>
       </div>
@@ -714,6 +1024,7 @@
     </div>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script>
     const HEADERS_TO_KEEP = [
       "received",
@@ -757,7 +1068,12 @@
     let replacementHeadersText = '';
     let replaceSubject = '';
     let replaceFromDomain = '';
+    let replaceFromEmail = ''; // New variable for from email
+    let replaceFromEmailEnabled = false; // New variable for from email checkbox
+    let replaceFromName = ''; // New variable for from name
+    let replaceFromNameEnabled = false; // New variable for from name checkbox
     let replaceMessageIdPrefix = '';
+    let messageIdPrefixPosition = 'beforeAt'; // Default: add before @ symbol
 
     // Elements
     const inputEl = document.getElementById('input');
@@ -771,10 +1087,16 @@
     const headerRemovalBtn = document.getElementById('headerRemovalBtn');
     const replacementHeadersBtn = document.getElementById('replacementHeadersBtn');
     const themeToggle = document.getElementById('themeToggle');
+    const projectManagerBtn = document.getElementById('projectManagerBtn');
     const headerRemovalModal = document.getElementById('headerRemovalModal');
     const replacementHeadersModal = document.getElementById('replacementHeadersModal');
+    const projectManagerModal = document.getElementById('projectManagerModal');
+    const themeModal = document.getElementById('themeModal');
     const closeHeaderRemovalModal = document.getElementById('closeHeaderRemovalModal');
     const closeReplacementHeadersModal = document.getElementById('closeReplacementHeadersModal');
+    const closeProjectManagerModal = document.getElementById('closeProjectManagerModal');
+    const closeProjectManagerBtn = document.getElementById('closeProjectManagerBtn');
+    const closeThemeModal = document.getElementById('closeThemeModal');
     const toast = document.getElementById('toast');
     const toastMessage = document.getElementById('toastMessage');
 
@@ -798,10 +1120,48 @@
     const clearReplacementHeadersBtn = document.getElementById('clearReplacementHeadersBtn');
     const replaceSubjectInput = document.getElementById('replaceSubject');
     const replaceFromDomainInput = document.getElementById('replaceFromDomain');
+    const replaceFromEmailInput = document.getElementById('replaceFromEmail'); // New element
+    const replaceFromEmailEnabledInput = document.getElementById('replaceFromEmailEnabled'); // New element
+    const replaceFromNameInput = document.getElementById('replaceFromName'); // New element for From Name
+    const replaceFromNameEnabledInput = document.getElementById('replaceFromNameEnabled'); // New element for From Name enabled
     const replaceMessageIdPrefixInput = document.getElementById('replaceMessageIdPrefix');
+
+    // Smart Insert elements
+    const smartInsertBtn = document.getElementById('smartInsertBtn');
+    const smartInsertModal = document.getElementById('smartInsertModal');
+    const closeSmartInsertModal = document.getElementById('closeSmartInsertModal');
+    const smartInsertContent = document.getElementById('smartInsertContent');
+    const applySmartInsertBtn = document.getElementById('applySmartInsertBtn');
+    const clearSmartInsertBtn = document.getElementById('clearSmartInsertBtn');
+    const contentTypeDetection = document.getElementById('contentTypeDetection');
+    const insertLocationText = document.getElementById('insertLocationText');
+
+    // Batch Upload elements
+    const batchUploadBtn = document.getElementById('batchUploadBtn');
+    const batchUploadModal = document.getElementById('batchUploadModal');
+    const closeBatchUploadModal = document.getElementById('closeBatchUploadModal');
+    const closeBatchBtn = document.getElementById('closeBatchBtn');
+    const batchFileInput = document.getElementById('batchFileInput');
+    const selectFilesBtn = document.getElementById('selectFilesBtn');
+    const fileListContainer = document.getElementById('fileListContainer');
+    const processBatchBtn = document.getElementById('processBatchBtn');
+    const exportBatchBtn = document.getElementById('exportBatchBtn');
+    const batchProgressContainer = document.getElementById('batchProgressContainer');
+    const batchProgressBar = document.getElementById('batchProgressBar');
+    const batchProgressText = document.getElementById('batchProgressText');
+    const batchStatusLog = document.getElementById('batchStatusLog');
+
+    let batchFiles = [];
+    let processedBatchResults = [];
+
+    // Project Manager elements
+    const projectNameInput = document.getElementById('projectNameInput');
+    const saveProjectBtn = document.getElementById('saveProjectBtn');
+    const savedProjectsList = document.getElementById('savedProjectsList');
 
     let headersToRemove = [...DEFAULT_HEADERS_TO_REMOVE];
     let customHeaders = [];
+    let savedProjects = [];
 
     function showToast(message, isError = false) {
       toastMessage.textContent = message;
@@ -814,7 +1174,7 @@
 
     function initHeaderCheckboxes() {
       headerCheckboxList.innerHTML = '';
-      
+
       // Add X-Headers checkbox first
       const xHeaderItem = document.createElement('div');
       xHeaderItem.className = 'checkbox-item';
@@ -872,12 +1232,12 @@
 
     function updateHeadersToRemove() {
       headersToRemove = [];
-      
+
       // Add X-Headers if checked
       if (removeAllXHeaders) {
         headersToRemove.push('x-headers');
       }
-      
+
       // Add standard headers
       const standardCheckboxes = headerCheckboxList.querySelectorAll('input[type="checkbox"]');
       standardCheckboxes.forEach((cb, idx) => {
@@ -888,7 +1248,7 @@
           }
         }
       });
-      
+
       // Add custom headers
       const customCheckboxes = customHeaderCheckboxList.querySelectorAll('input[type="checkbox"]');
       customCheckboxes.forEach((cb, idx) => {
@@ -896,7 +1256,7 @@
           headersToRemove.push(customHeaders[idx]);
         }
       });
-      
+
       saveHeaderSettings();
     }
 
@@ -918,17 +1278,60 @@
       }
     }
 
+    function applySyntaxHighlighting(text) {
+      const lines = text.split('\n');
+      let inBody = false;
+      const highlightedLines = [];
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+
+        // Check if we've reached the body (empty line after headers)
+        if (!inBody && line.trim() === '') {
+          inBody = true;
+          highlightedLines.push(line);
+          continue;
+        }
+
+        if (!inBody) {
+          // This is a header line
+          const headerMatch = line.match(/^([a-zA-Z0-9\-]+):\s*(.*)/);
+          if (headerMatch) {
+            const headerName = headerMatch[1];
+            const headerValue = headerMatch[2];
+            highlightedLines.push(
+              `<span class="email-header-name">${escapeHtml(headerName)}:</span> ${escapeHtml(headerValue)}`
+            );
+          } else {
+            // Continuation line - keep original color
+            highlightedLines.push(escapeHtml(line));
+          }
+        } else {
+          // Body content - keep original color without styling
+          highlightedLines.push(escapeHtml(line));
+        }
+      }
+
+      return highlightedLines.join('\n');
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
     function updateStats() {
       const inputText = inputEl.value;
       const outputText = outpre.textContent;
-      
+
       inputLines.textContent = inputText ? inputText.split('\n').length : 0;
       inputChars.textContent = inputText.length;
-      
+
       if (outputText !== '[No output yet] Paste email source and click Clean to get started.') {
         outputLines.textContent = outputText ? outputText.split('\n').length : 0;
         outputChars.textContent = outputText.length;
-        
+
         // Count headers in output
         const headerCount = (outputText.match(/^[a-zA-Z0-9\-]+:/gm) || []).length;
         headersKept.textContent = headerCount;
@@ -954,9 +1357,19 @@
         let skipCurrentHeader = false;
         let currentHeaderName = '';
 
+        // Find the first Delivered-To header to start from
+        let startIndex = 0;
         for (let i = 0; i < lines.length; i++) {
+          const headerMatch = lines[i].match(/^([a-zA-Z0-9\-]+):\s*(.*)/);
+          if (headerMatch && headerMatch[1].toLowerCase() === 'delivered-to') {
+            startIndex = i;
+            break;
+          }
+        }
+
+        for (let i = startIndex; i < lines.length; i++) {
           const line = lines[i];
-          
+
           // Check if we've reached the end of headers
           if (inHeaders && line.trim() === '') {
             inHeaders = false;
@@ -964,21 +1377,21 @@
             skipCurrentHeader = false;
             continue;
           }
-          
+
           // Process headers
           if (inHeaders) {
             const headerMatch = line.match(/^([a-zA-Z0-9\-]+):\s*(.*)/);
-            
+
             // If this is a new header line (not a continuation)
             if (headerMatch) {
               const headerName = headerMatch[1].toLowerCase();
               const headerValue = headerMatch[2];
-              
+
               // Check if we should remove this header
               const shouldRemove = 
                 headersToRemove.includes(headerName) ||
                 (removeAllXHeaders && headerName.startsWith('x-'));
-              
+
               if (shouldRemove) {
                 // Skip this entire header (including continuation lines)
                 skipCurrentHeader = true;
@@ -987,40 +1400,86 @@
               } else {
                 // Keep this header
                 skipCurrentHeader = false;
-                
+
                 // Apply replacements if needed
                 let finalHeaderValue = headerValue;
-                
+
                 // Subject replacement
                 if (headerName === 'subject' && replaceSubject) {
                   finalHeaderValue = replaceSubject;
                 }
-                
+
                 // From domain replacement
                 if (headerName === 'from' && replaceFromDomain) {
                   finalHeaderValue = finalHeaderValue.replace(/@[^\s>]+/, '@' + replaceFromDomain);
                 }
-                
-                // Message-ID prefix replacement - add before @ and after first 4 characters
+
+                // From email replacement (applied AFTER domain replacement)
+                if (headerName === 'from' && replaceFromEmailEnabled && replaceFromEmail) {
+                  // Extract the display name part if it exists
+                  const fromMatch = finalHeaderValue.match(/^(.+?)\s*<(.+?)>\s*$/);
+                  if (fromMatch) {
+                    const displayName = fromMatch[1].trim();
+                    finalHeaderValue = `${displayName} <${replaceFromEmail}>`;
+                  } else {
+                    // Plain email or email in brackets without display name
+                    finalHeaderValue = `<${replaceFromEmail}>`;
+                  }
+                } else if (headerName === 'from') {
+                  // Ensure From email is always in angle brackets (even when not replacing)
+                  const fromMatch = finalHeaderValue.match(/^(.+?)\s*<(.+?)>\s*$/);
+                  if (fromMatch) {
+                    // Already has display name and angle brackets - normalize formatting
+                    finalHeaderValue = `${fromMatch[1].trim()} <${fromMatch[2].trim()}>`;
+                  } else if (!finalHeaderValue.match(/^<.+>$/)) {
+                    // Plain email without brackets - add them
+                    finalHeaderValue = `<${finalHeaderValue.trim()}>`;
+                  }
+                }
+
+                // From Name replacement (only if checkbox is enabled)
+                if (headerName === 'from' && replaceFromNameEnabled) {
+                  const fromMatch = finalHeaderValue.match(/^(.+?)\s*<(.+?)>\s*$/);
+                  if (fromMatch) {
+                    // Format: "Display Name <email@domain.com>"
+                    const emailPart = fromMatch[2];
+                    if (replaceFromName.trim()) {
+                      // Field has text: replace the display name with new name
+                      finalHeaderValue = `${replaceFromName} <${emailPart}>`;
+                    } else {
+                      // Field is empty: remove display name, keep only email
+                      finalHeaderValue = emailPart;
+                    }
+                  } else {
+                    // Format: just email address or <email@domain.com>
+                    const emailOnly = finalHeaderValue.replace(/^<|>$/g, '').trim();
+                    if (replaceFromName.trim()) {
+                      // Add display name to plain email
+                      finalHeaderValue = `${replaceFromName} <${emailOnly}>`;
+                    }
+                    // If replaceFromName is empty, keep as is (plain email)
+                  }
+                }
+
+                // Message-ID prefix replacement
                 if (headerName === 'message-id' && replaceMessageIdPrefix) {
                   // Extract the content between < and >
                   const messageIdMatch = finalHeaderValue.match(/^<([^@]+)(@.*)>$/);
                   if (messageIdMatch) {
                     const beforeAt = messageIdMatch[1];
                     const afterAt = messageIdMatch[2];
-                    
-                    // Insert prefix after first 4 characters
-                    if (beforeAt.length >= 4) {
-                      const firstPart = beforeAt.substring(0, 4);
-                      const restPart = beforeAt.substring(4);
-                      finalHeaderValue = `<${firstPart}${replaceMessageIdPrefix}${restPart}${afterAt}>`;
-                    } else {
-                      // If less than 4 characters, just prepend
+
+                    // Insert prefix based on messageIdPrefixPosition
+                    if (messageIdPrefixPosition === 'start') {
+                      // Add at the start
                       finalHeaderValue = `<${replaceMessageIdPrefix}${beforeAt}${afterAt}>`;
+                    } else {
+                      // Add before @ symbol (default)
+                      finalHeaderValue = `<${beforeAt}${replaceMessageIdPrefix}${afterAt}>`;
                     }
                   }
                 }
-                
+
                 cleanedLines.push(`${headerMatch[1]}: ${finalHeaderValue}`);
                 headerCount++;
               }
@@ -1042,18 +1501,18 @@
         if (replacementHeadersText) {
           const replacementLines = replacementHeadersText.split('\n');
           let replacementHeadersAdded = [];
-          
+
           // Process replacement headers in reverse order to maintain proper insertion order
           for (let i = replacementLines.length - 1; i >= 0; i--) {
             const line = replacementLines[i].trim();
             if (!line) continue;
-            
+
             const headerMatch = line.match(/^([a-zA-Z0-9\-]+):\s*(.*)/);
             if (headerMatch) {
               const headerName = headerMatch[1];
               const headerValue = headerMatch[2];
               const headerNameLower = headerName.toLowerCase();
-              
+
               // Check if this header already exists
               let headerReplaced = false;
               for (let j = 0; j < cleanedLines.length; j++) {
@@ -1065,21 +1524,21 @@
                   break;
                 }
               }
-              
+
               // If header doesn't exist, find the best position to insert it
               if (!headerReplaced) {
                 // Find the position where this header should be inserted
                 let insertPosition = -1;
-                
+
                 // Common header order in emails
                 const headerOrder = [
                   "return-path", "received", "from", "sender", "to", "cc", "bcc",
                   "message-id", "in-reply-to", "references", "subject", "date",
                   "mime-version", "content-type", "content-transfer-encoding"
                 ];
-                
+
                 const currentHeaderIndex = headerOrder.indexOf(headerNameLower);
-                
+
                 if (currentHeaderIndex !== -1) {
                   // Find the position to insert based on header order
                   for (let j = 0; j < cleanedLines.length; j++) {
@@ -1087,7 +1546,7 @@
                     if (existingHeaderMatch) {
                       const existingHeaderName = existingHeaderMatch[1].toLowerCase();
                       const existingHeaderIndex = headerOrder.indexOf(existingHeaderName);
-                      
+
                       if (existingHeaderIndex !== -1 && existingHeaderIndex > currentHeaderIndex) {
                         insertPosition = j;
                         break;
@@ -1095,33 +1554,37 @@
                     }
                   }
                 }
-                
+
                 // If no specific position found, insert before the body
                 if (insertPosition === -1) {
                   const firstBodyLineIndex = cleanedLines.findIndex(line => line.trim() === '');
                   insertPosition = firstBodyLineIndex !== -1 ? firstBodyLineIndex : cleanedLines.length;
                 }
-                
+
                 // Insert the new header
                 cleanedLines.splice(insertPosition, 0, `${headerName}: ${headerValue}`);
                 headerCount++;
               }
-              
+
               replacementHeadersAdded.push(headerName);
             }
           }
-          
+
           if (replacementHeadersAdded.length > 0) {
             showToast(`Added/replaced headers: ${replacementHeadersAdded.join(', ')}`);
           }
         }
 
         const cleanedText = cleanedLines.join('\n');
-        outpre.textContent = cleanedText;
+
+        // Apply syntax highlighting
+        const highlightedHTML = applySyntaxHighlighting(cleanedText);
+        outpre.innerHTML = highlightedHTML;
+
         outputEl.classList.add('has-content');
         copyBtn.disabled = false;
         downloadBtn.disabled = false;
-        
+
         updateStats();
         showToast(`Email cleaned successfully! Kept ${headerCount} headers.`);
       } catch (error) {
@@ -1131,7 +1594,8 @@
     }
 
     function copyOutput() {
-      const text = outpre.textContent;
+      // Get plain text without HTML formatting
+      const text = outpre.textContent || outpre.innerText;
       navigator.clipboard.writeText(text).then(() => {
         showToast('Copied to clipboard!');
       }).catch(err => {
@@ -1161,7 +1625,7 @@
     }
 
     function clearOutput() {
-      outpre.textContent = '[No output yet] Paste email source and click Clean to get started.';
+      outpre.innerHTML = '[No output yet] Paste email source and click Clean to get started.';
       outputEl.classList.remove('has-content');
       copyBtn.disabled = true;
       downloadBtn.disabled = true;
@@ -1169,40 +1633,282 @@
       showToast('Output cleared');
     }
 
-    function toggleTheme() {
-      document.body.classList.toggle('dark-mode');
-      const isDarkMode = document.body.classList.contains('dark-mode');
-      localStorage.setItem('darkMode', isDarkMode);
-      themeToggle.textContent = isDarkMode ? '☀️' : '🌙';
+    function applyTheme(themeName) {
+      // Remove all theme classes
+      document.body.classList.remove('dark-mode', 'light-theme', 'midnight-theme', 'forest-theme', 'sunset-theme', 'purple-theme', 'ocean-theme');
+
+      // Apply new theme
+      if (themeName === 'dark') {
+        document.body.classList.add('dark-mode');
+      } else if (themeName === 'light') {
+        document.body.classList.add('light-theme');
+      } else {
+        document.body.classList.add(`${themeName}-theme`);
+      }
+
+      // Save to localStorage
+      localStorage.setItem('selectedTheme', themeName);
+
+      // Update active state
+      document.querySelectorAll('.theme-option').forEach(option => {
+        option.classList.remove('active');
+        if (option.dataset.theme === themeName) {
+          option.classList.add('active');
+        }
+      });
+
+      showToast(`Theme changed to ${themeName.charAt(0).toUpperCase() + themeName.slice(1)}`);
     }
 
     function initTheme() {
-      const savedDarkMode = localStorage.getItem('darkMode') === 'true';
-      if (savedDarkMode) {
-        document.body.classList.add('dark-mode');
-        themeToggle.textContent = '☀️';
-      }
+      const savedTheme = localStorage.getItem('selectedTheme') || 'dark';
+      applyTheme(savedTheme);
     }
 
     function loadReplacementHeaders() {
       replacementHeadersText = localStorage.getItem('replacementHeaders') || '';
       replacementHeadersTextarea.value = replacementHeadersText;
-      
+
       replaceSubject = localStorage.getItem('replaceSubject') || '';
       replaceSubjectInput.value = replaceSubject;
-      
+
       replaceFromDomain = localStorage.getItem('replaceFromDomain') || '';
       replaceFromDomainInput.value = replaceFromDomain;
-      
+
+      replaceFromEmail = localStorage.getItem('replaceFromEmail') || ''; // Load from email
+      replaceFromEmailInput.value = replaceFromEmail; // Load from email
+
+      replaceFromEmailEnabled = localStorage.getItem('replaceFromEmailEnabled') === 'true'; // Load from email enabled state
+      replaceFromEmailEnabledInput.checked = replaceFromEmailEnabled; // Load from email enabled state
+
+      replaceFromName = localStorage.getItem('replaceFromName') || ''; // Load from name
+      replaceFromNameInput.value = replaceFromName; // Load from name
+
+      replaceFromNameEnabled = localStorage.getItem('replaceFromNameEnabled') === 'true'; // Load from name enabled state
+      replaceFromNameEnabledInput.checked = replaceFromNameEnabled; // Load from name enabled state
+
       replaceMessageIdPrefix = localStorage.getItem('replaceMessageIdPrefix') || '';
       replaceMessageIdPrefixInput.value = replaceMessageIdPrefix;
+
+      // Load messageIdPrefixPosition if it exists
+      messageIdPrefixPosition = localStorage.getItem('messageIdPrefixPosition') || 'beforeAt';
+
+      // Set radio button state
+      const radioButtons = document.querySelectorAll('input[name="messageIdPosition"]');
+      radioButtons.forEach(radio => {
+        if (radio.value === messageIdPrefixPosition) {
+          radio.checked = true;
+        }
+      });
+    }
+
+    function saveProject() {
+      const projectName = projectNameInput.value.trim();
+      if (!projectName) {
+        showToast('Please enter a project name', true);
+        return;
+      }
+
+      const project = {
+        name: projectName,
+        timestamp: new Date().toLocaleString(),
+        data: {
+          removeAllXHeaders: removeAllXHeaders,
+          headersToRemove: [...headersToRemove],
+          customHeaders: [...customHeaders],
+          replacementHeadersText: replacementHeadersText,
+          replaceSubject: replaceSubject,
+          replaceFromDomain: replaceFromDomain,
+          replaceFromEmail: replaceFromEmail, // Added from email
+          replaceFromEmailEnabled: replaceFromEmailEnabled, // Added from email enabled
+          replaceFromName: replaceFromName, // Added from name
+          replaceFromNameEnabled: replaceFromNameEnabled, // Added from name enabled
+          replaceMessageIdPrefix: replaceMessageIdPrefix,
+          messageIdPrefixPosition: messageIdPrefixPosition, // Added this line
+          cleanedOutput: outpre.textContent || outpre.innerText,
+          inputText: inputEl.value
+        }
+      };
+
+      // Check if project name already exists
+      const existingIndex = savedProjects.findIndex(p => p.name === projectName);
+      if (existingIndex !== -1) {
+        savedProjects[existingIndex] = project;
+        showToast(`Project "${projectName}" updated!`);
+      } else {
+        savedProjects.push(project);
+        showToast(`Project "${projectName}" saved!`);
+      }
+
+      localStorage.setItem('savedProjects', JSON.stringify(savedProjects));
+      projectNameInput.value = '';
+      renderSavedProjects();
+    }
+
+    window.loadProject = function(projectName) {
+      const project = savedProjects.find(p => p.name === projectName);
+      if (!project) {
+        showToast('Project not found', true);
+        return;
+      }
+
+      // Load all settings
+      removeAllXHeaders = project.data.removeAllXHeaders || false;
+      headersToRemove = [...(project.data.headersToRemove || [])];
+      customHeaders = [...(project.data.customHeaders || [])];
+      replacementHeadersText = project.data.replacementHeadersText || '';
+      replaceSubject = project.data.replaceSubject || '';
+      replaceFromDomain = project.data.replaceFromDomain || '';
+      replaceFromEmail = project.data.replaceFromEmail || ''; // Load from email
+      replaceFromEmailEnabled = project.data.replaceFromEmailEnabled || false; // Load from email enabled state
+      replaceFromName = project.data.replaceFromName || ''; // Load from name
+      replaceFromNameEnabled = project.data.replaceFromNameEnabled || false; // Load from name enabled state
+      replaceMessageIdPrefix = project.data.replaceMessageIdPrefix || '';
+      messageIdPrefixPosition = project.data.messageIdPrefixPosition || 'beforeAt'; // Load position
+
+      // Save to localStorage
+      saveHeaderSettings();
+      saveReplacementHeaders();
+
+      // Update UI - headers
+      initHeaderCheckboxes();
+      initCustomHeaderCheckboxes();
+
+      // Update UI - replacement headers
+      replacementHeadersTextarea.value = replacementHeadersText;
+      replaceSubjectInput.value = replaceSubject;
+      replaceFromDomainInput.value = replaceFromDomain;
+      replaceFromEmailInput.value = replaceFromEmail; // Update from email input
+      replaceFromEmailEnabledInput.checked = replaceFromEmailEnabled; // Update from email enabled checkbox
+      replaceFromNameInput.value = replaceFromName; // Update from name input
+      replaceFromNameEnabledInput.checked = replaceFromNameEnabled; // Update from name enabled checkbox
+      replaceMessageIdPrefixInput.value = replaceMessageIdPrefix;
+
+      // Restore input and cleaned output
+      if (project.data.inputText) {
+        inputEl.value = project.data.inputText;
+      }
+
+      if (project.data.cleanedOutput) {
+        const highlightedHTML = applySyntaxHighlighting(project.data.cleanedOutput);
+        outpre.innerHTML = highlightedHTML;
+        outputEl.classList.add('has-content');
+        copyBtn.disabled = false;
+        downloadBtn.disabled = false;
+        updateStats();
+      }
+
+      showToast(`Project "${projectName}" loaded!`);
+      projectManagerModal.classList.remove('active');
+    }
+
+    window.exportSavedProject = function(projectName) {
+      const project = savedProjects.find(p => p.name === projectName);
+      if (!project) {
+        showToast('Project not found', true);
+        return;
+      }
+
+      const dataStr = JSON.stringify(project, null, 2);
+      const blob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${project.name.replace(/\s+/g, '_')}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      showToast(`Project "${projectName}" exported!`);
+    }
+
+    window.deleteProject = function(projectName) {
+      if (!confirm(`Are you sure you want to delete project "${projectName}"?`)) {
+        return;
+      }
+
+      savedProjects = savedProjects.filter(p => p.name !== projectName);
+      localStorage.setItem('savedProjects', JSON.stringify(savedProjects));
+      renderSavedProjects();
+      showToast(`Project "${projectName}" deleted`);
+    }
+
+    function renderSavedProjects() {
+      if (savedProjects.length === 0) {
+        savedProjectsList.innerHTML = '<p style="color: #9ca3af; text-align: center; padding: 2rem;">No saved projects yet</p>';
+        return;
+      }
+
+      savedProjectsList.innerHTML = '';
+      savedProjects.forEach((project, index) => {
+        const projectDiv = document.createElement('div');
+        projectDiv.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; background: #111827; border-radius: 0.5rem;';
+
+        projectDiv.innerHTML = `
+          <div style="flex: 1;">
+            <div style="font-weight: 600; color: #f3f4f6;">${escapeHtml(project.name)}</div>
+            <div style="font-size: 0.75rem; color: #9ca3af;">${project.timestamp}</div>
+          </div>
+          <div style="display: flex; gap: 0.5rem;">
+            <button class="btn btn-blue project-load-btn" style="padding: 0.375rem 0.75rem; font-size: 0.8rem;" data-project-index="${index}">💾 Load</button>
+            <button class="btn btn-green project-export-btn" style="padding: 0.375rem 0.75rem; font-size: 0.8rem;" data-project-index="${index}">📥 Export</button>
+            <button class="btn btn-red project-delete-btn" style="padding: 0.375rem 0.75rem; font-size: 0.8rem;" data-project-index="${index}">🗑️ Delete</button>
+          </div>
+        `;
+
+        savedProjectsList.appendChild(projectDiv);
+      });
+
+      // Add event listeners
+      document.querySelectorAll('.project-load-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const index = parseInt(this.dataset.projectIndex);
+          const project = savedProjects[index];
+          if (project) loadProject(project.name);
+        });
+      });
+
+      document.querySelectorAll('.project-export-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const index = parseInt(this.dataset.projectIndex);
+          const project = savedProjects[index];
+          if (project) exportSavedProject(project.name);
+        });
+      });
+
+      document.querySelectorAll('.project-delete-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const index = parseInt(this.dataset.projectIndex);
+          const project = savedProjects[index];
+          if (project) deleteProject(project.name);
+        });
+      });
+    }
+
+    function loadSavedProjects() {
+      const saved = localStorage.getItem('savedProjects');
+      if (saved) {
+        try {
+          savedProjects = JSON.parse(saved);
+        } catch (e) {
+          console.error('Error loading saved projects:', e);
+          savedProjects = [];
+        }
+      }
+      renderSavedProjects();
     }
 
     function saveReplacementHeaders() {
       localStorage.setItem('replacementHeaders', replacementHeadersText);
       localStorage.setItem('replaceSubject', replaceSubject);
       localStorage.setItem('replaceFromDomain', replaceFromDomain);
+      localStorage.setItem('replaceFromEmail', replaceFromEmail); // Save from email
+      localStorage.setItem('replaceFromEmailEnabled', replaceFromEmailEnabled); // Save from email enabled state
+      localStorage.setItem('replaceFromName', replaceFromName); // Save from name
+      localStorage.setItem('replaceFromNameEnabled', replaceFromNameEnabled); // Save from name enabled state
       localStorage.setItem('replaceMessageIdPrefix', replaceMessageIdPrefix);
+      localStorage.setItem('messageIdPrefixPosition', messageIdPrefixPosition); // Save position
     }
 
     // Event Listeners
@@ -1216,6 +1922,11 @@
       headerRemovalModal.classList.add('active');
     });
 
+    projectManagerBtn.addEventListener('click', () => {
+      projectManagerModal.classList.add('active');
+      renderSavedProjects();
+    });
+
     replacementHeadersBtn.addEventListener('click', () => {
       replacementHeadersModal.classList.add('active');
     });
@@ -1224,11 +1935,802 @@
       headerRemovalModal.classList.remove('active');
     });
 
+    const saveHeaderSettingsBtn = document.getElementById('saveHeaderSettingsBtn');
+    const closeHeaderRemovalBtn = document.getElementById('closeHeaderRemovalBtn');
+
+    saveHeaderSettingsBtn.addEventListener('click', () => {
+      saveHeaderSettings();
+      showToast('Header removal settings saved!');
+      headerRemovalModal.classList.remove('active');
+    });
+
+    closeHeaderRemovalBtn.addEventListener('click', () => {
+      headerRemovalModal.classList.remove('active');
+    });
+
     closeReplacementHeadersModal.addEventListener('click', () => {
       replacementHeadersModal.classList.remove('active');
     });
 
-    themeToggle.addEventListener('click', toggleTheme);
+    closeProjectManagerModal.addEventListener('click', () => {
+      projectManagerModal.classList.remove('active');
+    });
+
+    closeProjectManagerBtn.addEventListener('click', () => {
+      projectManagerModal.classList.remove('active');
+    });
+
+    closeThemeModal.addEventListener('click', () => {
+      themeModal.classList.remove('active');
+    });
+
+    saveProjectBtn.addEventListener('click', saveProject);
+
+    projectNameInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        saveProject();
+      }
+    });
+
+    // Import/Export functionality
+    const importProjectBtn = document.getElementById('importProjectBtn');
+    const importProjectFile = document.getElementById('importProjectFile');
+    const exportProjectBtn = document.getElementById('exportProjectBtn');
+
+    importProjectBtn.addEventListener('click', () => {
+      importProjectFile.click();
+    });
+
+    importProjectFile.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const project = JSON.parse(event.target.result);
+
+          // Validate project structure
+          if (!project.name || !project.data) {
+            showToast('Invalid project file format', true);
+            return;
+          }
+
+          // Load the project data
+          removeAllXHeaders = project.data.removeAllXHeaders || false;
+          headersToRemove = project.data.headersToRemove || [];
+          customHeaders = project.data.customHeaders || [];
+          replacementHeadersText = project.data.replacementHeadersText || '';
+          replaceSubject = project.data.replaceSubject || '';
+          replaceFromDomain = project.data.replaceFromDomain || '';
+          replaceFromEmail = project.data.replaceFromEmail || ''; // Load from email
+          replaceFromEmailEnabled = project.data.replaceFromEmailEnabled || false; // Load from email enabled state
+          replaceFromName = project.data.replaceFromName || ''; // Load from name
+          replaceFromNameEnabled = project.data.replaceFromNameEnabled || false; // Load from name enabled state
+          replaceMessageIdPrefix = project.data.replaceMessageIdPrefix || '';
+          messageIdPrefixPosition = project.data.messageIdPrefixPosition || 'beforeAt'; // Load position
+
+          // Save to localStorage
+          saveHeaderSettings();
+          saveReplacementHeaders();
+
+          // Update UI
+          initHeaderCheckboxes();
+          initCustomHeaderCheckboxes();
+          loadReplacementHeaders();
+
+          // Restore input and cleaned output
+          if (project.data.inputText) {
+            inputEl.value = project.data.inputText;
+          }
+
+          if (project.data.cleanedOutput) {
+            const highlightedHTML = applySyntaxHighlighting(project.data.cleanedOutput);
+            outpre.innerHTML = highlightedHTML;
+            outputEl.classList.add('has-content');
+            copyBtn.disabled = false;
+            downloadBtn.disabled = false;
+            updateStats();
+          }
+
+          showToast(`Project "${project.name}" imported successfully!`);
+          projectManagerModal.classList.remove('active');
+        } catch (error) {
+          console.error('Import error:', error);
+          showToast('Error importing project file', true);
+        }
+      };
+      reader.readAsText(file);
+
+      // Reset file input
+      e.target.value = '';
+    });
+
+    exportProjectBtn.addEventListener('click', () => {
+      const project = {
+        name: projectNameInput.value.trim() || 'Exported_Project_' + new Date().getTime(),
+        timestamp: new Date().toLocaleString(),
+        data: {
+          removeAllXHeaders: removeAllXHeaders,
+          headersToRemove: [...headersToRemove],
+          customHeaders: [...customHeaders],
+          replacementHeadersText: replacementHeadersText,
+          replaceSubject: replaceSubject,
+          replaceFromDomain: replaceFromDomain,
+          replaceFromEmail: replaceFromEmail, // Added from email
+          replaceFromEmailEnabled: replaceFromEmailEnabled, // Added from email enabled
+          replaceFromName: replaceFromName, // Added from name
+          replaceFromNameEnabled: replaceFromNameEnabled, // Added from name enabled
+          replaceMessageIdPrefix: replaceMessageIdPrefix,
+          messageIdPrefixPosition: messageIdPrefixPosition, // Added this line
+          cleanedOutput: outpre.textContent || outpre.innerText,
+          inputText: inputEl.value
+        }
+      };
+
+      const dataStr = JSON.stringify(project, null, 2);
+      const blob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${project.name.replace(/\s+/g, '_')}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      showToast(`Project "${project.name}" exported!`);
+    });
+
+    themeToggle.addEventListener('click', () => {
+      themeModal.classList.add('active');
+    });
+
+    // Theme option click handlers
+    document.querySelectorAll('.theme-option').forEach(option => {
+      option.addEventListener('click', () => {
+        const theme = option.dataset.theme;
+        applyTheme(theme);
+        setTimeout(() => {
+          themeModal.classList.remove('active');
+        }, 300);
+      });
+    });
+
+    // Smart Insert Modal Events
+    const insertContentChars = document.getElementById('insertContentChars');
+    const encodingDetection = document.getElementById('encodingDetection');
+    const encodingValidation = document.getElementById('encodingValidation');
+    let selectedInsertionPosition = 'after-transfer-encoding';
+
+    smartInsertBtn.addEventListener('click', () => {
+      smartInsertModal.classList.add('active');
+    });
+
+    closeSmartInsertModal.addEventListener('click', () => {
+      smartInsertModal.classList.remove('active');
+    });
+
+    // Handle insertion position selection
+    document.querySelectorAll('input[name="insertionPosition"]').forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        selectedInsertionPosition = e.target.value;
+
+        // Update visual feedback for selected option
+        document.querySelectorAll('.insertion-position-option').forEach(option => {
+          option.style.borderColor = 'transparent';
+          option.style.background = '#111827';
+        });
+
+        e.target.closest('.insertion-position-option').style.borderColor = '#3b82f6';
+        e.target.closest('.insertion-position-option').style.background = '#1e293b';
+      });
+    });
+
+    // Detect content type and encoding as user types
+    smartInsertContent.addEventListener('input', () => {
+      const content = smartInsertContent.value;
+      insertContentChars.textContent = content.length;
+
+      if (!content.trim()) {
+        contentTypeDetection.textContent = 'Waiting for input...';
+        contentTypeDetection.style.color = '#3b82f6';
+        encodingDetection.textContent = '-';
+        encodingDetection.style.color = '#8b5cf6';
+        encodingValidation.textContent = '-';
+        encodingValidation.style.color = '#10b981';
+        return;
+      }
+
+      // Detect content type
+      const isHTML = detectHTML(content);
+      if (isHTML) {
+        contentTypeDetection.textContent = '📄 HTML content';
+        contentTypeDetection.style.color = '#10b981';
+      } else {
+        contentTypeDetection.textContent = '📝 Plain text';
+        contentTypeDetection.style.color = '#8b5cf6';
+      }
+
+      // Detect encoding type
+      const encoding = detectContentEncoding(content);
+      encodingDetection.textContent = encoding;
+
+      if (encoding === 'Base64') {
+        encodingDetection.style.color = '#f59e0b';
+      } else if (encoding === 'Quoted-Printable') {
+        encodingDetection.style.color = '#ec4899';
+      } else {
+        encodingDetection.style.color = '#10b981';
+      }
+
+      // Validate encoding
+      const validation = validateEncoding(content, encoding);
+      encodingValidation.textContent = validation.message;
+      encodingValidation.style.color = validation.valid ? '#10b981' : '#ef4444';
+    });
+
+    applySmartInsertBtn.addEventListener('click', () => {
+      const content = smartInsertContent.value.trim();
+
+      // Validation
+      if (!content) {
+        showToast('Please enter content to insert', true);
+        return;
+      }
+
+      // Get current cleaned output
+      const currentOutput = outpre.textContent || outpre.innerText;
+      if (!currentOutput || currentOutput === '[No output yet] Paste email source and click Clean to get started.') {
+        showToast('Please clean an email first', true);
+        return;
+      }
+
+      try {
+        const lines = currentOutput.split('\n');
+        let insertIndex = -1;
+        let insertionSuccess = false;
+
+        // Different insertion strategies based on selected position
+        switch (selectedInsertionPosition) {
+          case 'after-transfer-encoding':
+            insertIndex = findInsertionPoint(lines, 'after-transfer-encoding');
+            if (insertIndex !== -1) {
+              lines.splice(insertIndex, 0, content);
+              insertionSuccess = true;
+              showToast('✓ Content inserted after Content-Transfer-Encoding');
+            } else {
+              showToast('Content-Transfer-Encoding not found in text/html section', true);
+              return;
+            }
+            break;
+
+          case 'after-content-type':
+            insertIndex = findInsertionPoint(lines, 'after-content-type');
+            if (insertIndex !== -1) {
+              lines.splice(insertIndex, 0, content);
+              insertionSuccess = true;
+              showToast('✓ Content inserted after Content-Type');
+            } else {
+              showToast('Content-Type: text/html not found', true);
+              return;
+            }
+            break;
+
+          case 'before-body':
+            insertIndex = findInsertionPoint(lines, 'before-body');
+            if (insertIndex !== -1) {
+              lines.splice(insertIndex, 0, content);
+              insertionSuccess = true;
+              showToast('✓ Content inserted before body');
+            } else {
+              showToast('Email body not found', true);
+              return;
+            }
+            break;
+
+          case 'after-headers':
+            insertIndex = findInsertionPoint(lines, 'after-headers');
+            if (insertIndex !== -1) {
+              lines.splice(insertIndex, 0, content);
+              insertionSuccess = true;
+              showToast('✓ Content inserted after headers');
+            } else {
+              showToast('Header section end not found', true);
+              return;
+            }
+            break;
+
+          case 'before-doctype':
+            insertIndex = findInsertionPoint(lines, 'before-doctype');
+            if (insertIndex !== -1) {
+              lines.splice(insertIndex, 0, content);
+              insertionSuccess = true;
+              showToast('✓ Content inserted before DOCTYPE');
+            } else {
+              showToast('DOCTYPE declaration not found', true);
+              return;
+            }
+            break;
+        }
+
+        if (insertionSuccess) {
+          const newContent = lines.join('\n');
+          const highlightedHTML = applySyntaxHighlighting(newContent);
+          outpre.innerHTML = highlightedHTML;
+          outputEl.classList.add('has-content');
+          copyBtn.disabled = false;
+          downloadBtn.disabled = false;
+          updateStats();
+          smartInsertModal.classList.remove('active');
+        }
+      } catch (error) {
+        console.error('Smart Insert error:', error);
+        showToast('Error inserting content. Please try again.', true);
+      }
+    });
+
+    clearSmartInsertBtn.addEventListener('click', () => {
+      smartInsertContent.value = '';
+      contentTypeDetection.textContent = 'Waiting for input...';
+      contentTypeDetection.style.color = '#3b82f6';
+      encodingDetection.textContent = '-';
+      encodingDetection.style.color = '#8b5cf6';
+      insertContentChars.textContent = '0';
+    });
+
+    function detectHTML(content) {
+      // Check for common HTML patterns
+      const htmlPatterns = [
+        /<(!DOCTYPE|html|head|body|div|p|span|a|img|table|tr|td|h[1-6]|ul|ol|li|form|input|button)[>\s]/i,
+        /<\/[a-z]+>/i,
+        /<!DOCTYPE\s+html/i
+      ];
+
+      return htmlPatterns.some(pattern => pattern.test(content));
+    }
+
+    function detectContentEncoding(content) {
+      // Check for Base64 encoding
+      const base64Pattern = /^[A-Za-z0-9+/]+={0,2}$/;
+      const lines = content.split('\n');
+      const isBase64 = lines.length > 0 && lines.every(line => 
+        line.trim() === '' || (line.length % 4 === 0 && base64Pattern.test(line.trim()))
+      );
+
+      if (isBase64 && content.length > 50) {
+        return 'Base64';
+      }
+
+      // Check for Quoted-Printable encoding
+      if (/=[0-9A-F]{2}/.test(content)) {
+        return 'Quoted-Printable';
+      }
+
+      // Check for 8-bit encoding
+      if (/[\x80-\xFF]/.test(content)) {
+        return '8-bit';
+      }
+
+      return '7-bit';
+    }
+
+    function validateEncoding(content, encoding) {
+      switch(encoding) {
+        case 'Base64':
+          const base64Pattern = /^[A-Za-z0-9+/\s]+={0,2}$/;
+          if (base64Pattern.test(content.replace(/\s/g, ''))) {
+            return { valid: true, message: '✓ Valid Base64' };
+          }
+          return { valid: false, message: '✗ Invalid Base64 format' };
+
+        case 'Quoted-Printable':
+          const qpPattern = /^[!-<>-~\s=]*$/;
+          if (qpPattern.test(content)) {
+            return { valid: true, message: '✓ Valid Quoted-Printable' };
+          }
+          return { valid: false, message: '✗ Invalid Quoted-Printable format' };
+
+        case '7-bit':
+          if (!/[\x80-\xFF]/.test(content)) {
+            return { valid: true, message: '✓ Valid 7-bit' };
+          }
+          return { valid: false, message: '✗ Contains 8-bit characters' };
+
+        case '8-bit':
+          return { valid: true, message: '✓ Valid 8-bit' };
+
+        default:
+          return { valid: true, message: '✓ Valid' };
+      }
+    }
+
+    function findInsertionPoint(lines, position) {
+      let insertIndex = -1;
+
+      switch (position) {
+        case 'after-transfer-encoding':
+          // Find Content-Type: text/html section
+          for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].toLowerCase();
+
+            if (line.includes('content-type:') && line.includes('text/html')) {
+              // Find Content-Transfer-Encoding after this Content-Type
+              for (let j = i + 1; j < lines.length; j++) {
+                if (lines[j].toLowerCase().startsWith('content-transfer-encoding:')) {
+                  insertIndex = j + 1;
+                  break;
+                }
+                // Stop if we hit another section
+                if (lines[j].toLowerCase().startsWith('content-type:') || lines[j].trim() === '') {
+                  break;
+                }
+              }
+              break;
+            }
+          }
+          break;
+
+        case 'after-content-type':
+          // Find Content-Type: text/html and insert right after
+          for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].toLowerCase();
+            if (line.includes('content-type:') && line.includes('text/html')) {
+              insertIndex = i + 1;
+              break;
+            }
+          }
+          break;
+
+        case 'before-body':
+          // Find the first empty line (marks end of headers)
+          for (let i = 0; i < lines.length; i++) {
+            if (lines[i].trim() === '' && i > 0) {
+              insertIndex = i;
+              break;
+            }
+          }
+          break;
+
+        case 'after-headers':
+          // Find the first empty line and insert after it
+          for (let i = 0; i < lines.length; i++) {
+            if (lines[i].trim() === '' && i > 0) {
+              insertIndex = i + 1;
+              break;
+            }
+          }
+          break;
+
+        case 'before-doctype':
+          // Find <!DOCTYPE html> and insert right before it
+          for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].trim();
+            if (line.toLowerCase().startsWith('<!doctype')) {
+              insertIndex = i;
+              break;
+            }
+          }
+          break;
+      }
+
+      return insertIndex;
+    }
+
+    // Batch Upload Modal Events
+    batchUploadBtn.addEventListener('click', () => {
+      batchUploadModal.classList.add('active');
+    });
+
+    closeBatchUploadModal.addEventListener('click', () => {
+      batchUploadModal.classList.remove('active');
+    });
+
+    closeBatchBtn.addEventListener('click', () => {
+      batchUploadModal.classList.remove('active');
+    });
+
+    selectFilesBtn.addEventListener('click', () => {
+      batchFileInput.click();
+    });
+
+    batchFileInput.addEventListener('change', (e) => {
+      const files = Array.from(e.target.files);
+      if (files.length === 0) return;
+
+      batchFiles = files;
+      renderFileList();
+      processBatchBtn.disabled = false;
+      exportBatchBtn.disabled = true;
+      processedBatchResults = [];
+      batchProgressContainer.style.display = 'none';
+    });
+
+    processBatchBtn.addEventListener('click', processBatchFiles);
+    exportBatchBtn.addEventListener('click', exportBatchAsZip);
+
+    function renderFileList() {
+      if (batchFiles.length === 0) {
+        fileListContainer.innerHTML = '<p style="color: #9ca3af; text-align: center;">No files selected</p>';
+        return;
+      }
+
+      fileListContainer.innerHTML = '';
+      batchFiles.forEach((file, index) => {
+        const fileItem = document.createElement('div');
+        fileItem.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 0.5rem; background: #1f2937; border-radius: 0.375rem; margin-bottom: 0.5rem;';
+        fileItem.innerHTML = `
+          <div style="flex: 1; color: #f3f4f6; font-size: 0.9rem;">
+            <span style="font-weight: 600;">${index + 1}.</span> ${escapeHtml(file.name)}
+            <span style="color: #9ca3af; font-size: 0.8rem; margin-left: 0.5rem;">(${(file.size / 1024).toFixed(2)} KB)</span>
+          </div>
+          <button class="btn btn-red" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="removeBatchFile(${index})">×</button>
+        `;
+        fileListContainer.appendChild(fileItem);
+      });
+    }
+
+    window.removeBatchFile = function(index) {
+      batchFiles.splice(index, 1);
+      renderFileList();
+      if (batchFiles.length === 0) {
+        processBatchBtn.disabled = true;
+      }
+    }
+
+    async function processBatchFiles() {
+      if (batchFiles.length === 0) {
+        showToast('No files to process', true);
+        return;
+      }
+
+      processedBatchResults = [];
+      batchProgressContainer.style.display = 'block';
+      batchStatusLog.innerHTML = '';
+      processBatchBtn.disabled = true;
+      exportBatchBtn.disabled = true;
+
+      for (let i = 0; i < batchFiles.length; i++) {
+        const file = batchFiles[i];
+        const progress = ((i + 1) / batchFiles.length) * 100;
+
+        batchProgressBar.style.width = `${progress}%`;
+        batchProgressText.textContent = `${i + 1} / ${batchFiles.length}`;
+
+        addStatusLog(`Processing: ${file.name}...`);
+
+        try {
+          const content = await readFileContent(file);
+          const cleaned = cleanEmailContent(content);
+
+          processedBatchResults.push({
+            filename: file.name,
+            content: cleaned
+          });
+
+          addStatusLog(`✓ Completed: ${file.name}`, 'success');
+        } catch (error) {
+          console.error(`Error processing ${file.name}:`, error);
+          addStatusLog(`✗ Failed: ${file.name}`, 'error');
+        }
+      }
+
+      processBatchBtn.disabled = false;
+      exportBatchBtn.disabled = false;
+      showToast(`Successfully processed ${processedBatchResults.length} files!`);
+    }
+
+    function readFileContent(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => resolve(e.target.result);
+        reader.onerror = (e) => reject(e);
+        reader.readAsText(file);
+      });
+    }
+
+    function cleanEmailContent(input) {
+      const lines = input.split('\n');
+      const cleanedLines = [];
+      let inHeaders = true;
+      let skipCurrentHeader = false;
+
+      let startIndex = 0;
+      for (let i = 0; i < lines.length; i++) {
+        const headerMatch = lines[i].match(/^([a-zA-Z0-9\-]+):\s*(.*)/);
+        if (headerMatch && headerMatch[1].toLowerCase() === 'delivered-to') {
+          startIndex = i;
+          break;
+        }
+      }
+
+      for (let i = startIndex; i < lines.length; i++) {
+        const line = lines[i];
+
+        if (inHeaders && line.trim() === '') {
+          inHeaders = false;
+          cleanedLines.push(line);
+          skipCurrentHeader = false;
+          continue;
+        }
+
+        if (inHeaders) {
+          const headerMatch = line.match(/^([a-zA-Z0-9\-]+):\s*(.*)/);
+
+          if (headerMatch) {
+            const headerName = headerMatch[1].toLowerCase();
+            const headerValue = headerMatch[2];
+
+            const shouldRemove = 
+              headersToRemove.includes(headerName) ||
+              (removeAllXHeaders && headerName.startsWith('x-'));
+
+            if (shouldRemove) {
+              skipCurrentHeader = true;
+              continue;
+            } else {
+              skipCurrentHeader = false;
+
+              let finalHeaderValue = headerValue;
+
+              if (headerName === 'subject' && replaceSubject) {
+                finalHeaderValue = replaceSubject;
+              }
+
+              if (headerName === 'from' && replaceFromDomain) {
+                finalHeaderValue = finalHeaderValue.replace(/@[^\s>]+/, '@' + replaceFromDomain);
+              }
+
+              if (headerName === 'from' && replaceFromEmailEnabled && replaceFromEmail) {
+                const fromMatch = finalHeaderValue.match(/^(.+?)\s*<(.+?)>\s*$/);
+                if (fromMatch) {
+                  const displayName = fromMatch[1].trim();
+                  finalHeaderValue = `${displayName} <${replaceFromEmail}>`;
+                } else {
+                  // Plain email or email in brackets without display name
+                  finalHeaderValue = `<${replaceFromEmail}>`;
+                }
+              } else if (headerName === 'from') {
+                // Ensure From email is always in angle brackets (even when not replacing)
+                const fromMatch = finalHeaderValue.match(/^(.+?)\s*<(.+?)>\s*$/);
+                if (fromMatch) {
+                  // Already has display name and angle brackets - normalize formatting
+                  finalHeaderValue = `${fromMatch[1].trim()} <${fromMatch[2].trim()}>`;
+                } else if (!finalHeaderValue.match(/^<.+>$/)) {
+                  // Plain email without brackets - add them
+                  finalHeaderValue = `<${finalHeaderValue.trim()}>`;
+                }
+              }
+
+              if (headerName === 'from' && replaceFromNameEnabled) {
+                const fromMatch = finalHeaderValue.match(/^(.+?)\s*<(.+?)>\s*$/);
+                if (fromMatch) {
+                  // Format: "Display Name <email@domain.com>"
+                  const emailPart = fromMatch[2];
+                  if (replaceFromName.trim()) {
+                    // Field has text: replace the display name with new name
+                    finalHeaderValue = `${replaceFromName} <${emailPart}>`;
+                  } else {
+                    // Field is empty: remove display name, keep only email
+                    finalHeaderValue = emailPart;
+                  }
+                } else {
+                  // Format: just email address or <email@domain.com>
+                  const emailOnly = finalHeaderValue.replace(/^<|>$/g, '').trim();
+                  if (replaceFromName.trim()) {
+                    // Add display name to plain email
+                    finalHeaderValue = `${replaceFromName} <${emailOnly}>`;
+                  }
+                  // If replaceFromName is empty, keep as is (plain email)
+                }
+              }
+
+              if (headerName === 'message-id' && replaceMessageIdPrefix) {
+                const messageIdMatch = finalHeaderValue.match(/^<([^@]+)(@.*)>$/);
+                if (messageIdMatch) {
+                  const beforeAt = messageIdMatch[1];
+                  const afterAt = messageIdMatch[2];
+
+                  if (messageIdPrefixPosition === 'start') {
+                    finalHeaderValue = `<${replaceMessageIdPrefix}${beforeAt}${afterAt}>`;
+                  } else {
+                    finalHeaderValue = `<${beforeAt}${replaceMessageIdPrefix}${afterAt}>`;
+                  }
+                }
+              }
+
+              cleanedLines.push(`${headerMatch[1]}: ${finalHeaderValue}`);
+            }
+          } else {
+            if (!skipCurrentHeader && cleanedLines.length > 0) {
+              cleanedLines[cleanedLines.length - 1] += '\n' + line;
+            }
+          }
+        } else {
+          cleanedLines.push(line);
+        }
+      }
+
+      if (replacementHeadersText) {
+        const replacementLines = replacementHeadersText.split('\n');
+
+        for (let i = replacementLines.length - 1; i >= 0; i--) {
+          const line = replacementLines[i].trim();
+          if (!line) continue;
+
+          const headerMatch = line.match(/^([a-zA-Z0-9\-]+):\s*(.*)/);
+          if (headerMatch) {
+            const headerName = headerMatch[1];
+            const headerValue = headerMatch[2];
+            const headerNameLower = headerName.toLowerCase();
+
+            let headerReplaced = false;
+            for (let j = 0; j < cleanedLines.length; j++) {
+              const existingHeaderMatch = cleanedLines[j].match(/^([a-zA-Z0-9\-]+):\s*(.*)/);
+              if (existingHeaderMatch && existingHeaderMatch[1].toLowerCase() === headerNameLower) {
+                cleanedLines[j] = `${headerName}: ${headerValue}`;
+                headerReplaced = true;
+                break;
+              }
+            }
+
+            if (!headerReplaced) {
+              const firstBodyLineIndex = cleanedLines.findIndex(line => line.trim() === '');
+              const insertPosition = firstBodyLineIndex !== -1 ? firstBodyLineIndex : cleanedLines.length;
+              cleanedLines.splice(insertPosition, 0, `${headerName}: ${headerValue}`);
+            }
+          }
+        }
+      }
+
+      return cleanedLines.join('\n');
+    }
+
+    function addStatusLog(message, type = 'info') {
+      const logEntry = document.createElement('div');
+      logEntry.style.marginBottom = '0.25rem';
+
+      if (type === 'success') {
+        logEntry.style.color = '#10b981';
+      } else if (type === 'error') {
+        logEntry.style.color = '#ef4444';
+      }
+
+      logEntry.textContent = message;
+      batchStatusLog.appendChild(logEntry);
+      batchStatusLog.scrollTop = batchStatusLog.scrollHeight;
+    }
+
+    async function exportBatchAsZip() {
+      if (processedBatchResults.length === 0) {
+        showToast('No processed files to export', true);
+        return;
+      }
+
+      try {
+        const zip = new JSZip();
+        const folder = zip.folder('cleaned_emails');
+
+        processedBatchResults.forEach(result => {
+          folder.file(result.filename, result.content);
+        });
+
+        const blob = await zip.generateAsync({ type: 'blob' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `cleaned_emails_${new Date().getTime()}.zip`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        showToast(`Exported ${processedBatchResults.length} files as ZIP!`);
+      } catch (error) {
+        console.error('Error creating zip:', error);
+        showToast('Error creating ZIP file', true);
+      }
+    }
 
     // Header Removal Modal Events
     addCustomHeaderBtn.addEventListener('click', () => {
@@ -1245,21 +2747,29 @@
     selectAllHeadersBtn.addEventListener('click', () => {
       const checkboxes = headerCheckboxList.querySelectorAll('input[type="checkbox"]');
       const customCheckboxes = customHeaderCheckboxList.querySelectorAll('input[type="checkbox"]');
-      
+
       checkboxes.forEach(cb => cb.checked = true);
       customCheckboxes.forEach(cb => cb.checked = true);
-      
+
       updateHeadersToRemove();
     });
 
     clearAllHeadersBtn.addEventListener('click', () => {
       const checkboxes = headerCheckboxList.querySelectorAll('input[type="checkbox"]');
       const customCheckboxes = customHeaderCheckboxList.querySelectorAll('input[type="checkbox"]');
-      
+
       checkboxes.forEach(cb => cb.checked = false);
       customCheckboxes.forEach(cb => cb.checked = false);
-      
+
       updateHeadersToRemove();
+    });
+
+    // Radio button event listeners
+    document.querySelectorAll('input[name="messageIdPosition"]').forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        messageIdPrefixPosition = e.target.value;
+        saveReplacementHeaders();
+      });
     });
 
     // Replacement Headers Modal Events
@@ -1267,8 +2777,17 @@
       replacementHeadersText = replacementHeadersTextarea.value;
       replaceSubject = replaceSubjectInput.value;
       replaceFromDomain = replaceFromDomainInput.value;
-      replaceMessageIdPrefix = replaceMessageIdPrefixInput.value;
-      
+      replaceFromEmail = replaceFromEmailInput.value; // Get from email
+      replaceFromEmailEnabled = replaceFromEmailEnabledInput.checked; // Get from email enabled state
+      replaceFromName = replaceFromNameInput.value; // Get from name
+      replaceFromNameEnabled = replaceFromNameEnabledInput.checked; // Get from name enabled state
+
+      // Get selected radio button value
+      const selectedRadio = document.querySelector('input[name="messageIdPosition"]:checked');
+      if (selectedRadio) {
+        messageIdPrefixPosition = selectedRadio.value;
+      }
+
       saveReplacementHeaders();
       showToast('Replacement headers saved!');
       replacementHeadersModal.classList.remove('active');
@@ -1278,13 +2797,27 @@
       replacementHeadersTextarea.value = '';
       replaceSubjectInput.value = '';
       replaceFromDomainInput.value = '';
-      replaceMessageIdPrefixInput.value = '';
-      
+      replaceFromEmailInput.value = ''; // Clear from email
+      replaceFromEmailEnabledInput.checked = false; // Clear from email enabled state
+      replaceFromNameInput.value = ''; // Clear from name
+      replaceFromNameEnabledInput.checked = false; // Clear from name enabled state
+
       replacementHeadersText = '';
       replaceSubject = '';
       replaceFromDomain = '';
+      replaceFromEmail = ''; // Clear from email
+      replaceFromEmailEnabled = false; // Clear from email enabled state
+      replaceFromName = ''; // Clear from name
+      replaceFromNameEnabled = false; // Clear from name enabled state
       replaceMessageIdPrefix = '';
-      
+      messageIdPrefixPosition = 'beforeAt'; // Reset to default
+
+      // Reset radio buttons
+      const radioButtons = document.querySelectorAll('input[name="messageIdPosition"]');
+      radioButtons.forEach(radio => {
+        radio.checked = radio.value === 'beforeAt';
+      });
+
       saveReplacementHeaders();
       showToast('Replacement headers cleared!');
     });
@@ -1304,6 +2837,18 @@
       if (e.target === replacementHeadersModal) {
         replacementHeadersModal.classList.remove('active');
       }
+      if (e.target === projectManagerModal) {
+        projectManagerModal.classList.remove('active');
+      }
+      if (e.target === themeModal) {
+        themeModal.classList.remove('active');
+      }
+      if (e.target === batchUploadModal) {
+        batchUploadModal.classList.remove('active');
+      }
+      if (e.target === smartInsertModal) {
+        smartInsertModal.classList.remove('active');
+      }
     });
 
     // Initialize
@@ -1313,8 +2858,9 @@
       initHeaderCheckboxes();
       initCustomHeaderCheckboxes();
       loadReplacementHeaders();
+      loadSavedProjects();
       updateStats();
-      
+
       inputEl.addEventListener('input', updateStats);
     }
 
