@@ -1123,10 +1123,18 @@
             try {
                 const code = editor.getValue();
                 const frame = document.getElementById('preview-frame');
+                
+                // Use a more permissive sanitization config
                 const sanitized = DOMPurify.sanitize(code, {
-                    ADD_TAGS: ['style', 'script'],
-                    ADD_ATTR: ['target']
+                    WHOLE_DOCUMENT: true,
+                    RETURN_DOM: false,
+                    RETURN_DOM_FRAGMENT: false,
+                    FORCE_BODY: false,
+                    ADD_TAGS: ['style', 'script', 'html', 'head', 'body', 'meta', 'link'],
+                    ADD_ATTR: ['target', 'charset', 'name', 'content', 'rel', 'href', 'type']
                 });
+                
+                // Set srcdoc with the sanitized HTML
                 frame.srcdoc = sanitized;
             } catch (error) {
                 console.error('Preview update error:', error);
@@ -1243,7 +1251,10 @@
         function applyTheme(themeName) {
             try {
                 const theme = themes[themeName];
-                if (!theme) return;
+                if (!theme) {
+                    console.warn('Theme not found:', themeName);
+                    return;
+                }
 
                 // Remove all theme classes
                 Object.values(themes).forEach(t => {
@@ -1265,8 +1276,10 @@
                     document.documentElement.style.setProperty('--dark-border', theme.darkBorder);
                 }
 
-                // Update editor theme
-                editor.setOption('theme', theme.editorTheme);
+                // Update editor theme only if editor is initialized
+                if (editor && editor.setOption) {
+                    editor.setOption('theme', theme.editorTheme);
+                }
 
                 currentTheme = themeName;
                 localStorage.setItem('editorTheme', themeName);
