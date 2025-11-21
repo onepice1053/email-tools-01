@@ -3,708 +3,1535 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Email Tools Suite | Enterprise Email Solutions</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20viewBox%3D%220%200%20200%20200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22logoGradient%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%234338ca%22%3E%3C%2Fstop%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%237e22ce%22%3E%3C%2Fstop%3E%0A%20%20%20%20%3C%2FlinearGradient%3E%0A%20%20%3C%2Fdefs%3E%0A%0A%20%20%3Cpath%20d%3D%22M40%2060%20L160%2060%20L160%20140%20L40%20140%20Z%22%20fill%3D%22url(%23logoGradient)%22%3E%3C%2Fpath%3E%0A%20%20%3Cpath%20d%3D%22M40%2060%20L100%20100%20L160%2060%22%20fill%3D%22white%22%20opacity%3D%220.3%22%3E%3C%2Fpath%3E%0A%20%20%3Ccircle%20cx%3D%22100%22%20cy%3D%22100%22%20r%3D%2224%22%20fill%3D%22white%22%20opacity%3D%220.2%22%3E%3C%2Fcircle%3E%0A%20%20%3Cg%20stroke%3D%22white%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%3E%0A%20%20%20%20%3Cline%20x1%3D%22100%22%20y1%3D%2276%22%20x2%3D%22100%22%20y2%3D%2268%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%22100%22%20y1%3D%22124%22%20x2%3D%22100%22%20y2%3D%22132%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%2276%22%20y1%3D%22100%22%20x2%3D%2268%22%20y2%3D%22100%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%22124%22%20y1%3D%22100%22%20x2%3D%22132%22%20y2%3D%22100%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%2283%22%20y1%3D%2283%22%20x2%3D%2277%22%20y2%3D%2277%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%22117%22%20y1%3D%22117%22%20x2%3D%22123%22%20y2%3D%22123%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%2283%22%20y1%3D%22117%22%20x2%3D%2277%22%20y2%3D%22123%22%3E%3C%2Fline%3E%0A%20%20%20%20%3Cline%20x1%3D%22117%22%20y1%3D%2283%22%20x2%3D%22123%22%20y2%3D%2277%22%3E%3C%2Fline%3E%0A%20%20%3C%2Fg%3E%0A%20%20%3Cpath%20d%3D%22M60%2085%20L100%20110%20L140%2085%22%20stroke%3D%22white%22%20stroke-width%3D%226%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3C%2Fpath%3E%0A%3C%2Fsvg%3E%0A" />
+    <title>Enterprise Email & Dev Toolkit | Unified Dashboard</title>
+    
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Load Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CodeMirror Assets (Required for HTML Editor Pro) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/show-hint.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/htmlmixed/htmlmixed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/xml/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/css/css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/closetag.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/auto-close-brackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/html-hint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/show-hint.min.js"></script>
 
     <style>
+        /* Custom Styles for a clean, modern look */
         :root {
-            --primary-50: #f0f5ff;
-            --primary-100: #e0e7ff;
-            --primary-200: #c7d2fe;
-            --primary-300: #a5b4fc;
-            --primary-400: #818cf8;
-            --primary-500: #6366f1;
-            --primary-600: #4f46e5;
-            --primary-700: #4338ca;
-            --primary-800: #3730a3;
-            --primary-900: #312e81;
-            --secondary-50: #f5f3ff;
-            --secondary-100: #ede9fe;
-            --secondary-200: #ddd6fe;
-            --secondary-300: #c4b5fd;
-            --secondary-400: #a78bfa;
-            --secondary-500: #8b5cf6;
-            --secondary-600: #7c3aed;
-            --secondary-700: #6d28d9;
-            --secondary-800: #5b21b6;
-            --secondary-900: #4c1d95;
-            --neutral-50: #f9fafb;
-            --neutral-100: #f3f4f6;
-            --neutral-200: #e5e7eb;
-            --neutral-300: #d1d5db;
-            --neutral-400: #9ca3af;
-            --neutral-500: #6b7280;
-            --neutral-600: #4b5563;
-            --neutral-700: #374151;
-            --neutral-800: #1f2937;
-            --neutral-900: #111827;
-            --success-500: #10b981;
-            --warning-500: #f59e0b;
-            --error-500: #ef4444;
-            --info-500: #3b82f6;
-            --bg-primary: #ffffff;
-            --bg-secondary: var(--neutral-50);
-            --text-primary: var(--neutral-900);
-            --text-secondary: var(--neutral-600);
-            --border-color: var(--neutral-200);
-            --card-bg: #ffffff;
-            --icon-bg: var(--primary-50);
-            --icon-color: var(--primary-700);
-            --sidebar-bg: #ffffff;
-            --overlay-bg: rgba(0, 0, 0, 0.5);
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            --border-radius: 12px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --primary: #4f46e5; /* Indigo */
+            --secondary: #6366f1;
+            --background-light: #f9fafb;
+            --background-dark: #111827;
+            --card-light: #ffffff;
+            --card-dark: #1f2937;
+            --text-light: #1f2937;
+            --text-dark: #f9fafb;
         }
-        .dark {
-            --bg-primary: var(--neutral-900);
-            --bg-secondary: var(--neutral-800);
-            --text-primary: #f9fafb;
-            --text-secondary: var(--neutral-400);
-            --border-color: var(--neutral-700);
-            --card-bg: var(--neutral-800);
-            --icon-bg: rgba(79, 70, 229, 0.15);
-            --icon-color: var(--primary-300);
-            --sidebar-bg: var(--neutral-800);
-            --overlay-bg: rgba(0, 0, 0, 0.7);
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.25);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
-            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+        /* Base styles applied to both themes */
+        .tool-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        .tool-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .tool-badge {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 9999px;
+        }
+
+        /* Dark Mode Specific Styles */
+        #theme-root.dark {
+            --background-color: var(--background-dark);
+            --text-color: var(--text-dark);
+        }
+        #theme-root:not(.dark) {
+            --background-color: var(--background-light);
+            --text-color: var(--text-light);
+        }
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
             min-height: 100vh;
-            transition: background-color 0.3s ease;
         }
-        .sidebar-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--overlay-bg); z-index: 998;
-            opacity: 0; visibility: hidden; transition: var(--transition);
+        
+        .dark .tool-card {
+            background-color: var(--card-dark);
+            border-color: #374151;
         }
-        .sidebar-overlay.active { opacity: 1; visibility: visible; }
-        .sidebar {
-            position: fixed; left: 0; top: 0; width: 320px; height: 100vh;
-            background: var(--sidebar-bg); border-right: 1px solid var(--border-color);
-            transform: translateX(-100%); transition: var(--transition);
-            z-index: 999; overflow-y: auto; box-shadow: var(--shadow-xl);
+        
+        /* Tool-specific CSS Overrides for complex UIs */
+        .CodeMirror {
+            height: 100% !important;
+            border-radius: 0.5rem;
         }
-        .sidebar.active { transform: translateX(0); }
-        .sidebar-header {
-            padding: 24px 20px; border-bottom: 1px solid var(--border-color);
-            display: flex; align-items: center; justify-content: space-between;
-        }
-        .sidebar-branding { display: flex; align-items: center; gap: 12px; }
-        .sidebar-logo { width: 40px; height: 40px; }
-        .sidebar-title {
-            font-size: 1.3rem; font-weight: 800;
-            background: linear-gradient(to right, var(--primary-600), var(--secondary-600));
-            -webkit-background-clip: text; background-clip: text; color: transparent;
-        }
-        .sidebar-close {
-            background: none; border: none; color: var(--text-secondary);
-            cursor: pointer; padding: 8px; border-radius: 6px;
-            display: flex; align-items: center; justify-content: center; transition: var(--transition);
-        }
-        .sidebar-close:hover { background: var(--bg-secondary); color: var(--text-primary); }
-        .sidebar-close svg { width: 20px; height: 20px; }
-        .nav-section { padding: 20px 0; border-bottom: 1px solid var(--border-color); }
-        .nav-title {
-            font-size: 0.75rem; font-weight: 600; color: var(--text-secondary);
-            text-transform: uppercase; letter-spacing: 0.05em; padding: 0 20px 12px 20px;
-        }
-        .nav-links { list-style: none; }
-        .nav-item { margin-bottom: 4px; }
-        .nav-link {
-            display: flex; align-items: center; gap: 12px; padding: 12px 20px;
-            color: var(--text-secondary); text-decoration: none;
-            transition: var(--transition); border-left: 3px solid transparent;
-        }
-        .nav-link:hover {
-            background: var(--bg-secondary); color: var(--text-primary);
-            border-left-color: var(--primary-500);
-        }
-        .nav-link.active {
-            background: var(--primary-50); color: var(--primary-700);
-            border-left-color: var(--primary-600); font-weight: 600;
-        }
-        .dark .nav-link.active {
-            background: rgba(79, 70, 229, 0.15); color: var(--primary-300);
-        }
-        .nav-icon { width: 20px; height: 20px; flex-shrink: 0; }
-        .sidebar-footer { padding: 20px; border-top: 1px solid var(--border-color); }
-        .theme-toggle {
-            width: 100%; padding: 12px 16px; background: var(--bg-secondary);
-            border: 1px solid var(--border-color); border-radius: 8px;
-            cursor: pointer; transition: var(--transition);
-            display: flex; align-items: center; gap: 10px;
-            color: var(--text-secondary); font-weight: 500;
-        }
-        .theme-toggle:hover { background: var(--bg-primary); border-color: var(--primary-300); }
-        .theme-toggle svg { width: 18px; height: 18px; }
-        .top-nav {
-            position: sticky; top: 0; z-index: 100;
-            background: rgba(255, 255, 255, 0.9);
-            border-bottom: 1px solid var(--border-color);
-            padding: 16px 24px; display: flex; align-items: center; justify-content: space-between;
-            backdrop-filter: blur(10px);
-        }
-        .dark .top-nav { background: rgba(17, 24, 39, 0.9); }
-        .nav-left { display: flex; align-items: center; gap: 20px; }
-        .menu-toggle {
-            background: var(--primary-500); color: white; border: none; border-radius: 8px;
-            width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: var(--transition); box-shadow: var(--shadow-md);
-        }
-        .menu-toggle:hover { background: var(--primary-600); transform: scale(1.05); }
-        .menu-toggle svg { width: 22px; height: 22px; }
-        .top-nav-title { font-size: 1.25rem; font-weight: 700; color: var(--text-primary); }
-        .user-section { display: flex; align-items: center; gap: 16px; }
-        .telegram-login-btn {
-            background: linear-gradient(135deg, #0088cc, #00a2e8);
-            color: white; border: none; padding: 10px 20px; border-radius: 8px;
-            cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px;
-            transition: var(--transition); box-shadow: var(--shadow-md);
-        }
-        .telegram-login-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
-        .user-info {
-            display: flex; align-items: center; gap: 12px; padding: 8px 16px;
-            background: var(--bg-secondary); border-radius: 8px; border: 1px solid var(--border-color);
-        }
-        .user-avatar {
-            width: 32px; height: 32px; border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary-500), var(--secondary-500));
-            display: flex; align-items: center; justify-content: center;
-            color: white; font-weight: 600; font-size: 14px;
-        }
-        .user-details { display: flex; flex-direction: column; }
-        .user-name { font-weight: 600; font-size: 14px; color: var(--text-primary); }
-        .user-username { font-size: 12px; color: var(--text-secondary); }
-        .logout-btn {
-            background: var(--error-500); color: white; border: none;
-            padding: 6px 12px; border-radius: 6px; cursor: pointer;
-            font-size: 12px; transition: var(--transition);
-        }
-        .logout-btn:hover { background: #dc2626; transform: scale(1.05); }
-        .main-content { min-height: 100vh; padding: 40px 24px; }
-        .welcome-section { max-width: 1200px; margin: 0 auto; text-align: center; }
-        .hero-logo { width: 80px; height: 80px; margin: 0 auto 24px; }
-        .hero-title {
-            font-size: 3.5rem; font-weight: 900;
-            background: linear-gradient(to right, var(--primary-600), var(--secondary-600));
-            -webkit-background-clip: text; background-clip: text; color: transparent;
-            margin-bottom: 16px; line-height: 1.2;
-        }
-        .enterprise-badge {
-            display: inline-block;
-            background: linear-gradient(90deg, var(--primary-600), var(--secondary-600));
-            color: white; padding: 8px 20px; border-radius: 9999px;
-            font-size: 0.875rem; font-weight: 600; margin-bottom: 24px;
-        }
-        .hero-description {
-            font-size: 1.25rem; color: var(--text-secondary);
-            max-width: 800px; margin: 0 auto 48px; line-height: 1.8;
-        }
-        .stats-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 24px; max-width: 1000px; margin: 0 auto 48px;
-        }
-        .stat-card {
-            background: var(--card-bg); border: 1px solid var(--border-color);
-            border-radius: var(--border-radius); padding: 32px 24px;
-            text-align: center; transition: var(--transition); box-shadow: var(--shadow-md);
-        }
-        .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary-300); }
-        .stat-number {
-            font-size: 2.5rem; font-weight: 800;
-            background: linear-gradient(to right, var(--primary-600), var(--secondary-600));
-            -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 8px;
-        }
-        .stat-label { font-size: 0.95rem; color: var(--text-secondary); font-weight: 500; }
-        .cta-section { margin-top: 48px; }
-        .cta-text { font-size: 1.125rem; color: var(--text-secondary); margin-bottom: 16px; }
-        .cta-hint {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: var(--primary-50); color: var(--primary-700);
-            padding: 12px 24px; border-radius: 9999px; font-weight: 600; animation: pulse 2s infinite;
-        }
-        .dark .cta-hint { background: rgba(79, 70, 229, 0.15); color: var(--primary-300); }
-        .cta-hint svg { width: 20px; height: 20px; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-        .features-section { margin-top: 64px; max-width: 1000px; margin-left: auto; margin-right: auto; }
-        .features-title {
-            font-size: 2rem; font-weight: 700; text-align: center;
-            margin-bottom: 32px; color: var(--text-primary);
-        }
-        .features-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;
-        }
-        .feature-card {
-            background: var(--card-bg); border: 1px solid var(--border-color);
-            border-radius: var(--border-radius); padding: 24px; transition: var(--transition);
-        }
-        .feature-card:hover { border-color: var(--primary-300); }
-        .feature-icon {
-            width: 48px; height: 48px; background: var(--icon-bg); color: var(--icon-color);
-            border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
-        }
-        .feature-icon svg { width: 24px; height: 24px; }
-        .feature-title {
-            font-size: 1.125rem; font-weight: 700; margin-bottom: 8px; color: var(--text-primary);
-        }
-        .feature-description { font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.6; }
-        .telegram-widget-container { margin: 20px 0; display: flex; justify-content: center; }
-        @media (max-width: 768px) {
-            .hero-title { font-size: 2.5rem; }
-            .hero-description { font-size: 1.125rem; }
-            .stats-grid { grid-template-columns: 1fr; }
-            .sidebar { width: 280px; }
-            .main-content { padding: 24px 16px; }
-            .top-nav { padding: 12px 16px; }
-            .user-info { padding: 6px 12px; }
-            .user-details { display: none; }
-        }
-        @media (max-width: 480px) {
-            .hero-title { font-size: 2rem; }
-            .stat-number { font-size: 2rem; }
-            .telegram-login-btn { padding: 8px 16px; font-size: 14px; }
+        .output-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background-color: white;
+            border-radius: 0.5rem;
         }
     </style>
 </head>
-<body>
-    <svg style="display:none">
-        <symbol id="emailLogo" viewBox="0 0 200 200">
-            <defs>
-                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#4338ca" />
-                    <stop offset="100%" stop-color="#7e22ce" />
-                </linearGradient>
-            </defs>
-            <path d="M40 60 L160 60 L160 140 L40 140 Z" fill="url(#logoGradient)"/>
-            <path d="M40 60 L100 100 L160 60" fill="white" opacity="0.3"/>
-            <circle cx="100" cy="100" r="24" fill="white" opacity="0.2"/>
-            <path d="M60 85 L100 110 L140 85" stroke="white" stroke-width="6" fill="none" stroke-linecap="round"/>
-        </symbol>
-        <symbol id="sun-icon" viewBox="0 0 24 24">
-            <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
-        </symbol>
-        <symbol id="moon-icon" viewBox="0 0 24 24">
-            <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
-        </symbol>
-        <symbol id="menu-icon" viewBox="0 0 24 24">
-            <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M3 12h18M3 6h18M3 18h18"/>
-        </symbol>
-        <symbol id="close-icon" viewBox="0 0 24 24">
-            <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M18 6L6 18M6 6l12 12"/>
-        </symbol>
-        <symbol id="nav-dashboard" viewBox="0 0 24 24">
-            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M9 22V12h6v10"/>
-        </symbol>
-        <symbol id="icon-shield" viewBox="0 0 24 24">
-            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 22s8-4 8-10V6l-8-4-8 4v6c0 6 8 10 8 10z"/>
-        </symbol>
-        <symbol id="icon-scan" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/>
-            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 7v10M7 12h10"/>
-        </symbol>
-        <symbol id="icon-dns" viewBox="0 0 24 24">
-            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 2a10 10 0 100 20 10 10 0 000-20z"/>
-            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 6v4l3 3M12 12l-3 3m6 0l3 3"/>
-            <circle cx="12" cy="12" r="1" fill="currentColor"/>
-        </symbol>
-        <symbol id="icon-process" viewBox="0 0 24 24">
-            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M3 10h18M3 14h18M3 18h18M3 6h18"/>
-        </symbol>
-        <symbol id="icon-globe" viewBox="0 0 24 24">
-            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16z"/>
-            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
-        </symbol>
-        <symbol id="icon-network" viewBox="0 0 24 24">
-            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 2a10 10 0 100 20 10 10 0 000-20z"/>
-            <circle cx="12" cy="12" r="2" fill="currentColor"/>
-            <circle cx="8" cy="12" r="2" fill="currentColor"/>
-            <circle cx="16" cy="12" r="2" fill="currentColor"/>
-        </symbol>
-        <symbol id="icon-convert" viewBox="0 0 24 24">
-            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M8 7h12M8 13h12M8 19h12M4 7v0M4 13v0M4 19v0"/>
-        </symbol>
-        <symbol id="icon-code" viewBox="0 0 24 24">
-            <path fill="none" stroke="currentColor" stroke-width="1.8" d="M8 18l-4-4 4-4M16 6l4 4-4 4M10 3l2 18"/>
-        </symbol>
-        <symbol id="icon-arrow-right" viewBox="0 0 24 24">
-            <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/>
-        </symbol>
-        <symbol id="icon-zap" viewBox="0 0 24 24">
-            <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-        </symbol>
-        <symbol id="icon-shield-check" viewBox="0 0 24 24">
-            <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"/>
-        </symbol>
-        <symbol id="icon-lock" viewBox="0 0 24 24">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="2"/>
-            <path fill="none" stroke="currentColor" stroke-width="2" d="M7 11V7a5 5 0 0110 0v4"/>
-        </symbol>
-        <symbol id="telegram-icon" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.78 5.42-.9 6.8-.06.67-.36.89-.89.56-2.45-1.83-3.57-2.98-5.79-4.78-.54-.45-.92-.68-.88-1.07.03-.28.42-.44.92-.64 2.17-.91 3.61-1.51 5.71-2.41.58-.25 1.11-.08.9.47z"/>
-        </symbol>
+
+<body class="transition-colors duration-300">
+    <!-- Main SVG Sprite for Icons -->
+    <svg width="0" height="0" class="hidden">
+        <symbol id="sun-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a1 1 0 011 1v2a1 1 0 01-2 0V3a1 1 0 011-1zm0 17a1 1 0 01-1 1v2a1 1 0 012 0v-2a1 1 0 01-1-1zm6.364-12.728l1.414-1.414a1 1 0 011.414 1.414l-1.414 1.414a1 1 0 01-1.414-1.414zM4.222 4.222a1 1 0 011.414-1.414l1.414 1.414a1 1 0 01-1.414 1.414L4.222 4.222zm15.556 15.556l-1.414-1.414a1 1 0 011.414-1.414l1.414 1.414a1 1 0 01-1.414 1.414zM3.515 15.656a1 1 0 01-1.414 1.414l-1.414-1.414a1 1 0 011.414-1.414l1.414 1.414zm-.707-1.414a1 1 0 010-1.414L2.83 12a1 1 0 011.414 0l.707.707a1 1 0 010 1.414zm-.707-1.414a1 1 0 01-1.414 1.414l-1.414-1.414a1 1 0 011.414-1.414l1.414 1.414zm1.414 1.414a1 1 0 010 1.414L3.515 17a1 1 0 01-1.414 0l-.707-.707a1 1 0 010-1.414zM12 7a5 5 0 100 10 5 5 0 000-10z"></path></symbol>
+        <symbol id="moon-icon" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 1010 10c0-5.523-4.477-10-10-10zm0 18a8 8 0 010-16c3.483 0 6.643 1.942 8.356 5.013A8 8 0 0112 20z"></path></symbol>
     </svg>
 
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-    <nav class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <div class="sidebar-branding">
-                <svg class="sidebar-logo"><use href="#emailLogo"></use></svg>
-                <div class="sidebar-title">Email Suite</div>
+    <!-- Header and Navigation -->
+    <header class="sticky top-0 z-50 shadow-md bg-white dark:bg-gray-800 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <button id="back-to-dashboard" onclick="showDashboard()" class="hidden text-xl font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-200 transition-colors duration-200 mr-4">
+                        <i class="fas fa-arrow-left mr-2"></i>Back to Dashboard
+                    </button>
+                    <a href="#" class="flex items-center space-x-2" onclick="showDashboard()">
+                        <span class="text-2xl font-extrabold text-indigo-600 dark:text-indigo-400">
+                            Enterprise Tools
+                        </span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="theme-toggle" class="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200" title="Toggle Theme">
+                        <svg id="theme-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Initial icon will be set by JS -->
+                        </svg>
+                    </button>
+                </div>
             </div>
-            <button class="sidebar-close" id="sidebarClose">
-                <svg><use href="#close-icon"></use></svg>
-            </button>
         </div>
+    </header>
 
-        <div class="nav-section">
-            <div class="nav-title">Main</div>
-            <ul class="nav-links">
-                <li class="nav-item">
-                    <a href="#" class="nav-link active">
-                        <svg class="nav-icon"><use href="#nav-dashboard"></use></svg>
-                        Dashboard
-                    </a>
-                </li>
-            </ul>
-        </div>
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Dashboard View -->
+        <div id="dashboard-view" class="space-y-10">
+            <div class="text-center space-y-3">
+                <h1 class="text-4xl font-extrabold text-gray-900 dark:text-gray-100 sm:text-5xl">
+                    Unified Infrastructure Toolkit
+                </h1>
+                <p class="text-xl text-gray-500 dark:text-gray-400">
+                    Your essential suite for email security, network analysis, and HTML development.
+                </p>
+            </div>
 
-        <div class="nav-section">
-            <div class="nav-title">Security Tools</div>
-            <ul class="nav-links">
-                <li class="nav-item">
-                    <a href="mailguard-pro.html" class="nav-link">
-                        <svg class="nav-icon"><use href="#icon-shield"></use></svg>
-                        MailGuard Pro
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="email-security-scanner.html" class="nav-link">
-                        <svg class="nav-icon"><use href="#icon-scan"></use></svg>
-                        Security Scanner
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="dns-record-generator.html" class="nav-link">
-                        <svg class="nav-icon"><use href="#icon-dns"></use></svg>
-                        DNS Generator
-                    </a>
-                </li>
-            </ul>
-        </div>
+            <!-- Tool Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 
-        <div class="nav-section">
-            <div class="nav-title">Data Tools</div>
-            <ul class="nav-links">
-                <li class="nav-item">
-                    <a href="email-processing-suite.html" class="nav-link">
-                        <svg class="nav-icon"><use href="#icon-process"></use></svg>
-                        List Processor
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="domain-Extractor.html" class="nav-link">
-                        <svg class="nav-icon"><use href="#icon-globe"></use></svg>
-                        Domain Extractor
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="IP-Address-Extractor.html" class="nav-link">
-                        <svg class="nav-icon"><use href="#icon-network"></use></svg>
-                        IP Extractor
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="IPv4-Converter.html" class="nav-link">
-                        <svg class="nav-icon"><use href="#icon-convert"></use></svg>
-                        IPv4 Converter
-                    </a>
-                </li>
-            </ul>
-        </div>
+                <!-- 1. DNS Record Generator -->
+                <div onclick="loadTool('dns-gen')" class="tool-card p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl dark:hover:shadow-indigo-500/50">
+                    <div class="flex items-center space-x-4">
+                        <i class="fas fa-sitemap text-3xl text-indigo-500"></i>
+                        <h2 class="text-lg font-bold">DNS Record Generator</h2>
+                    </div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-3">Create common DNS records (MX, TXT, SPF, DMARC) quickly and accurately.</p>
+                    <span class="tool-badge mt-3 inline-block bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300">Network / Email</span>
+                </div>
 
-        <div class="nav-section">
-            <div class="nav-title">Development</div>
-            <ul class="nav-links">
-                <li class="nav-item">
-                    <a href="html-viewer-pro.html" class="nav-link">
-                        <svg class="nav-icon"><use href="#icon-code"></use></svg>
-                        HTML Inspector
-                    </a>
-                </li>
-            </ul>
-        </div>
+                <!-- 2. Email Security Scanner -->
+                <div onclick="loadTool('email-sec')" class="tool-card p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl dark:hover:shadow-indigo-500/50">
+                    <div class="flex items-center space-x-4">
+                        <i class="fas fa-shield-alt text-3xl text-green-500"></i>
+                        <h2 class="text-lg font-bold">Email Security Scanner</h2>
+                    </div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-3">Scan domains for SPF and DMARC records to identify vulnerability risks.</p>
+                    <span class="tool-badge mt-3 inline-block bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">Security / Analysis</span>
+                </div>
 
-        <div class="sidebar-footer">
-            <button class="theme-toggle" id="themeToggle">
-                <svg id="themeIcon">
-                    <use href="#sun-icon"></use>
-                </svg>
-                <span id="themeText">Light Mode</span>
-            </button>
-        </div>
-    </nav>
+                <!-- 3. Email Header Cleaner Pro (MailGuard Pro) -->
+                <div onclick="loadTool('mailguard')" class="tool-card p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl dark:hover:shadow-indigo-500/50">
+                    <div class="flex items-center space-x-4">
+                        <i class="fas fa-trash-alt text-3xl text-red-500"></i>
+                        <h2 class="text-lg font-bold">Header Cleaner Pro</h2>
+                    </div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-3">Clean and mask sensitive information from full email headers before sharing.</p>
+                    <span class="tool-badge mt-3 inline-block bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300">Privacy / Forensics</span>
+                </div>
 
-    <div class="top-nav">
-        <div class="nav-left">
-            <button class="menu-toggle" id="menuToggle">
-                <svg><use href="#menu-icon"></use></svg>
-            </button>
-            <div class="top-nav-title">Dashboard</div>
+                <!-- 4. Advanced Email Processing Suite (Dedupe) -->
+                <div onclick="loadTool('email-proc')" class="tool-card p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl dark:hover:shadow-indigo-500/50">
+                    <div class="flex items-center space-x-4">
+                        <i class="fas fa-list-ol text-3xl text-yellow-500"></i>
+                        <h2 class="text-lg font-bold">Email Processing Suite</h2>
+                    </div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-3">Upload and deduplicate large email lists instantly and securely.</p>
+                    <span class="tool-badge mt-3 inline-block bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300">List Management</span>
+                </div>
+                
+                <!-- 5. HTML Editor Pro -->
+                <div onclick="loadTool('html-editor')" class="tool-card p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl dark:hover:shadow-indigo-500/50">
+                    <div class="flex items-center space-x-4">
+                        <i class="fas fa-code text-3xl text-purple-500"></i>
+                        <h2 class="text-lg font-bold">HTML Editor Pro</h2>
+                    </div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-3">Live code editor with real-time preview, focusing on email and web development.</p>
+                    <span class="tool-badge mt-3 inline-block bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300">Development / Code</span>
+                </div>
+                
+                <!-- 6. Domain Extractor -->
+                <div onclick="loadTool('domain-ext')" class="tool-card p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl dark:hover:shadow-indigo-500/50">
+                    <div class="flex items-center space-x-4">
+                        <i class="fas fa-at text-3xl text-cyan-500"></i>
+                        <h2 class="text-lg font-bold">Domain Extractor</h2>
+                    </div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-3">Quickly extract all unique domains from any block of text or log file.</p>
+                    <span class="tool-badge mt-3 inline-block bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-300">Extraction / Data</span>
+                </div>
+                
+                <!-- 7. IP Tools: Converter & Extractor -->
+                <div onclick="loadTool('ip-tools')" class="tool-card p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl dark:hover:shadow-indigo-500/50">
+                    <div class="flex items-center space-x-4">
+                        <i class="fas fa-network-wired text-3xl text-orange-500"></i>
+                        <h2 class="text-lg font-bold">IP Tools: Converter</h2>
+                    </div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-3">Convert IPv4 to decimal, hex, binary, and IPv6. Also extract IP addresses from text.</p>
+                    <span class="tool-badge mt-3 inline-block bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300">Network / Utility</span>
+                </div>
+
+            </div>
         </div>
         
-        <div class="user-section" id="userSection">
-            <button class="telegram-login-btn" id="telegramLoginBtn" style="display: none;">
-                <svg width="18" height="18"><use href="#telegram-icon"></use></svg>
-                Login with Telegram
-            </button>
-            
-            <div class="user-info" id="userInfo" style="display: none;">
-                <div class="user-avatar" id="userAvatar">U</div>
-                <div class="user-details">
-                    <div class="user-name" id="userName">User</div>
-                    <div class="user-username" id="userUsername">@username</div>
-                </div>
-                <button class="logout-btn" id="logoutBtn">Logout</button>
-            </div>
+        <!-- Tool View Area (Hidden by default) -->
+        <div id="tool-view" class="hidden min-h-[70vh]">
+            <!-- Tool content will be injected here -->
         </div>
-    </div>
 
-    <main class="main-content">
-        <div class="welcome-section">
-            <svg class="hero-logo"><use href="#emailLogo"></use></svg>
-            
-            <h1 class="hero-title">Email Tools Suite</h1>
-            
-            <div class="enterprise-badge">Enterprise Edition</div>
-            
-            <p class="hero-description">
-                Professional-grade email processing, security, and compliance tools for modern businesses. 
-                Trusted by security teams and IT professionals worldwide to streamline email operations 
-                and enhance security posture.
-            </p>
-
-            <div class="telegram-widget-container" id="telegramWidgetContainer">
-                <script async 
-                    src="https://telegram.org/js/telegram-widget.js?22" 
-                    data-telegram-login="EmailToolsSuiteBot" 
-                    data-size="large" 
-                    data-onauth="onTelegramAuth(user)" 
-                    data-request-access="write">
-                </script>
-            </div>
-
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number">8</div>
-                    <div class="stat-label">Professional Tools</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">99.9%</div>
-                    <div class="stat-label">Uptime Guarantee</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">24/7</div>
-                    <div class="stat-label">Support Available</div>
-                </div>
-            </div>
-
-            <div class="cta-section">
-                <p class="cta-text">Ready to get started?</p>
-                <div class="cta-hint">
-                    <svg><use href="#icon-arrow-right"></use></svg>
-                    Click the menu button to access all tools
-                </div>
-            </div>
-
-            <div class="features-section">
-                <h2 class="features-title">Why Choose Our Suite?</h2>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <svg><use href="#icon-zap"></use></svg>
-                        </div>
-                        <h3 class="feature-title">Lightning Fast</h3>
-                        <p class="feature-description">Process millions of records in seconds with our optimized algorithms and enterprise infrastructure.</p>
-                    </div>
-
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <svg><use href="#icon-shield-check"></use></svg>
-                        </div>
-                        <h3 class="feature-title">Enterprise Security</h3>
-                        <p class="feature-description">Bank-level encryption and GDPR/CCPA compliance built into every tool we offer.</p>
-                    </div>
-
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <svg><use href="#icon-lock"></use></svg>
-                        </div>
-                        <h3 class="feature-title">Privacy First</h3>
-                        <p class="feature-description">Your data never leaves your browser. All processing happens locally on your machine.</p>
-                    </div>
-                </div>
-            </div>
+        <div class="footer text-center mt-12 pt-6 border-t border-gray-200 dark:border-gray-700">
+            <p class="text-sm text-gray-500 dark:text-gray-400">© 2025 Enterprise Toolkit | Unified Solutions</p>
         </div>
+
     </main>
+    
+    <!-- Custom Alert/Toast Component (Replaces native alert/confirm) -->
+    <div id="toast-container" class="fixed bottom-4 right-4 z-[100] space-y-2"></div>
 
-    <script>
-        const sidebar = document.getElementById('sidebar');
-        const sidebarOverlay = document.getElementById('sidebarOverlay');
-        const menuToggle = document.getElementById('menuToggle');
-        const sidebarClose = document.getElementById('sidebarClose');
-        const themeToggle = document.getElementById('themeToggle');
-        const themeIcon = document.getElementById('themeIcon');
-        const themeText = document.getElementById('themeText');
-        const themeRoot = document.getElementById('theme-root');
-        const telegramLoginBtn = document.getElementById('telegramLoginBtn');
-        const userInfo = document.getElementById('userInfo');
-        const userAvatar = document.getElementById('userAvatar');
-        const userName = document.getElementById('userName');
-        const userUsername = document.getElementById('userUsername');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const telegramWidgetContainer = document.getElementById('telegramWidgetContainer');
 
-        function openSidebar() {
-            sidebar.classList.add('active');
-            sidebarOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeSidebar() {
-            sidebar.classList.remove('active');
-            sidebarOverlay.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        menuToggle.addEventListener('click', openSidebar);
-        sidebarClose.addEventListener('click', closeSidebar);
-        sidebarOverlay.addEventListener('click', closeSidebar);
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && sidebar.classList.contains('active')) {
-                closeSidebar();
-            }
-        });
-
-        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        
-        if (prefersDark) {
-            themeRoot.classList.add('dark');
-            themeIcon.innerHTML = '<use href="#moon-icon"></use>';
-            themeText.textContent = 'Dark Mode';
-        } else {
-            themeRoot.classList.remove('dark');
-            themeIcon.innerHTML = '<use href="#sun-icon"></use>';
-            themeText.textContent = 'Light Mode';
-        }
-
-        themeToggle.addEventListener('click', () => {
-            themeRoot.classList.toggle('dark');
-            const isDark = themeRoot.classList.contains('dark');
+    <!-- HIDDEN TOOL TEMPLATES -->
+    
+    <!-- 1. DNS Record Generator Template (dns-record-generator.html) -->
+    <template id="dns-gen-template">
+        <div class="max-w-4xl mx-auto space-y-6 p-6 bg-white dark:bg-gray-800 rounded-xl shadow-2xl">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100"><i class="fas fa-sitemap mr-2 text-indigo-500"></i> DNS Record Generator</h1>
+            <p class="text-gray-600 dark:text-gray-400">Create the most common DNS records for your domain. Ensure all fields are valid for generation.</p>
             
-            if (isDark) {
-                themeIcon.innerHTML = '<use href="#moon-icon"></use>';
-                themeText.textContent = 'Dark Mode';
-            } else {
-                themeIcon.innerHTML = '<use href="#sun-icon"></use>';
-                themeText.textContent = 'Light Mode';
-            }
-        });
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label for="recordType" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Record Type</label>
+                    <select id="recordType" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-indigo-500 focus:border-indigo-500">
+                        <option value="A">A Record (Address)</option>
+                        <option value="MX">MX Record (Mail Exchange)</option>
+                        <option value="TXT">TXT Record (Text/Verification)</option>
+                        <option value="CNAME">CNAME (Canonical Name)</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="domainName" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Domain Name (e.g., example.com)</label>
+                    <input type="text" id="domainName" placeholder="Enter root domain" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+            </div>
 
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                if (this.getAttribute('href') === '#') {
-                    e.preventDefault();
+            <!-- Record-specific Inputs (Managed by JS) -->
+            <div id="recordInputs" class="space-y-4">
+                <!-- Inputs for A Record (Default) -->
+                <div>
+                    <label for="a-ip" class="block text-sm font-medium text-gray-700 dark:text-gray-300">A Record IP Address</label>
+                    <input type="text" id="a-ip" placeholder="e.g., 192.0.2.1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <!-- MX/TXT/CNAME fields are dynamically added/removed -->
+            </div>
+            
+            <div class="flex flex-col sm:flex-row gap-4">
+                <button id="generateBtn" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200 shadow-md">
+                    <i class="fas fa-cogs mr-2"></i> Generate Record
+                </button>
+                <button id="clearBtn" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition-colors duration-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600">
+                    <i class="fas fa-times-circle mr-2"></i> Clear
+                </button>
+            </div>
+
+            <!-- Output Area -->
+            <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg border border-gray-300 dark:border-gray-600">
+                <h3 class="text-lg font-semibold mb-2 text-gray-800 dark:text-gray-200">Generated Record</h3>
+                <pre id="output" class="whitespace-pre-wrap break-words text-sm text-gray-700 dark:text-gray-300 p-2 min-h-[100px]">Your generated DNS record will appear here...</pre>
+                
+                <div class="flex justify-end gap-2 mt-4">
+                    <button id="copyBtn" class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 text-sm rounded-md transition-colors duration-200">
+                        <i class="fas fa-copy mr-1"></i> Copy
+                    </button>
+                    <button id="downloadBtn" class="bg-green-500 hover:bg-green-600 text-white py-1 px-3 text-sm rounded-md transition-colors duration-200">
+                        <i class="fas fa-download mr-1"></i> Download
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+    
+    <!-- 2. Email Security Scanner Template (email-security-scanner.html) -->
+    <template id="email-sec-template">
+        <div class="max-w-6xl mx-auto space-y-6 p-6 bg-white dark:bg-gray-800 rounded-xl shadow-2xl">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100"><i class="fas fa-shield-alt mr-2 text-green-500"></i> Email Security Scanner (SPF/DMARC)</h1>
+            <p class="text-gray-600 dark:text-gray-400">Analyze the SPF and DMARC records of one or more domains to check for email spoofing vulnerability.</p>
+            
+            <textarea id="domainInput" rows="5" placeholder="Enter domains separated by commas, spaces, or newlines (e.g., example.com, mydomain.net)" class="w-full rounded-md border-gray-300 shadow-sm p-3 dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-green-500 focus:border-green-500"></textarea>
+            
+            <div class="flex flex-col sm:flex-row gap-4">
+                <button id="scanDomainsBtn" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200 shadow-md">
+                    <i class="fas fa-search mr-2"></i> Run Security Scan
+                </button>
+                <button onclick="clearSecurityScan()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition-colors duration-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600">
+                    <i class="fas fa-sync-alt mr-2"></i> Clear Results
+                </button>
+            </div>
+            
+            <!-- Results Area -->
+            <div id="resultsContainer" class="hidden mt-6">
+                <h3 class="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">Scan Results (<span id="resultCount">0</span> Domains)</h3>
+                <div class="overflow-x-auto rounded-lg shadow-inner">
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead class="bg-gray-50 dark:bg-gray-700">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">Domain</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">SPF Qualifier</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">DMARC Policy</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-gray-300">Vulnerability</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultsTableBody" class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                            <!-- Results rows injected here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex justify-end mt-4">
+                    <button id="downloadSecurityCsvBtn" class="bg-indigo-500 hover:bg-indigo-600 text-white py-1 px-3 text-sm rounded-md transition-colors duration-200">
+                        <i class="fas fa-file-csv mr-1"></i> Download CSV
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- 3. Email Header Cleaner Pro (mailguard-pro.html) -->
+    <template id="mailguard-template">
+        <div class="max-w-6xl mx-auto space-y-6 p-6 bg-white dark:bg-gray-800 rounded-xl shadow-2xl">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100"><i class="fas fa-trash-alt mr-2 text-red-500"></i> Email Header Cleaner Pro</h1>
+            <p class="text-gray-600 dark:text-gray-400">Paste an email's source or headers to clean sensitive data like IP addresses and internal routes.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 h-[500px]">
+                <div class="h-full flex flex-col">
+                    <label for="inputEmail" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Input Email Source / Headers</label>
+                    <textarea id="inputEmail" placeholder="Paste your email source here..." class="flex-grow w-full rounded-md border-gray-300 shadow-sm p-3 dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-red-500 focus:border-red-500"></textarea>
+                    <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">Characters: <span id="charCount">0</span> | Lines: <span id="lineCount">0</span></div>
+                </div>
+                <div class="h-full flex flex-col">
+                    <label for="outputEmail" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Cleaned Output</label>
+                    <textarea id="outputEmail" readonly placeholder="Cleaned output will appear here..." class="flex-grow w-full rounded-md border-gray-300 shadow-sm p-3 bg-gray-100 dark:bg-gray-700 dark:border-gray-600 dark:text-white"></textarea>
+                    <div class="flex justify-between mt-1">
+                        <button id="copyOutputBtn" class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 text-sm rounded-md transition-colors duration-200"><i class="fas fa-copy mr-1"></i> Copy</button>
+                        <button id="downloadOutputBtn" class="bg-green-500 hover:bg-green-600 text-white py-1 px-3 text-sm rounded-md transition-colors duration-200"><i class="fas fa-download mr-1"></i> Download</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center pt-4 border-t border-gray-200 dark:border-gray-700">
+                <button id="cleanEmailBtn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-200 shadow-md">
+                    <i class="fas fa-magic mr-2"></i> Clean Headers
+                </button>
+                <div class="space-x-4">
+                    <button id="openHeaderModalBtn" class="text-sm text-gray-600 dark:text-gray-400 hover:text-red-600 transition-colors duration-200">
+                        <i class="fas fa-filter mr-1"></i> Header Removal Settings
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Modal for Header Removal Settings -->
+            <div id="headerRemovalModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4">
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 w-full max-w-lg shadow-2xl">
+                    <h3 class="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">Header Removal Settings</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Select headers to remove from the output.</p>
+                    <div id="standardHeaders" class="grid grid-cols-2 gap-3 mb-4">
+                        <!-- Checkboxes injected here -->
+                    </div>
+                    
+                    <label for="customHeaders" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Custom Headers to Remove (Comma Separated)</label>
+                    <input type="text" id="customHeaders" placeholder="e.g., X-Custom-Header, Other-Trace" class="w-full rounded-md border-gray-300 shadow-sm p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-red-500 focus:border-red-500">
+                    
+                    <div class="flex justify-end space-x-3 mt-6">
+                        <button onclick="closeModal('headerRemovalModal')" class="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 py-2 px-4 rounded-lg">Cancel</button>
+                        <button id="saveHeaderSettingsBtn" class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg">Save Settings</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- 4. Email Processing Suite Template (email-processing-suite.html) -->
+    <template id="email-proc-template">
+        <div class="max-w-4xl mx-auto space-y-6 p-6 bg-white dark:bg-gray-800 rounded-xl shadow-2xl">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100"><i class="fas fa-list-ol mr-2 text-yellow-500"></i> Email Processing Suite</h1>
+            <p class="text-gray-600 dark:text-gray-400">Upload a text file to instantly deduplicate email addresses. Only unique, valid emails are kept.</p>
+
+            <div class="border-4 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-6 text-center cursor-pointer hover:border-yellow-500 transition-colors duration-200" onclick="document.getElementById('fileInput').click()">
+                <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 dark:text-gray-500"></i>
+                <p class="mt-2 text-gray-600 dark:text-gray-400">Drag & drop or <span class="font-semibold text-yellow-600 dark:text-yellow-400">click to browse</span> a list file (TXT, CSV)</p>
+                <p id="dedupeFileName" class="mt-1 text-sm font-medium text-gray-700 dark:text-gray-300">No file selected</p>
+                <input type="file" id="fileInput" accept=".txt,.csv" class="hidden">
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4">
+                <button id="processFileBtn" class="flex-1 bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200 shadow-md">
+                    <i class="fas fa-filter mr-2"></i> Deduplicate List
+                </button>
+                <button id="clearDedupeBtn" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition-colors duration-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600">
+                    <i class="fas fa-undo mr-2"></i> Clear
+                </button>
+            </div>
+
+            <!-- Stats and Results -->
+            <div id="dedupeStats" class="space-y-4 pt-4 border-t border-gray-200 dark:border-gray-700 hidden">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-indigo-50 dark:bg-gray-700 p-4 rounded-lg">
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Emails Read</p>
+                        <p id="totalEmails" class="text-2xl font-bold text-gray-900 dark:text-gray-100">0</p>
+                    </div>
+                    <div class="bg-indigo-50 dark:bg-gray-700 p-4 rounded-lg">
+                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Unique Emails Found</p>
+                        <p id="uniqueEmails" class="text-2xl font-bold text-yellow-600 dark:text-yellow-400">0</p>
+                    </div>
+                </div>
+                <button id="downloadDedupeBtn" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 rounded-lg transition-colors duration-200">
+                    <i class="fas fa-download mr-2"></i> Download Unique List
+                </button>
+            </div>
+        </div>
+    </template>
+    
+    <!-- 5. HTML Editor Pro Template (html-editor-fixed (1).html) -->
+    <template id="html-editor-template">
+        <div class="space-y-6">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100"><i class="fas fa-code mr-2 text-purple-500"></i> HTML Editor Pro</h1>
+            <p class="text-gray-600 dark:text-gray-400">A robust, live HTML/CSS/JS editor with instant rendering and source transformation utilities.</p>
+
+            <div class="flex space-x-4">
+                <button onclick="runCode()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200 shadow-md">
+                    <i class="fas fa-play mr-2"></i> Run Code
+                </button>
+                <button onclick="openEncodingModal('qpModal')" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition-colors duration-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600">
+                    <i class="fas fa-exchange-alt mr-2"></i> Encode/Decode
+                </button>
+                <button onclick="clearEditor()" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200 shadow-md">
+                    <i class="fas fa-eraser mr-2"></i> Clear
+                </button>
+            </div>
+
+            <!-- Editor and Preview Panels -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[70vh]">
+                <div class="h-full flex flex-col">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">HTML/CSS/JS Source</label>
+                    <textarea id="editorContent" class="hidden"></textarea> <!-- CodeMirror targets this textarea -->
+                </div>
+                <div class="h-full flex flex-col">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Live Preview</label>
+                    <iframe id="preview-iframe" class="output-iframe flex-grow"></iframe>
+                </div>
+            </div>
+
+            <!-- Quoted-Printable Modal -->
+            <div id="qpModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4">
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 w-full max-w-lg shadow-2xl">
+                    <h3 class="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">Quoted-Printable Decoder</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Decode Q-P encoded text commonly found in email headers and bodies.</p>
+                    
+                    <label for="qpInput" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Quoted-Printable Input</label>
+                    <textarea id="qpInput" rows="4" placeholder="e.g., =E2=80=9CHello=20World=E2=80=9D" class="w-full rounded-md border-gray-300 shadow-sm p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-purple-500 focus:border-purple-500"></textarea>
+
+                    <button onclick="decodeQuotedPrintable()" class="w-full mt-3 bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-lg transition-colors duration-200">
+                        <i class="fas fa-decode mr-2"></i> Decode
+                    </button>
+                    
+                    <label for="qpOutput" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mt-4 mb-1">Decoded Output</label>
+                    <textarea id="qpOutput" rows="4" readonly class="w-full rounded-md border-gray-300 shadow-sm p-2 bg-gray-100 dark:bg-gray-700 dark:border-gray-600 dark:text-white"></textarea>
+
+                    <div class="flex justify-end mt-6">
+                        <button onclick="closeModal('qpModal')" class="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 py-2 px-4 rounded-lg">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    
+    <!-- 6. Domain Extractor Template (domain-Extractor.html) -->
+    <template id="domain-ext-template">
+        <div class="max-w-4xl mx-auto space-y-6 p-6 bg-white dark:bg-gray-800 rounded-xl shadow-2xl">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100"><i class="fas fa-at mr-2 text-cyan-500"></i> Domain Extractor</h1>
+            <p class="text-gray-600 dark:text-gray-400">Paste any text containing URLs, emails, or domains to extract a clean, unique list of root domains.</p>
+            
+            <textarea id="domainInputText" rows="10" placeholder="Paste your log file, email list, or bulk text here..." class="w-full rounded-md border-gray-300 shadow-sm p-3 dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-cyan-500 focus:border-cyan-500"></textarea>
+
+            <div class="flex flex-col sm:flex-row gap-4">
+                <button id="extractDomainsBtn" class="flex-1 bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200 shadow-md">
+                    <i class="fas fa-search mr-2"></i> Extract Unique Domains
+                </button>
+                <button id="clearDomainExtBtn" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition-colors duration-200 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600">
+                    <i class="fas fa-eraser mr-2"></i> Clear Input/Output
+                </button>
+            </div>
+
+            <!-- Results Area -->
+            <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
+                <h3 class="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">Extracted Domains (<span id="domainCount">0</span> Unique)</h3>
+                <textarea id="domainOutput" rows="8" readonly placeholder="Extracted domains will appear here..." class="w-full rounded-md border-gray-300 shadow-sm p-3 bg-gray-100 dark:bg-gray-700 dark:border-gray-600 dark:text-white"></textarea>
+                
+                <div class="flex justify-end gap-2 mt-4">
+                    <button id="copyDomainsBtn" class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 text-sm rounded-md transition-colors duration-200">
+                        <i class="fas fa-copy mr-1"></i> Copy List
+                    </button>
+                    <button id="downloadDomainsBtn" class="bg-green-500 hover:bg-green-600 text-white py-1 px-3 text-sm rounded-md transition-colors duration-200">
+                        <i class="fas fa-download mr-1"></i> Download TXT
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+    
+    <!-- 7. IP Tools: Converter & Extractor Template (IPv4-Converter.html & IP-Address-Extractor.html combined) -->
+    <template id="ip-tools-template">
+        <div class="max-w-4xl mx-auto space-y-6 p-6 bg-white dark:bg-gray-800 rounded-xl shadow-2xl">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100"><i class="fas fa-network-wired mr-2 text-orange-500"></i> IP Address Converter & Extractor</h1>
+            <p class="text-gray-600 dark:text-gray-400">Convert IPv4 addresses to various formats and extract all valid IP addresses from a text block.</p>
+            
+            <!-- Converter Section -->
+            <div class="border border-orange-200 dark:border-orange-900 p-4 rounded-lg bg-orange-50 dark:bg-gray-700">
+                <h2 class="text-xl font-semibold mb-3 text-orange-800 dark:text-orange-300">IPv4 Converter</h2>
+                <div class="flex space-x-3 mb-4">
+                    <input type="text" id="ipv4Input" placeholder="Enter IPv4 Address (e.g., 192.168.1.1)" class="flex-grow rounded-md border-gray-300 shadow-sm p-2 dark:bg-gray-600 dark:border-gray-500 dark:text-white focus:ring-orange-500 focus:border-orange-500">
+                    <button id="convertIpv4Btn" class="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200">
+                        <i class="fas fa-sync-alt mr-2"></i> Convert
+                    </button>
+                </div>
+
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center py-2 border-b dark:border-gray-600">
+                        <span class="font-medium text-gray-700 dark:text-gray-300">Decimal (Unsigned Int)</span>
+                        <div class="flex items-center space-x-2">
+                            <span id="decimalValue" class="font-mono text-sm">-</span>
+                            <button onclick="copyValue('decimalValue', this)" class="text-gray-500 hover:text-orange-600 transition-colors"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b dark:border-gray-600">
+                        <span class="font-medium text-gray-700 dark:text-gray-300">Hexadecimal</span>
+                        <div class="flex items-center space-x-2">
+                            <span id="hexValue" class="font-mono text-sm">-</span>
+                            <button onclick="copyValue('hexValue', this)" class="text-gray-500 hover:text-orange-600 transition-colors"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b dark:border-gray-600">
+                        <span class="font-medium text-gray-700 dark:text-gray-300">IPv6 (Short/Embedded)</span>
+                        <div class="flex items-center space-x-2">
+                            <span id="ipv6ShortValue" class="font-mono text-sm">-</span>
+                            <button onclick="copyValue('ipv6ShortValue', this)" class="text-gray-500 hover:text-orange-600 transition-colors"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Extractor Section -->
+            <div class="border border-indigo-200 dark:border-indigo-900 p-4 rounded-lg bg-indigo-50 dark:bg-gray-700">
+                <h2 class="text-xl font-semibold mb-3 text-indigo-800 dark:text-indigo-300">IP Address Extractor</h2>
+                <textarea id="ipExtractInput" rows="5" placeholder="Paste text, headers, or logs to extract IP addresses (v4 & v6 supported)." class="w-full rounded-md border-gray-300 shadow-sm p-3 dark:bg-gray-600 dark:border-gray-500 dark:text-white focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                
+                <div class="flex justify-between items-center mt-3">
+                    <button id="extractIPsBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200">
+                        <i class="fas fa-clipboard-list mr-2"></i> Extract All IPs
+                    </button>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">Found: <span id="ipCount">0</span> unique IPs</div>
+                </div>
+
+                <textarea id="ipExtractOutput" rows="5" readonly placeholder="Extracted IP addresses will appear here..." class="w-full rounded-md border-gray-300 shadow-sm p-3 mt-4 bg-gray-100 dark:bg-gray-600 dark:border-gray-500 dark:text-white"></textarea>
+            </div>
+        </div>
+    </template>
+    
+    <!-- Unified Script Block -->
+    <script>
+        // --- Global Setup ---
+        const $ = (id) => document.getElementById(id);
+        const D = document;
+        const T = {
+            'dns-gen': 'DNS Record Generator',
+            'email-sec': 'Email Security Scanner',
+            'mailguard': 'Email Header Cleaner Pro',
+            'email-proc': 'Email Processing Suite',
+            'html-editor': 'HTML Editor Pro',
+            'domain-ext': 'Domain Extractor',
+            'ip-tools': 'IP Tools: Converter & Extractor',
+        };
+        let codeMirrorInstance = null;
+        let activeTool = null;
+        
+        // --- Theme Toggle ---
+        function initTheme() {
+            const themeToggle = $('theme-toggle');
+            const themeIcon = $('theme-icon');
+            const themeRoot = $('theme-root');
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            // Set initial theme based on system preference
+            if (prefersDark) {
+                themeRoot.classList.add('dark');
+                themeIcon.innerHTML = '<use href="#moon-icon"></use>';
+            } else {
+                themeRoot.classList.remove('dark');
+                themeIcon.innerHTML = '<use href="#sun-icon"></use>';
+            }
+            
+            // Toggle theme
+            themeToggle.addEventListener('click', () => {
+                themeRoot.classList.toggle('dark');
+                const isDark = themeRoot.classList.contains('dark');
+                themeIcon.innerHTML = isDark 
+                    ? '<use href="#moon-icon"></use>' 
+                    : '<use href="#sun-icon"></use>';
+                
+                // If the HTML Editor is active, re-initialize CodeMirror to update theme
+                if (activeTool === 'html-editor' && codeMirrorInstance) {
+                    codeMirrorInstance.setOption('theme', isDark ? 'monokai' : 'eclipse');
+                }
+            });
+        }
+
+        // --- Custom Toast/Alert Implementation ---
+        function showAlert(message, type = 'success') {
+            const toastContainer = $('toast-container');
+            const toast = D.createElement('div');
+            
+            let bgColor = 'bg-green-500';
+            let icon = 'fa-check-circle';
+
+            switch (type) {
+                case 'error':
+                    bgColor = 'bg-red-500';
+                    icon = 'fa-exclamation-circle';
+                    break;
+                case 'warning':
+                    bgColor = 'bg-yellow-500';
+                    icon = 'fa-exclamation-triangle';
+                    break;
+                case 'info':
+                    bgColor = 'bg-blue-500';
+                    icon = 'fa-info-circle';
+                    break;
+            }
+
+            toast.className = `${bgColor} text-white p-4 rounded-lg shadow-xl opacity-0 transition-opacity duration-300 transform translate-x-full`;
+            toast.style.minWidth = '250px';
+            toast.innerHTML = `<div class="flex items-center space-x-2"><i class="fas ${icon}"></i><span>${message}</span></div>`;
+            
+            toastContainer.appendChild(toast);
+
+            // Animate in
+            setTimeout(() => {
+                toast.classList.remove('opacity-0', 'translate-x-full');
+                toast.classList.add('opacity-100', 'translate-x-0');
+            }, 50);
+
+            // Animate out and remove
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-x-0');
+                toast.classList.add('opacity-0', 'translate-x-full');
+                toast.addEventListener('transitionend', () => toast.remove());
+            }, 5000);
+        }
+
+        // --- Navigation and Tool Loading ---
+
+        function showDashboard() {
+            $('tool-view').classList.add('hidden');
+            $('dashboard-view').classList.remove('hidden');
+            $('back-to-dashboard').classList.add('hidden');
+            D.title = 'Enterprise Email & Dev Toolkit | Unified Dashboard';
+            activeTool = null;
+        }
+
+        function loadTool(toolId) {
+            activeTool = toolId;
+            const toolView = $('tool-view');
+            const template = $(`${toolId}-template`);
+
+            if (!template) {
+                showAlert(`Tool ${toolId} not found.`, 'error');
+                return;
+            }
+
+            // Clear previous tool content
+            toolView.innerHTML = '';
+            
+            // Clone and append new tool content
+            const clone = template.content.cloneNode(true);
+            toolView.appendChild(clone);
+            
+            // Update UI
+            $('dashboard-view').classList.add('hidden');
+            toolView.classList.remove('hidden');
+            $('back-to-dashboard').classList.remove('hidden');
+            D.title = `${T[toolId]} | Unified Toolkit`;
+
+            // Run tool-specific initialization
+            initializeTool(toolId);
+        }
+
+        function initializeTool(toolId) {
+            // Disconnect any lingering CodeMirror instance
+            if (codeMirrorInstance) {
+                const editorArea = $('editorContent');
+                if (editorArea && editorArea.nextSibling && editorArea.nextSibling.classList && editorArea.nextSibling.classList.contains('CodeMirror')) {
+                    editorArea.nextSibling.remove(); // Remove CodeMirror's div
+                }
+                codeMirrorInstance = null;
+            }
+            
+            // Run specific tool initialization functions
+            switch (toolId) {
+                case 'dns-gen':
+                    initDnsGenerator();
+                    break;
+                case 'email-sec':
+                    initEmailSecurityScanner();
+                    break;
+                case 'mailguard':
+                    initMailGuardPro();
+                    break;
+                case 'email-proc':
+                    initEmailProcessingSuite();
+                    break;
+                case 'html-editor':
+                    initHtmlEditorPro();
+                    break;
+                case 'domain-ext':
+                    initDomainExtractor();
+                    break;
+                case 'ip-tools':
+                    initIPTools();
+                    break;
+            }
+        }
+        
+        // Universal modal close handler
+        function closeModal(modalId) {
+            const modal = $(modalId);
+            if (modal) modal.classList.add('hidden');
+        }
+        function openEncodingModal(modalId) {
+             const modal = $(modalId);
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        // --- 1. DNS Record Generator Logic (dns-gen) ---
+        function initDnsGenerator() {
+            const recordType = $('recordType');
+            const domainName = $('domainName');
+            const recordInputs = $('recordInputs');
+            const outputEl = $('output');
+            const generateBtn = $('generateBtn');
+            const clearBtn = $('clearBtn');
+            const copyBtn = $('copyBtn');
+            const downloadBtn = $('downloadBtn');
+            let generatedRecord = '';
+            let currentRecordType = 'A';
+            let currentDomainName = '';
+
+            const renderInputs = () => {
+                currentRecordType = recordType.value;
+                recordInputs.innerHTML = '';
+                let html = '';
+
+                switch (currentRecordType) {
+                    case 'A':
+                        html = `
+                            <div>
+                                <label for="a-ip" class="block text-sm font-medium text-gray-700 dark:text-gray-300">IP Address (e.g., 192.0.2.1)</label>
+                                <input type="text" id="a-ip" placeholder="e.g., 192.0.2.1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                            </div>`;
+                        break;
+                    case 'MX':
+                        html = `
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label for="mx-priority" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Priority (e.g., 10)</label>
+                                    <input type="number" id="mx-priority" value="10" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                </div>
+                                <div>
+                                    <label for="mx-host" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Mail Server Hostname</label>
+                                    <input type="text" id="mx-host" placeholder="e.g., mail.example.com" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                </div>
+                            </div>`;
+                        break;
+                    case 'TXT':
+                        html = `
+                            <div>
+                                <label for="txt-value" class="block text-sm font-medium text-gray-700 dark:text-gray-300">TXT Record Value</label>
+                                <textarea id="txt-value" rows="3" placeholder='e.g., "v=spf1 include:_spf.google.com ~all"' class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white"></textarea>
+                            </div>`;
+                        break;
+                    case 'CNAME':
+                        html = `
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label for="cname-alias" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Alias (e.g., www)</label>
+                                    <input type="text" id="cname-alias" placeholder="e.g., www" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                </div>
+                                <div>
+                                    <label for="cname-target" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Target Host</label>
+                                    <input type="text" id="cname-target" placeholder="e.g., example.com" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                </div>
+                            </div>`;
+                        break;
+                }
+                recordInputs.innerHTML = html;
+            };
+
+            const generateRecord = () => {
+                currentDomainName = domainName.value.trim();
+                let recordValue = '';
+                let isValid = true;
+
+                if (!currentDomainName) {
+                    showAlert('Please enter a Domain Name.', 'error');
+                    return;
+                }
+
+                switch (currentRecordType) {
+                    case 'A':
+                        const aIp = $('a-ip').value.trim();
+                        if (!aIp || !/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(aIp)) {
+                            showAlert('Please enter a valid IP address for the A Record.', 'error');
+                            isValid = false;
+                        } else {
+                            recordValue = aIp;
+                        }
+                        break;
+                    case 'MX':
+                        const mxPriority = $('mx-priority').value.trim();
+                        const mxHost = $('mx-host').value.trim();
+                        if (!mxPriority || !mxHost) {
+                            showAlert('Please fill both MX Priority and Mail Server Hostname.', 'error');
+                            isValid = false;
+                        } else {
+                            recordValue = `${mxPriority} ${mxHost}`;
+                        }
+                        break;
+                    case 'TXT':
+                        recordValue = $('txt-value').value.trim();
+                        if (!recordValue) {
+                            showAlert('Please enter a value for the TXT Record.', 'error');
+                            isValid = false;
+                        }
+                        break;
+                    case 'CNAME':
+                        const cnameAlias = $('cname-alias').value.trim();
+                        const cnameTarget = $('cname-target').value.trim();
+                        if (!cnameAlias || !cnameTarget) {
+                            showAlert('Please fill both CNAME Alias and Target Host.', 'error');
+                            isValid = false;
+                        } else {
+                            recordValue = cnameTarget;
+                            currentDomainName = cnameAlias + '.' + currentDomainName; // Prepend alias for clarity
+                        }
+                        break;
+                }
+
+                if (isValid) {
+                    generatedRecord = `
+Type: ${currentRecordType}
+Host: ${currentDomainName}
+TTL: 3600 (Standard)
+
+Value:
+${recordValue}`;
+                    outputEl.textContent = generatedRecord;
+                    showAlert(`${currentRecordType} Record generated successfully!`, 'success');
+                } else {
+                    generatedRecord = '';
+                    outputEl.textContent = 'Error during generation. Please check inputs.';
+                }
+            };
+
+            const copyRecord = () => {
+                if (!generatedRecord) {
+                    showAlert('Please generate a record first.', 'warning');
+                    return;
+                }
+                navigator.clipboard.writeText(outputEl.textContent).then(() => {
+                    showAlert('Record copied to clipboard!', 'success');
+                }).catch(() => {
+                    showAlert('Failed to copy to clipboard.', 'error');
+                });
+            };
+
+            const downloadRecord = () => {
+                if (!generatedRecord) {
+                    showAlert('Please generate a record first.', 'warning');
+                    return;
+                }
+                const blob = new Blob([outputEl.textContent], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = D.createElement('a');
+                a.href = url;
+                a.download = `${currentRecordType}-${currentDomainName.replace(/\./g, '_')}-record.txt`;
+                D.body.appendChild(a);
+                a.click();
+                D.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            };
+
+            const clearRecord = () => {
+                domainName.value = '';
+                generatedRecord = '';
+                outputEl.textContent = 'Your generated DNS record will appear here...';
+                renderInputs();
+                showAlert('Form cleared.', 'info');
+            };
+
+
+            recordType.addEventListener('change', renderInputs);
+            generateBtn.addEventListener('click', generateRecord);
+            clearBtn.addEventListener('click', clearRecord);
+            copyBtn.addEventListener('click', copyRecord);
+            downloadBtn.addEventListener('click', downloadRecord);
+
+            renderInputs(); // Initial setup
+        }
+
+        // --- 2. Email Security Scanner Logic (email-sec) ---
+        function initEmailSecurityScanner() {
+            const domainInput = $('domainInput');
+            const scanDomainsBtn = $('scanDomainsBtn');
+            const resultsContainer = $('resultsContainer');
+            const resultCount = $('resultCount');
+            const resultsTableBody = $('resultsTableBody');
+            const downloadSecurityCsvBtn = $('downloadSecurityCsvBtn');
+            
+            // Placeholder data for demonstration (Since real DNS lookup is not possible)
+            const demoResults = [
+                { domain: "google.com", spfRecord: "v=spf1 include:_spf.google.com ~all", dmarcRecord: "v=DMARC1; p=none; rua=mailto:dmarc@google.com; fo=1", spfQualifier: "~", dmarcPolicy: "none", overallVulnerable: false },
+                { domain: "microsoft.com", spfRecord: "v=spf1 include:spf-a.hotmail.com include:spf-b.hotmail.com -all", dmarcRecord: "v=DMARC1; p=reject; rua=mailto:dmarc_rua@microsoft.com", spfQualifier: "-", dmarcPolicy: "reject", overallVulnerable: false },
+                { domain: "badexample.org", spfRecord: "v=spf1 ?all", dmarcRecord: "no record found", spfQualifier: "?", dmarcPolicy: "none", overallVulnerable: true },
+                { domain: "totallysafe.com", spfRecord: "v=spf1 include:thirdparty.com -all", dmarcRecord: "v=DMARC1; p=quarantine; fo=1", spfQualifier: "-", dmarcPolicy: "quarantine", overallVulnerable: false },
+            ];
+
+            const parseAndScan = () => {
+                const rawInput = domainInput.value;
+                const domains = rawInput.split(/[\s,]+/).filter(d => d.trim() !== '');
+
+                if (domains.length === 0) {
+                    showAlert('Please enter at least one domain to scan.', 'warning');
+                    return;
+                }
+
+                showAlert(`Simulating scan for ${domains.length} domains...`, 'info');
+                
+                resultsTableBody.innerHTML = '';
+                resultsContainer.classList.remove('hidden');
+                resultCount.textContent = domains.length;
+
+                domains.forEach((domain, index) => {
+                    // Simulate API call using static demo data and random selection
+                    const result = demoResults[index % demoResults.length];
+                    const vulnerabilityStatus = result.overallVulnerable 
+                        ? `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300">VULNERABLE</span>`
+                        : `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">SECURE</span>`;
+                    
+                    const row = D.createElement('tr');
+                    row.innerHTML = `
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">${domain}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">${result.spfQualifier}all</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">${result.dmarcPolicy}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">${vulnerabilityStatus}</td>
+                    `;
+                    resultsTableBody.appendChild(row);
+                });
+
+                showAlert('Domain security scan simulation complete!', 'success');
+            };
+            
+            const clearSecurityScan = () => {
+                domainInput.value = '';
+                resultsTableBody.innerHTML = '';
+                resultsContainer.classList.add('hidden');
+                resultCount.textContent = '0';
+                showAlert('Scan results cleared.', 'info');
+            };
+            
+            const downloadSecurityCsv = () => {
+                const rows = Array.from(resultsTableBody.rows).map(row => 
+                    Array.from(row.cells).map(cell => cell.textContent.trim())
+                );
+                
+                if (rows.length === 0) {
+                    showAlert('No results to download.', 'warning');
+                    return;
+                }
+
+                const headers = ['Domain', 'SPF Qualifier', 'DMARC Policy', 'Vulnerability'];
+                const csvContent = [
+                    headers.join(','),
+                    ...rows.map(row => row.map(c => `"${c.replace(/"/g, '""')}"`).join(','))
+                ].join('\n');
+                
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const link = D.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'email_security_scan_results.csv';
+                link.click();
+                showAlert('CSV downloaded successfully!', 'success');
+            };
+
+
+            scanDomainsBtn.addEventListener('click', parseAndScan);
+            downloadSecurityCsvBtn.addEventListener('click', downloadSecurityCsv);
+            window.clearSecurityScan = clearSecurityScan; // Attach to window for button click
+        }
+        
+        // --- 3. Email Header Cleaner Pro Logic (mailguard) ---
+        function initMailGuardPro() {
+            const inputEl = $('inputEmail');
+            const outputEl = $('outputEmail');
+            const cleanEmailBtn = $('cleanEmailBtn');
+            const copyOutputBtn = $('copyOutputBtn');
+            const downloadOutputBtn = $('downloadOutputBtn');
+            const headerRemovalModal = $('headerRemovalModal');
+            const openHeaderModalBtn = $('openHeaderModalBtn');
+            const saveHeaderSettingsBtn = $('saveHeaderSettingsBtn');
+            const standardHeadersDiv = $('standardHeaders');
+            const customHeadersInput = $('customHeaders');
+            const charCount = $('charCount');
+            const lineCount = $('lineCount');
+
+            // Standard headers to offer removal
+            const STANDARD_HEADERS = [
+                'Received', 'X-Originating-IP', 'Message-ID', 'X-Mailer', 'X-Ms-Tls-Required',
+                'X-Ms-Exchange-Cbe', 'X-Ms-Exchange-CrossTenant-Authas', 'X-Ms-Exchange-CrossTenant-Id',
+                'X-Ms-Exchange-CrossTenant-OriginalAttributedTenant', 'X-Ms-Exchange-Organization-Authas',
+                'X-Ms-Exchange-Organization-Authsource', 'X-Ms-Exchange-Organization-Authmechanism',
+                'X-Ms-Exchange-Organization-Network-Message-Id', 'Content-Transfer-Encoding',
+                'Authentication-Results', 'DKIM-Signature', 'Return-Path', 'Precedence'
+            ];
+            
+            // Load and save settings use basic JSON serialization in this single-file context
+            let headersToRemove = new Set(['Received', 'X-Originating-IP', 'Message-ID', 'Return-Path']);
+
+            const updateStats = () => {
+                const text = inputEl.value;
+                charCount.textContent = text.length;
+                lineCount.textContent = (text.match(/\n/g) || []).length + 1;
+            };
+
+            const loadHeaderSettings = () => {
+                try {
+                    // Simulating persistent storage via a simple global variable
+                    const storedSettings = window.mailguardSettings || {};
+                    if (storedSettings.headers) {
+                        headersToRemove = new Set(storedSettings.headers);
+                    }
+                    if (storedSettings.custom) {
+                        customHeadersInput.value = storedSettings.custom;
+                    }
+                } catch (e) {
+                    console.error("Failed to load header settings:", e);
+                }
+            };
+            
+            const saveHeaderSettings = () => {
+                headersToRemove.clear();
+                D.querySelectorAll('#standardHeaders input[type="checkbox"]:checked').forEach(cb => {
+                    headersToRemove.add(cb.id.replace('header-cb-', ''));
+                });
+                
+                // Save settings (simulated)
+                window.mailguardSettings = {
+                    headers: Array.from(headersToRemove),
+                    custom: customHeadersInput.value.trim()
+                };
+                showAlert('Header removal settings saved!', 'success');
+            };
+
+            const initHeaderCheckboxes = () => {
+                standardHeadersDiv.innerHTML = STANDARD_HEADERS.map(header => `
+                    <div class="flex items-center">
+                        <input id="header-cb-${header}" type="checkbox" class="h-4 w-4 text-red-600 border-gray-300 rounded focus:ring-red-500 dark:bg-gray-700 dark:border-gray-600">
+                        <label for="header-cb-${header}" class="ml-2 block text-sm text-gray-900 dark:text-gray-200">${header}</label>
+                    </div>
+                `).join('');
+
+                D.querySelectorAll('#standardHeaders input[type="checkbox"]').forEach(cb => {
+                    const headerName = cb.id.replace('header-cb-', '');
+                    cb.checked = headersToRemove.has(headerName);
+                });
+            };
+
+            const cleanEmail = () => {
+                const rawEmail = inputEl.value;
+                if (!rawEmail.trim()) {
+                    showAlert('Please paste email source or headers into the input field.', 'warning');
+                    return;
                 }
                 
-                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
+                // Add custom headers to the removal list temporarily
+                const customHeaders = customHeadersInput.value.split(',').map(h => h.trim()).filter(h => h);
+                const combinedHeadersToRemove = new Set([...headersToRemove, ...customHeaders]);
+
+                let cleanedContent = '';
+                let inHeaderSection = true;
                 
-                setTimeout(closeSidebar, 300);
+                const lines = rawEmail.split('\n');
+                for (let i = 0; i < lines.length; i++) {
+                    let line = lines[i];
+
+                    // Check for end of headers (empty line)
+                    if (inHeaderSection && line.trim() === '') {
+                        inHeaderSection = false;
+                        cleanedContent += line + '\n';
+                        continue;
+                    }
+
+                    if (inHeaderSection) {
+                        // Check for continuation line (starts with space or tab)
+                        if (line.match(/^[ \t]/)) {
+                            // Keep continuation line if the previous header was kept
+                            const prevLine = lines[i - 1] || '';
+                            const prevHeaderName = prevLine.split(':')[0];
+                            if (!combinedHeadersToRemove.has(prevHeaderName)) {
+                                cleanedContent += line + '\n';
+                            }
+                        } else {
+                            // New header line
+                            const headerName = line.split(':')[0];
+                            if (!combinedHeadersToRemove.has(headerName)) {
+                                cleanedContent += line + '\n';
+                            }
+                        }
+                    } else {
+                        // Body section - copy directly (or add complex body cleaning if necessary)
+                        cleanedContent += line + '\n';
+                    }
+                }
+                
+                // Cleanup: remove multiple empty lines
+                cleanedContent = cleanedContent.replace(/(\n\s*){3,}/g, '\n\n');
+
+                outputEl.value = cleanedContent.trim();
+                showAlert('Email headers cleaned successfully!', 'success');
+            };
+            
+            // Event Listeners
+            inputEl.addEventListener('input', updateStats);
+            cleanEmailBtn.addEventListener('click', cleanEmail);
+            openHeaderModalBtn.addEventListener('click', () => headerRemovalModal.classList.remove('hidden'));
+            saveHeaderSettingsBtn.addEventListener('click', () => {
+                saveHeaderSettings();
+                closeModal('headerRemovalModal');
             });
-        });
-
-        // UPDATED: Telegram Login with Notification System
-        function onTelegramAuth(user) {
-            localStorage.setItem('telegram_user', JSON.stringify(user));
-            localStorage.setItem('is_logged_in', 'true');
             
-            updateUserInterface(user);
-            sendUserNotification(user);
-            
-            alert(`Welcome, ${user.first_name}!`);
-        }
-
-        function sendUserNotification(user) {
-            const webAppUrl = 'https://script.google.com/macros/s/AKfycbz_aNcjtBiLcHu-DqpZaIPiBE-y69tkcUN73GVF_9l5N2pMyQEPmLLW6QcR2I3wNouq/exec';
-            
-            fetch(webAppUrl, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ user: user })
-            }).then(() => {
-                console.log('Notification sent successfully');
-            }).catch(error => {
-                console.log('Notification error:', error);
+            copyOutputBtn.addEventListener('click', () => {
+                if(outputEl.value.trim()){
+                    navigator.clipboard.writeText(outputEl.value).then(() => showAlert('Cleaned content copied!', 'success'));
+                } else {
+                    showAlert('Output is empty.', 'warning');
+                }
             });
+            downloadOutputBtn.addEventListener('click', () => {
+                if(outputEl.value.trim()){
+                    const blob = new Blob([outputEl.value], { type: 'text/plain' });
+                    const link = D.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = 'cleaned_email.txt';
+                    link.click();
+                    showAlert('Cleaned content downloaded!', 'success');
+                } else {
+                    showAlert('Output is empty.', 'warning');
+                }
+            });
+
+
+            // Initial load
+            loadHeaderSettings();
+            initHeaderCheckboxes();
+            updateStats();
         }
 
-        function updateUserInterface(user) {
-            if (user) {
-                userInfo.style.display = 'flex';
-                telegramLoginBtn.style.display = 'none';
-                telegramWidgetContainer.style.display = 'none';
+        // --- 4. Email Processing Suite Logic (email-proc) ---
+        function initEmailProcessingSuite() {
+            const fileInput = $('fileInput');
+            const processFileBtn = $('processFileBtn');
+            const clearDedupeBtn = $('clearDedupeBtn');
+            const downloadDedupeBtn = $('downloadDedupeBtn');
+            const dedupeFileName = $('dedupeFileName');
+            const dedupeStats = $('dedupeStats');
+            const totalEmailsEl = $('totalEmails');
+            const uniqueEmailsEl = $('uniqueEmails');
+            
+            let deduplicatedEmails = [];
+            
+            const processFile = () => {
+                const file = fileInput.files[0];
+                if (!file) {
+                    showAlert('Please select a file first.', 'warning');
+                    return;
+                }
                 
-                userName.textContent = user.first_name + (user.last_name ? ' ' + user.last_name : '');
-                userUsername.textContent = user.username ? '@' + user.username : 'No username';
+                dedupeFileName.textContent = file.name;
+                showAlert(`Reading file: ${file.name} (${(file.size / 1024).toFixed(2)} KB)...`, 'info');
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const text = e.target.result;
+                    const emails = text.split(/[\s,;]+/).map(e => e.trim().toLowerCase()).filter(e => e.length > 0);
+                    const validEmailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                    
+                    const validEmails = emails.filter(e => validEmailRegex.test(e));
+                    
+                    deduplicatedEmails = Array.from(new Set(validEmails));
+
+                    totalEmailsEl.textContent = validEmails.length;
+                    uniqueEmailsEl.textContent = deduplicatedEmails.length;
+                    dedupeStats.classList.remove('hidden');
+
+                    showAlert(`Deduplication complete. Found ${deduplicatedEmails.length} unique emails!`, 'success');
+                };
+
+                reader.onerror = () => {
+                    showAlert('Error reading file.', 'error');
+                };
+
+                reader.readAsText(file);
+            };
+
+            const downloadList = () => {
+                if (deduplicatedEmails.length === 0) {
+                    showAlert('No unique emails to download.', 'warning');
+                    return;
+                }
                 
-                const initial = user.first_name ? user.first_name.charAt(0).toUpperCase() : 'U';
-                userAvatar.textContent = initial;
-            } else {
-                userInfo.style.display = 'none';
-                telegramLoginBtn.style.display = 'flex';
-                telegramWidgetContainer.style.display = 'flex';
-            }
+                const content = deduplicatedEmails.join('\n');
+                const blob = new Blob([content], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = D.createElement('a');
+                a.href = url;
+                a.download = 'unique_emails.txt';
+                D.body.appendChild(a);
+                a.click();
+                D.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showAlert('Unique email list downloaded.', 'success');
+            };
+
+            const clearDedupe = () => {
+                fileInput.value = '';
+                deduplicatedEmails = [];
+                dedupeFileName.textContent = 'No file selected';
+                dedupeStats.classList.add('hidden');
+                totalEmailsEl.textContent = '0';
+                uniqueEmailsEl.textContent = '0';
+                showAlert('Processing suite cleared.', 'info');
+            };
+
+            fileInput.addEventListener('change', () => {
+                if (fileInput.files.length > 0) {
+                    dedupeFileName.textContent = fileInput.files[0].name;
+                } else {
+                    dedupeFileName.textContent = 'No file selected';
+                }
+            });
+            processFileBtn.addEventListener('click', processFile);
+            downloadDedupeBtn.addEventListener('click', downloadList);
+            clearDedupeBtn.addEventListener('click', clearDedupe);
         }
 
-        function logout() {
-            localStorage.removeItem('telegram_user');
-            localStorage.removeItem('is_logged_in');
+        // --- 5. HTML Editor Pro Logic (html-editor) ---
+        function initHtmlEditorPro() {
+            const editorContent = $('editorContent');
+            const previewIframe = $('preview-iframe');
             
-            updateUserInterface(null);
+            // Initialize CodeMirror
+            codeMirrorInstance = CodeMirror.fromTextArea(editorContent, {
+                mode: 'htmlmixed',
+                theme: $('theme-root').classList.contains('dark') ? 'monokai' : 'eclipse',
+                lineNumbers: true,
+                autoCloseTags: true,
+                autoCloseBrackets: true,
+                matchBrackets: true,
+                extraKeys: {"Ctrl-Space": "autocomplete"}
+            });
             
-            alert('You have been logged out successfully.');
+            // Set initial content
+            codeMirrorInstance.setValue(`<!DOCTYPE html>
+<html>
+<head>
+    <title>Live Preview</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .box { background: #4f46e5; color: white; padding: 15px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>Welcome to the Live Editor!</h1>
+        <p>Edit the code above and click 'Run Code' to see changes.</p>
+    </div>
+</body>
+</html>`);
+
+            codeMirrorInstance.on('change', () => {
+                // Optional: Live update (can be heavy)
+                // runCode();
+            });
+
+            window.runCode = () => {
+                const code = codeMirrorInstance.getValue();
+                previewIframe.srcdoc = code;
+                showAlert('Code rendered successfully.', 'info');
+            };
+
+            window.clearEditor = () => {
+                if (confirm('Are you sure you want to clear all editor content?')) {
+                    codeMirrorInstance.setValue('');
+                    previewIframe.srcdoc = '<h1>Content Cleared</h1>';
+                    showAlert('Editor cleared.', 'info');
+                }
+            };
+            
+            window.decodeQuotedPrintable = () => {
+                const input = $('qpInput').value;
+                const output = $('qpOutput');
+                let decoded = '';
+                
+                try {
+                    for (let i = 0; i < input.length; i++) {
+                        if (input[i] === '=') {
+                            if (input[i + 1] === '\r' || input[i + 1] === '\n') {
+                                // Soft line break - skip it
+                                i += (input[i + 1] === '\r' && input[i + 2] === '\n') ? 2 : 1;
+                            } else {
+                                // Hex encoded character
+                                const hex = input.substring(i + 1, i + 3);
+                                decoded += String.fromCharCode(parseInt(hex, 16));
+                                i += 2;
+                            }
+                        } else {
+                            decoded += input[i];
+                        }
+                    }
+                    output.value = decoded;
+                    showAlert('Quoted-Printable decoded.', 'success');
+                } catch (error) {
+                    console.error('Quoted-Printable decode error:', error);
+                    output.value = 'Error decoding. Check input format.';
+                    showAlert('Error decoding Quoted-Printable.', 'error');
+                }
+            };
+            
+            // Initial run
+            runCode();
         }
 
-        telegramLoginBtn.addEventListener('click', () => location.reload());
-        logoutBtn.addEventListener('click', logout);
+        // --- 6. Domain Extractor Logic (domain-ext) ---
+        function initDomainExtractor() {
+            const domainInputText = $('domainInputText');
+            const extractDomainsBtn = $('extractDomainsBtn');
+            const domainOutput = $('domainOutput');
+            const domainCount = $('domainCount');
+            const clearDomainExtBtn = $('clearDomainExtBtn');
+            const copyDomainsBtn = $('copyDomainsBtn');
+            const downloadDomainsBtn = $('downloadDomainsBtn');
+            let extractedDomains = [];
 
-        window.addEventListener('DOMContentLoaded', function() {
-            const isLoggedIn = localStorage.getItem('is_logged_in');
-            const userData = localStorage.getItem('telegram_user');
+            const extractDomains = () => {
+                const text = domainInputText.value;
+                if (!text.trim()) {
+                    showAlert('Please paste text to extract domains.', 'warning');
+                    return;
+                }
+
+                // Comprehensive regex to find domains from URLs, emails, and bare domains
+                const regex = /(?:https?:\/\/|www\.|@)?([a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})(?:\/|\s|\>|$|:|)/g;
+                let matches = [];
+                let match;
+                
+                while ((match = regex.exec(text)) !== null) {
+                    // Filter out common false positives and ensure TLD exists
+                    if (match[1] && !match[1].match(/^(localhost|file|data|about)/)) {
+                        matches.push(match[1].toLowerCase());
+                    }
+                }
+                
+                // Get unique domains and sort
+                extractedDomains = Array.from(new Set(matches)).sort();
+
+                domainOutput.value = extractedDomains.join('\n');
+                domainCount.textContent = extractedDomains.length;
+                showAlert(`Extracted ${extractedDomains.length} unique domains.`, 'success');
+            };
+
+            const clearFields = () => {
+                domainInputText.value = '';
+                domainOutput.value = '';
+                domainCount.textContent = '0';
+                extractedDomains = [];
+                showAlert('Extractor fields cleared.', 'info');
+            };
             
-            if (isLoggedIn && userData) {
-                const user = JSON.parse(userData);
-                updateUserInterface(user);
-            } else {
-                updateUserInterface(null);
-            }
+            const copyList = () => {
+                 if (extractedDomains.length === 0) {
+                    showAlert('No results to copy!', 'warning');
+                    return;
+                }
+                navigator.clipboard.writeText(domainOutput.value).then(() => {
+                    showAlert('Results copied to clipboard!', 'success');
+                });
+            };
+            
+            const downloadList = () => {
+                 if (extractedDomains.length === 0) {
+                    showAlert('No results to download!', 'warning');
+                    return;
+                }
+                const content = domainOutput.value;
+                const blob = new Blob([content], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = D.createElement('a');
+                a.href = url;
+                a.download = 'extracted_domains.txt';
+                D.body.appendChild(a);
+                a.click();
+                D.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showAlert('Domain list downloaded.', 'success');
+            };
+
+            extractDomainsBtn.addEventListener('click', extractDomains);
+            clearDomainExtBtn.addEventListener('click', clearFields);
+            copyDomainsBtn.addEventListener('click', copyList);
+            downloadDomainsBtn.addEventListener('click', downloadList);
+        }
+        
+        // --- 7. IP Tools Logic (ip-tools) ---
+        function initIPTools() {
+            const ipv4Input = $('ipv4Input');
+            const convertIpv4Btn = $('convertIpv4Btn');
+            const decimalValue = $('decimalValue');
+            const hexValue = $('hexValue');
+            const ipv6ShortValue = $('ipv6ShortValue');
+            
+            const ipExtractInput = $('ipExtractInput');
+            const extractIPsBtn = $('extractIPsBtn');
+            const ipExtractOutput = $('ipExtractOutput');
+            const ipCount = $('ipCount');
+
+            const isValidIPv4 = (ip) => {
+                return /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ip);
+            };
+
+            const convertIpv4 = () => {
+                const ip = ipv4Input.value.trim();
+                
+                decimalValue.textContent = hexValue.textContent = ipv6ShortValue.textContent = '-';
+
+                if (!isValidIPv4(ip)) {
+                    showAlert('Invalid IPv4 address format.', 'error');
+                    return;
+                }
+
+                const octets = ip.split('.').map(Number);
+                
+                // Decimal (Unsigned Int)
+                const decimal = (octets[0] << 24) + (octets[1] << 16) + (octets[2] << 8) + octets[3];
+                decimalValue.textContent = decimal.toString();
+
+                // Hexadecimal
+                const hex = decimal.toString(16).toUpperCase().padStart(8, '0');
+                hexValue.textContent = '0x' + hex;
+
+                // IPv6 (Short/Embedded)
+                const hexOctets = octets.map(o => o.toString(16).padStart(2, '0'));
+                const ipv6Short = `::ffff:${hexOctets[0]}${hexOctets[1]}:${hexOctets[2]}${hexOctets[3]}`;
+                ipv6ShortValue.textContent = ipv6Short;
+                
+                showAlert('IPv4 conversion complete.', 'success');
+            };
+            
+            const extractIPs = () => {
+                const text = ipExtractInput.value;
+                if (!text.trim()) {
+                    showAlert('Please paste text to extract IP addresses.', 'warning');
+                    return;
+                }
+
+                const ipv4Regex = /(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/g;
+                // Simplified IPv6 regex for common formats
+                const ipv6Regex = /(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]+|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))/g;
+                
+                const ips = [...text.matchAll(ipv4Regex), ...text.matchAll(ipv6Regex)].map(match => match[0]);
+                const uniqueIPs = Array.from(new Set(ips)).sort();
+                
+                ipExtractOutput.value = uniqueIPs.join('\n');
+                ipCount.textContent = uniqueIPs.length;
+                showAlert(`Extracted ${uniqueIPs.length} unique IP addresses.`, 'success');
+            };
+
+            convertIpv4Btn.addEventListener('click', convertIpv4);
+            extractIPsBtn.addEventListener('click', extractIPs);
+            
+            // Expose copy function globally (used by the template buttons)
+            window.copyValue = (elementId, button) => {
+                const element = $(elementId);
+                const text = element.textContent;
+
+                if (text === '-') {
+                    showAlert('Nothing to copy.', 'warning');
+                    return;
+                }
+
+                navigator.clipboard.writeText(text).then(() => {
+                    const icon = button.querySelector('i');
+                    const originalClass = icon.className;
+                    
+                    icon.className = 'fas fa-check text-green-500';
+                    
+                    setTimeout(() => {
+                        icon.className = originalClass;
+                    }, 1000);
+                    
+                    showAlert('Value copied to clipboard!', 'success');
+                }).catch(() => {
+                    showAlert('Failed to copy to clipboard.', 'error');
+                });
+            };
+        }
+
+
+        // --- Initialization on Load ---
+        D.addEventListener('DOMContentLoaded', () => {
+            initTheme();
         });
     </script>
 </body>
