@@ -5,19 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Email Security Scanner</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6366f1;
-            --secondary: #8b5cf6;
+            --primary: #4f46e5;
+            --primary-light: #818cf8;
+            --secondary: #7c3aed;
+            --secondary-light: #a78bfa;
             --success: #10b981;
+            --success-light: #34d399;
             --warning: #f59e0b;
+            --warning-light: #fbbf24;
             --danger: #ef4444;
+            --danger-light: #f87171;
+            --info: #06b6d4;
+            --info-light: #22d3ee;
             --light: #f8fafc;
             --dark: #1e293b;
             --gray: #64748b;
+            --gray-light: #94a3b8;
             --bg: #0f172a;
             --card-bg: #1e293b;
             --border: #334155;
+            --border-light: #475569;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --radius: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
         }
         
         * {
@@ -28,45 +44,97 @@
         }
         
         body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
             color: #e2e8f0;
             line-height: 1.6;
             min-height: 100vh;
             padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Animated background elements */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(79, 70, 229, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(124, 58, 237, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
+            z-index: -1;
+            animation: backgroundShift 20s ease-in-out infinite alternate;
+        }
+        
+        @keyframes backgroundShift {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(-20px, -20px) scale(1.1); }
         }
         
         .container {
             max-width: 1600px;
             margin: 0 auto;
-            background: rgba(30, 41, 59, 0.8);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
-            padding: 30px;
+            padding: 40px 30px;
             text-align: center;
             position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
         
         h1 {
-            font-size: 36px;
-            margin-bottom: 8px;
+            font-size: 40px;
+            margin-bottom: 12px;
             font-weight: 700;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 16px;
+            position: relative;
+            z-index: 1;
+            letter-spacing: -0.5px;
         }
         
         .tagline {
-            font-size: 16px;
+            font-size: 18px;
             opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
         
         .main-content {
@@ -77,49 +145,97 @@
         }
         
         .control-panel {
-            background: rgba(15, 23, 42, 0.5);
-            padding: 25px;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 30px;
             border-right: 1px solid var(--border);
             overflow-y: auto;
             max-height: calc(100vh - 200px);
+            position: relative;
+        }
+        
+        .control-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.4) 100%);
+            z-index: -1;
         }
         
         .panel-section {
-            margin-bottom: 25px;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
         }
         
         .section-title {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
-            margin-bottom: 15px;
-            color: var(--primary);
+            margin-bottom: 18px;
+            color: var(--primary-light);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--primary-light) 0%, transparent 100%);
+            margin-left: 12px;
         }
         
         .file-upload-area {
-            border: 2px dashed rgba(99, 102, 241, 0.5);
-            border-radius: 12px;
-            padding: 20px;
+            border: 2px dashed rgba(129, 140, 248, 0.5);
+            border-radius: var(--radius);
+            padding: 24px;
             text-align: center;
-            background: rgba(99, 102, 241, 0.05);
+            background: rgba(79, 70, 229, 0.05);
             transition: all 0.3s ease;
             cursor: pointer;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .file-upload-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(79, 70, 229, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
         
         .file-upload-area:hover {
-            background: rgba(99, 102, 241, 0.1);
-            border-color: var(--primary);
+            background: rgba(79, 70, 229, 0.1);
+            border-color: var(--primary-light);
+            transform: translateY(-2px);
+        }
+        
+        .file-upload-area:hover::before {
+            opacity: 1;
         }
         
         .file-upload-area i {
-            font-size: 32px;
-            color: var(--primary);
-            margin-bottom: 8px;
+            font-size: 36px;
+            color: var(--primary-light);
+            margin-bottom: 12px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
         }
         
         input[type="file"] {
@@ -128,76 +244,98 @@
         
         .domains-input {
             width: 100%;
-            min-height: 100px;
-            padding: 12px;
+            min-height: 120px;
+            padding: 16px;
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: var(--radius);
             resize: vertical;
-            font-size: 14px;
-            background: rgba(15, 23, 42, 0.5);
+            font-size: 15px;
+            background: rgba(15, 23, 42, 0.6);
             color: #e2e8f0;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            font-family: 'Inter', monospace;
         }
         
         .domains-input:focus {
             outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+            background: rgba(15, 23, 42, 0.8);
         }
         
         .settings-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            gap: 16px;
         }
         
         .setting-group label {
             display: block;
             font-weight: 500;
-            margin-bottom: 5px;
-            font-size: 13px;
+            margin-bottom: 8px;
+            font-size: 14px;
             color: #cbd5e1;
         }
         
         .setting-group input {
             width: 100%;
-            padding: 8px 12px;
+            padding: 12px 16px;
             border: 1px solid var(--border);
-            border-radius: 6px;
-            background: rgba(15, 23, 42, 0.5);
+            border-radius: var(--radius);
+            background: rgba(15, 23, 42, 0.6);
             color: #e2e8f0;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            font-size: 15px;
         }
         
         .setting-group input:focus {
             outline: none;
-            border-color: var(--primary);
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+            background: rgba(15, 23, 42, 0.8);
         }
         
         .buttons {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 12px;
+            margin-top: 20px;
         }
         
         button {
-            padding: 12px 18px;
+            padding: 14px 20px;
             border: none;
-            border-radius: 8px;
+            border-radius: var(--radius);
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            font-size: 14px;
+            gap: 10px;
+            font-size: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        button:hover::before {
+            left: 100%;
         }
         
         button:hover:not(:disabled) {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
 
         button:disabled {
@@ -223,81 +361,136 @@
         .filter-options {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            gap: 10px;
         }
         
         .filter-option {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 8px 12px;
-            background: rgba(15, 23, 42, 0.5);
-            border-radius: 6px;
+            gap: 10px;
+            padding: 12px 16px;
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: var(--radius);
             border: 1px solid var(--border);
-            transition: all 0.2s;
-            font-size: 13px;
+            transition: all 0.3s ease;
+            font-size: 14px;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .filter-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(79, 70, 229, 0.1), rgba(124, 58, 237, 0.1));
+            transition: width 0.3s ease;
         }
         
         .filter-option:hover {
-            background: rgba(99, 102, 241, 0.1);
+            background: rgba(79, 70, 229, 0.1);
+            border-color: var(--primary-light);
+        }
+        
+        .filter-option:hover::before {
+            width: 100%;
         }
         
         .filter-option.active {
-            background: rgba(99, 102, 241, 0.2);
-            border-color: var(--primary);
+            background: rgba(79, 70, 229, 0.2);
+            border-color: var(--primary-light);
+            color: var(--primary-light);
         }
         
         .results-panel {
-            padding: 25px;
+            padding: 30px;
             display: flex;
             flex-direction: column;
+            position: relative;
+        }
+        
+        .results-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.4) 100%);
+            z-index: -1;
         }
         
         .results-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
         
         .results-header h2 {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .status-indicator {
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 10px 20px;
+            border-radius: 50px;
             font-weight: 600;
-            font-size: 13px;
+            font-size: 14px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .status-indicator::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
         
         .status-idle {
             background: rgba(100, 116, 139, 0.2);
-            color: var(--gray);
+            color: var(--gray-light);
         }
         
         .status-scanning {
-            background: rgba(99, 102, 241, 0.2);
-            color: var(--primary);
+            background: rgba(79, 70, 229, 0.2);
+            color: var(--primary-light);
         }
         
         .status-complete {
             background: rgba(16, 185, 129, 0.2);
-            color: var(--success);
+            color: var(--success-light);
         }
         
         .results-container {
             flex: 1;
             border: 1px solid var(--border);
-            border-radius: 12px;
+            border-radius: var(--radius-lg);
             overflow: hidden;
-            background: rgba(15, 23, 42, 0.3);
+            background: rgba(15, 23, 42, 0.4);
             max-height: 450px;
+            box-shadow: var(--shadow);
         }
         
         .results-table-container {
@@ -308,12 +501,12 @@
         .results-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 13px;
+            font-size: 14px;
         }
         
         .results-table th {
-            background: rgba(15, 23, 42, 0.8);
-            padding: 12px;
+            background: rgba(15, 23, 42, 0.9);
+            padding: 16px;
             text-align: left;
             font-weight: 600;
             color: #cbd5e1;
@@ -321,24 +514,30 @@
             position: sticky;
             top: 0;
             z-index: 10;
+            letter-spacing: 0.5px;
         }
         
         .results-table td {
-            padding: 12px;
+            padding: 16px;
             border-bottom: 1px solid rgba(51, 65, 85, 0.5);
         }
         
+        .results-table tr {
+            transition: all 0.2s ease;
+        }
+        
         .results-table tr:hover {
-            background: rgba(99, 102, 241, 0.05);
+            background: rgba(79, 70, 229, 0.05);
         }
         
         .policy-badge {
-            padding: 4px 10px;
-            border-radius: 4px;
+            padding: 6px 12px;
+            border-radius: 50px;
             font-weight: 600;
             font-size: 12px;
             text-align: center;
             display: inline-block;
+            box-shadow: var(--shadow);
         }
         
         .policy-none {
@@ -358,11 +557,12 @@
         
         .qualifier-cell {
             font-weight: 600;
-            border-radius: 4px;
-            padding: 4px 10px;
+            border-radius: 50px;
+            padding: 6px 12px;
             text-align: center;
             display: inline-block;
             min-width: 50px;
+            box-shadow: var(--shadow);
         }
         
         .qualifier-plus {
@@ -392,10 +592,11 @@
         
         .badge {
             display: inline-block;
-            padding: 4px 8px;
-            border-radius: 4px;
+            padding: 6px 12px;
+            border-radius: 50px;
             font-size: 12px;
             font-weight: 600;
+            box-shadow: var(--shadow);
         }
         
         .badge-danger {
@@ -414,68 +615,133 @@
         }
         
         .badge-info {
-            background: rgba(99, 102, 241, 0.2);
-            color: #a5b4fc;
+            background: rgba(6, 182, 212, 0.2);
+            color: #67e8f9;
         }
         
         .vulnerable-row {
             background: rgba(239, 68, 68, 0.08) !important;
+            position: relative;
+        }
+        
+        .vulnerable-row::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--danger);
         }
         
         .secure-row {
             background: rgba(16, 185, 129, 0.08) !important;
+            position: relative;
+        }
+        
+        .secure-row::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--success);
         }
         
         .progress-container {
-            margin-top: 15px;
-            background: rgba(15, 23, 42, 0.5);
-            border-radius: 10px;
-            height: 8px;
+            margin-top: 20px;
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 50px;
+            height: 10px;
             overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         
         .progress-bar {
             height: 100%;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             width: 0%;
-            transition: width 0.3s ease;
+            transition: width 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressShimmer 2s infinite;
+        }
+        
+        @keyframes progressShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
         
         .summary {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 12px;
-            margin-top: 20px;
+            gap: 16px;
+            margin-top: 24px;
         }
         
         .summary-item {
-            background: rgba(15, 23, 42, 0.5);
-            border-radius: 12px;
-            padding: 16px;
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: var(--radius-lg);
+            padding: 20px;
             text-align: center;
             border: 1px solid var(--border);
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-
+        
+        .summary-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(124, 58, 237, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
         .summary-item:hover {
-            transform: translateY(-2px);
-            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-light);
+        }
+        
+        .summary-item:hover::before {
+            opacity: 1;
         }
         
         .summary-value {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: 700;
-            margin-bottom: 5px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
         }
         
         .summary-label {
-            font-size: 12px;
-            color: var(--gray);
+            font-size: 13px;
+            color: var(--gray-light);
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            position: relative;
+            z-index: 1;
         }
         
         .pulse {
@@ -487,6 +753,177 @@
             50% { opacity: 0.5; }
         }
         
+        .notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 16px 24px;
+            border-radius: var(--radius-lg);
+            color: white;
+            font-weight: 500;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            max-width: 300px;
+            border-left: 4px solid;
+        }
+        
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .notification-success {
+            background: rgba(16, 185, 129, 0.9);
+            border-left-color: var(--success);
+        }
+        
+        .notification-error {
+            background: rgba(239, 68, 68, 0.9);
+            border-left-color: var(--danger);
+        }
+        
+        .notification-info {
+            background: rgba(79, 70, 229, 0.9);
+            border-left-color: var(--primary);
+        }
+        
+        .domain-detail-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+        
+        .domain-detail-content {
+            background: var(--card-bg);
+            border-radius: var(--radius-xl);
+            padding: 30px;
+            width: 80%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+            animation: modalFadeIn 0.3s ease-out;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .domain-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 16px;
+        }
+        
+        .domain-detail-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-light);
+        }
+        
+        .domain-detail-close {
+            background: none;
+            border: none;
+            color: var(--gray-light);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+        
+        .domain-detail-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--danger);
+            transform: rotate(90deg);
+        }
+        
+        .domain-detail-section {
+            margin-bottom: 24px;
+        }
+        
+        .domain-detail-section h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .domain-detail-value {
+            background: rgba(15, 23, 42, 0.6);
+            padding: 16px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            word-break: break-all;
+            font-family: 'Inter', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .domain-detail-recommendation {
+            background: rgba(79, 70, 229, 0.1);
+            border: 1px solid rgba(79, 70, 229, 0.3);
+            padding: 16px;
+            border-radius: var(--radius);
+            margin-top: 12px;
+        }
+        
+        .domain-detail-recommendation h4 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: var(--primary-light);
+        }
+        
+        .domain-detail-recommendation p {
+            font-size: 14px;
+            margin: 0;
+            color: #e2e8f0;
+            line-height: 1.5;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(79, 70, 229, 0.5);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(79, 70, 229, 0.7);
+        }
+        
+        /* Responsive design */
         @media (max-width: 1200px) {
             .main-content {
                 grid-template-columns: 1fr;
@@ -515,24 +952,18 @@
             .summary {
                 grid-template-columns: repeat(2, 1fr);
             }
-        }
-
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(15, 23, 42, 0.5);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(99, 102, 241, 0.5);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(99, 102, 241, 0.7);
+            
+            h1 {
+                font-size: 32px;
+            }
+            
+            .tagline {
+                font-size: 16px;
+            }
+            
+            .results-header h2 {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
@@ -553,11 +984,11 @@
                     <div class="file-upload-area" id="fileUploadArea">
                         <i class="fas fa-cloud-upload-alt"></i>
                         <div class="file-upload-text">Upload domains file</div>
-                        <div class="file-name" id="fileName" style="font-size: 12px; color: var(--gray); margin-top: 5px;">No file chosen</div>
+                        <div class="file-name" id="fileName" style="font-size: 12px; color: var(--gray-light); margin-top: 8px;">No file chosen</div>
                         <input type="file" id="fileInput" accept=".txt,.csv">
                     </div>
                     
-                    <label style="display: block; font-weight: 500; margin-bottom: 8px; font-size: 13px; color: #cbd5e1;">Or enter domains:</label>
+                    <label style="display: block; font-weight: 500; margin-bottom: 10px; font-size: 14px; color: #cbd5e1;">Or enter domains:</label>
                     <textarea id="domainsInput" class="domains-input" placeholder="example.com&#10;example.org&#10;example.net"></textarea>
                 </div>
                 
@@ -664,8 +1095,8 @@
                             </thead>
                             <tbody id="resultsBody">
                                 <tr>
-                                    <td colspan="7" style="text-align: center; padding: 40px; color: var(--gray);">
-                                        <i class="fas fa-search" style="font-size: 40px; margin-bottom: 15px; opacity: 0.5;"></i>
+                                    <td colspan="7" style="text-align: center; padding: 40px; color: var(--gray-light);">
+                                        <i class="fas fa-search" style="font-size: 40px; margin-bottom: 16px; opacity: 0.5;"></i>
                                         <div>No results yet. Start a scan to see results here.</div>
                                     </td>
                                 </tr>
@@ -703,6 +1134,39 @@
             </div>
         </div>
     </div>
+    
+    <!-- Domain Detail Modal -->
+    <div class="domain-detail-modal" id="domainDetailModal">
+        <div class="domain-detail-content">
+            <div class="domain-detail-header">
+                <div class="domain-detail-title" id="domainDetailTitle">Domain Details</div>
+                <button class="domain-detail-close" id="domainDetailClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="domain-detail-section">
+                <h3><i class="fas fa-shield-alt"></i> SPF Record</h3>
+                <div class="domain-detail-value" id="domainDetailSpf"></div>
+                <div class="domain-detail-recommendation" id="spfRecommendation">
+                    <h4>Recommendation</h4>
+                    <p id="spfRecommendationText"></p>
+                </div>
+            </div>
+            
+            <div class="domain-detail-section">
+                <h3><i class="fas fa-certificate"></i> DMARC Record</h3>
+                <div class="domain-detail-value" id="domainDetailDmarc"></div>
+                <div class="domain-detail-recommendation" id="dmarcRecommendation">
+                    <h4>Recommendation</h4>
+                    <p id="dmarcRecommendationText"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -737,6 +1201,18 @@
             const noSpfDomainsEl = document.getElementById('noSpfDomains');
             const noDmarcDomainsEl = document.getElementById('noDmarcDomains');
             
+            // Domain detail modal elements
+            const domainDetailModal = document.getElementById('domainDetailModal');
+            const domainDetailClose = document.getElementById('domainDetailClose');
+            const domainDetailTitle = document.getElementById('domainDetailTitle');
+            const domainDetailSpf = document.getElementById('domainDetailSpf');
+            const domainDetailDmarc = document.getElementById('domainDetailDmarc');
+            const spfRecommendationText = document.getElementById('spfRecommendationText');
+            const dmarcRecommendationText = document.getElementById('dmarcRecommendationText');
+            
+            // Notification element
+            const notification = document.getElementById('notification');
+            
             let results = [];
             let filteredResults = [];
             let isScanning = false;
@@ -747,6 +1223,14 @@
             startBtn.addEventListener('click', startScan);
             stopBtn.addEventListener('click', stopScan);
             exportCsvBtn.addEventListener('click', exportToCSV);
+            domainDetailClose.addEventListener('click', closeDomainDetailModal);
+            
+            // Close modal when clicking outside of it
+            window.addEventListener('click', function(event) {
+                if (event.target === domainDetailModal) {
+                    closeDomainDetailModal();
+                }
+            });
             
             const filterOptions = document.querySelectorAll('.filter-option input');
             filterOptions.forEach(option => {
@@ -768,7 +1252,7 @@
             async function startScan() {
                 const domainsText = domainsInput.value.trim();
                 if (!domainsText) {
-                    alert('Please enter domains or upload a file');
+                    showNotification('Please enter domains or upload a file', 'error');
                     return;
                 }
                 
@@ -776,7 +1260,7 @@
                 const uniqueDomains = [...new Set(domains)];
                 
                 if (uniqueDomains.length === 0) {
-                    alert('No valid domains found');
+                    showNotification('No valid domains found', 'error');
                     return;
                 }
                 
@@ -786,6 +1270,8 @@
                 updateSummary();
                 setScanningState(true);
                 scanAborted = false;
+                
+                showNotification(`Starting scan of ${uniqueDomains.length} domains`, 'info');
                 
                 scanDomains(uniqueDomains, parseInt(workerCount.value), parseInt(delayMs.value));
             }
@@ -854,6 +1340,7 @@
                 if (scanAborted) {
                     statusIndicator.className = 'status-indicator status-idle';
                     statusIndicator.innerHTML = '<i class="fas fa-stop-circle"></i> Stopped';
+                    showNotification('Scan stopped by user', 'info');
                 }
             }
             
@@ -1048,7 +1535,7 @@
                 }
                 
                 row.innerHTML = `
-                    <td>${result.domain}</td>
+                    <td style="cursor: pointer; font-weight: 600;" onclick="showDomainDetail('${result.domain}')">${result.domain}</td>
                     <td><span class="qualifier-cell ${spfQualifierClass}">${qualifierText}</span></td>
                     <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${result.spfRecord}">
                         ${result.spfRecord}
@@ -1062,6 +1549,54 @@
                 `;
                 
                 resultsBody.appendChild(row);
+            }
+            
+            function showDomainDetail(domain) {
+                const result = results.find(r => r.domain === domain);
+                if (!result) return;
+                
+                domainDetailTitle.textContent = `Security Details for ${domain}`;
+                domainDetailSpf.textContent = result.spfRecord;
+                domainDetailDmarc.textContent = result.dmarcRecord;
+                
+                // Generate SPF recommendation
+                let spfRecommendation = '';
+                if (result.spfStatus === 'No SPF') {
+                    spfRecommendation = 'Implement an SPF record to specify which servers are allowed to send email from your domain. Start with "v=spf1 -all" and gradually add authorized mail servers.';
+                } else if (result.spfStatus === 'Vulnerable') {
+                    spfRecommendation = 'Your SPF record uses "+all" which allows any server to send email from your domain. This makes your domain vulnerable to email spoofing. Change "+all" to "-all" or "~all" to restrict who can send email from your domain.';
+                } else if (result.spfStatus === 'Soft Fail') {
+                    spfRecommendation = 'Your SPF record uses "~all" which marks unauthorized emails as soft fail. Consider changing to "-all" to reject unauthorized emails outright.';
+                } else if (result.spfStatus === 'Neutral') {
+                    spfRecommendation = 'Your SPF record uses "?all" which doesn\'t provide any policy for unauthorized emails. Change to "-all" or "~all" to provide better protection.';
+                } else if (result.spfStatus === 'No all') {
+                    spfRecommendation = 'Your SPF record doesn\'t specify an "all" mechanism. Add "-all" at the end of your SPF record to reject unauthorized emails.';
+                } else {
+                    spfRecommendation = 'Your SPF record is properly configured with a strict policy. Regularly review and update it to ensure all authorized mail servers are included.';
+                }
+                
+                spfRecommendationText.textContent = spfRecommendation;
+                
+                // Generate DMARC recommendation
+                let dmarcRecommendation = '';
+                if (result.dmarcStatus === 'No DMARC') {
+                    dmarcRecommendation = 'Implement a DMARC record to provide email authentication policy. Start with "v=DMARC1; p=none; rua=mailto:dmarc@yourdomain.com" to collect reports, then gradually move to "quarantine" and "reject" policies.';
+                } else if (result.dmarcStatus === 'Vulnerable') {
+                    dmarcRecommendation = 'Your DMARC policy is set to "none" which means no action is taken on emails that fail authentication. Change to "quarantine" or "reject" to provide better protection.';
+                } else if (result.dmarcStatus === 'Partial') {
+                    dmarcRecommendation = 'Your DMARC policy is not applied to 100% of emails. Increase the percentage gradually until you reach 100% for full protection.';
+                } else {
+                    dmarcRecommendation = 'Your DMARC record is properly configured. Regularly review your DMARC reports to monitor email authentication and adjust your policy as needed.';
+                }
+                
+                dmarcRecommendationText.textContent = dmarcRecommendation;
+                
+                // Show the modal
+                domainDetailModal.style.display = 'flex';
+            }
+            
+            function closeDomainDetailModal() {
+                domainDetailModal.style.display = 'none';
             }
             
             function applyFilter() {
@@ -1092,8 +1627,8 @@
                 if (results.length === 0) {
                     resultsBody.innerHTML = `
                         <tr>
-                            <td colspan="7" style="text-align: center; padding: 40px; color: var(--gray);">
-                                <i class="fas fa-search" style="font-size: 40px; margin-bottom: 15px; opacity: 0.5;"></i>
+                            <td colspan="7" style="text-align: center; padding: 40px; color: var(--gray-light);">
+                                <i class="fas fa-search" style="font-size: 40px; margin-bottom: 16px; opacity: 0.5;"></i>
                                 <div>No results yet. Start a scan to see results here.</div>
                             </td>
                         </tr>
@@ -1131,8 +1666,8 @@
                 if (filteredResults.length === 0) {
                     resultsBody.innerHTML = `
                         <tr>
-                            <td colspan="7" style="text-align: center; padding: 40px; color: var(--gray);">
-                                <i class="fas fa-filter" style="font-size: 40px; margin-bottom: 15px; opacity: 0.5;"></i>
+                            <td colspan="7" style="text-align: center; padding: 40px; color: var(--gray-light);">
+                                <i class="fas fa-filter" style="font-size: 40px; margin-bottom: 16px; opacity: 0.5;"></i>
                                 <div>No results match the selected filters.</div>
                             </td>
                         </tr>
@@ -1164,6 +1699,7 @@
                 if (!scanning && !scanAborted) {
                     statusIndicator.className = 'status-indicator status-complete';
                     statusIndicator.innerHTML = '<i class="fas fa-check-circle"></i> Complete';
+                    showNotification('Scan completed successfully', 'success');
                 }
             }
             
@@ -1180,7 +1716,7 @@
             
             function exportToCSV() {
                 if (results.length === 0) {
-                    alert('No data to export');
+                    showNotification('No data to export', 'error');
                     return;
                 }
                 
@@ -1210,6 +1746,27 @@
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
+                
+                showNotification('Results exported successfully', 'success');
+            }
+            
+            function showNotification(message, type = 'info') {
+                notification.textContent = message;
+                notification.className = 'notification';
+                
+                if (type === 'success') {
+                    notification.classList.add('notification-success');
+                } else if (type === 'error') {
+                    notification.classList.add('notification-error');
+                } else {
+                    notification.classList.add('notification-info');
+                }
+                
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
             }
         });
     </script>
