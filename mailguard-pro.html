@@ -1462,7 +1462,8 @@
                 }
 
                 // Message-ID prefix replacement
-                if (headerName === 'message-id' && replaceMessageIdPrefix) {
+                if (headerName === 'message-id' && replaceMessageIdPrefixInput.value) {
+                  replaceMessageIdPrefix = replaceMessageIdPrefixInput.value;
                   // Extract the content between < and >
                   const messageIdMatch = finalHeaderValue.match(/^<([^@]+)(@.*)>$/);
                   if (messageIdMatch) {
@@ -2625,7 +2626,8 @@
                 }
               }
 
-              if (headerName === 'message-id' && replaceMessageIdPrefix) {
+              if (headerName === 'message-id' && replaceMessageIdPrefixInput.value) {
+                replaceMessageIdPrefix = replaceMessageIdPrefixInput.value;
                 const messageIdMatch = finalHeaderValue.match(/^<([^@]+)(@.*)>$/);
                 if (messageIdMatch) {
                   const beforeAt = messageIdMatch[1];
@@ -2781,6 +2783,7 @@
       replaceFromEmailEnabled = replaceFromEmailEnabledInput.checked; // Get from email enabled state
       replaceFromName = replaceFromNameInput.value; // Get from name
       replaceFromNameEnabled = replaceFromNameEnabledInput.checked; // Get from name enabled state
+      replaceMessageIdPrefix = replaceMessageIdPrefixInput.value; // Get message ID prefix
 
       // Get selected radio button value
       const selectedRadio = document.querySelector('input[name="messageIdPosition"]:checked');
@@ -2801,6 +2804,7 @@
       replaceFromEmailEnabledInput.checked = false; // Clear from email enabled state
       replaceFromNameInput.value = ''; // Clear from name
       replaceFromNameEnabledInput.checked = false; // Clear from name enabled state
+      replaceMessageIdPrefixInput.value = ''; // Clear message ID prefix
 
       replacementHeadersText = '';
       replaceSubject = '';
