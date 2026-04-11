@@ -76,6 +76,7 @@
             --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        .sprite-defs { display: none; }
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg-primary);
@@ -193,8 +194,10 @@
             font-size: 12px; transition: var(--transition);
         }
         .logout-btn:hover { background: #dc2626; transform: scale(1.05); }
-        .main-content { min-height: 100vh; padding: 40px 24px; }
-        .welcome-section { max-width: 1200px; margin: 0 auto; text-align: center; }
+
+        .is-hidden { display: none !important; }
+        .main-content { min-height: 100vh; padding: clamp(24px, 4vw, 48px) 24px; }
+        .welcome-section { max-width: 1200px; margin: 0 auto; text-align: center; display: grid; gap: 24px; }
         .hero-logo { width: 80px; height: 80px; margin: 0 auto 24px; }
         .hero-title {
             font-size: 3.5rem; font-weight: 900;
@@ -246,7 +249,7 @@
         .features-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;
         }
-        .feature-card {
+         .feature-card {
             background: var(--card-bg); border: 1px solid var(--border-color);
             border-radius: var(--border-radius); padding: 24px; transition: var(--transition);
         }
@@ -279,7 +282,7 @@
     </style>
 </head>
 <body>
-    <svg style="display:none">
+    <svg class="sprite-defs" aria-hidden="true">
         <symbol id="emailLogo" viewBox="0 0 200 200">
             <defs>
                 <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -459,7 +462,7 @@
         </div>
     </nav>
 
-    <div class="top-nav">
+    <header class="top-nav">
         <div class="nav-left">
             <button class="menu-toggle" id="menuToggle">
                 <svg><use href="#menu-icon"></use></svg>
@@ -468,12 +471,12 @@
         </div>
         
         <div class="user-section" id="userSection">
-            <button class="telegram-login-btn" id="telegramLoginBtn" style="display: none;">
+            <button class="telegram-login-btn is-hidden" id="telegramLoginBtn">
                 <svg width="18" height="18"><use href="#telegram-icon"></use></svg>
                 Login with Telegram
             </button>
             
-            <div class="user-info" id="userInfo" style="display: none;">
+            <div class="user-info is-hidden" id="userInfo">
                 <div class="user-avatar" id="userAvatar">U</div>
                 <div class="user-details">
                     <div class="user-name" id="userName">User</div>
@@ -482,13 +485,13 @@
                 <button class="logout-btn" id="logoutBtn">Logout</button>
             </div>
         </div>
-    </div>
+    </header>
 
-    <main class="main-content">
-        <div class="welcome-section">
+    <main class="main-content" role="main">
+        <section class="welcome-section" aria-labelledby="hero-suite-title">
             <svg class="hero-logo"><use href="#emailLogo"></use></svg>
             
-            <h1 class="hero-title">Email Tools Suite</h1>
+            <h1 class="hero-title" id="hero-suite-title">Email Tools Suite</h1>
             
             <div class="enterprise-badge">Enterprise Edition</div>
             
@@ -508,7 +511,7 @@
                 </script>
             </div>
 
-            <div class="stats-grid">
+            <section class="stats-grid" aria-label="Suite stats">
                 <div class="stat-card">
                     <div class="stat-number">8</div>
                     <div class="stat-label">Professional Tools</div>
@@ -521,18 +524,18 @@
                     <div class="stat-number">24/7</div>
                     <div class="stat-label">Support Available</div>
                 </div>
-            </div>
+            </section>
 
-            <div class="cta-section">
+            <section class="cta-section" aria-label="Quick start">
                 <p class="cta-text">Ready to get started?</p>
                 <div class="cta-hint">
                     <svg><use href="#icon-arrow-right"></use></svg>
                     Click the menu button to access all tools
                 </div>
-            </div>
+            </section>
 
-            <div class="features-section">
-                <h2 class="features-title">Why Choose Our Suite?</h2>
+            <section class="features-section" aria-labelledby="features-title">
+                <h2 class="features-title" id="features-title">Why Choose Our Suite?</h2>
                 <div class="features-grid">
                     <div class="feature-card">
                         <div class="feature-icon">
@@ -558,8 +561,8 @@
                         <p class="feature-description">Your data never leaves your browser. All processing happens locally on your machine.</p>
                     </div>
                 </div>
-            </div>
-        </div>
+            </section>
+        </section>
     </main>
 
     <script>
