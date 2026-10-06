@@ -1,0 +1,1920 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SORTIUM — Trieur de listes d'emails</title>
+
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&amp;f[]=satoshi@400,500,700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+
+<style>
+/* ============ BASE ============ */
+:root{
+  --bg:#0D0D0B; --panel:#131311; --panel2:#191813;
+  --line:rgba(235,230,218,.10); --line-strong:rgba(235,230,218,.20);
+  --ink:#EDE9DF; --muted:#95907F; --faint:#6A665A;
+  --gold:#D5A54B; --gold-bright:#E7BE6A; --gold-ink:#171004;
+  --red:#C4674F; --green:#7FA86A; --blue:#7A9DC4;
+  --fd:'Clash Display',sans-serif; --fb:'Satoshi',sans-serif; --fm:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{color-scheme:dark;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--fb);-webkit-font-smoothing:antialiased;min-height:100vh}
+[hidden]{display:none!important}
+::selection{background:rgba(213,165,75,.28)}
+:focus-visible{outline:1px solid var(--gold);outline-offset:2px}
+button{font-family:inherit;cursor:pointer}
+input,select,textarea{font-family:inherit}
+*::-webkit-scrollbar{width:10px;height:10px}
+*::-webkit-scrollbar-thumb{background:#2A2925;border-radius:6px;border:2px solid var(--bg)}
+*::-webkit-scrollbar-track{background:transparent}
+
+.noise{position:fixed;inset:0;z-index:300;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ============ HEADER ============ */
+.top{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  gap:14px;height:62px;padding:0 28px;border-bottom:1px solid var(--line);
+  background:rgba(13,13,11,.86);backdrop-filter:blur(12px)}
+.brand{display:flex;align-items:center;gap:11px}
+.mark{width:9px;height:9px;background:var(--gold);flex:none}
+.word{font:600 16px var(--fd);letter-spacing:.18em;color:var(--ink)}
+.tag{font:400 11.5px var(--fb);color:var(--faint);padding-left:13px;border-left:1px solid var(--line)}
+.top-right{display:flex;align-items:center;gap:14px}
+.local-badge{display:inline-flex;align-items:center;gap:8px;font:500 9.5px var(--fm);
+  letter-spacing:.16em;color:var(--gold);border:1px solid rgba(213,165,75,.35);border-radius:99px;padding:6px 12px;white-space:nowrap}
+.pulse{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 2.2s infinite;flex:none}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(213,165,75,.45)}55%{box-shadow:0 0 0 5px rgba(213,165,75,0)}}
+
+.lang-seg{display:flex;align-items:center;border:1px solid var(--line);border-radius:99px;height:30px;
+  overflow:hidden;background:var(--panel);flex:none}
+.lang-seg button{background:none;border:none;color:var(--muted);font:600 10px var(--fm);
+  letter-spacing:.12em;padding:0 11px;height:100%;transition:.15s}
+.lang-seg button:hover{color:var(--ink)}
+.lang-seg button.on{color:var(--gold);background:rgba(213,165,75,.12)}
+
+/* ============ BOUTONS ============ */
+.primary{display:inline-flex;align-items:center;gap:9px;background:var(--gold);color:var(--gold-ink);
+  border:none;border-radius:8px;padding:0 22px;height:44px;font:700 13.5px var(--fb);
+  letter-spacing:.03em;transition:.18s}
+.primary:hover{background:var(--gold-bright);transform:translateY(-1px)}
+.primary:active{transform:none}
+.primary svg{width:16px;height:16px}
+.ghost-btn{display:inline-flex;align-items:center;gap:8px;background:transparent;border:1px solid var(--line);
+  color:var(--ink);border-radius:8px;height:40px;padding:0 15px;font:500 12.5px var(--fb);transition:.18s;white-space:nowrap}
+.ghost-btn:hover{border-color:var(--gold);color:var(--gold)}
+.ghost-btn svg{width:15px;height:15px}
+.ghost-btn.sm{height:34px;padding:0 12px;font-size:11.5px}
+.ghost-btn.danger:hover{border-color:var(--red);color:var(--red)}
+.ghost-btn.armed{border-color:var(--red);color:var(--red);background:rgba(196,103,79,.08)}
+.ghost-btn.has-filters{border-color:rgba(213,165,75,.5);color:var(--gold)}
+.link-btn{background:none;border:none;color:var(--gold);font:500 12px var(--fb);padding:0;letter-spacing:.02em}
+.link-btn:hover{color:var(--gold-bright);text-decoration:underline;text-underline-offset:3px}
+.icon-btn{width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;flex:none;
+  border:1px solid var(--line);border-radius:6px;background:transparent;color:var(--muted);transition:.18s}
+.icon-btn:hover{border-color:var(--gold);color:var(--gold)}
+.icon-btn svg{width:14px;height:14px}
+.icon-btn.flag-weak{color:var(--red);border-color:rgba(196,103,79,.4)}
+.icon-btn.flag-dup{color:var(--gold);border-color:rgba(213,165,75,.4)}
+.icon-btn.flag-temp{color:var(--blue);border-color:rgba(122,157,196,.4)}
+
+/* ============ LAYOUT ============ */
+.layout{max-width:1200px;margin:0 auto;padding:0 28px;display:grid;align-items:start;
+  grid-template-columns:minmax(0,1fr);column-gap:46px}
+.layout.has-rail{grid-template-columns:234px minmax(0,1fr)}
+.content{min-width:0}
+
+/* ============ ÉTAPE 1 : SOURCE ============ */
+#inputStage{padding:52px 0 10px;scroll-margin-top:80px}
+.hero{font:600 clamp(34px,4.6vw,54px)/1.07 var(--fd);letter-spacing:-.015em;max-width:700px}
+.hero em{font-style:normal;color:var(--gold)}
+.sub{margin-top:18px;max-width:620px;color:var(--muted);font:400 15px/1.7 var(--fb)}
+.editor-wrap{margin-top:32px;border:1px solid var(--line);border-radius:10px;background:var(--panel);
+  transition:border-color .2s, box-shadow .2s;position:relative}
+.editor-wrap:focus-within{border-color:rgba(213,165,75,.45);box-shadow:0 0 0 3px rgba(213,165,75,.09)}
+.editor-wrap.drag-over{border-color:var(--gold);border-style:dashed;background:rgba(213,165,75,.05)}
+.drop-hint{position:absolute;inset:0;display:none;align-items:center;justify-content:center;
+  background:rgba(13,13,11,.85);border-radius:10px;font:500 14px var(--fb);color:var(--gold);pointer-events:none}
+.editor-wrap.drag-over .drop-hint{display:flex}
+#src{display:block;width:100%;min-height:180px;max-height:55vh;background:transparent;border:none;outline:none;
+  resize:none;color:var(--ink);font:400 13px/1.75 var(--fm);padding:16px 18px}
+#src::placeholder{color:var(--faint)}
+.editor-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  border-top:1px solid var(--line);padding:9px 14px}
+#srcMeta{font:400 10.5px var(--fm);letter-spacing:.06em;color:var(--faint);text-transform:uppercase}
+.foot-right{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.hint{font:400 10.5px var(--fm);color:var(--faint)}
+.hint b{color:var(--muted);font-weight:500;border:1px solid var(--line);border-radius:4px;padding:1px 5px}
+.controls{display:flex;align-items:center;gap:12px;margin-top:18px;flex-wrap:wrap}
+
+/* ============ ÉTAPE 2 : RÉSULTATS ============ */
+.results{padding:46px 0 10px;scroll-margin-top:70px}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);border-block:1px solid var(--line);background:rgba(19,19,17,.55)}
+.stat{padding:20px 22px;border-left:1px solid var(--line)}
+.stat:first-child{border-left:none}
+.num{font:500 30px/1 var(--fm);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.num.gold{color:var(--gold)}
+.num.red{color:var(--red)}
+.num.green{color:var(--green)}
+.lab{margin-top:10px;font:500 9.5px/1.5 var(--fm);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+.srcbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  border:1px solid var(--line);border-radius:8px;padding:11px 14px;margin-top:22px;background:var(--panel)}
+.srcbar span{font:400 10.5px var(--fm);letter-spacing:.08em;color:var(--muted);text-transform:uppercase;overflow-wrap:anywhere}
+
+/* Stats dashboard */
+.dash{border:1px solid var(--line);border-radius:8px;margin-top:14px;background:var(--panel);overflow:hidden}
+.dash summary{list-style:none;display:flex;align-items:center;gap:9px;padding:12px 16px;cursor:pointer;
+  font:500 11px var(--fm);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.dash summary::-webkit-details-marker{display:none}
+.dash summary svg{width:14px;height:14px;transition:transform .2s}
+.dash[open] summary svg{transform:rotate(90deg)}
+.dash-body{padding:6px 18px 20px;border-top:1px solid var(--line);
+  display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:640px){.dash-body{grid-template-columns:1fr}}
+.dash-section h4{font:500 9.5px var(--fm);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--faint);margin-bottom:12px}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:7px;font:400 11.5px var(--fm)}
+.bar-row .bname{width:110px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-row .btrack{flex:1;height:6px;background:rgba(235,230,218,.06);border-radius:99px;overflow:hidden}
+.bar-row .bfill{height:100%;background:linear-gradient(90deg,rgba(213,165,75,.5),var(--gold));border-radius:99px}
+.bar-row .bval{width:64px;text-align:right;color:var(--ink);font-variant-numeric:tabular-nums}
+
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:18px 0 8px}
+.search{flex:1 1 220px;display:flex;align-items:center;gap:9px;border:1px solid var(--line);
+  border-radius:8px;padding:0 13px;height:40px;background:var(--panel);transition:.18s}
+.search:focus-within{border-color:rgba(213,165,75,.5);box-shadow:0 0 0 3px rgba(213,165,75,.10)}
+.search svg{width:15px;height:15px;color:var(--faint);flex:none}
+.search input{flex:1;min-width:0;background:none;border:none;outline:none;color:var(--ink);font:400 13px var(--fm)}
+.search input::placeholder{color:var(--faint)}
+.seg{display:flex;align-items:center;border:1px solid var(--line);border-radius:8px;height:40px;background:var(--panel);overflow:hidden}
+.seg-label{font:500 9.5px var(--fm);letter-spacing:.14em;text-transform:uppercase;color:var(--faint);
+  padding:0 10px 0 13px;border-right:1px solid var(--line)}
+.seg button{background:none;border:none;color:var(--muted);font:500 12px var(--fb);padding:0 14px;height:100%;transition:.15s}
+.seg button:hover{color:var(--ink)}
+.seg button.on{color:var(--gold);background:rgba(213,165,75,.09)}
+
+.select-wrap{position:relative;height:40px}
+.select-wrap select{appearance:none;height:40px;background:var(--panel);border:1px solid var(--line);
+  border-radius:8px;color:var(--ink);font:500 12px var(--fb);padding:0 34px 0 13px;outline:none;cursor:pointer;transition:.18s}
+.select-wrap select:hover{border-color:var(--gold)}
+.select-wrap select:focus{border-color:rgba(213,165,75,.5)}
+.select-wrap::after{content:'';position:absolute;right:13px;top:50%;transform:translateY(-50%);
+  width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid var(--muted);pointer-events:none}
+
+/* Filter chips */
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0 4px}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--panel);
+  color:var(--muted);border-radius:99px;height:28px;padding:0 12px;font:500 11px var(--fb);transition:.15s;white-space:nowrap}
+.chip:hover{color:var(--ink);border-color:var(--line-strong)}
+.chip.on{color:var(--gold);border-color:rgba(213,165,75,.5);background:rgba(213,165,75,.10)}
+.chip .cdot{width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.7}
+.chip-count{font:500 10px var(--fm);color:var(--faint);margin-left:2px}
+.chip.on .chip-count{color:var(--gold)}
+.clear-filters{background:none;border:none;color:var(--faint);font:400 11px var(--fb);padding:0 6px;text-decoration:underline;text-underline-offset:3px}
+.clear-filters:hover{color:var(--red)}
+
+/* --- Index dyal l-pays (rail) --- */
+.rail{position:sticky;top:86px;max-height:calc(100vh - 120px);overflow:auto;padding:46px 0 40px;scrollbar-width:thin}
+.rail-title{display:flex;justify-content:space-between;font:500 10px var(--fm);letter-spacing:.2em;
+  text-transform:uppercase;color:var(--faint);padding:0 8px 12px;border-bottom:1px solid var(--line);margin-bottom:10px}
+.rail-item{display:flex;align-items:center;gap:9px;width:100%;background:none;border:none;
+  border-radius:6px;padding:7px 8px;text-align:left;color:var(--ink);transition:.15s}
+.rail-item:hover{background:rgba(235,230,218,.045)}
+.rail-item.on{background:rgba(213,165,75,.09)}
+.rbadge{font:600 9px var(--fm);letter-spacing:.08em;color:var(--muted);border:1px solid var(--line);
+  border-radius:4px;padding:2px 4px;min-width:24px;text-align:center;flex:none}
+.rail-item.on .rbadge{color:var(--gold);border-color:rgba(213,165,75,.4)}
+.rname{font:500 13px var(--fb);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.leader{flex:1;min-width:12px;border-bottom:1px dotted rgba(235,230,218,.22);transform:translateY(2px)}
+.rcount{font:500 11px var(--fm);color:var(--muted);flex:none}
+.rail-item.on .rcount{color:var(--gold)}
+.rail-total{margin-top:14px;padding:12px 8px 0;border-top:1px solid var(--line);
+  font:500 9.5px var(--fm);letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+
+/* --- Groupes --- */
+#groups{margin-top:16px}
+.group{margin-bottom:40px;scroll-margin-top:86px}
+.group-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;position:relative;padding:16px 0 12px;
+  border-bottom:1px solid var(--line)}
+.group-head::after{content:'';position:absolute;left:0;bottom:-1px;width:64px;height:1px;background:var(--gold)}
+.badge{font:600 10px var(--fm);letter-spacing:.1em;color:var(--gold);border:1px solid rgba(213,165,75,.45);
+  border-radius:4px;padding:3px 6px;flex:none}
+.badge.unk{color:var(--muted);border-color:var(--line)}
+.group-head h3{font:600 20px var(--fd);letter-spacing:.01em}
+.gdomains{display:flex;gap:6px;flex-wrap:wrap;font:400 10.5px var(--fm);color:var(--faint);letter-spacing:.03em}
+.dlink{background:none;border:1px dashed var(--line);border-radius:4px;color:var(--muted);
+  font:400 10.5px var(--fm);padding:2px 7px;transition:.15s}
+.dlink:hover{color:var(--gold);border-color:rgba(213,165,75,.5)}
+.gcount{margin-left:auto;font:500 10px var(--fm);letter-spacing:.14em;text-transform:uppercase;color:var(--faint);flex:none}
+.gactions{display:flex;gap:6px;align-items:center;flex:none}
+.rows{list-style:none}
+.row{display:flex;align-items:center;gap:14px;padding:8px 6px;border-bottom:1px solid var(--line);transition:background .12s}
+.row:hover{background:rgba(235,230,218,.028)}
+.idx{flex:none;width:30px;font:400 10.5px var(--fm);color:var(--faint)}
+.row:hover .idx{color:var(--gold)}
+.mail{font:400 13px var(--fm);color:var(--ink);overflow-wrap:anywhere}
+.ssep{font:400 12px var(--fm);color:var(--faint)}
+.secret{font:400 12.5px var(--fm);color:var(--muted);overflow-wrap:anywhere}
+.secret.masked{color:var(--faint);cursor:pointer;letter-spacing:.18em;user-select:none}
+.secret.masked:hover{color:var(--gold)}
+.secret.on{color:var(--ink)}
+.secret.weak{color:var(--red)}
+.flags{display:flex;gap:4px;flex:none}
+.flag{font:600 8.5px var(--fm);letter-spacing:.08em;border-radius:3px;padding:2px 5px;text-transform:uppercase}
+.flag.weak{color:var(--red);border:1px solid rgba(196,103,79,.4)}
+.flag.reused{color:var(--gold);border:1px solid rgba(213,165,75,.4)}
+.flag.temp{color:var(--blue);border:1px solid rgba(122,157,196,.4)}
+.row-copy{margin-left:auto;opacity:0;transform:translateX(4px);transition:.18s}
+.row:hover .row-copy{opacity:1;transform:none}
+@media(hover:none){.row-copy{opacity:.7;transform:none}}
+.empty{display:flex;flex-direction:column;align-items:center;gap:12px;padding:70px 0;color:var(--faint)}
+.empty svg{width:30px;height:30px}
+.empty p{font:400 13px var(--fb);color:var(--muted)}
+
+.suggest{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+.suggest .sbtn{display:inline-flex;align-items:center;gap:6px;border:1px dashed rgba(213,165,75,.4);
+  background:rgba(213,165,75,.05);color:var(--gold);border-radius:6px;padding:5px 10px;font:500 11px var(--fb);transition:.15s}
+.suggest .sbtn:hover{background:rgba(213,165,75,.14);border-style:solid}
+
+/* Animations */
+.group.enter{animation:grpIn .55s cubic-bezier(.22,1,.36,1) both;animation-delay:var(--d,0ms)}
+@keyframes grpIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.group.enter .group-head::after{transform-origin:left;animation:ruleIn .7s .18s cubic-bezier(.22,1,.36,1) both}
+@keyframes ruleIn{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.group.enter .badge{animation:badgeIn .4s .2s cubic-bezier(.22,1,.36,1) both}
+@keyframes badgeIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:none}}
+
+/* Détails */
+.fold{border:1px solid var(--line);border-radius:8px;margin-top:12px;background:var(--panel)}
+.fold summary{list-style:none;display:flex;align-items:center;gap:9px;padding:12px 16px;cursor:pointer;
+  font:500 11px var(--fm);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.fold summary::-webkit-details-marker{display:none}
+.fold summary svg{width:14px;height:14px;transition:transform .2s}
+.fold[open] summary svg{transform:rotate(90deg)}
+.fold ul{list-style:none;border-top:1px solid var(--line);padding:4px 16px 14px;max-height:280px;overflow:auto}
+.fold li{font:400 12px/1.6 var(--fm);color:var(--faint);padding:6px 0;border-bottom:1px dashed var(--line);overflow-wrap:anywhere}
+.fold li:last-child{border-bottom:none}
+.fold li.more{color:var(--gold)}
+
+/* ============ MODAL ============ */
+.modal-back{position:fixed;inset:0;z-index:100;background:rgba(8,8,7,.72);backdrop-filter:blur(7px);
+  display:flex;align-items:center;justify-content:center;padding:20px}
+.modal{width:min(560px,100%);max-height:calc(100vh - 40px);overflow:auto;background:#141412;border:1px solid var(--line-strong);border-radius:12px;
+  padding:24px 24px 20px;animation:popIn .28s cubic-bezier(.22,1,.36,1)}
+@keyframes popIn{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+.modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:6px}
+.modal-head h2{font:600 21px var(--fd)}
+.modal-desc{color:var(--muted);font:400 12.5px/1.65 var(--fb);margin-bottom:18px}
+.map-form{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end}
+.field label{display:block;font:500 9.5px var(--fm);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--faint);margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;background:var(--panel);border:1px solid var(--line);
+  border-radius:8px;color:var(--ink);font:400 12.5px var(--fm);padding:0 12px;outline:none;transition:border-color .15s}
+.field input,.field select{height:40px}
+.field textarea{min-height:72px;padding:11px 12px;resize:vertical;line-height:1.6}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:rgba(213,165,75,.5)}
+.field select{appearance:none;padding-right:32px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2395907F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 11px center}
+.primary.add-rule{height:40px;padding:0 16px;font-size:12.5px}
+.rules-title{margin:20px 0 10px;font:500 10px var(--fm);letter-spacing:.16em;text-transform:uppercase;color:var(--faint);
+  display:flex;align-items:center;justify-content:space-between;gap:10px}
+.rules-actions{display:flex;gap:10px}
+
+.option-list{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
+.option{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);
+  border-radius:8px;padding:12px 14px;text-align:left;transition:.15s;color:var(--ink);font:500 13px var(--fb);width:100%}
+.option:hover{border-color:var(--gold);background:rgba(213,165,75,.05)}
+.option svg{width:16px;height:16px;color:var(--gold);flex:none}
+.option .opt-desc{margin-left:auto;font:400 11px var(--fm);color:var(--faint)}
+.option-group-title{font:500 9.5px var(--fm);letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin:14px 0 8px}
+.option-group-title:first-child{margin-top:0}
+
+.rules{list-style:none;max-height:230px;overflow:auto;border:1px solid var(--line);border-radius:8px}
+.rules li{display:flex;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid var(--line);font:400 12px var(--fm)}
+.rules li:last-child{border-bottom:none}
+.rule-dom{color:var(--ink)} .rule-arrow{color:var(--faint)} .rule-c{color:var(--gold)}
+.rules li .icon-btn{margin-left:auto;width:24px;height:24px}
+.rules-empty{padding:18px 14px;color:var(--faint);font:400 12px var(--fb);
+  border:1px dashed var(--line);border-radius:8px;text-align:center}
+
+/* Shortcuts overlay */
+.kbd-grid{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;font:400 12.5px var(--fb);color:var(--muted)}
+.kbd{font:500 11px var(--fm);color:var(--ink);background:var(--panel);border:1px solid var(--line);
+  border-bottom-width:2px;border-radius:5px;padding:3px 8px;text-align:center;min-width:36px}
+
+/* ============ TOASTS & FOOTER ============ */
+.toasts{position:fixed;right:22px;bottom:22px;z-index:400;display:flex;flex-direction:column;gap:9px;align-items:flex-end}
+.toast{display:flex;align-items:center;gap:10px;max-width:min(420px,calc(100vw - 44px));
+  background:#191813;border:1px solid var(--line-strong);border-left:2px solid var(--gold);border-radius:8px;
+  padding:11px 16px;font:500 12px var(--fm);color:var(--ink);box-shadow:0 12px 30px rgba(0,0,0,.45);
+  animation:tin .3s cubic-bezier(.22,1,.36,1)}
+.toast svg{width:15px;height:15px;color:var(--gold);flex:none}
+.toast.out{animation:tout .25s forwards}
+@keyframes tin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes tout{to{opacity:0;transform:translateY(8px)}}
+footer{margin-top:70px;border-top:1px solid var(--line);padding:22px 28px 44px}
+.foot-in{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  font:500 9.5px var(--fm);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+.foot-in .kbd-hint{color:var(--faint)}
+.foot-in .kbd-hint b{color:var(--muted);font-weight:500;border:1px solid var(--line);border-radius:4px;padding:1px 5px}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:920px){
+  .rail{display:none}
+  .layout.has-rail{grid-template-columns:minmax(0,1fr)}
+}
+@media(max-width:640px){
+  .top,.layout,footer{padding-left:16px;padding-right:16px}
+  .top{gap:10px}
+  .tag{display:none}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat{border-left:none;border-top:1px solid var(--line);padding:16px 18px}
+  .stat:nth-child(-n+2){border-top:none}
+  .stat:nth-child(even){border-left:1px solid var(--line)}
+  .num{font-size:26px}
+}
+@media(max-width:520px){.top-right .ghost-btn span{display:none}}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<div class="noise" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="brand">
+    <span class="mark"></span>
+    <span class="word">SORTIUM</span>
+    <span class="tag" data-i18n="tagline">Trieur de listes · par pays</span>
+  </div>
+  <div class="top-right">
+    <button class="ghost-btn sm" id="btnShortcuts" title="?"><i data-lucide="keyboard"></i></button>
+    <button class="ghost-btn sm" id="btnMap"><i data-lucide="globe-2"></i><span data-i18n="mapBtn">Domaines &amp; pays</span></button>
+    <div class="lang-seg" role="group" data-i18n-aria="langAria" aria-label="Langue">
+      <button type="button" data-lang="fr" class="on">FR</button>
+      <button type="button" data-lang="en">EN</button>
+    </div>
+    <span class="local-badge"><span class="pulse"></span>100% LOCAL</span>
+  </div>
+</header>
+
+<main class="layout" id="layout">
+
+  <aside class="rail" id="rail" hidden>
+    <div class="rail-title"><span data-i18n="railIndex">Index</span><span id="railCountries"></span></div>
+    <nav id="railList"></nav>
+    <div class="rail-total" id="railTotal"></div>
+  </aside>
+
+  <div class="content">
+
+    <section id="inputStage">
+      <h1 class="hero" data-i18n-html="hero">Une liste <em>brute</em>.<br>Des pays en ordre.</h1>
+      <p class="sub" data-i18n="sub">Collez vos emails — seuls ou avec mot de passe après un séparateur. SORTIUM détecte les domaines, classe chaque adresse par pays, supprime les doublons et vous laisse tout copier ou exporter. Tout se passe dans votre navigateur, rien n'est envoyé nulle part.</p>
+
+      <div class="editor-wrap" id="editorWrap">
+        <textarea id="src" spellcheck="false" autocomplete="off" data-i18n-ph="srcPh"
+          placeholder="yeti-1962@aon.at/owmagnxe&#10;dqbarrie@bellnet.ca/Canada20$&#10;mar.brunner@aon.at/Fm28042005.&#10;zahn.machac@aon.at/Ferlach9614"></textarea>
+        <div class="drop-hint" data-i18n="dropHint">Déposez un fichier .txt / .csv ici</div>
+        <div class="editor-foot">
+          <span id="srcMeta">En attente de collage…</span>
+          <div class="foot-right">
+            <span class="hint" data-i18n-html="ctrlHint"><b>Ctrl</b> + <b>Entrée</b> pour analyser</span>
+            <button class="link-btn" id="btnExample" data-i18n="loadExample">Charger l'exemple</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button class="primary" id="btnParse"><i data-lucide="scan-text"></i><span data-i18n="parseBtn">Analyser la liste</span></button>
+        <button class="ghost-btn danger" id="btnClear"><i data-lucide="trash-2"></i><span data-i18n="clearBtn">Vider</span></button>
+      </div>
+    </section>
+
+    <section id="resultsStage" class="results" hidden>
+      <div class="stats">
+        <div class="stat"><div class="num" id="stTotal" data-v="0">0</div><div class="lab" data-i18n="stTotal">Lignes analysées</div></div>
+        <div class="stat"><div class="num" id="stValid" data-v="0">0</div><div class="lab" data-i18n="stValid">Emails valides</div></div>
+        <div class="stat"><div class="num gold" id="stDups" data-v="0">0</div><div class="lab" data-i18n="stDups">Doublons retirés</div></div>
+        <div class="stat"><div class="num" id="stInv" data-v="0">0</div><div class="lab" data-i18n="stInv">Lignes ignorées</div></div>
+        <div class="stat"><div class="num" id="stDom" data-v="0">0</div><div class="lab" data-i18n="stDom">Domaines uniques</div></div>
+      </div>
+
+      <details class="dash" id="dash">
+        <summary><i data-lucide="chevron-right"></i><span data-i18n="dashTitle">Tableau de bord</span></summary>
+        <div class="dash-body" id="dashBody"></div>
+      </details>
+
+      <div class="srcbar" id="srcBar" hidden>
+        <span id="srcBarTxt"></span>
+        <button class="link-btn" id="btnEdit" data-i18n="editSource">Modifier la source</button>
+      </div>
+
+      <div class="toolbar">
+        <div class="search">
+          <i data-lucide="search"></i>
+          <input id="q" type="text" data-i18n-ph="searchPh" data-i18n-aria="searchAria"
+            placeholder="Filtrer les résultats…" aria-label="Filtrer les résultats">
+        </div>
+        <div class="seg" role="group" data-i18n-aria="dedupTitle" data-i18n-title="dedupTitle">
+          <span class="seg-label" data-i18n="dedupLabel">Dédup</span>
+          <button type="button" data-mode="email" data-i18n="modeEmail">Email</button>
+          <button type="button" data-mode="line" data-i18n="modeLine">Ligne</button>
+          <button type="button" data-mode="fuzzy" data-i18n="modeFuzzy">Flou</button>
+        </div>
+        <div class="select-wrap">
+          <select id="sortBy" data-i18n-aria="sortAria" aria-label="Trier">
+            <option value="count" data-i18n="sortCount">Trier : volume</option>
+            <option value="alpha" data-i18n="sortAlpha">Trier : A→Z</option>
+            <option value="domain" data-i18n="sortDomain">Trier : domaine</option>
+            <option value="original" data-i18n="sortOriginal">Trier : ordre source</option>
+          </select>
+        </div>
+        <button class="ghost-btn" id="btnMask"><i data-lucide="eye"></i><span>Afficher</span></button>
+        <button class="ghost-btn" id="btnCopyMenu"><i data-lucide="clipboard"></i><span data-i18n="copyMenu">Copier…</span></button>
+        <button class="ghost-btn" id="btnExportMenu"><i data-lucide="download"></i><span data-i18n="exportMenu">Exporter…</span></button>
+      </div>
+
+      <div class="filters" id="filters"></div>
+
+      <div id="groups"></div>
+      <div id="details"></div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="foot-in">
+    <span data-i18n="footTitle">SORTIUM — Trieur de listes d'emails</span>
+    <span class="kbd-hint"><b>?</b> <span data-i18n="footShortcuts">raccourcis</span></span>
+    <span data-i18n="footNote">Traitement 100% local · Aucune donnée envoyée</span>
+  </div>
+</footer>
+
+<!-- Modal : règles domaine → pays -->
+<div class="modal-back" id="modalBack" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mapTitle">
+    <div class="modal-head">
+      <h2 id="mapTitle" data-i18n="modalTitle">Domaines &amp; pays</h2>
+      <button class="icon-btn" id="btnModalClose" data-i18n-aria="closeAria" aria-label="Fermer"><i data-lucide="x"></i></button>
+    </div>
+    <p class="modal-desc" data-i18n="modalDesc">Associez un domaine à un pays. Vos règles priment sur la détection automatique et sont conservées dans ce navigateur.</p>
+    <form class="map-form" id="mapForm">
+      <div class="field">
+        <label for="mapDomain" data-i18n="labelDomain">Domaine</label>
+        <input id="mapDomain" type="text" data-i18n-ph="domainPh" placeholder="exemple.com" spellcheck="false" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="mapCountry" data-i18n="labelCountry">Pays</label>
+        <select id="mapCountry"></select>
+      </div>
+      <button type="submit" class="primary add-rule"><i data-lucide="plus"></i><span data-i18n="addBtn">Ajouter</span></button>
+    </form>
+    <div class="rules-title">
+      <span><span data-i18n="rulesTitle">Règles personnalisées</span> — <span id="rulesCount">0</span></span>
+      <span class="rules-actions">
+        <button class="link-btn" id="btnRulesImport" data-i18n="rulesImport">Importer</button>
+        <button class="link-btn" id="btnRulesExport" data-i18n="rulesExport">Exporter</button>
+      </span>
+    </div>
+    <div id="rulesWrap"></div>
+  </div>
+</div>
+
+<!-- Modal : options copie -->
+<div class="modal-back" id="copyModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-head">
+      <h2 data-i18n="copyTitle">Options de copie</h2>
+      <button class="icon-btn" id="btnCopyClose" aria-label="Fermer"><i data-lucide="x"></i></button>
+    </div>
+    <p class="modal-desc" data-i18n="copyDesc">Choisissez ce qui sera copié dans le presse-papiers.</p>
+    <div id="copyOptions"></div>
+  </div>
+</div>
+
+<!-- Modal : options export -->
+<div class="modal-back" id="exportModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-head">
+      <h2 data-i18n="exportTitle">Options d'export</h2>
+      <button class="icon-btn" id="btnExportClose" aria-label="Fermer"><i data-lucide="x"></i></button>
+    </div>
+    <p class="modal-desc" data-i18n="exportDesc">Choisissez le format de fichier et son contenu.</p>
+    <div id="exportOptions"></div>
+    <div class="field" style="margin-top:16px">
+      <label for="tmplInput" data-i18n="tmplLabel">Modèle personnalisé</label>
+      <textarea id="tmplInput" spellcheck="false" placeholder="{email};{password};{country_code}"></textarea>
+      <p class="modal-desc" style="margin:8px 0 0;font-size:11px" data-i18n="tmplHelp">Variables : {email} {password} {country} {country_code} {domain} {line} {index}</p>
+    </div>
+  </div>
+</div>
+
+<!-- Modal : raccourcis -->
+<div class="modal-back" id="shortcutModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-head">
+      <h2 data-i18n="shortcutsTitle">Raccourcis clavier</h2>
+      <button class="icon-btn" id="btnShortcutClose" aria-label="Fermer"><i data-lucide="x"></i></button>
+    </div>
+    <div class="kbd-grid">
+      <span class="kbd">Ctrl+Entrée</span><span data-i18n="scParse">Analyser la liste</span>
+      <span class="kbd">/</span><span data-i18n="scSearch">Focus sur la recherche</span>
+      <span class="kbd">E</span><span data-i18n="scExport">Ouvrir l'export</span>
+      <span class="kbd">C</span><span data-i18n="scCopy">Ouvrir les options de copie</span>
+      <span class="kbd">M</span><span data-i18n="scMask">Afficher / masquer les mots de passe</span>
+      <span class="kbd">G</span><span data-i18n="scMap">Ouvrir la carte domaines → pays</span>
+      <span class="kbd">Esc</span><span data-i18n="scClose">Fermer la fenêtre active</span>
+      <span class="kbd">?</span><span data-i18n="scHelp">Afficher cette aide</span>
+    </div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<input type="file" id="fileInput" accept=".txt,.csv,text/plain,text/csv" style="display:none">
+
+<script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+<script>
+/* ================= SORTIUM ================= */
+
+// ---------- Helpers ----------
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+const fmt = n => n.toLocaleString(lang === 'en' ? 'en-US' : 'fr-FR');
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const icons = () => { if (window.lucide) lucide.createIcons(); };
+
+const SVG_COPY = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>';
+
+/* ================= I18N ================= */
+const I18N = {
+  fr: {
+    title:"SORTIUM — Trieur de listes d'emails",
+    tagline:"Trieur de listes · par pays",
+    mapBtn:"Domaines & pays",
+    langAria:"Langue",
+    railIndex:"Index",
+    hero:"Une liste <em>brute</em>.<br>Des pays en ordre.",
+    sub:"Collez vos emails — seuls ou avec mot de passe après un séparateur. SORTIUM détecte les domaines, classe chaque adresse par pays, supprime les doublons et vous laisse tout copier ou exporter. Tout se passe dans votre navigateur, rien n'est envoyé nulle part.",
+    srcPh:"yeti-1962@aon.at/owmagnxe\ndqbarrie@bellnet.ca/Canada20$\nmar.brunner@aon.at/Fm28042005.\nzahn.machac@aon.at/Ferlach9614",
+    waiting:"En attente de collage…",
+    ctrlHint:"<b>Ctrl</b> + <b>Entrée</b> pour analyser",
+    loadExample:"Charger l'exemple",
+    parseBtn:"Analyser la liste",
+    clearBtn:"Vider",
+    clearConfirm:"Confirmer ?",
+    dropHint:"Déposez un fichier .txt / .csv ici",
+    stTotal:"Lignes analysées",
+    stValid:"Emails valides",
+    stDups:"Doublons retirés",
+    stInv:"Lignes ignorées",
+    stDom:"Domaines uniques",
+    dashTitle:"Tableau de bord",
+    dashTopDomains:"Top domaines",
+    dashProviders:"Fournisseurs",
+    dashCountries:"Top pays",
+    dashPassword:"Mots de passe",
+    dashNoPassword:"Sans mot de passe",
+    dashWeak:"Faibles",
+    dashReused:"Réutilisés",
+    dashDisposable:"Jetables",
+    dashRole:"Rôles (admin@, info@…)",
+    editSource:"Modifier la source",
+    searchPh:"Filtrer les résultats…",
+    searchAria:"Filtrer les résultats",
+    dedupLabel:"Dédup",
+    dedupTitle:"Mode de déduplication",
+    modeEmail:"Email",
+    modeLine:"Ligne",
+    modeFuzzy:"Flou",
+    sortAria:"Trier les groupes",
+    sortCount:"Trier : volume",
+    sortAlpha:"Trier : A→Z",
+    sortDomain:"Trier : domaine",
+    sortOriginal:"Trier : ordre source",
+    maskShow:"Afficher",
+    maskHide:"Masquer",
+    copyMenu:"Copier…",
+    exportMenu:"Exporter…",
+    footTitle:"SORTIUM — Trieur de listes d'emails",
+    footNote:"Traitement 100% local · Aucune donnée envoyée",
+    footShortcuts:"raccourcis",
+    modalTitle:"Domaines & pays",
+    closeAria:"Fermer",
+    modalDesc:"Associez un domaine à un pays. Vos règles priment sur la détection automatique et sont conservées dans ce navigateur.",
+    labelDomain:"Domaine",
+    domainPh:"exemple.com",
+    labelCountry:"Pays",
+    chooseCountry:"Choisir un pays…",
+    addBtn:"Ajouter",
+    rulesTitle:"Règles personnalisées",
+    rulesImport:"Importer",
+    rulesExport:"Exporter",
+    noRules:"Aucune règle personnalisée pour l'instant.",
+    deleteAria:"Supprimer",
+    unclassified:"Non classé",
+    titleClassify:"Classer ce domaine",
+    titleCopyGroup:"Copier le groupe",
+    titleDlGroup:"Exporter le groupe (.txt)",
+    titleCopyLine:"Copier cette ligne",
+    titleReveal:"Cliquer pour révéler",
+    titleWeak:"Mot de passe faible",
+    titleReused:"Mot de passe réutilisé",
+    titleTemp:"Adresse jetable / rôle",
+    flagWeak:"FAIBLE",
+    flagReused:"RÉUTIL.",
+    flagTemp:"JETABLE",
+    pasteFirst:"Collez d'abord une liste à analyser.",
+    noValidEmail:"Aucun email valide détecté dans cette liste.",
+    emptyList:"Liste vide.",
+    listCleared:"Liste effacée.",
+    nothingToCopy:"Rien à copier.",
+    nothingToExport:"Rien à exporter.",
+    copyUnavailable:"Copie impossible sur ce navigateur.",
+    copyFailed:"Copie impossible.",
+    lineCopied:"Ligne copiée.",
+    copiedN: n => `${n} lignes copiées dans le presse-papiers.`,
+    exportedN: n => `${n} lignes exportées.`,
+    groupCopied: (name,n) => `${name} — ${n} lignes copiées.`,
+    groupExported: (name,n) => `${name} — exporté (${n} lignes).`,
+    sortedToast: (e,g,d) => `${e} emails triés dans ${g} groupe${g>1?'s':''} · ${d} doublon${d>1?'s':''} retiré${d>1?'s':''}.`,
+    metaLive: (l,m) => `${l} ligne${l>1?'s':''} · ${m} email${m>1?'s':''} détecté${m>1?'s':''}`,
+    srcBar: (a,b,c) => `SOURCE — ${a} lignes · ${b} emails valides · dédup ${c}`,
+    dedupByEmail:"par email",
+    dedupByLine:"par ligne exacte",
+    dedupByFuzzy:"floue (Gmail/casse)",
+    noResultsFor: q => `Aucun résultat pour « ${q} ».`,
+    noResults:"Aucun résultat.",
+    foldDups:"Doublons supprimés",
+    foldInvalid:"Lignes ignorées (email invalide)",
+    moreItems: n => `+ ${n} autres…`,
+    railTotal: n => `TOTAL AFFICHÉ — ${n}`,
+    railGroups: n => `${n} GRP`,
+    entryOne:"entrée",
+    entryMany:"entrées",
+    invalidDomain:"Domaine invalide — ex. aon.at",
+    chooseACountry:"Choisissez un pays.",
+    ruleSaved: (d,c) => `Règle enregistrée : ${d} → ${c}`,
+    ruleDeleted:"Règle supprimée.",
+    rulesImported: n => `${n} règle${n>1?'s':''} importée${n>1?'s':''}.`,
+    rulesImportedNone:"Aucune règle valide trouvée.",
+    rulesExported:"Règles exportées.",
+    invalidJSON:"Fichier JSON invalide.",
+    filterHasPass:"Avec mot de passe",
+    filterNoPass:"Sans mot de passe",
+    filterWeak:"Faibles",
+    filterReused:"Réutilisés",
+    filterDisposable:"Jetables",
+    filterRole:"Rôles",
+    filterUnknown:"Non classés",
+    clearFilters:"effacer les filtres",
+    copyTitle:"Options de copie",
+    copyDesc:"Choisissez ce qui sera copié dans le presse-papiers.",
+    copyAll:"Tout (email + mot de passe)",
+    copyEmails:"Emails seuls",
+    copyPasswords:"Mots de passe seuls",
+    copyByCountry:"Par pays (blocs séparés)",
+    copyCustom:"Modèle personnalisé",
+    copyAllCopied: n => `${n} lignes copiées.`,
+    copyEmailsCopied: n => `${n} emails copiés.`,
+    copyPasswordsCopied: n => `${n} mots de passe copiés.`,
+    copyByCountryCopied: n => `${n} groupes copiés.`,
+    copyCustomCopied: n => `${n} lignes copiées (modèle).`,
+    noPasswords:"Aucun mot de passe dans la sélection.",
+    exportTitle:"Options d'export",
+    exportDesc:"Choisissez le format de fichier et son contenu.",
+    exportTxt:"Fichier .txt — tout",
+    exportEmailsTxt:".txt — emails seuls",
+    exportPasswordsTxt:".txt — mots de passe seuls",
+    exportCsv:"CSV (email, password, country, domain)",
+    exportCsvEmails:"CSV (emails seulement)",
+    exportJson:"JSON structuré",
+    exportCustom:"Modèle personnalisé (.txt)",
+    tmplLabel:"Modèle personnalisé",
+    tmplHelp:"Variables : {email} {password} {country} {country_code} {domain} {line} {index}",
+    tmplInvalid:"Le modèle ne contient aucune variable reconnue.",
+    shortcutsTitle:"Raccourcis clavier",
+    scParse:"Analyser la liste",
+    scSearch:"Focus sur la recherche",
+    scExport:"Ouvrir l'export",
+    scCopy:"Ouvrir les options de copie",
+    scMask:"Afficher / masquer les mots de passe",
+    scMap:"Ouvrir la carte domaines → pays",
+    scClose:"Fermer la fenêtre active",
+    scHelp:"Afficher cette aide",
+    fileLoaded: n => `Fichier chargé (${n} lignes).`,
+    suggestClassify: c => `Classer ${c} comme…`
+  },
+  en: {
+    title:"SORTIUM — Email list sorter",
+    tagline:"List sorter · by country",
+    mapBtn:"Domains & countries",
+    langAria:"Language",
+    railIndex:"Index",
+    hero:"A <em>raw</em> list.<br>Countries in order.",
+    sub:"Paste your emails — alone or with a password after a separator. SORTIUM detects domains, sorts every address by country, removes duplicates and lets you copy or export everything. Everything happens in your browser, nothing is ever sent anywhere.",
+    srcPh:"yeti-1962@aon.at/owmagnxe\ndqbarrie@bellnet.ca/Canada20$\nmar.brunner@aon.at/Fm28042005.\nzahn.machac@aon.at/Ferlach9614",
+    waiting:"Waiting for a paste…",
+    ctrlHint:"<b>Ctrl</b> + <b>Enter</b> to analyze",
+    loadExample:"Load example",
+    parseBtn:"Analyze list",
+    clearBtn:"Clear",
+    clearConfirm:"Confirm?",
+    dropHint:"Drop a .txt / .csv file here",
+    stTotal:"Lines analyzed",
+    stValid:"Valid emails",
+    stDups:"Duplicates removed",
+    stInv:"Lines ignored",
+    stDom:"Unique domains",
+    dashTitle:"Dashboard",
+    dashTopDomains:"Top domains",
+    dashProviders:"Providers",
+    dashCountries:"Top countries",
+    dashPassword:"Passwords",
+    dashNoPassword:"Without password",
+    dashWeak:"Weak",
+    dashReused:"Reused",
+    dashDisposable:"Disposable",
+    dashRole:"Role-based (admin@, info@…)",
+    editSource:"Edit source",
+    searchPh:"Filter results…",
+    searchAria:"Filter results",
+    dedupLabel:"Dedup",
+    dedupTitle:"Deduplication mode",
+    modeEmail:"Email",
+    modeLine:"Line",
+    modeFuzzy:"Fuzzy",
+    sortAria:"Sort groups",
+    sortCount:"Sort: volume",
+    sortAlpha:"Sort: A→Z",
+    sortDomain:"Sort: domain",
+    sortOriginal:"Sort: source order",
+    maskShow:"Show",
+    maskHide:"Hide",
+    copyMenu:"Copy…",
+    exportMenu:"Export…",
+    footTitle:"SORTIUM — Email list sorter",
+    footNote:"100% local processing · No data ever sent",
+    footShortcuts:"shortcuts",
+    modalTitle:"Domains & countries",
+    closeAria:"Close",
+    modalDesc:"Map a domain to a country. Your rules take priority over automatic detection and are kept in this browser.",
+    labelDomain:"Domain",
+    domainPh:"example.com",
+    labelCountry:"Country",
+    chooseCountry:"Choose a country…",
+    addBtn:"Add",
+    rulesTitle:"Custom rules",
+    rulesImport:"Import",
+    rulesExport:"Export",
+    noRules:"No custom rules yet.",
+    deleteAria:"Delete",
+    unclassified:"Unclassified",
+    titleClassify:"Classify this domain",
+    titleCopyGroup:"Copy group",
+    titleDlGroup:"Export group (.txt)",
+    titleCopyLine:"Copy this line",
+    titleReveal:"Click to reveal",
+    titleWeak:"Weak password",
+    titleReused:"Reused password",
+    titleTemp:"Disposable / role address",
+    flagWeak:"WEAK",
+    flagReused:"REUSED",
+    flagTemp:"TEMP",
+    pasteFirst:"Paste a list first to analyze.",
+    noValidEmail:"No valid email found in this list.",
+    emptyList:"Empty list.",
+    listCleared:"List cleared.",
+    nothingToCopy:"Nothing to copy.",
+    nothingToExport:"Nothing to export.",
+    copyUnavailable:"Copying is not available in this browser.",
+    copyFailed:"Copy failed.",
+    lineCopied:"Line copied.",
+    copiedN: n => `${n} lines copied to the clipboard.`,
+    exportedN: n => `${n} lines exported.`,
+    groupCopied: (name,n) => `${name} — ${n} lines copied.`,
+    groupExported: (name,n) => `${name} — exported (${n} lines).`,
+    sortedToast: (e,g,d) => `${e} emails sorted into ${g} group${g>1?'s':''} · ${d} duplicate${d>1?'s':''} removed.`,
+    metaLive: (l,m) => `${l} line${l>1?'s':''} · ${m} email${m>1?'s':''} detected`,
+    srcBar: (a,b,c) => `SOURCE — ${a} lines · ${b} valid emails · dedup ${c}`,
+    dedupByEmail:"by email",
+    dedupByLine:"by exact line",
+    dedupByFuzzy:"fuzzy (Gmail/case)",
+    noResultsFor: q => `No results for “${q}”.`,
+    noResults:"No results.",
+    foldDups:"Removed duplicates",
+    foldInvalid:"Ignored lines (invalid email)",
+    moreItems: n => `+ ${n} more…`,
+    railTotal: n => `SHOWN TOTAL — ${n}`,
+    railGroups: n => `${n} GRP`,
+    entryOne:"entry",
+    entryMany:"entries",
+    invalidDomain:"Invalid domain — e.g. aon.at",
+    chooseACountry:"Choose a country.",
+    ruleSaved: (d,c) => `Rule saved: ${d} → ${c}`,
+    ruleDeleted:"Rule deleted.",
+    rulesImported: n => `${n} rule${n>1?'s':''} imported.`,
+    rulesImportedNone:"No valid rule found.",
+    rulesExported:"Rules exported.",
+    invalidJSON:"Invalid JSON file.",
+    filterHasPass:"With password",
+    filterNoPass:"Without password",
+    filterWeak:"Weak",
+    filterReused:"Reused",
+    filterDisposable:"Disposable",
+    filterRole:"Role-based",
+    filterUnknown:"Unclassified",
+    clearFilters:"clear filters",
+    copyTitle:"Copy options",
+    copyDesc:"Choose what goes to the clipboard.",
+    copyAll:"Everything (email + password)",
+    copyEmails:"Emails only",
+    copyPasswords:"Passwords only",
+    copyByCountry:"By country (separated blocks)",
+    copyCustom:"Custom template",
+    copyAllCopied: n => `${n} lines copied.`,
+    copyEmailsCopied: n => `${n} emails copied.`,
+    copyPasswordsCopied: n => `${n} passwords copied.`,
+    copyByCountryCopied: n => `${n} groups copied.`,
+    copyCustomCopied: n => `${n} lines copied (template).`,
+    noPasswords:"No passwords in the selection.",
+    exportTitle:"Export options",
+    exportDesc:"Choose file format and content.",
+    exportTxt:".txt file — everything",
+    exportEmailsTxt:".txt — emails only",
+    exportPasswordsTxt:".txt — passwords only",
+    exportCsv:"CSV (email, password, country, domain)",
+    exportCsvEmails:"CSV (emails only)",
+    exportJson:"Structured JSON",
+    exportCustom:"Custom template (.txt)",
+    tmplLabel:"Custom template",
+    tmplHelp:"Variables: {email} {password} {country} {country_code} {domain} {line} {index}",
+    tmplInvalid:"Template has no recognized variable.",
+    shortcutsTitle:"Keyboard shortcuts",
+    scParse:"Analyze the list",
+    scSearch:"Focus search",
+    scExport:"Open export",
+    scCopy:"Open copy options",
+    scMask:"Show / hide passwords",
+    scMap:"Open domains → countries",
+    scClose:"Close active modal",
+    scHelp:"Show this help",
+    fileLoaded: n => `File loaded (${n} lines).`,
+    suggestClassify: c => `Classify ${c} as…`
+  }
+};
+
+let lang = 'fr';
+const t  = k => (I18N[lang] && I18N[lang][k] !== undefined) ? I18N[lang][k] : I18N.fr[k];
+const tf = (k, ...a) => { const v = t(k); return typeof v === 'function' ? v(...a) : v; };
+
+/* ================= COUNTRIES ================= */
+const COUNTRIES = {
+  AT:{fr:'Autriche',en:'Austria'}, CA:{fr:'Canada',en:'Canada'},
+  DE:{fr:'Allemagne',en:'Germany'}, FR:{fr:'France',en:'France'},
+  UK:{fr:'Royaume-Uni',en:'United Kingdom'}, US:{fr:'États-Unis',en:'United States'},
+  MA:{fr:'Maroc',en:'Morocco'}, DZ:{fr:'Algérie',en:'Algeria'}, TN:{fr:'Tunisie',en:'Tunisia'},
+  LY:{fr:'Libye',en:'Libya'}, EG:{fr:'Égypte',en:'Egypt'}, MR:{fr:'Mauritanie',en:'Mauritania'},
+  SN:{fr:'Sénégal',en:'Senegal'}, CI:{fr:"Côte d'Ivoire",en:'Ivory Coast'}, CM:{fr:'Cameroun',en:'Cameroon'},
+  GH:{fr:'Ghana',en:'Ghana'}, NG:{fr:'Nigéria',en:'Nigeria'}, KE:{fr:'Kenya',en:'Kenya'},
+  ZA:{fr:'Afrique du Sud',en:'South Africa'}, ES:{fr:'Espagne',en:'Spain'}, IT:{fr:'Italie',en:'Italy'},
+  PT:{fr:'Portugal',en:'Portugal'}, NL:{fr:'Pays-Bas',en:'Netherlands'}, BE:{fr:'Belgique',en:'Belgium'},
+  CH:{fr:'Suisse',en:'Switzerland'}, LU:{fr:'Luxembourg',en:'Luxembourg'}, IE:{fr:'Irlande',en:'Ireland'},
+  IS:{fr:'Islande',en:'Iceland'}, MT:{fr:'Malte',en:'Malta'}, CY:{fr:'Chypre',en:'Cyprus'},
+  SE:{fr:'Suède',en:'Sweden'}, NO:{fr:'Norvège',en:'Norway'}, DK:{fr:'Danemark',en:'Denmark'},
+  FI:{fr:'Finlande',en:'Finland'}, PL:{fr:'Pologne',en:'Poland'}, CZ:{fr:'Tchéquie',en:'Czechia'},
+  SK:{fr:'Slovaquie',en:'Slovakia'}, HU:{fr:'Hongrie',en:'Hungary'}, RO:{fr:'Roumanie',en:'Romania'},
+  BG:{fr:'Bulgarie',en:'Bulgaria'}, GR:{fr:'Grèce',en:'Greece'}, TR:{fr:'Turquie',en:'Türkiye'},
+  RU:{fr:'Russie',en:'Russia'}, UA:{fr:'Ukraine',en:'Ukraine'}, BY:{fr:'Biélorussie',en:'Belarus'},
+  LT:{fr:'Lituanie',en:'Lithuania'}, LV:{fr:'Lettonie',en:'Latvia'}, EE:{fr:'Estonie',en:'Estonia'},
+  MD:{fr:'Moldavie',en:'Moldova'}, RS:{fr:'Serbie',en:'Serbia'}, HR:{fr:'Croatie',en:'Croatia'},
+  SI:{fr:'Slovénie',en:'Slovenia'}, BA:{fr:'Bosnie-Herzégovine',en:'Bosnia and Herzegovina'},
+  MK:{fr:'Macédoine du Nord',en:'North Macedonia'}, AL:{fr:'Albanie',en:'Albania'},
+  ME:{fr:'Monténégro',en:'Montenegro'}, GE:{fr:'Géorgie',en:'Georgia'}, AM:{fr:'Arménie',en:'Armenia'},
+  AZ:{fr:'Azerbaïdjan',en:'Azerbaijan'}, KZ:{fr:'Kazakhstan',en:'Kazakhstan'}, BR:{fr:'Brésil',en:'Brazil'},
+  AR:{fr:'Argentine',en:'Argentina'}, MX:{fr:'Mexique',en:'Mexico'}, CL:{fr:'Chili',en:'Chile'},
+  CO:{fr:'Colombie',en:'Colombia'}, PE:{fr:'Pérou',en:'Peru'}, UY:{fr:'Uruguay',en:'Uruguay'},
+  VE:{fr:'Venezuela',en:'Venezuela'}, AU:{fr:'Australie',en:'Australia'}, NZ:{fr:'Nouvelle-Zélande',en:'New Zealand'},
+  JP:{fr:'Japon',en:'Japan'}, KR:{fr:'Corée du Sud',en:'South Korea'}, CN:{fr:'Chine',en:'China'},
+  TW:{fr:'Taïwan',en:'Taiwan'}, HK:{fr:'Hong Kong',en:'Hong Kong'}, SG:{fr:'Singapour',en:'Singapore'},
+  MY:{fr:'Malaisie',en:'Malaysia'}, ID:{fr:'Indonésie',en:'Indonesia'}, TH:{fr:'Thaïlande',en:'Thailand'},
+  VN:{fr:'Vietnam',en:'Vietnam'}, PH:{fr:'Philippines',en:'Philippines'}, IN:{fr:'Inde',en:'India'},
+  PK:{fr:'Pakistan',en:'Pakistan'}, BD:{fr:'Bangladesh',en:'Bangladesh'}, LK:{fr:'Sri Lanka',en:'Sri Lanka'},
+  NP:{fr:'Népal',en:'Nepal'}, SA:{fr:'Arabie Saoudite',en:'Saudi Arabia'},
+  AE:{fr:'Émirats Arabes Unis',en:'United Arab Emirates'}, QA:{fr:'Qatar',en:'Qatar'},
+  KW:{fr:'Koweït',en:'Kuwait'}, BH:{fr:'Bahreïn',en:'Bahrain'}, OM:{fr:'Oman',en:'Oman'},
+  JO:{fr:'Jordanie',en:'Jordan'}, LB:{fr:'Liban',en:'Lebanon'}, IQ:{fr:'Irak',en:'Iraq'},
+  IR:{fr:'Iran',en:'Iran'}, IL:{fr:'Israël',en:'Israel'}
+};
+const countryName = code => (COUNTRIES[code] && COUNTRIES[code][lang]) || code;
+function normalizeCountryCode(v){
+  if(!v) return null;
+  const up = String(v).toUpperCase();
+  if(COUNTRIES[up]) return up;
+  const low = String(v).toLowerCase();
+  for(const [code, names] of Object.entries(COUNTRIES)){
+    if(names.fr.toLowerCase() === low || names.en.toLowerCase() === low) return code;
+  }
+  return null;
+}
+
+/* ================= DOMAINS / PROVIDERS ================= */
+const TLD_COUNTRY = {
+  at:'AT', ca:'CA', de:'DE', fr:'FR', uk:'UK', us:'US', ma:'MA', dz:'DZ', tn:'TN', ly:'LY', eg:'EG',
+  mr:'MR', sn:'SN', ci:'CI', cm:'CM', gh:'GH', ng:'NG', ke:'KE', za:'ZA', es:'ES', it:'IT', pt:'PT',
+  nl:'NL', be:'BE', ch:'CH', lu:'LU', ie:'IE', is:'IS', mt:'MT', cy:'CY', se:'SE', no:'NO', dk:'DK',
+  fi:'FI', pl:'PL', cz:'CZ', sk:'SK', hu:'HU', ro:'RO', bg:'BG', gr:'GR', tr:'TR', ru:'RU', ua:'UA',
+  by:'BY', lt:'LT', lv:'LV', ee:'EE', md:'MD', rs:'RS', hr:'HR', si:'SI', ba:'BA', mk:'MK', al:'AL',
+  me:'ME', ge:'GE', am:'AM', az:'AZ', kz:'KZ', br:'BR', ar:'AR', mx:'MX', cl:'CL', co:'CO', pe:'PE',
+  uy:'UY', ve:'VE', au:'AU', nz:'NZ', jp:'JP', kr:'KR', cn:'CN', tw:'TW', hk:'HK', sg:'SG', my:'MY',
+  id:'ID', th:'TH', vn:'VN', ph:'PH', in:'IN', pk:'PK', bd:'BD', lk:'LK', np:'NP', sa:'SA', ae:'AE',
+  qa:'QA', kw:'KW', bh:'BH', om:'OM', jo:'JO', lb:'LB', iq:'IQ', ir:'IR', il:'IL'
+};
+const PROVIDER_COUNTRY = {
+  'gmail.com':'US','googlemail.com':'US','outlook.com':'US','hotmail.com':'US','live.com':'US','msn.com':'US',
+  'yahoo.com':'US','aol.com':'US','icloud.com':'US','me.com':'US','zoho.com':'US','yandex.com':'US',
+  'mail.com':'US','gmx.com':'US','fastmail.com':'US','hushmail.com':'US','protonmail.com':'CH','proton.me':'CH'
+};
+const PROVIDER_LABEL = {
+  'gmail.com':'Gmail','googlemail.com':'Gmail','outlook.com':'Outlook','hotmail.com':'Hotmail',
+  'live.com':'Live','msn.com':'MSN','yahoo.com':'Yahoo','aol.com':'AOL','icloud.com':'iCloud',
+  'me.com':'iCloud','zoho.com':'Zoho','yandex.com':'Yandex','mail.com':'Mail.com','gmx.com':'GMX',
+  'fastmail.com':'Fastmail','hushmail.com':'Hushmail','protonmail.com':'Proton','proton.me':'Proton'
+};
+
+// Disposable / role sets — small representative lists
+const DISPOSABLE = new Set(['mailinator.com','guerrillamail.com','10minutemail.com','tempmail.com','throwawaymail.com',
+  'yopmail.com','trashmail.com','getnada.com','sharklasers.com','guerrillamailblock.com','grr.la','dispostable.com',
+  'fakeinbox.com','maildrop.cc','mintemail.com','tempinbox.com','mailnesia.com','spamgourmet.com','mytrashmail.com',
+  'throwaway.email','temp-mail.org','emailondeck.com','moakt.com','tempr.email','discard.email','mailcatch.com']);
+const ROLE_PREFIXES = new Set(['admin','info','support','contact','noreply','no-reply','sales','marketing','help',
+  'webmaster','postmaster','office','team','hello','hr','jobs','careers','billing','accounts','security','abuse',
+  'root','hostmaster','feedback','privacy','legal','press','service','mail','newsletter']);
+
+// Small common passwords set
+const COMMON_PASSWORDS = new Set(['123456','password','12345678','qwerty','123456789','12345','1234','111111','1234567',
+  'dragon','123123','baseball','abc123','football','monkey','letmein','696969','shadow','master','666666','qwertyuiop',
+  '123321','mustang','1234567890','michael','654321','pussy','superman','1qaz2wsx','7777777','fuckyou','121212','000000',
+  'qazwsx','123qwe','killer','trustno1','jordan','jennifer','zxcvbnm','asdfgh','hunter','buster','soccer','harley',
+  'batman','andrew','tigger','sunshine','iloveyou','fuckme','2000','charlie','robert','thomas','hockey','ranger',
+  'daniel','starwars','klaster','112233','george','asshole','computer','michelle','jessica','pepper','1111','zxcvbn',
+  '555555','11111111','131313','freedom','777777','pass','fuck','maggie','159753','aaaaaa','ginger','princess',
+  'joshua','cheese','amanda','summer','love','ashley','nicole','chelsea','biteme','matthew','access','yankees','987654321',
+  'dallas','austin','thunder','taylor','matrix','mobilemail','mom','monitor','monitoring','montana','moon','moscow']);
+const WEAK_MIN_LEN = 8;
+
+/* ================= STATE ================= */
+const LS_KEY = 'sortium.v2';
+const state = {
+  raw:'', mode:'email', masked:true, custom:{}, query:'', lang:'fr',
+  sortBy:'count',
+  filters:{ hasPass:null, weak:false, reused:false, disposable:false, role:false, unclassified:false, country:null },
+  outputTemplate:'',
+  dashOpen:false
+};
+let parsed = null;
+let currentGroups = [];
+let io = null, clearArm = false, clearArmT = null;
+let activeModal = null;
+
+function save(){ try{ localStorage.setItem(LS_KEY, JSON.stringify({
+  raw:state.raw, mode:state.mode, masked:state.masked, custom:state.custom, lang:state.lang,
+  sortBy:state.sortBy, filters:state.filters, outputTemplate:state.outputTemplate, dashOpen:state.dashOpen
+})); }catch(e){} }
+function load(){ try{ const d = JSON.parse(localStorage.getItem(LS_KEY)); if(d) Object.assign(state, d); }catch(e){} }
+
+/* ================= PARSE ================= */
+const EMAIL_RE = /[A-Za-z0-9._%+\-']+@[A-Za-z0-9\-]+(?:\.[A-Za-z0-9\-]+)*\.[A-Za-z]{2,}/;
+const EMAIL_G = new RegExp(EMAIL_RE.source, 'g');
+
+function fuzzyKey(email){
+  let [local, domain] = email.toLowerCase().split('@');
+  domain = domain.replace(/^googlemail\./, 'gmail.');
+  if(domain === 'gmail.com') local = local.split('+')[0].replace(/\./g,'');
+  else local = local.split('+')[0];
+  return local + '@' + domain;
+}
+
+function parseSource(raw, mode){
+  const entries = [], dups = [], invalid = [];
+  const seen = new Set();
+  let total = 0;
+  for(const rawLine of raw.split(/\r?\n/)){
+    const line = rawLine.trim();
+    if(!line) continue;
+    total++;
+    const m = line.match(EMAIL_RE);
+    if(!m){ invalid.push(line); continue; }
+    const email = m[0];
+    const after = line.slice(m.index + m[0].length);
+    const sm = after.match(/^\s*([:\/|;\t])\s*(.*)$/);
+    const sep  = sm ? sm[1] : '';
+    const part = sm ? sm[2].trim() : '';
+    const domain = email.slice(email.indexOf('@') + 1).toLowerCase();
+    let key;
+    if(mode === 'line') key = (email + sep + part).toLowerCase();
+    else if(mode === 'fuzzy') key = fuzzyKey(email);
+    else key = email.toLowerCase();
+    if(seen.has(key)){ dups.push(line); continue; }
+    seen.add(key);
+    const local = email.slice(0, email.indexOf('@')).toLowerCase();
+    entries.push({ email, sep, part, domain, line: part ? email + sep + part : email, local, isDisposable: DISPOSABLE.has(domain), isRole: ROLE_PREFIXES.has(local.split('+')[0]) });
+  }
+  return { total, entries, dups, invalid };
+}
+
+/* ================= PASSWORD ANALYSIS ================= */
+function analyzePasswords(entries){
+  const passCount = {}, weak = new Set(), reused = new Set();
+  for(const e of entries){
+    if(!e.part) continue;
+    const p = e.part;
+    passCount[p] = (passCount[p] || 0) + 1;
+    if(p.length < WEAK_MIN_LEN || COMMON_PASSWORDS.has(p.toLowerCase())) weak.add(e);
+  }
+  for(const e of entries){
+    if(!e.part) continue;
+    if(passCount[e.part] > 1) reused.add(e);
+  }
+  for(const e of entries){
+    e.isWeak = e.part ? weak.has(e) : false;
+    e.isReused = e.part ? reused.has(e) : false;
+  }
+}
+
+/* ================= COUNTRY RESOLVE ================= */
+function resolveCountry(domain){
+  const customCode = normalizeCountryCode(state.custom[domain]);
+  if(customCode) return { name:countryName(customCode), code:customCode };
+  if(PROVIDER_COUNTRY[domain]){
+    const code = PROVIDER_COUNTRY[domain];
+    return { name:countryName(code), code };
+  }
+  const tld = domain.slice(domain.lastIndexOf('.') + 1);
+  if(TLD_COUNTRY[tld]){
+    const code = TLD_COUNTRY[tld];
+    return { name:countryName(code), code };
+  }
+  return { name:t('unclassified'), code:'??' };
+}
+
+/* ================= FILTERS / SORT ================= */
+function applyFilters(entries){
+  const f = state.filters;
+  const q = state.query.trim().toLowerCase();
+  return entries.filter(e => {
+    if(q && !e.line.toLowerCase().includes(q)) return false;
+    if(f.hasPass === true && !e.part) return false;
+    if(f.hasPass === false && e.part) return false;
+    if(f.weak && !e.isWeak) return false;
+    if(f.reused && !e.isReused) return false;
+    if(f.disposable && !e.isDisposable) return false;
+    if(f.role && !e.isRole) return false;
+    if(f.unclassified){
+      const c = resolveCountry(e.domain);
+      if(c.code !== '??') return false;
+    }
+    if(f.country){
+      const c = resolveCountry(e.domain);
+      if(c.name !== f.country) return false;
+    }
+    return true;
+  });
+}
+
+function buildGroups(entries){
+  const map = new Map();
+  entries.forEach((e, idx) => {
+    const c = resolveCountry(e.domain);
+    if(!map.has(c.name)) map.set(c.name, { name:c.name, code:c.code, unknown:c.code==='??', entries:[], domains:new Map(), firstIdx:idx });
+    const g = map.get(c.name);
+    g.entries.push({ ...e, __idx: idx });
+    g.domains.set(e.domain, (g.domains.get(e.domain) || 0) + 1);
+  });
+  const arr = [...map.values()];
+  const sort = state.sortBy;
+  arr.sort((a,b) => {
+    if(a.unknown !== b.unknown) return a.unknown ? 1 : -1;
+    if(sort === 'alpha') return a.name.localeCompare(b.name, lang);
+    if(sort === 'domain'){
+      const ad = a.domains.size ? [...a.domains.keys()][0] : '';
+      const bd = b.domains.size ? [...b.domains.keys()][0] : '';
+      return ad.localeCompare(bd);
+    }
+    if(sort === 'original') return a.firstIdx - b.firstIdx;
+    if(b.entries.length !== a.entries.length) return b.entries.length - a.entries.length;
+    return a.name.localeCompare(b.name, lang);
+  });
+  arr.forEach((g,i) => {
+    g.id = i;
+    g.domains = [...g.domains.entries()].sort((a,b) => b[1]-a[1] || a[0].localeCompare(b[0]));
+  });
+  return arr;
+}
+
+function currentEntries(){
+  if(!parsed) return [];
+  return applyFilters(parsed.entries);
+}
+
+/* ================= DOM ================= */
+const ta = $('#src'), btnParse = $('#btnParse'), btnExample = $('#btnExample'), btnClear = $('#btnClear'),
+  srcMeta = $('#srcMeta'), layoutEl = $('#layout'), railEl = $('#rail'), railList = $('#railList'),
+  railCountries = $('#railCountries'), railTotal = $('#railTotal'),
+  inputStage = $('#inputStage'), resultsStage = $('#resultsStage'),
+  srcBar = $('#srcBar'), srcBarTxt = $('#srcBarTxt'), btnEdit = $('#btnEdit'),
+  statsEls = { total:$('#stTotal'), valid:$('#stValid'), dups:$('#stDups'), inv:$('#stInv'), dom:$('#stDom') },
+  qEl = $('#q'), btnMask = $('#btnMask'), btnCopyMenu = $('#btnCopyMenu'), btnExportMenu = $('#btnExportMenu'),
+  groupsEl = $('#groups'), detailsEl = $('#details'), filtersEl = $('#filters'), dashBody = $('#dashBody'),
+  sortBySel = $('#sortBy'),
+  modalBack = $('#modalBack'), mapDomain = $('#mapDomain'), mapCountry = $('#mapCountry'),
+  mapForm = $('#mapForm'), rulesWrap = $('#rulesWrap'), rulesCount = $('#rulesCount'),
+  btnMap = $('#btnMap'), btnModalClose = $('#btnModalClose'), toastsEl = $('#toasts'),
+  copyModal = $('#copyModal'), copyOptions = $('#copyOptions'), btnCopyClose = $('#btnCopyClose'),
+  exportModal = $('#exportModal'), exportOptions = $('#exportOptions'), btnExportClose = $('#btnExportClose'),
+  tmplInput = $('#tmplInput'),
+  shortcutModal = $('#shortcutModal'), btnShortcuts = $('#btnShortcuts'), btnShortcutClose = $('#btnShortcutClose'),
+  editorWrap = $('#editorWrap'), fileInput = $('#fileInput'),
+  btnRulesImport = $('#btnRulesImport'), btnRulesExport = $('#btnRulesExport');
+
+/* ================= STATS ================= */
+function countUp(el, to, delay){
+  const from = +el.dataset.v || 0; el.dataset.v = to;
+  const dur = 700, t0 = performance.now() + delay;
+  (function step(tm){
+    if(tm < t0){ requestAnimationFrame(step); return; }
+    const p = Math.min(1, (tm - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+    el.textContent = fmt(Math.round(from + (to - from) * e));
+    if(p < 1) requestAnimationFrame(step);
+  })(performance.now());
+}
+function renderStats(animate){
+  const doms = new Set(parsed.entries.map(e => e.domain)).size;
+  const vals = { total:parsed.total, valid:parsed.entries.length, dups:parsed.dups.length, inv:parsed.invalid.length, dom:doms };
+  Object.entries(vals).forEach(([k,v], i) => {
+    const el = statsEls[k];
+    el.classList.toggle('red', k === 'inv' && v > 0);
+    if(animate && !reduced) countUp(el, v, i * 90);
+    else { el.dataset.v = v; el.textContent = fmt(v); }
+  });
+}
+
+/* ================= DASHBOARD ================= */
+function renderDash(){
+  if(!parsed){ dashBody.innerHTML=''; return; }
+  const entries = parsed.entries;
+  const totalWithPass = entries.filter(e => e.part).length;
+  const weak = entries.filter(e => e.isWeak).length;
+  const reused = entries.filter(e => e.isReused).length;
+  const temp = entries.filter(e => e.isDisposable).length;
+  const role = entries.filter(e => e.isRole).length;
+
+  const domCount = new Map(), provCount = new Map(), countryCount = new Map();
+  for(const e of entries){
+    domCount.set(e.domain, (domCount.get(e.domain) || 0) + 1);
+    const prov = PROVIDER_LABEL[e.domain] || null;
+    if(prov) provCount.set(prov, (provCount.get(prov) || 0) + 1);
+    const c = resolveCountry(e.domain);
+    countryCount.set(c.name, (countryCount.get(c.name) || 0) + 1);
+  }
+  const top = (m, n=8) => [...m.entries()].sort((a,b) => b[1]-a[1]).slice(0,n);
+
+  const bar = (name, val, max) => `<div class="bar-row">
+    <span class="bname" title="${esc(name)}">${esc(name)}</span>
+    <span class="btrack"><span class="bfill" style="width:${max?Math.max(2,(val/max)*100):0}%"></span></span>
+    <span class="bval">${fmt(val)}</span></div>`;
+
+  const topDom = top(domCount, 10);
+  const maxDom = topDom.length ? topDom[0][1] : 1;
+  const topProv = top(provCount, 8);
+  const maxProv = topProv.length ? topProv[0][1] : 1;
+  const topCountry = top(countryCount, 8);
+  const maxCountry = topCountry.length ? topCountry[0][1] : 1;
+
+  dashBody.innerHTML = `
+    <div class="dash-section">
+      <h4>${esc(t('dashTopDomains'))}</h4>
+      ${topDom.length ? topDom.map(([n,v]) => bar(n,v,maxDom)).join('') : `<p class="dash-empty" style="color:var(--faint);font-size:12px">—</p>`}
+    </div>
+    <div class="dash-section">
+      <h4>${esc(t('dashPassword'))}</h4>
+      ${bar(t('dashNoPassword'), entries.length - totalWithPass, entries.length)}
+      ${bar(t('dashWeak'), weak, totalWithPass || 1)}
+      ${bar(t('dashReused'), reused, totalWithPass || 1)}
+      ${bar(t('dashDisposable'), temp, entries.length)}
+      ${bar(t('dashRole'), role, entries.length)}
+    </div>
+    <div class="dash-section">
+      <h4>${esc(t('dashProviders'))}</h4>
+      ${topProv.length ? topProv.map(([n,v]) => bar(n,v,maxProv)).join('') : `<p style="color:var(--faint);font-size:12px">—</p>`}
+    </div>
+    <div class="dash-section">
+      <h4>${esc(t('dashCountries'))}</h4>
+      ${topCountry.length ? topCountry.map(([n,v]) => bar(n,v,maxCountry)).join('') : `<p style="color:var(--faint);font-size:12px">—</p>`}
+    </div>`;
+}
+
+/* ================= FILTERS UI ================= */
+function renderFilters(){
+  if(!parsed){ filtersEl.innerHTML=''; return; }
+  const f = state.filters;
+  const chip = (key, label, on, count) => `<button class="chip${on?' on':''}" data-f="${key}">
+    <span class="cdot"></span>${esc(label)}${count !== undefined ? `<span class="chip-count">${fmt(count)}</span>` : ''}</button>`;
+  const entries = parsed.entries;
+  const nPass = entries.filter(e=>e.part).length;
+  const nNoPass = entries.length - nPass;
+  const nWeak = entries.filter(e=>e.isWeak).length;
+  const nReused = entries.filter(e=>e.isReused).length;
+  const nTemp = entries.filter(e=>e.isDisposable).length;
+  const nRole = entries.filter(e=>e.isRole).length;
+  const nUnk = entries.filter(e=>resolveCountry(e.domain).code==='??').length;
+
+  let html = '';
+  html += chip('hasPass-true', t('filterHasPass'), f.hasPass===true, nPass);
+  html += chip('hasPass-false', t('filterNoPass'), f.hasPass===false, nNoPass);
+  if(nWeak) html += chip('weak', t('filterWeak'), f.weak, nWeak);
+  if(nReused) html += chip('reused', t('filterReused'), f.reused, nReused);
+  if(nTemp) html += chip('disposable', t('filterDisposable'), f.disposable, nTemp);
+  if(nRole) html += chip('role', t('filterRole'), f.role, nRole);
+  if(nUnk) html += chip('unclassified', t('filterUnknown'), f.unclassified, nUnk);
+
+  const anyOn = f.hasPass!==null || f.weak || f.reused || f.disposable || f.role || f.unclassified || f.country;
+  if(anyOn) html += `<button class="clear-filters" id="btnClearFilters">${esc(t('clearFilters'))}</button>`;
+
+  filtersEl.innerHTML = html;
+  filtersEl.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => {
+    const k = c.dataset.f;
+    if(k === 'hasPass-true')  f.hasPass = f.hasPass===true?null:true;
+    else if(k === 'hasPass-false') f.hasPass = f.hasPass===false?null:false;
+    else f[k] = !f[k];
+    save(); renderAll({ animate:false });
+  }));
+  const cf = $('#btnClearFilters');
+  if(cf) cf.addEventListener('click', () => {
+    f.hasPass=null; f.weak=false; f.reused=false; f.disposable=false; f.role=false; f.unclassified=false; f.country=null;
+    save(); renderAll({ animate:false });
+  });
+}
+
+/* ================= GROUPS RENDER ================= */
+function renderGroups(animate){
+  currentGroups = buildGroups(currentEntries());
+  if(!currentGroups.length){
+    groupsEl.innerHTML = `<div class="empty"><i data-lucide="search-x"></i><p>${
+      state.query ? esc(tf('noResultsFor', state.query)) : esc(t('noResults'))
+    }</p></div>`;
+    icons(); return;
+  }
+  const rowsFor = g => g.entries.map((e,i) => {
+    let secret = '';
+    if(e.part){
+      const sepTxt = esc(e.sep === '\t' ? ':' : e.sep);
+      const cls = (!state.masked && e.isWeak) ? ' weak' : '';
+      secret = state.masked
+        ? `<span class="ssep">${sepTxt}</span><span class="secret masked${cls}" data-part="${esc(e.part)}" title="${esc(t('titleReveal'))}">••••••••</span>`
+        : `<span class="ssep">${sepTxt}</span><span class="secret${cls}">${esc(e.part)}</span>`;
+    }
+    const flags = [];
+    if(e.isWeak)   flags.push(`<span class="flag weak" title="${esc(t('titleWeak'))}">${esc(t('flagWeak'))}</span>`);
+    if(e.isReused) flags.push(`<span class="flag reused" title="${esc(t('titleReused'))}">${esc(t('flagReused'))}</span>`);
+    if(e.isDisposable || e.isRole) flags.push(`<span class="flag temp" title="${esc(t('titleTemp'))}">${esc(t('flagTemp'))}</span>`);
+    return `<li class="row">
+      <span class="idx">${String(i+1).padStart(3,'0')}</span>
+      <span class="mail">${esc(e.email)}</span>${secret}
+      ${flags.length ? `<span class="flags">${flags.join('')}</span>` : ''}
+      <button class="icon-btn row-copy" data-line="${esc(e.line)}" title="${esc(t('titleCopyLine'))}" aria-label="${esc(t('titleCopyLine'))}">${SVG_COPY}</button>
+    </li>`;
+  }).join('');
+
+  groupsEl.innerHTML = currentGroups.map((g,i) => {
+    const domHtml = g.unknown
+      ? g.domains.map(([d,c]) => `<button class="dlink" data-act="classify" data-domain="${esc(d)}" title="${esc(t('titleClassify'))}">${esc(d)} ×${c}</button>`).join('')
+      : g.domains.map(([d,c]) => `<span>${esc(d)} ×${c}</span>`).join('');
+    const suggest = g.unknown && g.domains.length ? `<div class="suggest">${
+      g.domains.slice(0,4).map(([d]) => {
+        const tld = d.slice(d.lastIndexOf('.')+1);
+        const guessCode = TLD_COUNTRY[tld];
+        const guess = guessCode ? countryName(guessCode) : null;
+        if(!guess) return '';
+        return `<button class="sbtn" data-act="quickclassify" data-domain="${esc(d)}" data-country="${esc(guessCode)}"><i data-lucide="sparkles"></i>${esc(guess)} · ${esc(d)}</button>`;
+      }).join('')
+    }</div>` : '';
+    return `<section class="group${animate ? ' enter' : ''}" id="grp-${g.id}"${animate ? ` style="--d:${Math.min(i,10)*70}ms"` : ''}>
+      <header class="group-head">
+        <span class="badge${g.unknown ? ' unk' : ''}">${esc(g.code)}</span>
+        <h3>${esc(g.name)}</h3>
+        <div class="gdomains">${domHtml}</div>
+        <span class="gcount">${fmt(g.entries.length)} ${g.entries.length > 1 ? t('entryMany') : t('entryOne')}</span>
+        <div class="gactions">
+          <button class="icon-btn" data-act="copy" data-g="${g.id}" title="${esc(t('titleCopyGroup'))}" aria-label="${esc(t('titleCopyGroup'))}">${SVG_COPY}</button>
+          <button class="icon-btn" data-act="dl" data-g="${g.id}" title="${esc(t('titleDlGroup'))}" aria-label="${esc(t('titleDlGroup'))}"><i data-lucide="download"></i></button>
+        </div>
+      </header>
+      ${suggest}
+      <ol class="rows">${rowsFor(g)}</ol>
+    </section>`;
+  }).join('');
+  icons();
+  observeGroups();
+}
+
+/* ================= RAIL ================= */
+function renderRail(){
+  railEl.hidden = !parsed;
+  layoutEl.classList.toggle('has-rail', !!parsed);
+  if(!parsed) return;
+  railList.innerHTML = currentGroups.map(g => `
+    <button class="rail-item" data-target="grp-${g.id}">
+      <span class="rbadge">${esc(g.code)}</span>
+      <span class="rname">${esc(g.name)}</span>
+      <span class="leader"></span>
+      <span class="rcount">${fmt(g.entries.length)}</span>
+    </button>`).join('');
+  railCountries.textContent = tf('railGroups', currentGroups.length);
+  railTotal.textContent = tf('railTotal', fmt(currentGroups.reduce((s,g) => s + g.entries.length, 0)));
+}
+railList.addEventListener('click', e => {
+  const b = e.target.closest('.rail-item'); if(!b) return;
+  const tgt = document.getElementById(b.dataset.target);
+  if(tgt) tgt.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block:'start' });
+});
+
+function observeGroups(){
+  if(io) io.disconnect();
+  if(!('IntersectionObserver' in window)) return;
+  io = new IntersectionObserver(list => {
+    list.forEach(en => {
+      if(en.isIntersecting) railList.querySelectorAll('.rail-item')
+        .forEach(b => b.classList.toggle('on', b.dataset.target === en.target.id));
+    });
+  }, { rootMargin:'-90px 0px -62% 0px' });
+  document.querySelectorAll('.group').forEach(g => io.observe(g));
+}
+
+/* ================= DETAILS ================= */
+function renderDetails(){
+  const cap = 400;
+  let html = '';
+  const fold = (title, list) => `<details class="fold">
+    <summary><i data-lucide="chevron-right"></i>${title} — ${fmt(list.length)}</summary>
+    <ul>${list.slice(0,cap).map(l => `<li>${esc(l)}</li>`).join('')}
+    ${list.length > cap ? `<li class="more">${esc(tf('moreItems', fmt(list.length - cap)))}</li>` : ''}</ul></details>`;
+  if(parsed.dups.length)    html += fold(esc(t('foldDups')), parsed.dups);
+  if(parsed.invalid.length) html += fold(esc(t('foldInvalid')), parsed.invalid);
+  detailsEl.innerHTML = html; icons();
+}
+
+function updateSrcBar(){
+  if(!parsed) return;
+  const m = state.mode === 'email' ? t('dedupByEmail') : state.mode === 'line' ? t('dedupByLine') : t('dedupByFuzzy');
+  srcBarTxt.textContent = tf('srcBar', fmt(parsed.total), fmt(parsed.entries.length), m);
+}
+
+function renderAll(o = {}){
+  if(!parsed) return;
+  renderStats(!!o.animate);
+  renderGroups(!!o.animate);
+  renderRail();
+  renderDetails();
+  renderFilters();
+  renderDash();
+  updateSrcBar();
+}
+
+/* ================= TOASTS ================= */
+function toast(msg, icon = 'check'){
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.innerHTML = `<i data-lucide="${icon}"></i><span>${esc(msg)}</span>`;
+  toastsEl.appendChild(el); icons();
+  setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 260); }, 2400);
+}
+
+/* ================= COPY / DOWNLOAD ================= */
+async function copyText(txt){
+  try{ await navigator.clipboard.writeText(txt); return true; }
+  catch(e){
+    const x = document.createElement('textarea');
+    x.value = txt; x.style.cssText = 'position:fixed;opacity:0';
+    document.body.appendChild(x); x.select();
+    let ok = false; try{ ok = document.execCommand('copy'); }catch(_){}
+    x.remove(); return ok;
+  }
+}
+const slug = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'') || 'groupe';
+function download(name, text){
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([text], { type:'text/plain;charset=utf-8' }));
+  a.download = name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+}
+function csvCell(v){
+  v = String(v ?? '');
+  return /[",\n;]/.test(v) ? `"${v.replace(/"/g,'""')}"` : v;
+}
+function applyTemplate(tmpl, e, i){
+  return tmpl.replace(/\{(\w+)\}/g, (_, k) => {
+    const c = resolveCountry(e.domain);
+    switch(k){
+      case 'email': return e.email;
+      case 'password': return e.part || '';
+      case 'country': return c.name;
+      case 'country_code': return c.code;
+      case 'domain': return e.domain;
+      case 'line': return e.line;
+      case 'index': return String(i+1);
+      default: return '';
+    }
+  });
+}
+const hasVar = tmpl => /\{\w+\}/.test(tmpl);
+
+/* ================= DO PARSE ================= */
+function doParse(o = {}){
+  const txt = ta.value;
+  if(!txt.trim()){ toast(t('pasteFirst'), 'ban'); ta.focus(); return; }
+  state.raw = txt; save();
+  parsed = parseSource(txt, state.mode);
+  analyzePasswords(parsed.entries);
+  if(!parsed.entries.length){
+    resultsStage.hidden = true; railEl.hidden = true; layoutEl.classList.remove('has-rail');
+    inputStage.hidden = false;
+    toast(parsed.total ? t('noValidEmail') : t('emptyList'), 'ban');
+    return;
+  }
+  inputStage.hidden = true; srcBar.hidden = false; resultsStage.hidden = false;
+  renderAll({ animate: o.animate !== false });
+  if(o.scroll) resultsStage.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block:'start' });
+  if(o.notify !== false){
+    const n = currentGroups.length, d = parsed.dups.length;
+    toast(tf('sortedToast', fmt(parsed.entries.length), n, fmt(d)), 'check-check');
+  }
+}
+btnParse.addEventListener('click', () => doParse({ scroll:true }));
+
+/* ================= TEXTAREA ================= */
+function grow(){ ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight, innerHeight * 0.55) + 'px'; }
+function computeMeta(){
+  const txt = ta.value;
+  if(!txt.trim()){ srcMeta.textContent = t('waiting'); return; }
+  const lines = txt.split(/\r?\n/).filter(l => l.trim()).length;
+  const mails = (txt.match(EMAIL_G) || []).length;
+  srcMeta.textContent = tf('metaLive', fmt(lines), fmt(mails));
+}
+const updateMeta = debounce(computeMeta, 200);
+const saveRaw = debounce(() => { state.raw = ta.value; save(); }, 400);
+ta.addEventListener('input', () => { grow(); updateMeta(); saveRaw(); });
+ta.addEventListener('keydown', e => { if((e.ctrlKey || e.metaKey) && e.key === 'Enter'){ e.preventDefault(); doParse({ scroll:true }); } });
+
+/* ================= DRAG & DROP ================= */
+['dragenter','dragover'].forEach(ev => editorWrap.addEventListener(ev, e => {
+  e.preventDefault(); editorWrap.classList.add('drag-over');
+}));
+['dragleave','drop'].forEach(ev => editorWrap.addEventListener(ev, e => {
+  e.preventDefault(); editorWrap.classList.remove('drag-over');
+}));
+editorWrap.addEventListener('drop', e => {
+  const f = e.dataTransfer.files[0]; if(!f) return;
+  readFile(f);
+});
+function readFile(f){
+  const r = new FileReader();
+  r.onload = () => {
+    ta.value = String(r.result || '');
+    grow(); computeMeta(); state.raw = ta.value; save();
+    toast(tf('fileLoaded', fmt(ta.value.split(/\r?\n/).length)), 'file-text');
+    doParse({ scroll:true, notify:false });
+  };
+  r.readAsText(f, 'utf-8');
+}
+
+/* ================= EXAMPLE ================= */
+const EXAMPLE = `yeti-1962@aon.at/owmagnxe
+dqbarrie@bellnet.ca/Canada20$ mar.brunner@aon.at/Fm28042005.
+zahn.machac@aon.at/Ferlach9614
+zahn.machac@aon.at/Ferlach9614
+zahn.machac@aon.at/OtherPass2
+dqbarrie@bellnet.ca/Canada20$ contact@gmail.com:SuperPass99
+leo.dupont@orange.fr/MonMdp2024
+anna.schmidt@web.de/Hallo123!
+admin@somecorp.com:123456
+no-reply@randomtemp.io:qwerty
+cette ligne n'a pas d'email valide`;
+btnExample.addEventListener('click', () => {
+  ta.value = EXAMPLE; grow(); computeMeta();
+  state.raw = EXAMPLE; save();
+  doParse({ scroll:true });
+});
+
+/* ================= CLEAR ================= */
+function updateClearLabel(){
+  const s = btnClear.querySelector('span');
+  if(s) s.textContent = clearArm ? t('clearConfirm') : t('clearBtn');
+}
+btnClear.addEventListener('click', () => {
+  if(!clearArm){
+    clearArm = true; btnClear.classList.add('armed');
+    updateClearLabel();
+    clearArmT = setTimeout(disarmClear, 2800);
+  } else { clearTimeout(clearArmT); doClear(); }
+});
+function disarmClear(){ clearArm = false; btnClear.classList.remove('armed'); updateClearLabel(); }
+function doClear(){
+  disarmClear();
+  state.raw = ''; state.query = ''; parsed = null; save();
+  ta.value = ''; qEl.value = ''; grow(); computeMeta();
+  resultsStage.hidden = true; railEl.hidden = true; layoutEl.classList.remove('has-rail');
+  srcBar.hidden = true; inputStage.hidden = false;
+  window.scrollTo({ top:0, behavior: reduced ? 'auto' : 'smooth' });
+  toast(t('listCleared'), 'trash-2');
+  ta.focus();
+}
+
+/* ================= EDIT SOURCE ================= */
+btnEdit.addEventListener('click', () => {
+  srcBar.hidden = true; inputStage.hidden = false;
+  window.scrollTo({ top:0, behavior: reduced ? 'auto' : 'smooth' });
+  setTimeout(() => { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }, reduced ? 0 : 350);
+});
+
+/* ================= DEDUP SEGMENT ================= */
+function updateSeg(){ $$('.seg button').forEach(b => b.classList.toggle('on', b.dataset.mode === state.mode)); }
+$$('.seg button').forEach(b => {
+  b.addEventListener('click', () => {
+    if(state.mode === b.dataset.mode) return;
+    state.mode = b.dataset.mode; save(); updateSeg();
+    if(parsed) doParse({ animate:false, scroll:false, notify:false });
+  });
+});
+
+/* ================= SORT ================= */
+sortBySel.addEventListener('change', () => {
+  state.sortBy = sortBySel.value; save();
+  if(parsed) renderAll({ animate:false });
+});
+
+/* ================= MASK ================= */
+function setMaskUI(){
+  btnMask.innerHTML = `<i data-lucide="${state.masked ? 'eye' : 'eye-off'}"></i><span>${state.masked ? t('maskShow') : t('maskHide')}</span>`;
+  icons();
+}
+btnMask.addEventListener('click', () => {
+  state.masked = !state.masked; save(); setMaskUI();
+  if(parsed) renderGroups(false);
+});
+
+/* ================= SEARCH ================= */
+qEl.addEventListener('input', debounce(() => {
+  state.query = qEl.value;
+  if(parsed) renderAll({ animate:false });
+}, 140));
+
+/* ================= MODAL HELPERS ================= */
+function openModal(el){ el.hidden = false; activeModal = el; }
+function closeModal(el){ el.hidden = true; if(activeModal === el) activeModal = null; }
+function closeAnyModal(){
+  [modalBack, copyModal, exportModal, shortcutModal].forEach(m => { if(!m.hidden) closeModal(m); });
+}
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape' && activeModal){ closeModal(activeModal); }
+});
+
+/* ================= COPY MODAL ================= */
+function openCopy(){
+  const es = currentEntries();
+  if(!es.length){ toast(t('nothingToCopy'), 'ban'); return; }
+  const opt = (icon, label, desc, action) => `<button class="option" data-act="${action}">
+    <i data-lucide="${icon}"></i><span>${esc(label)}</span>${desc?`<span class="opt-desc">${esc(desc)}</span>`:''}</button>`;
+  copyOptions.innerHTML =
+    opt('clipboard-list', t('copyAll'), '', 'all') +
+    opt('at-sign', t('copyEmails'), '', 'emails') +
+    opt('key-round', t('copyPasswords'), '', 'passwords') +
+    opt('globe-2', t('copyByCountry'), '', 'byCountry') +
+    opt('braces', t('copyCustom'), '', 'custom');
+  openModal(copyModal); icons();
+}
+btnCopyMenu.addEventListener('click', openCopy);
+btnCopyClose.addEventListener('click', () => closeModal(copyModal));
+copyModal.addEventListener('click', e => { if(e.target === copyModal) closeModal(copyModal); });
+copyOptions.addEventListener('click', async e => {
+  const b = e.target.closest('.option'); if(!b) return;
+  const act = b.dataset.act;
+  const es = currentEntries();
+  let text = '', msg = '', ok = false;
+  if(act === 'all'){
+    text = es.map(e => e.line).join('\n');
+    ok = await copyText(text); if(ok) msg = tf('copyAllCopied', fmt(es.length));
+  } else if(act === 'emails'){
+    text = es.map(e => e.email).join('\n');
+    ok = await copyText(text); if(ok) msg = tf('copyEmailsCopied', fmt(es.length));
+  } else if(act === 'passwords'){
+    const withP = es.filter(e => e.part);
+    if(!withP.length){ toast(t('noPasswords'), 'ban'); return; }
+    text = withP.map(e => e.part).join('\n');
+    ok = await copyText(text); if(ok) msg = tf('copyPasswordsCopied', fmt(withP.length));
+  } else if(act === 'byCountry'){
+    const groups = buildGroups(es);
+    text = groups.map(g => `# ${g.name}\n` + g.entries.map(x => x.line).join('\n')).join('\n\n');
+    ok = await copyText(text); if(ok) msg = tf('copyByCountryCopied', fmt(groups.length));
+  } else if(act === 'custom'){
+    const tmpl = state.outputTemplate || '{email};{password};{country_code}';
+    if(!hasVar(tmpl)){ toast(t('tmplInvalid'), 'ban'); return; }
+    text = es.map((e,i) => applyTemplate(tmpl, e, i)).join('\n');
+    ok = await copyText(text); if(ok) msg = tf('copyCustomCopied', fmt(es.length));
+  }
+  toast(ok ? msg : t('copyFailed'), ok ? 'clipboard-check' : 'ban');
+  if(ok) closeModal(copyModal);
+});
+
+/* ================= EXPORT MODAL ================= */
+function openExport(){
+  const es = currentEntries();
+  if(!es.length){ toast(t('nothingToExport'), 'ban'); return; }
+  const opt = (icon, label, action) => `<button class="option" data-act="${action}">
+    <i data-lucide="${icon}"></i><span>${esc(label)}</span></button>`;
+  exportOptions.innerHTML =
+    opt('file-text', t('exportTxt'), 'txt') +
+    opt('at-sign', t('exportEmailsTxt'), 'emails_txt') +
+    opt('key-round', t('exportPasswordsTxt'), 'passwords_txt') +
+    opt('table-2', t('exportCsv'), 'csv') +
+    opt('table', t('exportCsvEmails'), 'csv_emails') +
+    opt('braces', t('exportJson'), 'json') +
+    opt('file-code', t('exportCustom'), 'custom');
+  tmplInput.value = state.outputTemplate || '';
+  openModal(exportModal); icons();
+}
+btnExportMenu.addEventListener('click', openExport);
+btnExportClose.addEventListener('click', () => closeModal(exportModal));
+exportModal.addEventListener('click', e => { if(e.target === exportModal) closeModal(exportModal); });
+tmplInput.addEventListener('input', debounce(() => { state.outputTemplate = tmplInput.value; save(); }, 300));
+
+exportOptions.addEventListener('click', e => {
+  const b = e.target.closest('.option'); if(!b) return;
+  const act = b.dataset.act;
+  const es = currentEntries();
+  const groups = buildGroups(es);
+  let text = '', name = 'sortium_export.txt', msg = '';
+  if(act === 'txt'){
+    text = es.map(e => e.line).join('\n');
+    msg = tf('exportedN', fmt(es.length));
+  } else if(act === 'emails_txt'){
+    text = es.map(e => e.email).join('\n'); name = 'sortium_emails.txt';
+    msg = tf('exportedN', fmt(es.length));
+  } else if(act === 'passwords_txt'){
+    const withP = es.filter(e => e.part);
+    if(!withP.length){ toast(t('noPasswords'), 'ban'); return; }
+    text = withP.map(e => e.part).join('\n'); name = 'sortium_passwords.txt';
+    msg = tf('exportedN', fmt(withP.length));
+  } else if(act === 'csv'){
+    const rows = ['email,password,country,domain,line'];
+    es.forEach(e => {
+      const c = resolveCountry(e.domain);
+      rows.push([e.email, e.part||'', c.name, e.domain, e.line].map(csvCell).join(','));
+    });
+    text = rows.join('\n'); name = 'sortium_export.csv';
+    msg = tf('exportedN', fmt(es.length));
+  } else if(act === 'csv_emails'){
+    const rows = ['email,country,domain'];
+    es.forEach(e => {
+      const c = resolveCountry(e.domain);
+      rows.push([e.email, c.name, e.domain].map(csvCell).join(','));
+    });
+    text = rows.join('\n'); name = 'sortium_emails.csv';
+    msg = tf('exportedN', fmt(es.length));
+  } else if(act === 'json'){
+    const arr = groups.map(g => ({
+      country: g.name, code: g.code,
+      count: g.entries.length,
+      entries: g.entries.map(e => ({ email:e.email, password:e.part||'', domain:e.domain, line:e.line }))
+    }));
+    text = JSON.stringify({ source:{ total:parsed.total, valid:parsed.entries.length, duplicates:parsed.dups.length, ignored:parsed.invalid.length }, groups:arr }, null, 2);
+    name = 'sortium_export.json';
+    msg = tf('exportedN', fmt(es.length));
+  } else if(act === 'custom'){
+    const tmpl = tmplInput.value || state.outputTemplate || '{email};{password};{country_code}';
+    if(!hasVar(tmpl)){ toast(t('tmplInvalid'), 'ban'); return; }
+    state.outputTemplate = tmpl; save();
+    text = es.map((e,i) => applyTemplate(tmpl, e, i)).join('\n');
+    name = 'sortium_custom.txt';
+    msg = tf('exportedN', fmt(es.length));
+  }
+  download(name, text);
+  toast(msg, 'download');
+  closeModal(exportModal);
+});
+
+/* ================= GROUP ACTIONS ================= */
+groupsEl.addEventListener('click', async e => {
+  const sec = e.target.closest('.secret');
+  if(sec && sec.dataset.part){
+    if(sec.classList.contains('masked')){ sec.textContent = sec.dataset.part; sec.classList.remove('masked'); sec.classList.add('on'); }
+    else { sec.textContent = '••••••••'; sec.classList.add('masked'); sec.classList.remove('on'); }
+    return;
+  }
+  const rc = e.target.closest('.row-copy');
+  if(rc){
+    const ok = await copyText(rc.dataset.line);
+    toast(ok ? t('lineCopied') : t('copyFailed'), ok ? 'clipboard-check' : 'ban');
+    return;
+  }
+  const btn = e.target.closest('[data-act]'); if(!btn) return;
+  const act = btn.dataset.act;
+
+  if(act === 'quickclassify'){
+    const d = btn.dataset.domain, c = btn.dataset.country;
+    if(!d || !c) return;
+    state.custom[d] = c; save();
+    toast(tf('ruleSaved', d, countryName(c)), 'check');
+    renderAll({ animate:false });
+    return;
+  }
+
+  if(act === 'copy' || act === 'dl'){
+    const g = currentGroups.find(x => x.id == btn.dataset.g); if(!g) return;
+    const text = g.entries.map(x => x.line).join('\n');
+    if(act === 'copy'){
+      const ok = await copyText(text);
+      toast(ok ? tf('groupCopied', g.name, fmt(g.entries.length)) : t('copyFailed'), ok ? 'clipboard-check' : 'ban');
+    } else {
+      download(`sortium_${slug(g.name)}.txt`, text);
+      toast(tf('groupExported', g.name, fmt(g.entries.length)), 'download');
+    }
+  }
+  if(act === 'classify') openMap(btn.dataset.domain);
+});
+
+/* ================= MAP MODAL ================= */
+function populateCountries(){
+  const codes = Object.keys(COUNTRIES).sort((a,b) => countryName(a).localeCompare(countryName(b), lang));
+  mapCountry.innerHTML = `<option value="" disabled selected>${esc(t('chooseCountry'))}</option>`
+    + codes.map(c => `<option value="${esc(c)}">${esc(countryName(c))}</option>`).join('');
+}
+function openMap(domain = ''){
+  mapDomain.value = domain || '';
+  mapCountry.selectedIndex = 0;
+  renderRules();
+  openModal(modalBack);
+  (domain ? mapCountry : mapDomain).focus();
+}
+btnMap.addEventListener('click', () => openMap());
+btnModalClose.addEventListener('click', () => closeModal(modalBack));
+modalBack.addEventListener('click', e => { if(e.target === modalBack) closeModal(modalBack); });
+
+mapForm.addEventListener('submit', e => {
+  e.preventDefault();
+  const d = mapDomain.value.trim().toLowerCase().replace(/^@/, '');
+  const c = mapCountry.value;
+  if(!/^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$/.test(d)){
+    toast(t('invalidDomain'), 'ban'); mapDomain.focus(); return;
+  }
+  if(!c){ toast(t('chooseACountry'), 'ban'); return; }
+  state.custom[d] = c; save();
+  mapDomain.value = ''; mapCountry.selectedIndex = 0; mapDomain.focus();
+  renderRules();
+  if(parsed) renderAll({ animate:false });
+  toast(tf('ruleSaved', d, countryName(c)), 'check');
+});
+function renderRules(){
+  const ks = Object.keys(state.custom).sort();
+  rulesCount.textContent = ks.length;
+  if(!ks.length){ rulesWrap.innerHTML = `<div class="rules-empty">${esc(t('noRules'))}</div>`; return; }
+  rulesWrap.innerHTML = `<ul class="rules">${ks.map(d =>
+    `<li><span class="rule-dom">${esc(d)}</span><span class="rule-arrow">→</span><span class="rule-c">${esc(countryName(normalizeCountryCode(state.custom[d]) || state.custom[d]))}</span>
+     <button class="icon-btn" data-del="${esc(d)}" aria-label="${esc(t('deleteAria'))}"><i data-lucide="x"></i></button></li>`).join('')}</ul>`;
+  icons();
+}
+rulesWrap.addEventListener('click', e => {
+  const b = e.target.closest('[data-del]'); if(!b) return;
+  delete state.custom[b.dataset.del]; save(); renderRules();
+  if(parsed) renderAll({ animate:false });
+  toast(t('ruleDeleted'), 'trash-2');
+});
+
+/* ================= RULES IMPORT/EXPORT ================= */
+btnRulesExport.addEventListener('click', () => {
+  const data = JSON.stringify({ version:2, rules:state.custom }, null, 2);
+  download('sortium_rules.json', data);
+  toast(t('rulesExported'), 'download');
+});
+btnRulesImport.addEventListener('click', () => {
+  const inp = document.createElement('input');
+  inp.type = 'file'; inp.accept = '.json,application/json';
+  inp.onchange = () => {
+    const f = inp.files[0]; if(!f) return;
+    const r = new FileReader();
+    r.onload = () => {
+      try{
+        const d = JSON.parse(String(r.result));
+        const rules = d.rules && typeof d.rules === 'object' ? d.rules : d;
+        let n = 0;
+        for(const [dom, country] of Object.entries(rules)){
+          const domOk = /^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$/.test(dom.toLowerCase());
+          const codeOk = normalizeCountryCode(country);
+          if(domOk && codeOk){ state.custom[dom.toLowerCase()] = codeOk; n++; }
+        }
+        save(); renderRules();
+        if(parsed) renderAll({ animate:false });
+        toast(n ? tf('rulesImported', n) : t('rulesImportedNone'), n ? 'check' : 'ban');
+      }catch(_){ toast(t('invalidJSON'), 'ban'); }
+    };
+    r.readAsText(f);
+  };
+  inp.click();
+});
+
+/* ================= SHORTCUTS MODAL ================= */
+btnShortcuts.addEventListener('click', () => { openModal(shortcutModal); });
+btnShortcutClose.addEventListener('click', () => closeModal(shortcutModal));
+shortcutModal.addEventListener('click', e => { if(e.target === shortcutModal) closeModal(shortcutModal); });
+
+/* ================= GLOBAL KEYBOARD ================= */
+document.addEventListener('keydown', e => {
+  const tag = (e.target.tagName || '').toLowerCase();
+  const typing = tag === 'input' || tag === 'textarea' || tag === 'select';
+  if(e.key === 'Escape' && activeModal){ closeModal(activeModal); return; }
+  if(typing) return;
+  if(e.metaKey || e.ctrlKey || e.altKey) return;
+  switch(e.key){
+    case '/':
+      e.preventDefault(); qEl.focus(); break;
+    case 'e': case 'E':
+      if(parsed) openExport(); break;
+    case 'c': case 'C':
+      if(parsed) openCopy(); break;
+    case 'm': case 'M':
+      btnMask.click(); break;
+    case 'g': case 'G':
+      openMap(); break;
+    case '?':
+      openModal(shortcutModal); break;
+  }
+});
+
+/* ================= LANG ================= */
+function applyLang(next){
+  lang = next;
+  state.lang = lang; save();
+  document.documentElement.lang = lang;
+  document.title = t('title');
+
+  $$('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
+  $$('[data-i18n-html]').forEach(el => { el.innerHTML = t(el.dataset.i18nHtml); });
+  $$('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
+  $$('[data-i18n-title]').forEach(el => { el.title = t(el.dataset.i18nTitle); });
+  $$('[data-i18n-aria]').forEach(el => { el.setAttribute('aria-label', t(el.dataset.i18nAria)); });
+  $$('.lang-seg button').forEach(b => b.classList.toggle('on', b.dataset.lang === lang));
+
+  // Update select options
+  const sortOpts = sortBySel.querySelectorAll('option');
+  sortOpts.forEach(o => { o.textContent = t(o.dataset.i18n); });
+
+  updateSeg();
+  setMaskUI();
+  updateClearLabel();
+  computeMeta();
+  populateCountries();
+  renderRules();
+
+  if(parsed){
+    renderStats(false);
+    renderGroups(false);
+    renderRail();
+    renderDetails();
+    renderFilters();
+    renderDash();
+    updateSrcBar();
+  }
+  icons();
+}
+$$('.lang-seg button').forEach(b => {
+  b.addEventListener('click', () => { if(b.dataset.lang === lang) return; applyLang(b.dataset.lang); });
+});
+
+/* ================= INIT ================= */
+(function init(){
+  load();
+  ta.value = state.raw || '';
+  lang = (state.lang === 'en' || state.lang === 'fr') ? state.lang : 'fr';
+  // Restore sort & dash
+  if(state.sortBy) sortBySel.value = state.sortBy;
+  if(state.dashOpen) $('#dash').open = true;
+  grow();
+  applyLang(lang);
+  // Dashboard persistence
+  $('#dash').addEventListener('toggle', () => { state.dashOpen = $('#dash').open; save(); });
+  if(state.raw && state.raw.trim()) doParse({ animate:true, scroll:false, notify:false });
+  icons();
+})();
+</script>
+</body>
+</html>
