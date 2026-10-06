@@ -69,16 +69,14 @@ input,select,textarea{font-family:inherit}
 .ghost-btn.sm{height:34px;padding:0 12px;font-size:11.5px}
 .ghost-btn.danger:hover{border-color:var(--red);color:var(--red)}
 .ghost-btn.armed{border-color:var(--red);color:var(--red);background:rgba(196,103,79,.08)}
-.ghost-btn.has-filters{border-color:rgba(213,165,75,.5);color:var(--gold)}
 .link-btn{background:none;border:none;color:var(--gold);font:500 12px var(--fb);padding:0;letter-spacing:.02em}
 .link-btn:hover{color:var(--gold-bright);text-decoration:underline;text-underline-offset:3px}
+.link-btn.danger{color:var(--red)}
+.link-btn.danger:hover{color:#d88a76}
 .icon-btn{width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;flex:none;
   border:1px solid var(--line);border-radius:6px;background:transparent;color:var(--muted);transition:.18s}
 .icon-btn:hover{border-color:var(--gold);color:var(--gold)}
 .icon-btn svg{width:14px;height:14px}
-.icon-btn.flag-weak{color:var(--red);border-color:rgba(196,103,79,.4)}
-.icon-btn.flag-dup{color:var(--gold);border-color:rgba(213,165,75,.4)}
-.icon-btn.flag-temp{color:var(--blue);border-color:rgba(122,157,196,.4)}
 
 /* ============ LAYOUT ============ */
 .layout{max-width:1200px;margin:0 auto;padding:0 28px;display:grid;align-items:start;
@@ -92,9 +90,19 @@ input,select,textarea{font-family:inherit}
 .hero em{font-style:normal;color:var(--gold)}
 .sub{margin-top:18px;max-width:620px;color:var(--muted);font:400 15px/1.7 var(--fb)}
 .editor-wrap{margin-top:32px;border:1px solid var(--line);border-radius:10px;background:var(--panel);
-  transition:border-color .2s, box-shadow .2s;position:relative}
+  transition:border-color .2s, box-shadow .2s;position:relative;overflow:hidden}
 .editor-wrap:focus-within{border-color:rgba(213,165,75,.45);box-shadow:0 0 0 3px rgba(213,165,75,.09)}
 .editor-wrap.drag-over{border-color:var(--gold);border-style:dashed;background:rgba(213,165,75,.05)}
+.editor-top{display:flex;align-items:center;gap:8px;padding:10px 14px;
+  border-bottom:1px solid var(--line);flex-wrap:wrap;background:rgba(25,24,19,.4)}
+.source-btn{display:inline-flex;align-items:center;gap:7px;background:transparent;
+  border:1px solid var(--line);color:var(--muted);border-radius:7px;height:32px;
+  padding:0 12px;font:500 11.5px var(--fb);transition:.18s;cursor:pointer}
+.source-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(213,165,75,.06)}
+.source-btn svg{width:14px;height:14px}
+.source-btn.primary-source{color:var(--gold);border-color:rgba(213,165,75,.4);background:rgba(213,165,75,.06)}
+.source-btn.primary-source:hover{background:rgba(213,165,75,.16)}
+.editor-top .link-btn{margin-left:auto}
 .drop-hint{position:absolute;inset:0;display:none;align-items:center;justify-content:center;
   background:rgba(13,13,11,.85);border-radius:10px;font:500 14px var(--fb);color:var(--gold);pointer-events:none}
 .editor-wrap.drag-over .drop-hint{display:flex}
@@ -123,8 +131,8 @@ input,select,textarea{font-family:inherit}
 .srcbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
   border:1px solid var(--line);border-radius:8px;padding:11px 14px;margin-top:22px;background:var(--panel)}
 .srcbar span{font:400 10.5px var(--fm);letter-spacing:.08em;color:var(--muted);text-transform:uppercase;overflow-wrap:anywhere}
+.srcbar-actions{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
 
-/* Stats dashboard */
 .dash{border:1px solid var(--line);border-radius:8px;margin-top:14px;background:var(--panel);overflow:hidden}
 .dash summary{list-style:none;display:flex;align-items:center;gap:9px;padding:12px 16px;cursor:pointer;
   font:500 11px var(--fm);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
@@ -160,11 +168,9 @@ input,select,textarea{font-family:inherit}
 .select-wrap select{appearance:none;height:40px;background:var(--panel);border:1px solid var(--line);
   border-radius:8px;color:var(--ink);font:500 12px var(--fb);padding:0 34px 0 13px;outline:none;cursor:pointer;transition:.18s}
 .select-wrap select:hover{border-color:var(--gold)}
-.select-wrap select:focus{border-color:rgba(213,165,75,.5)}
 .select-wrap::after{content:'';position:absolute;right:13px;top:50%;transform:translateY(-50%);
   width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-top:5px solid var(--muted);pointer-events:none}
 
-/* Filter chips */
 .filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0 4px}
 .chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--panel);
   color:var(--muted);border-radius:99px;height:28px;padding:0 12px;font:500 11px var(--fb);transition:.15s;white-space:nowrap}
@@ -176,7 +182,6 @@ input,select,textarea{font-family:inherit}
 .clear-filters{background:none;border:none;color:var(--faint);font:400 11px var(--fb);padding:0 6px;text-decoration:underline;text-underline-offset:3px}
 .clear-filters:hover{color:var(--red)}
 
-/* --- Index dyal l-pays (rail) --- */
 .rail{position:sticky;top:86px;max-height:calc(100vh - 120px);overflow:auto;padding:46px 0 40px;scrollbar-width:thin}
 .rail-title{display:flex;justify-content:space-between;font:500 10px var(--fm);letter-spacing:.2em;
   text-transform:uppercase;color:var(--faint);padding:0 8px 12px;border-bottom:1px solid var(--line);margin-bottom:10px}
@@ -194,7 +199,6 @@ input,select,textarea{font-family:inherit}
 .rail-total{margin-top:14px;padding:12px 8px 0;border-top:1px solid var(--line);
   font:500 9.5px var(--fm);letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
 
-/* --- Groupes --- */
 #groups{margin-top:16px}
 .group{margin-bottom:40px;scroll-margin-top:86px}
 .group-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;position:relative;padding:16px 0 12px;
@@ -227,9 +231,15 @@ input,select,textarea{font-family:inherit}
 .flag.weak{color:var(--red);border:1px solid rgba(196,103,79,.4)}
 .flag.reused{color:var(--gold);border:1px solid rgba(213,165,75,.4)}
 .flag.temp{color:var(--blue);border:1px solid rgba(122,157,196,.4)}
-.row-copy{margin-left:auto;opacity:0;transform:translateX(4px);transition:.18s}
-.row:hover .row-copy{opacity:1;transform:none}
-@media(hover:none){.row-copy{opacity:.7;transform:none}}
+
+/* ====== ROW ACTIONS (copy + delete) ====== */
+.row-actions{margin-left:auto;display:flex;gap:6px;align-items:center;flex:none;
+  opacity:0;transform:translateX(4px);transition:.18s}
+.row:hover .row-actions{opacity:1;transform:none}
+@media(hover:none){.row-actions{opacity:.7;transform:none}}
+.row-actions .icon-btn.row-del:hover{border-color:var(--red);color:var(--red)}
+.row-actions .icon-btn.row-del:hover svg{color:var(--red)}
+
 .empty{display:flex;flex-direction:column;align-items:center;gap:12px;padding:70px 0;color:var(--faint)}
 .empty svg{width:30px;height:30px}
 .empty p{font:400 13px var(--fb);color:var(--muted)}
@@ -239,7 +249,6 @@ input,select,textarea{font-family:inherit}
   background:rgba(213,165,75,.05);color:var(--gold);border-radius:6px;padding:5px 10px;font:500 11px var(--fb);transition:.15s}
 .suggest .sbtn:hover{background:rgba(213,165,75,.14);border-style:solid}
 
-/* Animations */
 .group.enter{animation:grpIn .55s cubic-bezier(.22,1,.36,1) both;animation-delay:var(--d,0ms)}
 @keyframes grpIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 .group.enter .group-head::after{transform-origin:left;animation:ruleIn .7s .18s cubic-bezier(.22,1,.36,1) both}
@@ -247,7 +256,6 @@ input,select,textarea{font-family:inherit}
 .group.enter .badge{animation:badgeIn .4s .2s cubic-bezier(.22,1,.36,1) both}
 @keyframes badgeIn{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:none}}
 
-/* Détails */
 .fold{border:1px solid var(--line);border-radius:8px;margin-top:12px;background:var(--panel)}
 .fold summary{list-style:none;display:flex;align-items:center;gap:9px;padding:12px 16px;cursor:pointer;
   font:500 11px var(--fm);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
@@ -259,7 +267,6 @@ input,select,textarea{font-family:inherit}
 .fold li:last-child{border-bottom:none}
 .fold li.more{color:var(--gold)}
 
-/* ============ MODAL ============ */
 .modal-back{position:fixed;inset:0;z-index:100;background:rgba(8,8,7,.72);backdrop-filter:blur(7px);
   display:flex;align-items:center;justify-content:center;padding:20px}
 .modal{width:min(560px,100%);max-height:calc(100vh - 40px);overflow:auto;background:#141412;border:1px solid var(--line-strong);border-radius:12px;
@@ -283,16 +290,10 @@ input,select,textarea{font-family:inherit}
 .rules-title{margin:20px 0 10px;font:500 10px var(--fm);letter-spacing:.16em;text-transform:uppercase;color:var(--faint);
   display:flex;align-items:center;justify-content:space-between;gap:10px}
 .rules-actions{display:flex;gap:10px}
-
-.option-list{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
 .option{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);
   border-radius:8px;padding:12px 14px;text-align:left;transition:.15s;color:var(--ink);font:500 13px var(--fb);width:100%}
 .option:hover{border-color:var(--gold);background:rgba(213,165,75,.05)}
 .option svg{width:16px;height:16px;color:var(--gold);flex:none}
-.option .opt-desc{margin-left:auto;font:400 11px var(--fm);color:var(--faint)}
-.option-group-title{font:500 9.5px var(--fm);letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin:14px 0 8px}
-.option-group-title:first-child{margin-top:0}
-
 .rules{list-style:none;max-height:230px;overflow:auto;border:1px solid var(--line);border-radius:8px}
 .rules li{display:flex;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid var(--line);font:400 12px var(--fm)}
 .rules li:last-child{border-bottom:none}
@@ -301,12 +302,10 @@ input,select,textarea{font-family:inherit}
 .rules-empty{padding:18px 14px;color:var(--faint);font:400 12px var(--fb);
   border:1px dashed var(--line);border-radius:8px;text-align:center}
 
-/* Shortcuts overlay */
 .kbd-grid{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;font:400 12.5px var(--fb);color:var(--muted)}
 .kbd{font:500 11px var(--fm);color:var(--ink);background:var(--panel);border:1px solid var(--line);
   border-bottom-width:2px;border-radius:5px;padding:3px 8px;text-align:center;min-width:36px}
 
-/* ============ TOASTS & FOOTER ============ */
 .toasts{position:fixed;right:22px;bottom:22px;z-index:400;display:flex;flex-direction:column;gap:9px;align-items:flex-end}
 .toast{display:flex;align-items:center;gap:10px;max-width:min(420px,calc(100vw - 44px));
   background:#191813;border:1px solid var(--line-strong);border-left:2px solid var(--gold);border-radius:8px;
@@ -319,10 +318,8 @@ input,select,textarea{font-family:inherit}
 footer{margin-top:70px;border-top:1px solid var(--line);padding:22px 28px 44px}
 .foot-in{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
   font:500 9.5px var(--fm);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
-.foot-in .kbd-hint{color:var(--faint)}
 .foot-in .kbd-hint b{color:var(--muted);font-weight:500;border:1px solid var(--line);border-radius:4px;padding:1px 5px}
 
-/* ============ RESPONSIVE ============ */
 @media(max-width:920px){
   .rail{display:none}
   .layout.has-rail{grid-template-columns:minmax(0,1fr)}
@@ -380,6 +377,15 @@ footer{margin-top:70px;border-top:1px solid var(--line);padding:22px 28px 44px}
       <p class="sub" data-i18n="sub">Collez vos emails — seuls ou avec mot de passe après un séparateur. SORTIUM détecte les domaines, classe chaque adresse par pays, supprime les doublons et vous laisse tout copier ou exporter. Tout se passe dans votre navigateur, rien n'est envoyé nulle part.</p>
 
       <div class="editor-wrap" id="editorWrap">
+        <div class="editor-top">
+          <button type="button" class="source-btn primary-source" id="btnPaste">
+            <i data-lucide="clipboard-paste"></i><span data-i18n="pasteBtn">Coller</span>
+          </button>
+          <button type="button" class="source-btn" id="btnUpload">
+            <i data-lucide="upload"></i><span data-i18n="uploadBtn">Importer un fichier</span>
+          </button>
+          <button type="button" class="link-btn" id="btnExample" data-i18n="loadExample">Charger l'exemple</button>
+        </div>
         <textarea id="src" spellcheck="false" autocomplete="off" data-i18n-ph="srcPh"
           placeholder="yeti-1962@aon.at/owmagnxe&#10;dqbarrie@bellnet.ca/Canada20$&#10;mar.brunner@aon.at/Fm28042005.&#10;zahn.machac@aon.at/Ferlach9614"></textarea>
         <div class="drop-hint" data-i18n="dropHint">Déposez un fichier .txt / .csv ici</div>
@@ -387,7 +393,6 @@ footer{margin-top:70px;border-top:1px solid var(--line);padding:22px 28px 44px}
           <span id="srcMeta">En attente de collage…</span>
           <div class="foot-right">
             <span class="hint" data-i18n-html="ctrlHint"><b>Ctrl</b> + <b>Entrée</b> pour analyser</span>
-            <button class="link-btn" id="btnExample" data-i18n="loadExample">Charger l'exemple</button>
           </div>
         </div>
       </div>
@@ -414,7 +419,10 @@ footer{margin-top:70px;border-top:1px solid var(--line);padding:22px 28px 44px}
 
       <div class="srcbar" id="srcBar" hidden>
         <span id="srcBarTxt"></span>
-        <button class="link-btn" id="btnEdit" data-i18n="editSource">Modifier la source</button>
+        <div class="srcbar-actions">
+          <button class="link-btn" id="btnEdit" data-i18n="editSource">Modifier la source</button>
+          <button class="link-btn danger" id="btnRemoveSource" data-i18n="removeSource">Retirer la source</button>
+        </div>
       </div>
 
       <div class="toolbar">
@@ -459,7 +467,6 @@ footer{margin-top:70px;border-top:1px solid var(--line);padding:22px 28px 44px}
   </div>
 </footer>
 
-<!-- Modal : règles domaine → pays -->
 <div class="modal-back" id="modalBack" hidden>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mapTitle">
     <div class="modal-head">
@@ -489,7 +496,6 @@ footer{margin-top:70px;border-top:1px solid var(--line);padding:22px 28px 44px}
   </div>
 </div>
 
-<!-- Modal : options copie -->
 <div class="modal-back" id="copyModal" hidden>
   <div class="modal" role="dialog" aria-modal="true">
     <div class="modal-head">
@@ -501,7 +507,6 @@ footer{margin-top:70px;border-top:1px solid var(--line);padding:22px 28px 44px}
   </div>
 </div>
 
-<!-- Modal : options export -->
 <div class="modal-back" id="exportModal" hidden>
   <div class="modal" role="dialog" aria-modal="true">
     <div class="modal-head">
@@ -518,7 +523,6 @@ footer{margin-top:70px;border-top:1px solid var(--line);padding:22px 28px 44px}
   </div>
 </div>
 
-<!-- Modal : raccourcis -->
 <div class="modal-back" id="shortcutModal" hidden>
   <div class="modal" role="dialog" aria-modal="true">
     <div class="modal-head">
@@ -544,8 +548,6 @@ footer{margin-top:70px;border-top:1px solid var(--line);padding:22px 28px 44px}
 <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
 <script>
 /* ================= SORTIUM ================= */
-
-// ---------- Helpers ----------
 const $ = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
 const fmt = n => n.toLocaleString(lang === 'en' ? 'en-US' : 'fr-FR');
@@ -555,6 +557,7 @@ const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const icons = () => { if (window.lucide) lucide.createIcons(); };
 
 const SVG_COPY = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>';
+const SVG_TRASH = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>';
 
 /* ================= I18N ================= */
 const I18N = {
@@ -574,6 +577,13 @@ const I18N = {
     clearBtn:"Vider",
     clearConfirm:"Confirmer ?",
     dropHint:"Déposez un fichier .txt / .csv ici",
+    pasteBtn:"Coller",
+    uploadBtn:"Importer un fichier",
+    removeSource:"Retirer la source",
+    pasteEmpty:"Presse-papiers vide.",
+    pasteDenied:"Accès au presse-papiers refusé. Autorisez-le dans votre navigateur.",
+    pasteSuccess:"Liste collée depuis le presse-papiers.",
+    sourceRemoved:"Source retirée — résultats conservés.",
     stTotal:"Lignes analysées",
     stValid:"Emails valides",
     stDups:"Doublons retirés",
@@ -627,6 +637,7 @@ const I18N = {
     titleCopyGroup:"Copier le groupe",
     titleDlGroup:"Exporter le groupe (.txt)",
     titleCopyLine:"Copier cette ligne",
+    titleDeleteLine:"Supprimer cette ligne",
     titleReveal:"Cliquer pour révéler",
     titleWeak:"Mot de passe faible",
     titleReused:"Mot de passe réutilisé",
@@ -640,9 +651,11 @@ const I18N = {
     listCleared:"Liste effacée.",
     nothingToCopy:"Rien à copier.",
     nothingToExport:"Rien à exporter.",
-    copyUnavailable:"Copie impossible sur ce navigateur.",
     copyFailed:"Copie impossible.",
     lineCopied:"Ligne copiée.",
+    lineDeleted: (email) => `Ligne supprimée : ${email}`,
+    lineNotFound:"Ligne introuvable.",
+    allLinesDeleted:"Toutes les lignes ont été supprimées.",
     copiedN: n => `${n} lignes copiées dans le presse-papiers.`,
     exportedN: n => `${n} lignes exportées.`,
     groupCopied: (name,n) => `${name} — ${n} lignes copiées.`,
@@ -712,8 +725,7 @@ const I18N = {
     scMap:"Ouvrir la carte domaines → pays",
     scClose:"Fermer la fenêtre active",
     scHelp:"Afficher cette aide",
-    fileLoaded: n => `Fichier chargé (${n} lignes).`,
-    suggestClassify: c => `Classer ${c} comme…`
+    fileLoaded: n => `Fichier chargé (${n} lignes).`
   },
   en: {
     title:"SORTIUM — Email list sorter",
@@ -731,6 +743,13 @@ const I18N = {
     clearBtn:"Clear",
     clearConfirm:"Confirm?",
     dropHint:"Drop a .txt / .csv file here",
+    pasteBtn:"Paste",
+    uploadBtn:"Upload file",
+    removeSource:"Remove source",
+    pasteEmpty:"Clipboard is empty.",
+    pasteDenied:"Clipboard access denied. Please allow it in your browser.",
+    pasteSuccess:"Pasted from clipboard.",
+    sourceRemoved:"Source removed — results kept.",
     stTotal:"Lines analyzed",
     stValid:"Valid emails",
     stDups:"Duplicates removed",
@@ -784,6 +803,7 @@ const I18N = {
     titleCopyGroup:"Copy group",
     titleDlGroup:"Export group (.txt)",
     titleCopyLine:"Copy this line",
+    titleDeleteLine:"Delete this line",
     titleReveal:"Click to reveal",
     titleWeak:"Weak password",
     titleReused:"Reused password",
@@ -797,9 +817,11 @@ const I18N = {
     listCleared:"List cleared.",
     nothingToCopy:"Nothing to copy.",
     nothingToExport:"Nothing to export.",
-    copyUnavailable:"Copying is not available in this browser.",
     copyFailed:"Copy failed.",
     lineCopied:"Line copied.",
+    lineDeleted: (email) => `Deleted: ${email}`,
+    lineNotFound:"Line not found.",
+    allLinesDeleted:"All lines have been deleted.",
     copiedN: n => `${n} lines copied to the clipboard.`,
     exportedN: n => `${n} lines exported.`,
     groupCopied: (name,n) => `${name} — ${n} lines copied.`,
@@ -869,11 +891,9 @@ const I18N = {
     scMap:"Open domains → countries",
     scClose:"Close active modal",
     scHelp:"Show this help",
-    fileLoaded: n => `File loaded (${n} lines).`,
-    suggestClassify: c => `Classify ${c} as…`
+    fileLoaded: n => `File loaded (${n} lines).`
   }
 };
-
 let lang = 'fr';
 const t  = k => (I18N[lang] && I18N[lang][k] !== undefined) ? I18N[lang][k] : I18N.fr[k];
 const tf = (k, ...a) => { const v = t(k); return typeof v === 'function' ? v(...a) : v; };
@@ -928,7 +948,7 @@ function normalizeCountryCode(v){
   return null;
 }
 
-/* ================= DOMAINS / PROVIDERS ================= */
+/* ================= TLD / PROVIDERS ================= */
 const TLD_COUNTRY = {
   at:'AT', ca:'CA', de:'DE', fr:'FR', uk:'UK', us:'US', ma:'MA', dz:'DZ', tn:'TN', ly:'LY', eg:'EG',
   mr:'MR', sn:'SN', ci:'CI', cm:'CM', gh:'GH', ng:'NG', ke:'KE', za:'ZA', es:'ES', it:'IT', pt:'PT',
@@ -951,8 +971,6 @@ const PROVIDER_LABEL = {
   'me.com':'iCloud','zoho.com':'Zoho','yandex.com':'Yandex','mail.com':'Mail.com','gmx.com':'GMX',
   'fastmail.com':'Fastmail','hushmail.com':'Hushmail','protonmail.com':'Proton','proton.me':'Proton'
 };
-
-// Disposable / role sets — small representative lists
 const DISPOSABLE = new Set(['mailinator.com','guerrillamail.com','10minutemail.com','tempmail.com','throwawaymail.com',
   'yopmail.com','trashmail.com','getnada.com','sharklasers.com','guerrillamailblock.com','grr.la','dispostable.com',
   'fakeinbox.com','maildrop.cc','mintemail.com','tempinbox.com','mailnesia.com','spamgourmet.com','mytrashmail.com',
@@ -960,21 +978,20 @@ const DISPOSABLE = new Set(['mailinator.com','guerrillamail.com','10minutemail.c
 const ROLE_PREFIXES = new Set(['admin','info','support','contact','noreply','no-reply','sales','marketing','help',
   'webmaster','postmaster','office','team','hello','hr','jobs','careers','billing','accounts','security','abuse',
   'root','hostmaster','feedback','privacy','legal','press','service','mail','newsletter']);
-
-// Small common passwords set
 const COMMON_PASSWORDS = new Set(['123456','password','12345678','qwerty','123456789','12345','1234','111111','1234567',
   'dragon','123123','baseball','abc123','football','monkey','letmein','696969','shadow','master','666666','qwertyuiop',
-  '123321','mustang','1234567890','michael','654321','pussy','superman','1qaz2wsx','7777777','fuckyou','121212','000000',
+  '123321','mustang','1234567890','michael','654321','superman','1qaz2wsx','7777777','121212','000000',
   'qazwsx','123qwe','killer','trustno1','jordan','jennifer','zxcvbnm','asdfgh','hunter','buster','soccer','harley',
-  'batman','andrew','tigger','sunshine','iloveyou','fuckme','2000','charlie','robert','thomas','hockey','ranger',
-  'daniel','starwars','klaster','112233','george','asshole','computer','michelle','jessica','pepper','1111','zxcvbn',
-  '555555','11111111','131313','freedom','777777','pass','fuck','maggie','159753','aaaaaa','ginger','princess',
+  'batman','andrew','tigger','sunshine','iloveyou','2000','charlie','robert','thomas','hockey','ranger',
+  'daniel','starwars','klaster','112233','george','computer','michelle','jessica','pepper','1111','zxcvbn',
+  '555555','11111111','131313','freedom','777777','pass','maggie','159753','aaaaaa','ginger','princess',
   'joshua','cheese','amanda','summer','love','ashley','nicole','chelsea','biteme','matthew','access','yankees','987654321',
   'dallas','austin','thunder','taylor','matrix','mobilemail','mom','monitor','monitoring','montana','moon','moscow']);
 const WEAK_MIN_LEN = 8;
 
 /* ================= STATE ================= */
-const LS_KEY = 'sortium.v2';
+const LS_KEY = 'sortium.v3';
+const LS_PARSED = 'sortium.parsed.v1';
 const state = {
   raw:'', mode:'email', masked:true, custom:{}, query:'', lang:'fr',
   sortBy:'count',
@@ -986,12 +1003,26 @@ let parsed = null;
 let currentGroups = [];
 let io = null, clearArm = false, clearArmT = null;
 let activeModal = null;
+let _idSeq = 0;  /* used to tag entries for deletion */
 
 function save(){ try{ localStorage.setItem(LS_KEY, JSON.stringify({
   raw:state.raw, mode:state.mode, masked:state.masked, custom:state.custom, lang:state.lang,
   sortBy:state.sortBy, filters:state.filters, outputTemplate:state.outputTemplate, dashOpen:state.dashOpen
 })); }catch(e){} }
 function load(){ try{ const d = JSON.parse(localStorage.getItem(LS_KEY)); if(d) Object.assign(state, d); }catch(e){} }
+
+function saveParsed(){
+  if(!parsed){ try{ localStorage.removeItem(LS_PARSED); }catch(e){} return; }
+  try{
+    localStorage.setItem(LS_PARSED, JSON.stringify({
+      total:parsed.total, entries:parsed.entries, dups:parsed.dups, invalid:parsed.invalid
+    }));
+  }catch(e){ /* quota exceeded — ignore */ }
+}
+function loadParsed(){
+  try{ return JSON.parse(localStorage.getItem(LS_PARSED)); }catch(e){ return null; }
+}
+function dropParsedLS(){ try{ localStorage.removeItem(LS_PARSED); }catch(e){} }
 
 /* ================= PARSE ================= */
 const EMAIL_RE = /[A-Za-z0-9._%+\-']+@[A-Za-z0-9\-]+(?:\.[A-Za-z0-9\-]+)*\.[A-Za-z]{2,}/;
@@ -1004,7 +1035,6 @@ function fuzzyKey(email){
   else local = local.split('+')[0];
   return local + '@' + domain;
 }
-
 function parseSource(raw, mode){
   const entries = [], dups = [], invalid = [];
   const seen = new Set();
@@ -1028,12 +1058,11 @@ function parseSource(raw, mode){
     if(seen.has(key)){ dups.push(line); continue; }
     seen.add(key);
     const local = email.slice(0, email.indexOf('@')).toLowerCase();
-    entries.push({ email, sep, part, domain, line: part ? email + sep + part : email, local, isDisposable: DISPOSABLE.has(domain), isRole: ROLE_PREFIXES.has(local.split('+')[0]) });
+    entries.push({ _id: ++_idSeq, email, sep, part, domain, line: part ? email + sep + part : email, local,
+      isDisposable: DISPOSABLE.has(domain), isRole: ROLE_PREFIXES.has(local.split('+')[0]) });
   }
   return { total, entries, dups, invalid };
 }
-
-/* ================= PASSWORD ANALYSIS ================= */
 function analyzePasswords(entries){
   const passCount = {}, weak = new Set(), reused = new Set();
   for(const e of entries){
@@ -1080,18 +1109,11 @@ function applyFilters(entries){
     if(f.reused && !e.isReused) return false;
     if(f.disposable && !e.isDisposable) return false;
     if(f.role && !e.isRole) return false;
-    if(f.unclassified){
-      const c = resolveCountry(e.domain);
-      if(c.code !== '??') return false;
-    }
-    if(f.country){
-      const c = resolveCountry(e.domain);
-      if(c.name !== f.country) return false;
-    }
+    if(f.unclassified && resolveCountry(e.domain).code !== '??') return false;
+    if(f.country && resolveCountry(e.domain).name !== f.country) return false;
     return true;
   });
 }
-
 function buildGroups(entries){
   const map = new Map();
   entries.forEach((e, idx) => {
@@ -1121,11 +1143,7 @@ function buildGroups(entries){
   });
   return arr;
 }
-
-function currentEntries(){
-  if(!parsed) return [];
-  return applyFilters(parsed.entries);
-}
+function currentEntries(){ return parsed ? applyFilters(parsed.entries) : []; }
 
 /* ================= DOM ================= */
 const ta = $('#src'), btnParse = $('#btnParse'), btnExample = $('#btnExample'), btnClear = $('#btnClear'),
@@ -1145,7 +1163,8 @@ const ta = $('#src'), btnParse = $('#btnParse'), btnExample = $('#btnExample'), 
   tmplInput = $('#tmplInput'),
   shortcutModal = $('#shortcutModal'), btnShortcuts = $('#btnShortcuts'), btnShortcutClose = $('#btnShortcutClose'),
   editorWrap = $('#editorWrap'), fileInput = $('#fileInput'),
-  btnRulesImport = $('#btnRulesImport'), btnRulesExport = $('#btnRulesExport');
+  btnRulesImport = $('#btnRulesImport'), btnRulesExport = $('#btnRulesExport'),
+  btnPaste = $('#btnPaste'), btnUpload = $('#btnUpload'), btnRemoveSource = $('#btnRemoveSource');
 
 /* ================= STATS ================= */
 function countUp(el, to, delay){
@@ -1178,7 +1197,6 @@ function renderDash(){
   const reused = entries.filter(e => e.isReused).length;
   const temp = entries.filter(e => e.isDisposable).length;
   const role = entries.filter(e => e.isRole).length;
-
   const domCount = new Map(), provCount = new Map(), countryCount = new Map();
   for(const e of entries){
     domCount.set(e.domain, (domCount.get(e.domain) || 0) + 1);
@@ -1188,40 +1206,29 @@ function renderDash(){
     countryCount.set(c.name, (countryCount.get(c.name) || 0) + 1);
   }
   const top = (m, n=8) => [...m.entries()].sort((a,b) => b[1]-a[1]).slice(0,n);
-
   const bar = (name, val, max) => `<div class="bar-row">
     <span class="bname" title="${esc(name)}">${esc(name)}</span>
     <span class="btrack"><span class="bfill" style="width:${max?Math.max(2,(val/max)*100):0}%"></span></span>
     <span class="bval">${fmt(val)}</span></div>`;
-
   const topDom = top(domCount, 10);
   const maxDom = topDom.length ? topDom[0][1] : 1;
   const topProv = top(provCount, 8);
   const maxProv = topProv.length ? topProv[0][1] : 1;
   const topCountry = top(countryCount, 8);
   const maxCountry = topCountry.length ? topCountry[0][1] : 1;
-
   dashBody.innerHTML = `
-    <div class="dash-section">
-      <h4>${esc(t('dashTopDomains'))}</h4>
-      ${topDom.length ? topDom.map(([n,v]) => bar(n,v,maxDom)).join('') : `<p class="dash-empty" style="color:var(--faint);font-size:12px">—</p>`}
-    </div>
-    <div class="dash-section">
-      <h4>${esc(t('dashPassword'))}</h4>
+    <div class="dash-section"><h4>${esc(t('dashTopDomains'))}</h4>
+      ${topDom.length ? topDom.map(([n,v]) => bar(n,v,maxDom)).join('') : `<p style="color:var(--faint);font-size:12px">—</p>`}</div>
+    <div class="dash-section"><h4>${esc(t('dashPassword'))}</h4>
       ${bar(t('dashNoPassword'), entries.length - totalWithPass, entries.length)}
       ${bar(t('dashWeak'), weak, totalWithPass || 1)}
       ${bar(t('dashReused'), reused, totalWithPass || 1)}
       ${bar(t('dashDisposable'), temp, entries.length)}
-      ${bar(t('dashRole'), role, entries.length)}
-    </div>
-    <div class="dash-section">
-      <h4>${esc(t('dashProviders'))}</h4>
-      ${topProv.length ? topProv.map(([n,v]) => bar(n,v,maxProv)).join('') : `<p style="color:var(--faint);font-size:12px">—</p>`}
-    </div>
-    <div class="dash-section">
-      <h4>${esc(t('dashCountries'))}</h4>
-      ${topCountry.length ? topCountry.map(([n,v]) => bar(n,v,maxCountry)).join('') : `<p style="color:var(--faint);font-size:12px">—</p>`}
-    </div>`;
+      ${bar(t('dashRole'), role, entries.length)}</div>
+    <div class="dash-section"><h4>${esc(t('dashProviders'))}</h4>
+      ${topProv.length ? topProv.map(([n,v]) => bar(n,v,maxProv)).join('') : `<p style="color:var(--faint);font-size:12px">—</p>`}</div>
+    <div class="dash-section"><h4>${esc(t('dashCountries'))}</h4>
+      ${topCountry.length ? topCountry.map(([n,v]) => bar(n,v,maxCountry)).join('') : `<p style="color:var(--faint);font-size:12px">—</p>`}</div>`;
 }
 
 /* ================= FILTERS UI ================= */
@@ -1238,7 +1245,6 @@ function renderFilters(){
   const nTemp = entries.filter(e=>e.isDisposable).length;
   const nRole = entries.filter(e=>e.isRole).length;
   const nUnk = entries.filter(e=>resolveCountry(e.domain).code==='??').length;
-
   let html = '';
   html += chip('hasPass-true', t('filterHasPass'), f.hasPass===true, nPass);
   html += chip('hasPass-false', t('filterNoPass'), f.hasPass===false, nNoPass);
@@ -1247,10 +1253,8 @@ function renderFilters(){
   if(nTemp) html += chip('disposable', t('filterDisposable'), f.disposable, nTemp);
   if(nRole) html += chip('role', t('filterRole'), f.role, nRole);
   if(nUnk) html += chip('unclassified', t('filterUnknown'), f.unclassified, nUnk);
-
   const anyOn = f.hasPass!==null || f.weak || f.reused || f.disposable || f.role || f.unclassified || f.country;
   if(anyOn) html += `<button class="clear-filters" id="btnClearFilters">${esc(t('clearFilters'))}</button>`;
-
   filtersEl.innerHTML = html;
   filtersEl.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => {
     const k = c.dataset.f;
@@ -1266,7 +1270,7 @@ function renderFilters(){
   });
 }
 
-/* ================= GROUPS RENDER ================= */
+/* ================= GROUPS ================= */
 function renderGroups(animate){
   currentGroups = buildGroups(currentEntries());
   if(!currentGroups.length){
@@ -1292,10 +1296,12 @@ function renderGroups(animate){
       <span class="idx">${String(i+1).padStart(3,'0')}</span>
       <span class="mail">${esc(e.email)}</span>${secret}
       ${flags.length ? `<span class="flags">${flags.join('')}</span>` : ''}
-      <button class="icon-btn row-copy" data-line="${esc(e.line)}" title="${esc(t('titleCopyLine'))}" aria-label="${esc(t('titleCopyLine'))}">${SVG_COPY}</button>
+      <div class="row-actions">
+        <button class="icon-btn row-copy" data-line="${esc(e.line)}" title="${esc(t('titleCopyLine'))}" aria-label="${esc(t('titleCopyLine'))}">${SVG_COPY}</button>
+        <button class="icon-btn row-del" data-id="${e._id}" title="${esc(t('titleDeleteLine'))}" aria-label="${esc(t('titleDeleteLine'))}">${SVG_TRASH}</button>
+      </div>
     </li>`;
   }).join('');
-
   groupsEl.innerHTML = currentGroups.map((g,i) => {
     const domHtml = g.unknown
       ? g.domains.map(([d,c]) => `<button class="dlink" data-act="classify" data-domain="${esc(d)}" title="${esc(t('titleClassify'))}">${esc(d)} ×${c}</button>`).join('')
@@ -1304,9 +1310,8 @@ function renderGroups(animate){
       g.domains.slice(0,4).map(([d]) => {
         const tld = d.slice(d.lastIndexOf('.')+1);
         const guessCode = TLD_COUNTRY[tld];
-        const guess = guessCode ? countryName(guessCode) : null;
-        if(!guess) return '';
-        return `<button class="sbtn" data-act="quickclassify" data-domain="${esc(d)}" data-country="${esc(guessCode)}"><i data-lucide="sparkles"></i>${esc(guess)} · ${esc(d)}</button>`;
+        if(!guessCode) return '';
+        return `<button class="sbtn" data-act="quickclassify" data-domain="${esc(d)}" data-country="${esc(guessCode)}"><i data-lucide="sparkles"></i>${esc(countryName(guessCode))} · ${esc(d)}</button>`;
       }).join('')
     }</div>` : '';
     return `<section class="group${animate ? ' enter' : ''}" id="grp-${g.id}"${animate ? ` style="--d:${Math.min(i,10)*70}ms"` : ''}>
@@ -1348,7 +1353,6 @@ railList.addEventListener('click', e => {
   const tgt = document.getElementById(b.dataset.target);
   if(tgt) tgt.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block:'start' });
 });
-
 function observeGroups(){
   if(io) io.disconnect();
   if(!('IntersectionObserver' in window)) return;
@@ -1373,13 +1377,11 @@ function renderDetails(){
   if(parsed.invalid.length) html += fold(esc(t('foldInvalid')), parsed.invalid);
   detailsEl.innerHTML = html; icons();
 }
-
 function updateSrcBar(){
   if(!parsed) return;
   const m = state.mode === 'email' ? t('dedupByEmail') : state.mode === 'line' ? t('dedupByLine') : t('dedupByFuzzy');
   srcBarTxt.textContent = tf('srcBar', fmt(parsed.total), fmt(parsed.entries.length), m);
 }
-
 function renderAll(o = {}){
   if(!parsed) return;
   renderStats(!!o.animate);
@@ -1418,10 +1420,7 @@ function download(name, text){
   a.download = name; document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(a.href), 1500);
 }
-function csvCell(v){
-  v = String(v ?? '');
-  return /[",\n;]/.test(v) ? `"${v.replace(/"/g,'""')}"` : v;
-}
+function csvCell(v){ v = String(v ?? ''); return /[",\n;]/.test(v) ? `"${v.replace(/"/g,'""')}"` : v; }
 function applyTemplate(tmpl, e, i){
   return tmpl.replace(/\{(\w+)\}/g, (_, k) => {
     const c = resolveCountry(e.domain);
@@ -1444,8 +1443,10 @@ function doParse(o = {}){
   const txt = ta.value;
   if(!txt.trim()){ toast(t('pasteFirst'), 'ban'); ta.focus(); return; }
   state.raw = txt; save();
+  _idSeq = 0;
   parsed = parseSource(txt, state.mode);
   analyzePasswords(parsed.entries);
+  saveParsed();
   if(!parsed.entries.length){
     resultsStage.hidden = true; railEl.hidden = true; layoutEl.classList.remove('has-rail');
     inputStage.hidden = false;
@@ -1475,6 +1476,37 @@ const updateMeta = debounce(computeMeta, 200);
 const saveRaw = debounce(() => { state.raw = ta.value; save(); }, 400);
 ta.addEventListener('input', () => { grow(); updateMeta(); saveRaw(); });
 ta.addEventListener('keydown', e => { if((e.ctrlKey || e.metaKey) && e.key === 'Enter'){ e.preventDefault(); doParse({ scroll:true }); } });
+
+/* ================= PASTE / UPLOAD / REMOVE SOURCE ================= */
+btnPaste.addEventListener('click', async () => {
+  try{
+    const text = await navigator.clipboard.readText();
+    if(!text || !text.trim()){ toast(t('pasteEmpty'), 'ban'); return; }
+    const existing = ta.value.trim();
+    ta.value = existing ? existing + '\n' + text.trim() : text.trim();
+    grow(); computeMeta();
+    state.raw = ta.value; save();
+    toast(t('pasteSuccess'), 'clipboard-check');
+    ta.focus();
+  }catch(e){
+    toast(t('pasteDenied'), 'ban');
+  }
+});
+btnUpload.addEventListener('click', () => fileInput.click());
+fileInput.addEventListener('change', () => {
+  const f = fileInput.files[0]; if(!f) return;
+  readFile(f);
+  fileInput.value = '';
+});
+btnRemoveSource.addEventListener('click', () => {
+  ta.value = '';
+  state.raw = '';
+  state.query = '';
+  qEl.value = '';
+  save();
+  grow(); computeMeta();
+  toast(t('sourceRemoved'), 'trash-2');
+});
 
 /* ================= DRAG & DROP ================= */
 ['dragenter','dragover'].forEach(ev => editorWrap.addEventListener(ev, e => {
@@ -1531,7 +1563,7 @@ btnClear.addEventListener('click', () => {
 function disarmClear(){ clearArm = false; btnClear.classList.remove('armed'); updateClearLabel(); }
 function doClear(){
   disarmClear();
-  state.raw = ''; state.query = ''; parsed = null; save();
+  state.raw = ''; state.query = ''; parsed = null; save(); dropParsedLS();
   ta.value = ''; qEl.value = ''; grow(); computeMeta();
   resultsStage.hidden = true; railEl.hidden = true; layoutEl.classList.remove('has-rail');
   srcBar.hidden = true; inputStage.hidden = false;
@@ -1547,7 +1579,7 @@ btnEdit.addEventListener('click', () => {
   setTimeout(() => { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }, reduced ? 0 : 350);
 });
 
-/* ================= DEDUP SEGMENT ================= */
+/* ================= DEDUP ================= */
 function updateSeg(){ $$('.seg button').forEach(b => b.classList.toggle('on', b.dataset.mode === state.mode)); }
 $$('.seg button').forEach(b => {
   b.addEventListener('click', () => {
@@ -1582,9 +1614,6 @@ qEl.addEventListener('input', debounce(() => {
 /* ================= MODAL HELPERS ================= */
 function openModal(el){ el.hidden = false; activeModal = el; }
 function closeModal(el){ el.hidden = true; if(activeModal === el) activeModal = null; }
-function closeAnyModal(){
-  [modalBack, copyModal, exportModal, shortcutModal].forEach(m => { if(!m.hidden) closeModal(m); });
-}
 document.addEventListener('keydown', e => {
   if(e.key === 'Escape' && activeModal){ closeModal(activeModal); }
 });
@@ -1593,14 +1622,14 @@ document.addEventListener('keydown', e => {
 function openCopy(){
   const es = currentEntries();
   if(!es.length){ toast(t('nothingToCopy'), 'ban'); return; }
-  const opt = (icon, label, desc, action) => `<button class="option" data-act="${action}">
-    <i data-lucide="${icon}"></i><span>${esc(label)}</span>${desc?`<span class="opt-desc">${esc(desc)}</span>`:''}</button>`;
+  const opt = (icon, label, action) => `<button class="option" data-act="${action}">
+    <i data-lucide="${icon}"></i><span>${esc(label)}</span></button>`;
   copyOptions.innerHTML =
-    opt('clipboard-list', t('copyAll'), '', 'all') +
-    opt('at-sign', t('copyEmails'), '', 'emails') +
-    opt('key-round', t('copyPasswords'), '', 'passwords') +
-    opt('globe-2', t('copyByCountry'), '', 'byCountry') +
-    opt('braces', t('copyCustom'), '', 'custom');
+    opt('clipboard-list', t('copyAll'), 'all') +
+    opt('at-sign', t('copyEmails'), 'emails') +
+    opt('key-round', t('copyPasswords'), 'passwords') +
+    opt('globe-2', t('copyByCountry'), 'byCountry') +
+    opt('braces', t('copyCustom'), 'custom');
   openModal(copyModal); icons();
 }
 btnCopyMenu.addEventListener('click', openCopy);
@@ -1611,13 +1640,9 @@ copyOptions.addEventListener('click', async e => {
   const act = b.dataset.act;
   const es = currentEntries();
   let text = '', msg = '', ok = false;
-  if(act === 'all'){
-    text = es.map(e => e.line).join('\n');
-    ok = await copyText(text); if(ok) msg = tf('copyAllCopied', fmt(es.length));
-  } else if(act === 'emails'){
-    text = es.map(e => e.email).join('\n');
-    ok = await copyText(text); if(ok) msg = tf('copyEmailsCopied', fmt(es.length));
-  } else if(act === 'passwords'){
+  if(act === 'all'){ text = es.map(e => e.line).join('\n'); ok = await copyText(text); if(ok) msg = tf('copyAllCopied', fmt(es.length)); }
+  else if(act === 'emails'){ text = es.map(e => e.email).join('\n'); ok = await copyText(text); if(ok) msg = tf('copyEmailsCopied', fmt(es.length)); }
+  else if(act === 'passwords'){
     const withP = es.filter(e => e.part);
     if(!withP.length){ toast(t('noPasswords'), 'ban'); return; }
     text = withP.map(e => e.part).join('\n');
@@ -1657,56 +1682,42 @@ btnExportMenu.addEventListener('click', openExport);
 btnExportClose.addEventListener('click', () => closeModal(exportModal));
 exportModal.addEventListener('click', e => { if(e.target === exportModal) closeModal(exportModal); });
 tmplInput.addEventListener('input', debounce(() => { state.outputTemplate = tmplInput.value; save(); }, 300));
-
 exportOptions.addEventListener('click', e => {
   const b = e.target.closest('.option'); if(!b) return;
   const act = b.dataset.act;
   const es = currentEntries();
   const groups = buildGroups(es);
   let text = '', name = 'sortium_export.txt', msg = '';
-  if(act === 'txt'){
-    text = es.map(e => e.line).join('\n');
-    msg = tf('exportedN', fmt(es.length));
-  } else if(act === 'emails_txt'){
-    text = es.map(e => e.email).join('\n'); name = 'sortium_emails.txt';
-    msg = tf('exportedN', fmt(es.length));
-  } else if(act === 'passwords_txt'){
+  if(act === 'txt'){ text = es.map(e => e.line).join('\n'); msg = tf('exportedN', fmt(es.length)); }
+  else if(act === 'emails_txt'){ text = es.map(e => e.email).join('\n'); name = 'sortium_emails.txt'; msg = tf('exportedN', fmt(es.length)); }
+  else if(act === 'passwords_txt'){
     const withP = es.filter(e => e.part);
     if(!withP.length){ toast(t('noPasswords'), 'ban'); return; }
     text = withP.map(e => e.part).join('\n'); name = 'sortium_passwords.txt';
     msg = tf('exportedN', fmt(withP.length));
   } else if(act === 'csv'){
     const rows = ['email,password,country,domain,line'];
-    es.forEach(e => {
-      const c = resolveCountry(e.domain);
-      rows.push([e.email, e.part||'', c.name, e.domain, e.line].map(csvCell).join(','));
-    });
-    text = rows.join('\n'); name = 'sortium_export.csv';
-    msg = tf('exportedN', fmt(es.length));
+    es.forEach(e => { const c = resolveCountry(e.domain);
+      rows.push([e.email, e.part||'', c.name, e.domain, e.line].map(csvCell).join(',')); });
+    text = rows.join('\n'); name = 'sortium_export.csv'; msg = tf('exportedN', fmt(es.length));
   } else if(act === 'csv_emails'){
     const rows = ['email,country,domain'];
-    es.forEach(e => {
-      const c = resolveCountry(e.domain);
-      rows.push([e.email, c.name, e.domain].map(csvCell).join(','));
-    });
-    text = rows.join('\n'); name = 'sortium_emails.csv';
-    msg = tf('exportedN', fmt(es.length));
+    es.forEach(e => { const c = resolveCountry(e.domain);
+      rows.push([e.email, c.name, e.domain].map(csvCell).join(',')); });
+    text = rows.join('\n'); name = 'sortium_emails.csv'; msg = tf('exportedN', fmt(es.length));
   } else if(act === 'json'){
     const arr = groups.map(g => ({
-      country: g.name, code: g.code,
-      count: g.entries.length,
+      country: g.name, code: g.code, count: g.entries.length,
       entries: g.entries.map(e => ({ email:e.email, password:e.part||'', domain:e.domain, line:e.line }))
     }));
     text = JSON.stringify({ source:{ total:parsed.total, valid:parsed.entries.length, duplicates:parsed.dups.length, ignored:parsed.invalid.length }, groups:arr }, null, 2);
-    name = 'sortium_export.json';
-    msg = tf('exportedN', fmt(es.length));
+    name = 'sortium_export.json'; msg = tf('exportedN', fmt(es.length));
   } else if(act === 'custom'){
     const tmpl = tmplInput.value || state.outputTemplate || '{email};{password};{country_code}';
     if(!hasVar(tmpl)){ toast(t('tmplInvalid'), 'ban'); return; }
     state.outputTemplate = tmpl; save();
     text = es.map((e,i) => applyTemplate(tmpl, e, i)).join('\n');
-    name = 'sortium_custom.txt';
-    msg = tf('exportedN', fmt(es.length));
+    name = 'sortium_custom.txt'; msg = tf('exportedN', fmt(es.length));
   }
   download(name, text);
   toast(msg, 'download');
@@ -1715,21 +1726,41 @@ exportOptions.addEventListener('click', e => {
 
 /* ================= GROUP ACTIONS ================= */
 groupsEl.addEventListener('click', async e => {
+  /* 1) Reveal / hide password */
   const sec = e.target.closest('.secret');
   if(sec && sec.dataset.part){
     if(sec.classList.contains('masked')){ sec.textContent = sec.dataset.part; sec.classList.remove('masked'); sec.classList.add('on'); }
     else { sec.textContent = '••••••••'; sec.classList.add('masked'); sec.classList.remove('on'); }
     return;
   }
+  /* 2) Copy single line */
   const rc = e.target.closest('.row-copy');
   if(rc){
     const ok = await copyText(rc.dataset.line);
     toast(ok ? t('lineCopied') : t('copyFailed'), ok ? 'clipboard-check' : 'ban');
     return;
   }
+  /* 3) DELETE single line (NEW) */
+  const rd = e.target.closest('.row-del');
+  if(rd){
+    const id = +rd.dataset.id;
+    const idx = parsed.entries.findIndex(x => x._id === id);
+    if(idx === -1){ toast(t('lineNotFound'), 'ban'); return; }
+    const removed = parsed.entries[idx];
+    parsed.entries.splice(idx, 1);
+    analyzePasswords(parsed.entries);   /* recompute weak/reused flags */
+    saveParsed();
+    renderAll({ animate:false });
+    toast(tf('lineDeleted', removed.email), 'trash-2');
+    if(parsed.entries.length === 0){
+      toast(t('allLinesDeleted'), 'ban');
+      /* Keep results visible with empty state; user can click Vider */
+    }
+    return;
+  }
+  /* 4) Group actions */
   const btn = e.target.closest('[data-act]'); if(!btn) return;
   const act = btn.dataset.act;
-
   if(act === 'quickclassify'){
     const d = btn.dataset.domain, c = btn.dataset.country;
     if(!d || !c) return;
@@ -1738,7 +1769,6 @@ groupsEl.addEventListener('click', async e => {
     renderAll({ animate:false });
     return;
   }
-
   if(act === 'copy' || act === 'dl'){
     const g = currentGroups.find(x => x.id == btn.dataset.g); if(!g) return;
     const text = g.entries.map(x => x.line).join('\n');
@@ -1769,7 +1799,6 @@ function openMap(domain = ''){
 btnMap.addEventListener('click', () => openMap());
 btnModalClose.addEventListener('click', () => closeModal(modalBack));
 modalBack.addEventListener('click', e => { if(e.target === modalBack) closeModal(modalBack); });
-
 mapForm.addEventListener('submit', e => {
   e.preventDefault();
   const d = mapDomain.value.trim().toLowerCase().replace(/^@/, '');
@@ -1802,7 +1831,7 @@ rulesWrap.addEventListener('click', e => {
 
 /* ================= RULES IMPORT/EXPORT ================= */
 btnRulesExport.addEventListener('click', () => {
-  const data = JSON.stringify({ version:2, rules:state.custom }, null, 2);
+  const data = JSON.stringify({ version:3, rules:state.custom }, null, 2);
   download('sortium_rules.json', data);
   toast(t('rulesExported'), 'download');
 });
@@ -1832,12 +1861,10 @@ btnRulesImport.addEventListener('click', () => {
   inp.click();
 });
 
-/* ================= SHORTCUTS MODAL ================= */
+/* ================= SHORTCUTS ================= */
 btnShortcuts.addEventListener('click', () => { openModal(shortcutModal); });
 btnShortcutClose.addEventListener('click', () => closeModal(shortcutModal));
 shortcutModal.addEventListener('click', e => { if(e.target === shortcutModal) closeModal(shortcutModal); });
-
-/* ================= GLOBAL KEYBOARD ================= */
 document.addEventListener('keydown', e => {
   const tag = (e.target.tagName || '').toLowerCase();
   const typing = tag === 'input' || tag === 'textarea' || tag === 'select';
@@ -1845,18 +1872,12 @@ document.addEventListener('keydown', e => {
   if(typing) return;
   if(e.metaKey || e.ctrlKey || e.altKey) return;
   switch(e.key){
-    case '/':
-      e.preventDefault(); qEl.focus(); break;
-    case 'e': case 'E':
-      if(parsed) openExport(); break;
-    case 'c': case 'C':
-      if(parsed) openCopy(); break;
-    case 'm': case 'M':
-      btnMask.click(); break;
-    case 'g': case 'G':
-      openMap(); break;
-    case '?':
-      openModal(shortcutModal); break;
+    case '/': e.preventDefault(); qEl.focus(); break;
+    case 'e': case 'E': if(parsed) openExport(); break;
+    case 'c': case 'C': if(parsed) openCopy(); break;
+    case 'm': case 'M': btnMask.click(); break;
+    case 'g': case 'G': openMap(); break;
+    case '?': openModal(shortcutModal); break;
   }
 });
 
@@ -1866,34 +1887,16 @@ function applyLang(next){
   state.lang = lang; save();
   document.documentElement.lang = lang;
   document.title = t('title');
-
   $$('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
   $$('[data-i18n-html]').forEach(el => { el.innerHTML = t(el.dataset.i18nHtml); });
   $$('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
   $$('[data-i18n-title]').forEach(el => { el.title = t(el.dataset.i18nTitle); });
   $$('[data-i18n-aria]').forEach(el => { el.setAttribute('aria-label', t(el.dataset.i18nAria)); });
   $$('.lang-seg button').forEach(b => b.classList.toggle('on', b.dataset.lang === lang));
-
-  // Update select options
-  const sortOpts = sortBySel.querySelectorAll('option');
-  sortOpts.forEach(o => { o.textContent = t(o.dataset.i18n); });
-
-  updateSeg();
-  setMaskUI();
-  updateClearLabel();
-  computeMeta();
-  populateCountries();
-  renderRules();
-
-  if(parsed){
-    renderStats(false);
-    renderGroups(false);
-    renderRail();
-    renderDetails();
-    renderFilters();
-    renderDash();
-    updateSrcBar();
-  }
+  sortBySel.querySelectorAll('option').forEach(o => { if(o.dataset.i18n) o.textContent = t(o.dataset.i18n); });
+  updateSeg(); setMaskUI(); updateClearLabel(); computeMeta();
+  populateCountries(); renderRules();
+  if(parsed) renderAll({ animate:false });
   icons();
 }
 $$('.lang-seg button').forEach(b => {
@@ -1905,14 +1908,27 @@ $$('.lang-seg button').forEach(b => {
   load();
   ta.value = state.raw || '';
   lang = (state.lang === 'en' || state.lang === 'fr') ? state.lang : 'fr';
-  // Restore sort & dash
   if(state.sortBy) sortBySel.value = state.sortBy;
   if(state.dashOpen) $('#dash').open = true;
   grow();
   applyLang(lang);
-  // Dashboard persistence
   $('#dash').addEventListener('toggle', () => { state.dashOpen = $('#dash').open; save(); });
-  if(state.raw && state.raw.trim()) doParse({ animate:true, scroll:false, notify:false });
+
+  if(state.raw && state.raw.trim()){
+    doParse({ animate:true, scroll:false, notify:false });
+  } else {
+    const savedP = loadParsed();
+    if(savedP && savedP.entries && savedP.entries.length){
+      /* Restore max _id to avoid collisions on next parse */
+      _idSeq = savedP.entries.reduce((m,e) => Math.max(m, e._id || 0), 0);
+      parsed = { total:savedP.total||0, entries:savedP.entries, dups:savedP.dups||[], invalid:savedP.invalid||[] };
+      analyzePasswords(parsed.entries);
+      inputStage.hidden = true;
+      srcBar.hidden = false;
+      resultsStage.hidden = false;
+      renderAll({ animate:false });
+    }
+  }
   icons();
 })();
 </script>
