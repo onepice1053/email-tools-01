@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HTML Editor Pro - Ultimate Edition</title>
-    
-    <!-- CodeMirror -->
+
+    <!-- CodeMirror CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/eclipse.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/fold/foldgutter.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/show-hint.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/dialog/dialog.min.css">
-    
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/htmlmixed/htmlmixed.min.js"></script>
@@ -35,7 +35,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.4.0/purify.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.7/beautify-html.min.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js"></script>
+
     <style>
         :root {
             --primary: #4f46e5;
@@ -50,11 +51,7 @@
             --light-border: #e5e7eb;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
@@ -66,10 +63,7 @@
             overflow: hidden;
         }
 
-        body.light-theme {
-            background: var(--light-bg);
-            color: #333;
-        }
+        body.light-theme { background: var(--light-bg); color: #333; }
 
         .header {
             background: var(--dark-header);
@@ -82,9 +76,7 @@
             gap: 10px;
         }
 
-        body.light-theme .header {
-            background: var(--light-header);
-        }
+        body.light-theme .header { background: var(--light-header); }
 
         .logo {
             display: flex;
@@ -94,15 +86,9 @@
             font-size: 1.2rem;
         }
 
-        .logo i {
-            color: var(--primary);
-        }
+        .logo i { color: var(--primary); }
 
-        .controls {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
+        .controls { display: flex; gap: 8px; flex-wrap: wrap; }
 
         button {
             background: var(--primary);
@@ -119,108 +105,20 @@
             gap: 5px;
         }
 
-        button:hover {
-            background: var(--primary-dark);
-            transform: translateY(-1px);
-        }
+        button:hover { background: var(--primary-dark); transform: translateY(-1px); }
+        button:active { transform: translateY(0); }
+        button.secondary { background: #555; }
+        button.secondary:hover { background: #666; }
+        button.danger { background: var(--danger); }
+        button.danger:hover { background: #dc2626; }
+        button.save-btn { background: #10b981; }
+        button.save-btn:hover { background: #059669; }
 
-        button:active {
-            transform: translateY(0);
-        }
+        .container { display: flex; flex: 1; overflow: hidden; }
 
-        button.secondary {
-            background: #555;
-        }
-
-        button.secondary:hover {
-            background: #666;
-        }
-
-        button.danger {
-            background: var(--danger);
-        }
-
-        button.danger:hover {
-            background: #dc2626;
-        }
-
-        .wysiwyg-toolbar {
-            background: #2a2a2a;
-            padding: 10px;
-            border-bottom: 1px solid var(--dark-border);
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            align-items: center;
-        }
-
-        body.light-theme .wysiwyg-toolbar {
-            background: #f3f4f6;
-        }
-
-        .wysiwyg-toolbar select {
-            background: #3d3d3d;
-            border: 1px solid #555;
-            color: #fff;
-            padding: 6px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 13px;
-        }
-
-        body.light-theme .wysiwyg-toolbar select {
-            background: white;
-            border-color: #ccc;
-            color: #333;
-        }
-
-        .toolbar-separator {
-            width: 1px;
-            height: 24px;
-            background: #555;
-            margin: 0 4px;
-        }
-
-        .toolbar-btn {
-            background: #3d3d3d;
-            padding: 6px 10px;
-            font-size: 13px;
-        }
-
-        body.light-theme .toolbar-btn {
-            background: white;
-            border: 1px solid #ccc;
-            color: #333;
-        }
-
-        .toolbar-btn:hover {
-            background: #4d4d4d;
-        }
-
-        body.light-theme .toolbar-btn:hover {
-            background: #e5e7eb;
-        }
-
-        .container {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-        }
-
-        .pane {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            min-width: 0;
-        }
-
-        .code-pane {
-            border-right: 1px solid var(--dark-border);
-        }
-
-        body.light-theme .code-pane {
-            border-right: 1px solid var(--light-border);
-        }
+        .pane { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+        .code-pane { border-right: 1px solid var(--dark-border); }
+        body.light-theme .code-pane { border-right: 1px solid var(--light-border); }
 
         .pane-header {
             background: var(--dark-header);
@@ -231,6 +129,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
         }
 
         body.light-theme .pane-header {
@@ -239,10 +139,7 @@
             color: #333;
         }
 
-        .pane-actions {
-            display: flex;
-            gap: 6px;
-        }
+        .pane-actions { display: flex; gap: 6px; }
 
         .CodeMirror {
             height: 100% !important;
@@ -260,9 +157,7 @@
             overflow: auto;
         }
 
-        body.light-theme .preview-wrapper {
-            background: #f9fafb;
-        }
+        body.light-theme .preview-wrapper { background: #f9fafb; }
 
         .preview-frame {
             width: 100%;
@@ -277,10 +172,7 @@
         .preview-wrapper.tablet .preview-frame { max-width: 768px; }
         .preview-wrapper.laptop .preview-frame { max-width: 1366px; }
 
-        .device-selector {
-            display: flex;
-            gap: 4px;
-        }
+        .device-selector { display: flex; gap: 4px; }
 
         .device-btn {
             background: transparent;
@@ -290,10 +182,7 @@
             font-size: 11px;
         }
 
-        body.light-theme .device-btn {
-            color: #666;
-            border-color: #ccc;
-        }
+        body.light-theme .device-btn { color: #666; border-color: #ccc; }
 
         .device-btn.active {
             background: var(--primary);
@@ -312,10 +201,7 @@
             gap: 10px;
         }
 
-        body.light-theme .status-bar {
-            background: #f3f4f6;
-            color: #666;
-        }
+        body.light-theme .status-bar { background: #f3f4f6; color: #666; }
 
         .auto-preview-indicator {
             display: flex;
@@ -324,9 +210,7 @@
             color: var(--success);
         }
 
-        .auto-preview-indicator i {
-            animation: pulse 2s infinite;
-        }
+        .auto-preview-indicator i { animation: pulse 2s infinite; }
 
         @keyframes pulse {
             0%, 100% { opacity: 0.6; }
@@ -336,10 +220,7 @@
         .modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            inset: 0;
             background: rgba(0,0,0,0.7);
             z-index: 1000;
             justify-content: center;
@@ -347,9 +228,7 @@
             padding: 20px;
         }
 
-        .modal.active {
-            display: flex;
-        }
+        .modal.active { display: flex; }
 
         .modal-content {
             background: #2d2d2d;
@@ -363,9 +242,7 @@
             flex-direction: column;
         }
 
-        body.light-theme .modal-content {
-            background: white;
-        }
+        body.light-theme .modal-content { background: white; }
 
         .modal-header {
             padding: 20px;
@@ -374,16 +251,9 @@
             font-weight: 600;
         }
 
-        body.light-theme .modal-header {
-            border-bottom: 1px solid #e5e7eb;
-            color: #333;
-        }
+        body.light-theme .modal-header { border-bottom: 1px solid #e5e7eb; color: #333; }
 
-        .modal-body {
-            padding: 20px;
-            overflow-y: auto;
-            flex: 1;
-        }
+        .modal-body { padding: 20px; overflow-y: auto; flex: 1; }
 
         .modal-footer {
             padding: 16px 20px;
@@ -393,9 +263,7 @@
             gap: 10px;
         }
 
-        body.light-theme .modal-footer {
-            border-top: 1px solid #e5e7eb;
-        }
+        body.light-theme .modal-footer { border-top: 1px solid #e5e7eb; }
 
         .modal-content input,
         .modal-content textarea {
@@ -422,31 +290,13 @@
             resize: vertical;
         }
 
-        .encoding-section {
-            margin-bottom: 20px;
-        }
-
-        .encoding-section h4 {
-            margin-bottom: 10px;
-            color: #fff;
-        }
-
-        body.light-theme .encoding-section h4 {
-            color: #333;
-        }
-
-        .encoding-buttons {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 10px;
-        }
+        .encoding-section { margin-bottom: 20px; }
+        .encoding-section h4 { margin-bottom: 10px; color: #fff; }
+        body.light-theme .encoding-section h4 { color: #333; }
 
         .loading-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            inset: 0;
             background: rgba(0,0,0,0.8);
             display: none;
             justify-content: center;
@@ -454,9 +304,7 @@
             z-index: 2000;
         }
 
-        .loading-overlay.active {
-            display: flex;
-        }
+        .loading-overlay.active { display: flex; }
 
         .spinner {
             border: 4px solid #3d3d3d;
@@ -472,15 +320,11 @@
             100% { transform: rotate(360deg); }
         }
 
-        .file-upload-container {
-            position: relative;
-            display: inline-block;
-        }
+        .file-upload-container { position: relative; display: inline-block; }
 
         .file-upload-input {
             position: absolute;
-            left: 0;
-            top: 0;
+            inset: 0;
             opacity: 0;
             width: 100%;
             height: 100%;
@@ -488,32 +332,22 @@
         }
 
         @media (max-width: 1024px) {
-            .container {
-                flex-direction: column;
-            }
+            .container { flex-direction: column; }
             .code-pane {
                 border-right: none;
                 border-bottom: 1px solid var(--dark-border);
                 max-height: 45vh;
             }
-            body.light-theme .code-pane {
-                border-bottom: 1px solid var(--light-border);
-            }
+            body.light-theme .code-pane { border-bottom: 1px solid var(--light-border); }
+            .split-divider { display: none; }
         }
 
         @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-            }
-            .wysiwyg-toolbar {
-                overflow-x: auto;
-            }
+            .header { flex-direction: column; }
         }
 
-        /* Edit Mode Styles */
-        .preview-frame.edit-mode {
-            cursor: pointer;
-        }
+        /* ---------- Edit mode ---------- */
+        .preview-frame.edit-mode { cursor: pointer; }
 
         .edit-popup {
             position: fixed;
@@ -528,14 +362,8 @@
             display: none;
         }
 
-        body.light-theme .edit-popup {
-            background: white;
-            color: #333;
-        }
-
-        .edit-popup.active {
-            display: block;
-        }
+        body.light-theme .edit-popup { background: white; color: #333; }
+        .edit-popup.active { display: block; }
 
         .edit-popup-header {
             font-weight: 600;
@@ -553,13 +381,9 @@
             cursor: pointer;
         }
 
-        body.light-theme .edit-popup-close {
-            color: #666;
-        }
+        body.light-theme .edit-popup-close { color: #666; }
 
-        .edit-popup-content {
-            margin-bottom: 16px;
-        }
+        .edit-popup-content { margin-bottom: 16px; }
 
         .edit-popup label {
             display: block;
@@ -568,9 +392,7 @@
             color: #aaa;
         }
 
-        body.light-theme .edit-popup label {
-            color: #666;
-        }
+        body.light-theme .edit-popup label { color: #666; }
 
         .edit-popup input,
         .edit-popup textarea {
@@ -592,15 +414,13 @@
             color: #333;
         }
 
-        .edit-popup textarea {
-            min-height: 80px;
-            resize: vertical;
-        }
+        .edit-popup textarea { min-height: 80px; resize: vertical; }
 
         .edit-popup-actions {
             display: flex;
             gap: 10px;
             justify-content: flex-end;
+            align-items: center;
         }
 
         .edit-highlight {
@@ -621,17 +441,7 @@
             font-weight: 600;
         }
 
-        .save-btn {
-            background: #10b981;
-        }
-
-        .save-btn:hover {
-            background: #059669;
-        }
-
-        .edit-mode-badge i {
-            animation: pulse 2s infinite;
-        }
+        .edit-mode-badge i { animation: pulse 2s infinite; }
 
         .error-message {
             color: #ef4444;
@@ -640,10 +450,9 @@
             display: none;
         }
 
-        .error-message.active {
-            display: block;
-        }
+        .error-message.active { display: block; }
 
+        /* ---------- Projects / History cards ---------- */
         .project-item {
             background: #3d3d3d;
             padding: 16px;
@@ -655,51 +464,19 @@
             transition: background 0.2s;
         }
 
-        body.light-theme .project-item {
-            background: #f3f4f6;
-        }
+        body.light-theme .project-item { background: #f3f4f6; }
+        .project-item:hover { background: #4d4d4d; }
+        body.light-theme .project-item:hover { background: #e5e7eb; }
 
-        .project-item:hover {
-            background: #4d4d4d;
-        }
+        .project-info { flex: 1; }
+        .project-name { font-weight: 600; margin-bottom: 4px; color: #fff; }
+        body.light-theme .project-name { color: #333; }
+        .project-date { font-size: 12px; color: #aaa; }
+        body.light-theme .project-date { color: #666; }
+        .project-actions { display: flex; gap: 8px; }
+        .project-btn { padding: 6px 12px; font-size: 12px; }
 
-        body.light-theme .project-item:hover {
-            background: #e5e7eb;
-        }
-
-        .project-info {
-            flex: 1;
-        }
-
-        .project-name {
-            font-weight: 600;
-            margin-bottom: 4px;
-            color: #fff;
-        }
-
-        body.light-theme .project-name {
-            color: #333;
-        }
-
-        .project-date {
-            font-size: 12px;
-            color: #aaa;
-        }
-
-        body.light-theme .project-date {
-            color: #666;
-        }
-
-        .project-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .project-btn {
-            padding: 6px 12px;
-            font-size: 12px;
-        }
-
+        /* ---------- Themes ---------- */
         .theme-card {
             cursor: pointer;
             border-radius: 8px;
@@ -708,15 +485,8 @@
             transition: all 0.2s;
         }
 
-        .theme-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-4px);
-        }
-
-        .theme-preview {
-            height: 80px;
-            width: 100%;
-        }
+        .theme-card:hover { border-color: var(--primary); transform: translateY(-4px); }
+        .theme-preview { height: 80px; width: 100%; }
 
         .theme-name {
             padding: 12px;
@@ -726,47 +496,34 @@
             color: #fff;
         }
 
-        body.light-theme .theme-name {
-            background: #f3f4f6;
-            color: #333;
-        }
+        body.light-theme .theme-name { background: #f3f4f6; color: #333; }
 
         body.midnight-theme .header,
         body.midnight-theme .pane-header,
         body.midnight-theme .status-bar,
-        body.midnight-theme .modal-content {
-            background: #1e293b;
-        }
+        body.midnight-theme .modal-content { background: #1e293b; }
 
         body.forest-theme .header,
         body.forest-theme .pane-header,
         body.forest-theme .status-bar,
-        body.forest-theme .modal-content {
-            background: #065f46;
-        }
+        body.forest-theme .modal-content { background: #065f46; }
 
         body.sunset-theme .header,
         body.sunset-theme .pane-header,
         body.sunset-theme .status-bar,
-        body.sunset-theme .modal-content {
-            background: #78350f;
-        }
+        body.sunset-theme .modal-content { background: #78350f; }
 
         body.purple-theme .header,
         body.purple-theme .pane-header,
         body.purple-theme .status-bar,
-        body.purple-theme .modal-content {
-            background: #581c87;
-        }
+        body.purple-theme .modal-content { background: #581c87; }
 
         body.ocean-theme .header,
         body.ocean-theme .pane-header,
         body.ocean-theme .status-bar,
-        body.ocean-theme .modal-content {
-            background: #134e4a;
-        }
+        body.ocean-theme .modal-content { background: #134e4a; }
 
-        /* Smart Encoding Styles */
+        /* ---------- Smart encoding ---------- */
         .format-option:hover {
             background: #4d4d4d !important;
             border-color: var(--primary) !important;
@@ -777,33 +534,174 @@
             background: rgba(79, 70, 229, 0.1) !important;
         }
 
-        .format-option input[type="radio"] {
-            accent-color: var(--primary);
-        }
+        .format-option input[type="radio"] { accent-color: var(--primary); }
 
         body.light-theme .format-option {
             background: #f3f4f6 !important;
             border: 1px solid #e5e7eb !important;
         }
 
-        body.light-theme .format-option:hover {
-            background: #e5e7eb !important;
-        }
+        body.light-theme .format-option:hover { background: #e5e7eb !important; }
 
         body.light-theme .format-option.selected {
             border-color: var(--primary) !important;
             background: rgba(79, 70, 229, 0.05) !important;
         }
+
+        /* ---------- Split divider ---------- */
+        .split-divider {
+            width: 6px;
+            cursor: col-resize;
+            background: var(--dark-border);
+            flex: 0 0 6px;
+            transition: background 0.15s;
+        }
+
+        .split-divider:hover, .split-divider.dragging { background: var(--primary); }
+        body.light-theme .split-divider { background: var(--light-border); }
+
+        /* ---------- Console panel ---------- */
+        .console-panel {
+            display: none;
+            flex-direction: column;
+            height: 220px;
+            border-top: 2px solid var(--primary);
+            background: #1a1a1a;
+            flex-shrink: 0;
+        }
+
+        body.light-theme .console-panel { background: #f3f4f6; }
+        .console-panel.open { display: flex; }
+
+        .console-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 14px;
+            background: #2d2d2d;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        body.light-theme .console-header { background: #e5e7eb; color: #333; }
+        .console-header-left { display: flex; align-items: center; gap: 8px; }
+
+        .console-mini-btn {
+            background: transparent;
+            color: #aaa;
+            padding: 2px 8px;
+            font-size: 12px;
+        }
+
+        .console-mini-btn:hover { background: transparent; color: #fff; transform: none; }
+
+        .console-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px 14px;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+        }
+
+        .console-empty { color: #777; text-align: center; padding: 30px 10px; }
+
+        .console-entry {
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .console-time { color: #888; margin-right: 10px; }
+        .console-log { color: #ddd; }
+        .console-info { color: #7dd3fc; }
+        .console-warn { color: #fbbf24; }
+        .console-error { color: #f87171; }
+
+        .console-badge {
+            background: var(--danger);
+            color: #fff;
+            border-radius: 999px;
+            padding: 1px 8px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        /* ---------- Snippets ---------- */
+        .snippet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 10px;
+        }
+
+        .snippet-card {
+            background: #3d3d3d;
+            border: 1px solid #555;
+            border-radius: 8px;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .snippet-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            background: #4d4d4d;
+        }
+
+        body.light-theme .snippet-card { background: #f3f4f6; border-color: #e5e7eb; }
+        body.light-theme .snippet-card:hover { background: #e5e7eb; }
+        .snippet-card i { font-size: 20px; color: var(--primary); margin-bottom: 8px; display: block; }
+        .snippet-card div { font-size: 13px; font-weight: 600; }
+
+        /* ---------- Shortcuts ---------- */
+        .shortcut-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .shortcut-table td { padding: 9px 6px; border-bottom: 1px solid #3d3d3d; }
+        body.light-theme .shortcut-table td { border-bottom: 1px solid #e5e7eb; }
+
+        .shortcut-table kbd {
+            background: #3d3d3d;
+            border: 1px solid #555;
+            border-radius: 4px;
+            padding: 2px 9px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+
+        body.light-theme .shortcut-table kbd { background: #f3f4f6; border-color: #ccc; color: #333; }
+
+        .muted { color: #aaa; font-size: 12px; line-height: 1.5; }
+        body.light-theme .muted { color: #666; }
+
+        /* ---------- Zen mode ---------- */
+        body.zen .header,
+        body.zen .status-bar,
+        body.zen .pane-header { display: none !important; }
+
+        .zen-exit {
+            position: fixed;
+            top: 12px;
+            right: 12px;
+            z-index: 500;
+            opacity: 0.5;
+        }
+
+        .zen-exit:hover { opacity: 1; }
     </style>
 </head>
 <body>
     <div class="loading-overlay" id="loading-overlay">
         <div style="text-align: center;">
             <div class="spinner"></div>
-            <div style="margin-top: 16px;">Loading editor...</div>
+            <div style="margin-top: 16px;" id="loading-text">Loading editor...</div>
         </div>
     </div>
 
+    <!-- Zen mode exit button -->
+    <button class="zen-exit" id="zen-exit" onclick="toggleZen()" title="Exit Zen mode (Alt+Z)" hidden><i class="fas fa-compress"></i></button>
+
+    <!-- ================= HEADER ================= -->
     <div class="header">
         <div class="logo">
             <i class="fas fa-code"></i>
@@ -811,6 +709,8 @@
         </div>
         <div class="controls">
             <button onclick="openProjectManager()"><i class="fas fa-folder"></i> Projects</button>
+            <button onclick="openSnippets()"><i class="fas fa-shapes"></i> Snippets</button>
+            <button onclick="openHistory()"><i class="fas fa-clock-rotate-left"></i> History</button>
             <button onclick="toggleTheme()"><i class="fas fa-palette"></i> Theme</button>
             <button onclick="formatCode()"><i class="fas fa-magic"></i> Format</button>
             <button onclick="cleanHTML()"><i class="fas fa-broom"></i> Clean</button>
@@ -818,28 +718,38 @@
                 <button><i class="fas fa-upload"></i> Upload</button>
                 <input type="file" class="file-upload-input" accept=".html,.htm,.txt" onchange="handleFileUpload(event)">
             </div>
+            <button onclick="openImportUrl()"><i class="fas fa-cloud-arrow-down"></i> Import URL</button>
             <button onclick="showExportOptions()"><i class="fas fa-download"></i> Export</button>
+            <button onclick="shareLink()"><i class="fas fa-share-nodes"></i> Share</button>
             <button onclick="smartEncodeDecode()"><i class="fas fa-exchange-alt"></i> Smart Encode/Decode</button>
+            <button class="secondary" onclick="showShortcuts()" title="Keyboard shortcuts"><i class="fas fa-keyboard"></i></button>
+            <button class="secondary" onclick="toggleZen()" title="Zen mode (Alt+Z)"><i class="fas fa-moon"></i></button>
             <button class="danger" onclick="clearCode()"><i class="fas fa-trash"></i> Clear</button>
         </div>
     </div>
 
+    <!-- ================= WORKSPACE ================= -->
     <div class="container">
-        <div class="pane code-pane">
+        <div class="pane code-pane" id="code-pane">
             <div class="pane-header">
                 <span><i class="fas fa-code"></i> Source Code</span>
                 <div class="pane-actions">
-                    <button onclick="findText()"><i class="fas fa-search"></i></button>
-                    <button onclick="replaceText()"><i class="fas fa-exchange-alt"></i></button>
-                    <button onclick="copyCode()"><i class="fas fa-copy"></i></button>
+                    <button onclick="findText()" title="Find"><i class="fas fa-search"></i></button>
+                    <button onclick="replaceText()" title="Replace"><i class="fas fa-exchange-alt"></i></button>
+                    <button onclick="copyCode()" title="Copy all"><i class="fas fa-copy"></i></button>
+                    <button onclick="showModal('link-modal')" title="Insert link"><i class="fas fa-link"></i></button>
+                    <button onclick="showModal('image-modal')" title="Insert image"><i class="fas fa-image"></i></button>
                 </div>
             </div>
             <textarea id="code-editor"></textarea>
         </div>
+
+        <div class="split-divider" id="split-divider" title="Drag to resize — double-click to reset"></div>
+
         <div class="pane preview-pane">
             <div class="pane-header">
                 <span><i class="fas fa-eye"></i> Live Preview</span>
-                <div style="display: flex; gap: 10px; align-items: center;">
+                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
                     <div id="editModeBadge" class="edit-mode-badge" style="display: none;">
                         <i class="fas fa-edit"></i>
                         <span>Edit Mode Active</span>
@@ -848,6 +758,9 @@
                         <i class="fas fa-circle"></i>
                         <span>Live</span>
                     </div>
+                    <button onclick="toggleConsole()" title="Toggle console">
+                        <i class="fas fa-terminal"></i> Console <span id="console-badge" class="console-badge" hidden>0</span>
+                    </button>
                     <button onclick="toggleEditMode()" id="editModeToggle">
                         <i class="fas fa-edit"></i> <span id="edit-mode-text">Edit Mode</span>
                     </button>
@@ -862,23 +775,39 @@
             <div class="preview-wrapper" id="preview-wrapper">
                 <iframe id="preview-frame" class="preview-frame"></iframe>
             </div>
+            <!-- Preview console -->
+            <div class="console-panel" id="console-panel">
+                <div class="console-header">
+                    <span class="console-header-left"><i class="fas fa-terminal"></i> Preview Console</span>
+                    <span class="console-header-left">
+                        <button class="console-mini-btn" onclick="clearConsole()" title="Clear console"><i class="fas fa-trash"></i></button>
+                        <button class="console-mini-btn" onclick="toggleConsole()" title="Close"><i class="fas fa-times"></i></button>
+                    </span>
+                </div>
+                <div class="console-body" id="console-body">
+                    <div class="console-empty">Console output (log / warn / error) from your preview appears here…</div>
+                </div>
+            </div>
         </div>
     </div>
 
+    <!-- ================= STATUS BAR ================= -->
     <div class="status-bar">
         <div>
             <span id="statusLine">Line: 1, Col: 1</span>
+            <span style="margin-left: 20px;">Lines: <span id="line-count">1</span></span>
             <span style="margin-left: 20px;">Chars: <span id="char-count">0</span></span>
             <span style="margin-left: 20px;">Words: <span id="word-count">0</span></span>
         </div>
         <div id="status-message">Ready</div>
     </div>
 
+    <!-- ================= MODALS ================= -->
     <div class="modal" id="link-modal">
         <div class="modal-content">
             <div class="modal-header"><i class="fas fa-link"></i> Insert Link</div>
             <div class="modal-body">
-                <input type="text" id="link-url" placeholder="Enter URL (e.g., https://example.com)">
+                <input type="text" id="link-url" placeholder="Enter URL (e.g., https://example.com or #)">
                 <input type="text" id="link-text" placeholder="Link text (optional)">
             </div>
             <div class="modal-footer">
@@ -918,19 +847,16 @@
         </div>
     </div>
 
-    <!-- Smart Encoding Modal -->
     <div class="modal" id="smart-encode-modal">
         <div class="modal-content" style="max-width: 500px;">
-            <div class="modal-header">
-                <i class="fas fa-exchange-alt"></i> Smart Encoding/Decoding
-            </div>
+            <div class="modal-header"><i class="fas fa-exchange-alt"></i> Smart Encoding/Decoding</div>
             <div class="modal-body">
                 <div class="encoding-section">
                     <h4>Input Analysis</h4>
                     <div id="detected-format" style="padding: 10px; background: #3d3d3d; border-radius: 4px; margin-bottom: 15px;">
                         <i class="fas fa-spinner fa-spin"></i> Detecting format...
                     </div>
-                    
+
                     <h4>Convert To:</h4>
                     <div class="format-options" style="display: grid; gap: 10px;">
                         <label class="format-option" style="display: flex; align-items: center; padding: 10px; background: #3d3d3d; border-radius: 4px; cursor: pointer;">
@@ -940,7 +866,7 @@
                                 <div style="font-size: 12px; color: #aaa; margin-top: 4px;">Normal HTML text with UTF-8 encoding</div>
                             </div>
                         </label>
-                        
+
                         <label class="format-option" style="display: flex; align-items: center; padding: 10px; background: #3d3d3d; border-radius: 4px; cursor: pointer;">
                             <input type="radio" name="target-format" value="base64" style="margin-right: 10px;">
                             <div>
@@ -948,7 +874,7 @@
                                 <div style="font-size: 12px; color: #aaa; margin-top: 4px;">Encode to Base64 format</div>
                             </div>
                         </label>
-                        
+
                         <label class="format-option" style="display: flex; align-items: center; padding: 10px; background: #3d3d3d; border-radius: 4px; cursor: pointer;">
                             <input type="radio" name="target-format" value="quoted-printable" style="margin-right: 10px;">
                             <div>
@@ -957,7 +883,7 @@
                             </div>
                         </label>
                     </div>
-                    
+
                     <div id="conversion-preview" style="margin-top: 20px; display: none;">
                         <h4>Preview:</h4>
                         <div style="max-height: 150px; overflow-y: auto; padding: 10px; background: #2d2d2d; border-radius: 4px; font-family: monospace; font-size: 12px; white-space: pre-wrap; word-break: break-all;" id="preview-content"></div>
@@ -966,6 +892,9 @@
             </div>
             <div class="modal-footer">
                 <button class="secondary" onclick="closeModal('smart-encode-modal')">Cancel</button>
+                <button id="apply-convert-btn" class="save-btn" onclick="applyConversion()" style="display: none;">
+                    <i class="fas fa-check"></i> Apply to Editor
+                </button>
                 <button id="convert-btn" onclick="performConversion()">
                     <i class="fas fa-exchange-alt"></i> Convert
                 </button>
@@ -973,6 +902,7 @@
         </div>
     </div>
 
+    <!-- Edit element popup -->
     <div class="edit-popup" id="editPopup">
         <div class="edit-popup-header">
             <span><i class="fas fa-edit"></i> Edit Element</span>
@@ -986,16 +916,17 @@
             </div>
             <div id="linkEditSection" style="display: none;">
                 <label for="editLink">Link URL:</label>
-                <input type="url" id="editLink" placeholder="https://example.com">
-                <div class="error-message" id="linkError">Please enter a valid URL (e.g., https://example.com)</div>
+                <input type="text" id="editLink" placeholder="https://example.com, #, /page, mailto:…">
+                <div class="error-message" id="linkError">Only javascript: links are blocked — #, /page, mailto:, https://… all work</div>
             </div>
             <div id="imageEditSection" style="display: none;">
                 <label for="editImage">Image URL:</label>
-                <input type="url" id="editImage" placeholder="https://example.com/image.jpg">
-                <div class="error-message" id="imageError">Please enter a valid image URL</div>
+                <input type="text" id="editImage" placeholder="https://example.com/image.jpg">
+                <div class="error-message" id="imageError">Only dangerous URLs are blocked — https://, data:image/, /img.jpg all work</div>
             </div>
         </div>
         <div class="edit-popup-actions">
+            <button class="danger" onclick="deleteEditTarget()" title="Delete this element completely"><i class="fas fa-trash"></i> Delete</button>
             <button class="secondary" onclick="closeEditPopup()">Cancel</button>
             <button onclick="saveEdit()"><i class="fas fa-save"></i> Save</button>
         </div>
@@ -1007,7 +938,7 @@
             <div class="modal-body">
                 <div class="encoding-section">
                     <h4>Save Current Project</h4>
-                    <input type="text" id="project-name-input" placeholder="Enter project name">
+                    <input type="text" id="project-name-input" placeholder="Enter project name" maxlength="80">
                     <button class="save-btn" onclick="saveCurrentProject()"><i class="fas fa-save"></i> Save</button>
                 </div>
                 <div class="encoding-section">
@@ -1064,11 +995,172 @@
         </div>
     </div>
 
-    <script>
-        let editor;
-        let updateTimeout;
-        let isEditMode = false;
+    <!-- Snippets library -->
+    <div class="modal" id="snippets-modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header"><i class="fas fa-shapes"></i> Snippets Library</div>
+            <div class="modal-body">
+                <p class="muted" style="margin-bottom: 14px;">Click a snippet to insert it at the cursor position in the editor.</p>
+                <div class="snippet-grid" id="snippets-grid"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="secondary" onclick="closeModal('snippets-modal')">Close</button>
+            </div>
+        </div>
+    </div>
 
+    <!-- Version history -->
+    <div class="modal" id="history-modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header"><i class="fas fa-clock-rotate-left"></i> Version History</div>
+            <div class="modal-body">
+                <button class="save-btn" onclick="pushSnapshotNow()" style="margin-bottom: 14px;"><i class="fas fa-camera"></i> Save snapshot now</button>
+                <div id="history-list" style="max-height: 320px; overflow-y: auto;"></div>
+                <p class="muted" style="margin-top: 10px;">Snapshots are saved automatically before Format, Clean, Clear, Import, Conversions and project loads (last 20 kept).</p>
+            </div>
+            <div class="modal-footer">
+                <button class="secondary" onclick="closeModal('history-modal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import from URL -->
+    <div class="modal" id="import-url-modal">
+        <div class="modal-content">
+            <div class="modal-header"><i class="fas fa-cloud-arrow-down"></i> Import from URL</div>
+            <div class="modal-body">
+                <input type="url" id="import-url-input" placeholder="https://example.com/page.html">
+                <p class="muted">Fetches the raw HTML of a public page. Some sites block cross-origin requests — if it fails, download the file manually and use Upload instead.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="secondary" onclick="closeModal('import-url-modal')">Cancel</button>
+                <button onclick="importFromUrl()"><i class="fas fa-download"></i> Import</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Keyboard shortcuts -->
+    <div class="modal" id="shortcuts-modal">
+        <div class="modal-content">
+            <div class="modal-header"><i class="fas fa-keyboard"></i> Keyboard Shortcuts</div>
+            <div class="modal-body">
+                <table class="shortcut-table">
+                    <tr><td><kbd>Ctrl</kbd> + <kbd>S</kbd></td><td>Download HTML file</td></tr>
+                    <tr><td><kbd>Ctrl</kbd> + <kbd>E</kbd></td><td>Toggle Edit Mode (WYSIWYG)</td></tr>
+                    <tr><td><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>F</kbd></td><td>Format code</td></tr>
+                    <tr><td><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd></td><td>Open Projects</td></tr>
+                    <tr><td><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>T</kbd></td><td>Open Themes</td></tr>
+                    <tr><td><kbd>Alt</kbd> + <kbd>Z</kbd></td><td>Zen mode (hide UI)</td></tr>
+                    <tr><td><kbd>Tab</kbd></td><td>Emmet expand (e.g. <code>div.card&gt;p{Hi}</code>) / indent</td></tr>
+                    <tr><td><kbd>Ctrl</kbd> + <kbd>F</kbd> / <kbd>Ctrl</kbd> + <kbd>H</kbd></td><td>Find / Replace (in editor)</td></tr>
+                    <tr><td><kbd>Ctrl</kbd> + <kbd>Space</kbd></td><td>Autocomplete (in editor)</td></tr>
+                    <tr><td><kbd>Esc</kbd></td><td>Close dialogs / exit Zen</td></tr>
+                </table>
+                <p class="muted" style="margin-top: 12px;">Emmet examples: <code>ul&gt;li*3</code> · <code>div#app.container</code> · <code>a[href=https://x.com]{Link}</code> · <code>!</code> for HTML boilerplate. (No spaces inside <code>{text}</code>)</p>
+            </div>
+            <div class="modal-footer">
+                <button class="secondary" onclick="closeModal('shortcuts-modal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ============================================================
+           HTML EDITOR PRO — ULTIMATE EDITION (single file)
+           Sections:
+             1. Helpers & status
+             2. Editor init (with Emmet keys)
+             3. Shared link auto-load
+             4. Preview + console hook
+             5. Stats & cursor
+             6. Themes
+             7. Format / Clean / Clear / Upload
+             8. Find / Replace / Copy
+             9. Device preview
+            10. Edit mode (full freedom + delete element)
+            11. Export
+            12. Smart encode / decode
+            13. Projects
+            14. Version history
+            15. Snippets
+            16. Emmet
+            17. Share link / Import URL
+            18. Zen mode
+            19. Split divider
+            20. Global wiring & boot
+           ============================================================ */
+
+        let editor = null;
+        let updateTimeout = null;
+        let isEditMode = false;
+        let editTarget = null;
+        let lastConversion = null;
+        let consoleUnread = 0;
+
+        const EDITABLE_SELECTOR = 'p, h1, h2, h3, h4, h5, h6, span, div, li, a, td, th, img';
+
+        /* ============================================================
+           1. HELPERS & STATUS
+           ============================================================ */
+        function escapeHtml(s) {
+            return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        }
+
+        // Security-only check: everything is allowed EXCEPT script URLs.
+        // "#", "/page.html", "mailto:…", "tel:…", "data:image/…" all work.
+        function isSafeURL(url) {
+            const u = (url || '').trim().toLowerCase();
+            if (u.startsWith('javascript:') || u.startsWith('vbscript:')) return false;
+            if (u.startsWith('data:') && !u.startsWith('data:image/')) return false;
+            return true;
+        }
+
+        function requireEditor() {
+            if (!editor) { setStatus('Editor is still loading…', 'error'); return false; }
+            return true;
+        }
+
+        function timeAgo(ts) {
+            const s = Math.floor((Date.now() - ts) / 1000);
+            if (s < 60) return 'just now';
+            if (s < 3600) return Math.floor(s / 60) + ' min ago';
+            if (s < 86400) return Math.floor(s / 3600) + ' h ago';
+            return Math.floor(s / 86400) + ' days ago';
+        }
+
+        function showLoading(text) {
+            document.getElementById('loading-text').textContent = text || 'Working…';
+            document.getElementById('loading-overlay').classList.add('active');
+        }
+
+        function hideLoading() { document.getElementById('loading-overlay').classList.remove('active'); }
+
+        function showModal(id) {
+            const m = document.getElementById(id);
+            if (!m) return;
+            m.classList.add('active');
+            const f = m.querySelector('input, textarea, button');
+            if (f) setTimeout(() => f.focus(), 60);
+        }
+
+        function closeModal(id) {
+            const m = document.getElementById(id);
+            if (m) m.classList.remove('active');
+        }
+
+        function setStatus(message, type = 'info') {
+            const statusEl = document.getElementById('status-message');
+            statusEl.textContent = message;
+            statusEl.style.color = type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#aaa';
+            setTimeout(() => {
+                statusEl.textContent = 'Ready';
+                statusEl.style.color = '#aaa';
+            }, 3000);
+        }
+
+        /* ============================================================
+           2. EDITOR INIT
+           ============================================================ */
         function initEditor() {
             const loading = document.getElementById('loading-overlay');
             loading.classList.add('active');
@@ -1081,7 +1173,7 @@
                         lineNumbers: true,
                         lineWrapping: true,
                         autoCloseTags: true,
-                        matchTags: {bothTags: true},
+                        matchTags: { bothTags: true },
                         matchBrackets: true,
                         foldGutter: true,
                         gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
@@ -1092,13 +1184,43 @@
                             'Ctrl-F': () => editor.execCommand('find'),
                             'Cmd-F': () => editor.execCommand('find'),
                             'Ctrl-H': () => editor.execCommand('replace'),
-                            'Cmd-H': () => editor.execCommand('replace')
+                            'Cmd-H': () => editor.execCommand('replace'),
+                            'Tab': emmetTabKey,
+                            'Shift-Tab': emmetShiftTabKey
                         }
                     });
 
                     editor.setSize('100%', '100%');
 
-                    const initialHTML = `<!DOCTYPE html>
+                    editor.setValue(DEFAULT_DOC);
+                    editor.on('change', () => {
+                        clearTimeout(updateTimeout);
+                        updateTimeout = setTimeout(updatePreview, 300);
+                        updateStats();
+                    });
+
+                    editor.on('cursorActivity', updateCursorPosition);
+                    updatePreview();
+                    updateStats();
+                    loading.classList.remove('active');
+                    setStatus('Editor loaded successfully', 'success');
+
+                    // Restore saved theme
+                    const savedTheme = localStorage.getItem('editorTheme');
+                    if (savedTheme && themes[savedTheme]) applyTheme(savedTheme);
+
+                    // Auto-load shared code from link (if any)
+                    setTimeout(checkSharedLink, 300);
+                } catch (error) {
+                    console.error('Editor initialization error:', error);
+                    loading.classList.remove('active');
+                    setStatus('Error loading editor', 'error');
+                    alert('Failed to initialize editor. Please refresh the page.');
+                }
+            }, 500);
+        }
+
+        const DEFAULT_DOC = `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -1124,22 +1246,32 @@
         h1 { color: #667eea; }
         ul { margin: 20px 0; }
         li { margin: 8px 0; }
+        .new { color: #10b981; font-weight: bold; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Welcome to HTML Editor Pro!</h1>
         <p>This is the ultimate HTML editor combining powerful features:</p>
-        <h2>Features</h2>
+        <h2>Core Features</h2>
         <ul>
-            <li>WYSIWYG editing with toolbar</li>
+            <li>WYSIWYG edit mode — click any element to change or delete it</li>
             <li>Live preview with auto-sync</li>
-            <li>Syntax highlighting</li>
-            <li>HTML cleaning & formatting</li>
+            <li>Syntax highlighting, folding &amp; autocomplete</li>
+            <li>HTML cleaning &amp; formatting</li>
             <li>Responsive device preview</li>
-            <li>Export to HTML & Screenshot</li>
-            <li>Base64 & URL encoding tools</li>
+            <li>Export to HTML, screenshot &amp; CodePen</li>
+            <li>Base64 &amp; Quoted-Printable smart encoding</li>
             <li>Search and replace functionality</li>
+        </ul>
+        <h2><span class="new">NEW</span> in Ultimate Edition</h2>
+        <ul>
+            <li>Version history snapshots</li>
+            <li>Preview console (log / warn / error)</li>
+            <li>Snippets library &amp; Emmet (press Tab)</li>
+            <li>Keyboard shortcuts &amp; Zen mode</li>
+            <li>Share link &amp; import from URL</li>
+            <li>Draggable split divider</li>
         </ul>
         <h2>Get Started</h2>
         <p>Start editing in the code pane and see your changes live!</p>
@@ -1147,55 +1279,118 @@
 </body>
 </html>`;
 
-                    editor.setValue(initialHTML);
-                    editor.on('change', () => {
-                        clearTimeout(updateTimeout);
-                        updateTimeout = setTimeout(updatePreview, 300);
-                        updateStats();
-                    });
-
-                    editor.on('cursorActivity', updateCursorPosition);
-                    updatePreview();
-                    updateStats();
-                    loading.classList.remove('active');
-                    setStatus('Editor loaded successfully', 'success');
-                } catch (error) {
-                    console.error('Editor initialization error:', error);
-                    loading.classList.remove('active');
-                    setStatus('Error loading editor', 'error');
-                    alert('Failed to initialize editor. Please refresh the page.');
+        /* ============================================================
+           3. SHARED LINK AUTO-LOAD (no banner — loads directly)
+           ============================================================ */
+        function checkSharedLink() {
+            if (location.hash.indexOf('#code=') !== 0) return;
+            try {
+                const code = LZString.decompressFromEncodedURIComponent(location.hash.slice(6));
+                if (code) {
+                    pushVersion('before shared load');
+                    editor.setValue(code);
+                    setStatus('Shared code loaded from link', 'success');
+                    // Clear the hash so refreshing doesn't overwrite your edits
+                    history.replaceState(null, '', location.pathname + location.search);
                 }
-            }, 500);
+            } catch (e) { /* invalid hash — ignore */ }
         }
 
+        /* ============================================================
+           4. PREVIEW + CONSOLE HOOK
+           ============================================================ */
         function updatePreview() {
             try {
                 const code = editor.getValue();
                 const frame = document.getElementById('preview-frame');
-                
-                const sanitized = DOMPurify.sanitize(code, {
-                    WHOLE_DOCUMENT: true,
-                    RETURN_DOM: false,
-                    RETURN_DOM_FRAGMENT: false,
-                    FORCE_BODY: false,
-                    ADD_TAGS: ['style', 'script', 'html', 'head', 'body', 'meta', 'link'],
-                    ADD_ATTR: ['target', 'charset', 'name', 'content', 'rel', 'href', 'type']
-                });
-                
-                frame.srcdoc = sanitized;
+
+                if (!code.trim()) {
+                    // Themed empty state (respects dark/light via prefers-color-scheme)
+                    frame.srcdoc = '<!DOCTYPE html><html><head><meta charset="utf-8"><style>' +
+                        'body{margin:0;height:100vh;display:grid;place-items:center;font-family:system-ui,sans-serif;background:#f4f6f9;color:#6b7889;text-align:center}' +
+                        '@media (prefers-color-scheme: dark){body{background:#1b2330;color:#7e8a9b}}' +
+                        '</style></head><body><div><p style="font-size:40px;margin:0 0 12px;">👁</p>' +
+                        '<p>Start typing in the editor to see your live preview…</p></div></body></html>';
+                    return;
+                }
+
+                let html;
+                if (isEditMode) {
+                    // Raw code while editing so nothing is lost on sync-back
+                    html = code;
+                } else {
+                    html = DOMPurify.sanitize(code, {
+                        WHOLE_DOCUMENT: true,
+                        RETURN_DOM: false,
+                        RETURN_DOM_FRAGMENT: false,
+                        FORCE_BODY: false,
+                        ADD_TAGS: ['style', 'script', 'html', 'head', 'body', 'meta', 'link'],
+                        ADD_ATTR: ['target', 'charset', 'name', 'content', 'rel', 'href', 'type']
+                    });
+                }
+                frame.srcdoc = injectConsoleHook(html);
             } catch (error) {
                 console.error('Preview update error:', error);
                 setStatus('Error updating preview', 'error');
             }
         }
 
+        // Hook injected into the preview to capture console output + errors
+        const CONSOLE_HOOK_SRC = '(function(){function s(l,a){try{parent.postMessage({__pc:1,level:l,args:Array.prototype.map.call(a,function(x){try{return (typeof x==="object"&&x!==null)?JSON.stringify(x):String(x)}catch(e){return String(x)}})},"*")}catch(e){}}["log","info","warn","error"].forEach(function(k){var o=console[k].bind(console);console[k]=function(){s(k,arguments);o.apply(null,arguments)}});window.addEventListener("error",function(e){s("error",[(e.message||"Script error")+(e.lineno?" (line "+e.lineno+")":"")])});window.addEventListener("unhandledrejection",function(e){s("error",["Unhandled promise rejection: "+((e.reason&&e.reason.message)||e.reason)])})})();';
+        const CONSOLE_HOOK_TAG = '<scr' + 'ipt data-editor-hook="1">' + CONSOLE_HOOK_SRC + '<\/scr' + 'ipt>';
+
+        function injectConsoleHook(html) {
+            if (!html || !html.trim()) return html;
+            if (/<\/body>/i.test(html)) return html.replace(/<\/body>/i, CONSOLE_HOOK_TAG + '</body>');
+            return html + CONSOLE_HOOK_TAG;
+        }
+
+        function toggleConsole() {
+            const panel = document.getElementById('console-panel');
+            panel.classList.toggle('open');
+            if (panel.classList.contains('open')) { consoleUnread = 0; updateConsoleBadge(); }
+        }
+
+        function updateConsoleBadge() {
+            const b = document.getElementById('console-badge');
+            b.textContent = consoleUnread;
+            b.hidden = consoleUnread === 0;
+        }
+
+        function addConsoleEntry(level, msg) {
+            const body = document.getElementById('console-body');
+            const empty = body.querySelector('.console-empty');
+            if (empty) empty.remove();
+            const div = document.createElement('div');
+            div.className = 'console-entry console-' + level;
+            div.innerHTML = '<span class="console-time">' + new Date().toLocaleTimeString() + '</span>' + escapeHtml(msg);
+            body.appendChild(div);
+            while (body.children.length > 200) body.removeChild(body.firstChild);
+            body.scrollTop = body.scrollHeight;
+            if (!document.getElementById('console-panel').classList.contains('open')) {
+                consoleUnread++;
+                updateConsoleBadge();
+            }
+        }
+
+        function clearConsole() {
+            document.getElementById('console-body').innerHTML = '<div class="console-empty">Console output (log / warn / error) from your preview appears here…</div>';
+            consoleUnread = 0;
+            updateConsoleBadge();
+        }
+
+        /* ============================================================
+           5. STATS & CURSOR
+           ============================================================ */
         function updateStats() {
             try {
                 const code = editor.getValue();
                 const charCount = code.length;
                 const wordCount = code.trim().split(/\s+/).filter(w => w.length > 0).length;
+                const lineCount = code.split('\n').length;
                 document.getElementById('char-count').textContent = charCount;
                 document.getElementById('word-count').textContent = wordCount;
+                document.getElementById('line-count').textContent = lineCount;
             } catch (error) {
                 console.error('Stats update error:', error);
             }
@@ -1210,16 +1405,9 @@
             }
         }
 
-        function setStatus(message, type = 'info') {
-            const statusEl = document.getElementById('status-message');
-            statusEl.textContent = message;
-            statusEl.style.color = type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#aaa';
-            setTimeout(() => {
-                statusEl.textContent = 'Ready';
-                statusEl.style.color = '#aaa';
-            }, 3000);
-        }
-
+        /* ============================================================
+           6. THEMES
+           ============================================================ */
         const themes = {
             dark: {
                 name: 'Dark',
@@ -1293,38 +1481,28 @@
             }
         };
 
-        let currentTheme = 'dark';
-
         function applyTheme(themeName) {
             try {
                 const theme = themes[themeName];
-                if (!theme) {
-                    console.warn('Theme not found:', themeName);
-                    return;
-                }
+                if (!theme) { console.warn('Theme not found:', themeName); return; }
 
                 Object.values(themes).forEach(t => {
                     if (t.bodyClass) document.body.classList.remove(t.bodyClass);
                 });
 
-                if (theme.bodyClass) {
-                    document.body.classList.add(theme.bodyClass);
-                }
+                if (theme.bodyClass) document.body.classList.add(theme.bodyClass);
 
                 document.documentElement.style.setProperty('--primary', theme.primary);
                 document.documentElement.style.setProperty('--primary-dark', theme.primaryDark);
-                
+
                 if (theme.darkBg) {
                     document.documentElement.style.setProperty('--dark-bg', theme.darkBg);
                     document.documentElement.style.setProperty('--dark-header', theme.darkHeader);
                     document.documentElement.style.setProperty('--dark-border', theme.darkBorder);
                 }
 
-                if (editor && editor.setOption) {
-                    editor.setOption('theme', theme.editorTheme);
-                }
+                if (editor && editor.setOption) editor.setOption('theme', theme.editorTheme);
 
-                currentTheme = themeName;
                 localStorage.setItem('editorTheme', themeName);
                 setStatus(`Switched to ${theme.name} theme`, 'success');
             } catch (error) {
@@ -1333,17 +1511,20 @@
             }
         }
 
-        function toggleTheme() {
-            document.getElementById('theme-modal').classList.add('active');
-        }
+        function toggleTheme() { showModal('theme-modal'); }
 
         function selectTheme(themeName) {
             applyTheme(themeName);
             closeModal('theme-modal');
         }
 
+        /* ============================================================
+           7. FORMAT / CLEAN / CLEAR / UPLOAD
+           ============================================================ */
         function formatCode() {
+            if (!requireEditor()) return;
             try {
+                pushVersion('before format');
                 const formatted = html_beautify(editor.getValue(), {
                     indent_size: 2,
                     wrap_line_length: 80,
@@ -1358,7 +1539,9 @@
         }
 
         function cleanHTML() {
+            if (!requireEditor()) return;
             try {
+                pushVersion('before clean');
                 const cleaned = DOMPurify.sanitize(editor.getValue(), {
                     ALLOWED_TAGS: ['html', 'head', 'body', 'title', 'meta', 'link', 'style', 'script',
                         'div', 'span', 'p', 'a', 'img', 'ul', 'ol', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
@@ -1375,6 +1558,14 @@
             }
         }
 
+        function clearCode() {
+            if (!requireEditor()) return;
+            if (!confirm('Clear all code? A version snapshot will be saved first.')) return;
+            pushVersion('before clear');
+            editor.setValue('');
+            setStatus('Editor cleared', 'success');
+        }
+
         function handleFileUpload(event) {
             try {
                 const file = event.target.files[0];
@@ -1383,6 +1574,7 @@
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     try {
+                        pushVersion('before upload');
                         editor.setValue(e.target.result);
                         setStatus(`File "${file.name}" loaded successfully`, 'success');
                     } catch (error) {
@@ -1390,953 +1582,949 @@
                         setStatus('Error reading file', 'error');
                     }
                 };
-                reader.onerror = () => {
-                    setStatus('Error loading file', 'error');
-                };
+                reader.onerror = () => setStatus('Error loading file', 'error');
                 reader.readAsText(file);
                 event.target.value = '';
             } catch (error) {
                 console.error('Upload error:', error);
-                setStatus('Error uploading file', 'error');
+                setStatus('Upload error', 'error');
             }
         }
 
-        function showExportOptions() {
-            document.getElementById('export-modal').classList.add('active');
+        /* ============================================================
+           8. FIND / REPLACE / COPY
+           ============================================================ */
+        function findText() {
+            if (!requireEditor()) return;
+            editor.focus();
+            editor.execCommand('find');
         }
+
+        function replaceText() {
+            if (!requireEditor()) return;
+            editor.focus();
+            editor.execCommand('replace');
+        }
+
+        function copyCode() {
+            if (!requireEditor()) return;
+            const code = editor.getValue();
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(code)
+                    .then(() => setStatus('Code copied to clipboard', 'success'))
+                    .catch(() => fallbackCopy(code));
+            } else {
+                fallbackCopy(code);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); setStatus('Code copied to clipboard', 'success'); }
+            catch (e) { setStatus('Copy failed', 'error'); }
+            ta.remove();
+        }
+
+        /* ============================================================
+           9. DEVICE PREVIEW
+           ============================================================ */
+        function setDevice(device) {
+            const wrapper = document.getElementById('preview-wrapper');
+            wrapper.classList.remove('mobile', 'tablet', 'laptop');
+            if (device !== 'desktop') wrapper.classList.add(device);
+            document.querySelectorAll('.device-btn').forEach(b => {
+                b.classList.toggle('active', b.textContent.trim().toLowerCase() === device);
+            });
+        }
+
+        /* ============================================================
+           10. EDIT MODE (WYSIWYG) — full freedom, no restrictions
+           ============================================================ */
+        function toggleEditMode() {
+            if (!requireEditor()) return;
+            setEditMode(!isEditMode);
+        }
+
+        function setEditMode(on) {
+            isEditMode = on;
+            document.getElementById('editModeBadge').style.display = on ? 'inline-flex' : 'none';
+            document.getElementById('edit-mode-text').textContent = on ? 'Exit Edit Mode' : 'Edit Mode';
+            const frame = document.getElementById('preview-frame');
+            frame.classList.toggle('edit-mode', on);
+            if (!on) detachEditListeners();
+            updatePreview(); // reload raw (edit) or sanitized (normal); listeners attach on load
+            setStatus(on ? 'Edit mode ON — click any element to edit or delete it' : 'Edit mode OFF', 'success');
+        }
+
+        // Attach listeners when the iframe finishes loading in edit mode
+        document.getElementById('preview-frame').addEventListener('load', () => {
+            if (isEditMode) attachEditListeners();
+        });
+
+        function previewDocument() {
+            const frame = document.getElementById('preview-frame');
+            return frame.contentDocument || (frame.contentWindow && frame.contentWindow.document);
+        }
+
+        function attachEditListeners() {
+            const doc = previewDocument();
+            if (!doc) return;
+            doc.querySelectorAll(EDITABLE_SELECTOR).forEach(el => {
+                el.addEventListener('click', onElementClick);
+                el.style.cursor = 'pointer';
+            });
+        }
+
+        function detachEditListeners() {
+            try {
+                const doc = previewDocument();
+                if (doc) doc.querySelectorAll(EDITABLE_SELECTOR).forEach(el => el.removeEventListener('click', onElementClick));
+            } catch (_) { /* iframe may be mid-reload */ }
+            clearHighlight();
+            closeEditPopup();
+        }
+
+        function clearHighlight() {
+            try {
+                const doc = previewDocument();
+                if (doc) doc.querySelectorAll('.edit-highlight').forEach(el => el.classList.remove('edit-highlight'));
+            } catch (_) {}
+        }
+
+        function onElementClick(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            clearHighlight();
+            e.target.classList.add('edit-highlight');
+            editTarget = e.target;
+            openEditPopup(e);
+        }
+
+        function showEditSection(key, show) {
+            const map = { text: 'textEditSection', link: 'linkEditSection', image: 'imageEditSection' };
+            document.getElementById(map[key]).style.display = show ? 'block' : 'none';
+        }
+
+        function showError(key, bad) { document.getElementById(key + 'Error').classList.toggle('active', bad); }
+
+        function openEditPopup(e) {
+            const el = editTarget;
+            showEditSection('text', true);
+            showEditSection('link', false);
+            showEditSection('image', false);
+            showError('text', false); showError('link', false); showError('image', false);
+
+            if (el.tagName === 'IMG') {
+                document.getElementById('editImage').value = el.getAttribute('src') || '';
+                document.getElementById('editText').value = el.getAttribute('alt') || '';
+                showEditSection('image', true);
+                const parent = el.parentElement;
+                if (parent && parent.tagName === 'A') {
+                    document.getElementById('editLink').value = parent.getAttribute('href') || '';
+                    showEditSection('link', true);
+                }
+            } else if (el.tagName === 'A') {
+                const innerImg = el.querySelector('img');
+                document.getElementById('editText').value = innerImg ? (innerImg.getAttribute('alt') || '') : el.textContent;
+                document.getElementById('editLink').value = el.getAttribute('href') || '';
+                showEditSection('link', true);
+                if (innerImg) {
+                    document.getElementById('editImage').value = innerImg.getAttribute('src') || '';
+                    showEditSection('image', true);
+                }
+            } else {
+                document.getElementById('editText').value = el.textContent;
+            }
+
+            const popup = document.getElementById('editPopup');
+            popup.classList.add('active');
+            // FIX: convert iframe coordinates → parent page coordinates
+            const rect = popup.getBoundingClientRect();
+            const frameRect = document.getElementById('preview-frame').getBoundingClientRect();
+            const x = frameRect.left + e.clientX;
+            const y = frameRect.top + e.clientY;
+            popup.style.left = Math.max(12, Math.min(x, window.innerWidth - rect.width - 12)) + 'px';
+            popup.style.top = Math.max(12, Math.min(y, window.innerHeight - rect.height - 12)) + 'px';
+            document.getElementById('editText').focus();
+        }
+
+        function closeEditPopup() {
+            document.getElementById('editPopup').classList.remove('active');
+            clearHighlight();
+            editTarget = null;
+        }
+
+        function saveEdit() {
+            if (!editTarget) return;
+            const el = editTarget;
+            const doc = previewDocument();
+            const text = document.getElementById('editText').value;
+            const link = document.getElementById('editLink').value.trim();
+            const img = document.getElementById('editImage').value.trim();
+
+            // Only javascript:/dangerous URLs are blocked — full freedom otherwise
+            if (link && !isSafeURL(link)) { showError('link', true); return; }
+            if (img && !isSafeURL(img)) { showError('image', true); return; }
+            showError('link', false); showError('image', false);
+
+            if (el.tagName === 'IMG') {
+                if (img) el.setAttribute('src', img); else el.removeAttribute('src');
+                el.setAttribute('alt', text);
+                const parentLink = el.parentElement && el.parentElement.tagName === 'A' ? el.parentElement : null;
+                if (parentLink) {
+                    if (link) parentLink.setAttribute('href', link);
+                    else parentLink.removeAttribute('href');
+                } else if (link) {
+                    const a = doc.createElement('a');
+                    a.setAttribute('href', link);
+                    a.setAttribute('target', '_blank');
+                    a.setAttribute('rel', 'noopener');
+                    el.parentElement.insertBefore(a, el);
+                    a.appendChild(el);
+                }
+            } else if (el.tagName === 'A') {
+                const innerImg = el.querySelector('img');
+                if (innerImg) {
+                    if (img) { innerImg.setAttribute('src', img); innerImg.setAttribute('alt', text); }
+                }
+                // "#" or any value → set as-is. Empty → just remove href, keep the <a> element.
+                if (link) el.setAttribute('href', link);
+                else el.removeAttribute('href');
+                if (!innerImg && el.textContent !== text) {
+                    if (el.children.length > 0 &&
+                        !confirm('This link contains nested elements.\nReplace ALL its content with the new text?')) return;
+                    el.textContent = text;
+                }
+            } else {
+                // Generic element — full freedom, with a confirm only if nested elements would be lost
+                if (el.textContent !== text) {
+                    if (el.children.length > 0 &&
+                        !confirm('This element contains nested elements.\nReplace ALL its content with the new text?')) return;
+                    el.textContent = text;
+                }
+            }
+
+            syncEditorFromPreview();
+        }
+
+        // NEW: remove the clicked element completely
+        function deleteEditTarget() {
+            if (!editTarget) return;
+            if (!confirm('Delete this element completely?')) return;
+            editTarget.remove();
+            syncEditorFromPreview();
+        }
+
+        function syncEditorFromPreview() {
+            try {
+                const doc = previewDocument();
+                const clone = doc.documentElement.cloneNode(true);
+                // Remove our console hook so it never leaks into the user's code
+                clone.querySelectorAll('[data-editor-hook]').forEach(n => n.remove());
+                const formatted = html_beautify('<!DOCTYPE html>\n' + clone.outerHTML, {
+                    indent_size: 2, wrap_line_length: 120, preserve_newlines: true
+                });
+                editor.setValue(formatted);
+                setStatus('Changes saved to source', 'success');
+            } catch (err) {
+                console.error(err);
+                setStatus('Could not sync changes back to code', 'error');
+            }
+            closeEditPopup();
+        }
+
+        /* ============================================================
+           11. EXPORT
+           ============================================================ */
+        function showExportOptions() { showModal('export-modal'); }
 
         function exportHTML() {
+            if (!requireEditor()) return;
             try {
-                const blob = new Blob([editor.getValue()], { type: 'text/html' });
-                const url = URL.createObjectURL(blob);
+                const blob = new Blob([editor.getValue()], { type: 'text/html;charset=utf-8' });
                 const a = document.createElement('a');
-                a.href = url;
-                a.download = 'export.html';
+                a.href = URL.createObjectURL(blob);
+                a.download = 'exported-page.html';
                 a.click();
-                URL.revokeObjectURL(url);
-                setStatus('HTML exported successfully', 'success');
-                closeModal('export-modal');
-            } catch (error) {
-                console.error('Export error:', error);
-                setStatus('Error exporting HTML', 'error');
+                URL.revokeObjectURL(a.href);
+                setStatus('HTML file downloaded', 'success');
+            } catch (e) {
+                console.error(e);
+                setStatus('Export failed', 'error');
             }
         }
 
-        function exportScreenshot() {
+        async function exportScreenshot() {
+            if (!requireEditor()) return;
+            const frame = document.getElementById('preview-frame');
+            const doc = frame.contentDocument;
+            if (!doc || !doc.body) { setStatus('Preview not ready yet', 'error'); return; }
+            showLoading('Capturing screenshot…');
             try {
-                const frame = document.getElementById('preview-frame');
-                setStatus('Generating screenshot...', 'info');
-                
-                html2canvas(frame.contentDocument.body).then(canvas => {
-                    canvas.toBlob(blob => {
-                        const url = URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.href = url;
-                        a.download = 'screenshot.png';
-                        a.click();
-                        URL.revokeObjectURL(url);
-                        setStatus('Screenshot saved successfully', 'success');
-                    });
-                }).catch(error => {
-                    console.error('Screenshot error:', error);
-                    setStatus('Error generating screenshot', 'error');
+                const canvas = await html2canvas(doc.body, {
+                    backgroundColor: null,
+                    scale: 2,
+                    useCORS: true,
+                    logging: false
                 });
-                closeModal('export-modal');
-            } catch (error) {
-                console.error('Screenshot error:', error);
-                setStatus('Error generating screenshot', 'error');
+                const a = document.createElement('a');
+                a.download = 'preview-screenshot.png';
+                a.href = canvas.toDataURL('image/png');
+                a.click();
+                setStatus('Screenshot saved', 'success');
+            } catch (e) {
+                console.error(e);
+                setStatus('Screenshot failed', 'error');
+            } finally {
+                hideLoading();
             }
         }
 
         function exportCodePen() {
+            if (!requireEditor()) return;
             try {
-                const html = editor.getValue();
+                const doc = new DOMParser().parseFromString(editor.getValue(), 'text/html');
+                const css = Array.from(doc.querySelectorAll('style')).map(s => s.textContent).join('\n');
+                const js = Array.from(doc.querySelectorAll('script:not([data-editor-hook])')).map(s => s.textContent).join('\n');
+                const bodyClone = doc.body.cloneNode(true);
+                bodyClone.querySelectorAll('style, script').forEach(n => n.remove());
+                const JSONinput = JSON.stringify({ html: bodyClone.innerHTML, css: css, js: js });
+
                 const form = document.createElement('form');
                 form.action = 'https://codepen.io/pen/define';
                 form.method = 'POST';
                 form.target = '_blank';
-                
                 const input = document.createElement('input');
                 input.type = 'hidden';
-                input.name = 'data';
-                input.value = JSON.stringify({
-                    title: 'HTML Editor Pro Export',
-                    html: html
-                });
-                
+                input.name = 'code';
+                input.value = JSONinput;
                 form.appendChild(input);
                 document.body.appendChild(form);
                 form.submit();
-                document.body.removeChild(form);
-                
-                setStatus('Opening in CodePen...', 'success');
-                closeModal('export-modal');
-            } catch (error) {
-                console.error('CodePen export error:', error);
-                setStatus('Error exporting to CodePen', 'error');
-            }
-        }
-
-        function clearCode() {
-            if (confirm('Are you sure you want to clear all code?')) {
-                try {
-                    editor.setValue('');
-                    setStatus('Code cleared', 'success');
-                } catch (error) {
-                    console.error('Clear error:', error);
-                    setStatus('Error clearing code', 'error');
-                }
-            }
-        }
-
-        function findText() {
-            try {
-                editor.execCommand('find');
-            } catch (error) {
-                console.error('Find error:', error);
-                setStatus('Error opening find dialog', 'error');
-            }
-        }
-
-        function replaceText() {
-            try {
-                editor.execCommand('replace');
-            } catch (error) {
-                console.error('Replace error:', error);
-                setStatus('Error opening replace dialog', 'error');
-            }
-        }
-
-        function copyCode() {
-            try {
-                navigator.clipboard.writeText(editor.getValue()).then(() => {
-                    setStatus('Code copied to clipboard', 'success');
-                }).catch(() => {
-                    setStatus('Error copying to clipboard', 'error');
-                });
-            } catch (error) {
-                console.error('Copy error:', error);
-                setStatus('Error copying code', 'error');
-            }
-        }
-
-        function setDevice(device) {
-            try {
-                const wrapper = document.getElementById('preview-wrapper');
-                const buttons = document.querySelectorAll('.device-btn');
-                
-                buttons.forEach(btn => btn.classList.remove('active'));
-                event.target.classList.add('active');
-                
-                wrapper.className = 'preview-wrapper ' + device;
-                setStatus(`Switched to ${device} view`, 'success');
-            } catch (error) {
-                console.error('Device switch error:', error);
-                setStatus('Error switching device view', 'error');
-            }
-        }
-
-        function execCmd(command) {
-            try {
-                document.execCommand(command, false, null);
-            } catch (error) {
-                console.error('Command execution error:', error);
-            }
-        }
-
-        function formatBlock(tag) {
-            if (tag) {
-                try {
-                    document.execCommand('formatBlock', false, tag);
-                } catch (error) {
-                    console.error('Format block error:', error);
-                }
-            }
-        }
-
-        function insertLink() {
-            document.getElementById('link-modal').classList.add('active');
-            document.getElementById('link-url').focus();
-        }
-
-        function insertLinkSubmit() {
-            try {
-                const url = document.getElementById('link-url').value;
-                const text = document.getElementById('link-text').value;
-                
-                if (!url) {
-                    alert('Please enter a URL');
-                    return;
-                }
-                
-                const linkHTML = `<a href="${url}" target="_blank">${text || url}</a>`;
-                document.execCommand('insertHTML', false, linkHTML);
-                
-                document.getElementById('link-url').value = '';
-                document.getElementById('link-text').value = '';
-                closeModal('link-modal');
-                setStatus('Link inserted', 'success');
-            } catch (error) {
-                console.error('Link insert error:', error);
-                setStatus('Error inserting link', 'error');
-            }
-        }
-
-        function insertImage() {
-            document.getElementById('image-modal').classList.add('active');
-            document.getElementById('image-url').focus();
-        }
-
-        function insertImageSubmit() {
-            try {
-                const url = document.getElementById('image-url').value;
-                const alt = document.getElementById('image-alt').value;
-                
-                if (!url) {
-                    alert('Please enter an image URL');
-                    return;
-                }
-                
-                const imgHTML = `<img src="${url}" alt="${alt || 'Image'}" style="max-width: 100%;">`;
-                document.execCommand('insertHTML', false, imgHTML);
-                
-                document.getElementById('image-url').value = '';
-                document.getElementById('image-alt').value = '';
-                closeModal('image-modal');
-                setStatus('Image inserted', 'success');
-            } catch (error) {
-                console.error('Image insert error:', error);
-                setStatus('Error inserting image', 'error');
-            }
-        }
-
-        let currentEditElement = null;
-        let currentEditParent = null;
-
-        function toggleEditMode() {
-            isEditMode = !isEditMode;
-            const frame = document.getElementById('preview-frame');
-            const badge = document.getElementById('editModeBadge');
-            const toggleBtn = document.getElementById('editModeToggle');
-            
-            if (isEditMode) {
-                document.getElementById('edit-mode-text').textContent = 'Exit Edit Mode';
-                toggleBtn.style.background = '#ef4444';
-                badge.style.display = 'inline-flex';
-                frame.classList.add('edit-mode');
-                enableEditMode();
-                setStatus('Edit Mode activated - Click on any text to edit', 'success');
-            } else {
-                document.getElementById('edit-mode-text').textContent = 'Edit Mode';
-                toggleBtn.style.background = '#4f46e5';
-                badge.style.display = 'none';
-                frame.classList.remove('edit-mode');
-                disableEditMode();
-                setStatus('Edit Mode deactivated', 'success');
-            }
-        }
-
-        function enableEditMode() {
-            const frame = document.getElementById('preview-frame');
-            
-            frame.addEventListener('load', attachEditListeners);
-            attachEditListeners();
-        }
-
-        function disableEditMode() {
-            const frame = document.getElementById('preview-frame');
-            
-            try {
-                const doc = frame.contentDocument || frame.contentWindow.document;
-                const allElements = doc.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span, div, li, a, td, th, img');
-                allElements.forEach(el => {
-                    el.removeEventListener('click', handleEditClick);
-                    el.classList.remove('edit-highlight');
-                });
+                form.remove();
+                setStatus('Opened in CodePen', 'success');
             } catch (e) {
-                console.error('Error disabling edit mode:', e);
-            }
-            
-            closeEditPopup();
-        }
-
-        function attachEditListeners() {
-            if (!isEditMode) return;
-            
-            try {
-                const frame = document.getElementById('preview-frame');
-                const doc = frame.contentDocument || frame.contentWindow.document;
-                
-                const allElements = doc.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span, div, li, a, td, th, img');
-                
-                allElements.forEach(el => {
-                    el.addEventListener('click', handleEditClick);
-                    el.style.cursor = 'pointer';
-                });
-            } catch (e) {
-                console.error('Error attaching edit listeners:', e);
+                console.error(e);
+                setStatus('CodePen export failed', 'error');
             }
         }
 
-        function handleEditClick(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            const element = e.target;
-            
-            const frame = document.getElementById('preview-frame');
-            const doc = frame.contentDocument || frame.contentWindow.document;
-            doc.querySelectorAll('.edit-highlight').forEach(el => el.classList.remove('edit-highlight'));
-            
-            element.classList.add('edit-highlight');
-            
-            currentEditElement = element;
-            currentEditParent = element.parentElement;
-            
-            showEditPopup(element, e);
+        /* ============================================================
+           12. SMART ENCODE / DECODE
+           ============================================================ */
+        function b64EncodeUnicode(str) {
+            const bytes = new TextEncoder().encode(str);
+            let bin = '';
+            const CHUNK = 0x8000;
+            for (let i = 0; i < bytes.length; i += CHUNK) {
+                bin += String.fromCharCode.apply(null, bytes.subarray(i, i + CHUNK));
+            }
+            return btoa(bin);
         }
 
-        function showEditPopup(element, event) {
-            const popup = document.getElementById('editPopup');
-            const textInput = document.getElementById('editText');
-            const linkInput = document.getElementById('editLink');
-            const imageInput = document.getElementById('editImage');
-            const linkSection = document.getElementById('linkEditSection');
-            const imageSection = document.getElementById('imageEditSection');
-            const textSection = document.getElementById('textEditSection');
-            const textError = document.getElementById('textError');
-            const linkError = document.getElementById('linkError');
-            const imageError = document.getElementById('imageError');
-            
-            textError.classList.remove('active');
-            linkError.classList.remove('active');
-            imageError.classList.remove('active');
-            
-            linkSection.style.display = 'none';
-            imageSection.style.display = 'none';
-            textSection.style.display = 'block';
-            
-            if (element.tagName === 'IMG') {
-                imageInput.value = element.src || '';
-                imageSection.style.display = 'block';
-                textInput.value = element.alt || '';
-                
-                if (element.parentElement && element.parentElement.tagName === 'A') {
-                    linkInput.value = element.parentElement.href || '';
-                    linkSection.style.display = 'block';
-                }
-            } else if (element.tagName === 'A') {
-                const img = element.querySelector('img');
-                if (img) {
-                    imageInput.value = img.src || '';
-                    imageSection.style.display = 'block';
-                    textInput.value = img.alt || '';
+        function b64DecodeUnicode(b64) {
+            const bin = atob(b64.replace(/\s+/g, ''));
+            const bytes = new Uint8Array(bin.length);
+            for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+            return new TextDecoder().decode(bytes);
+        }
+
+        function qpEncode(str) {
+            const bytes = new TextEncoder().encode(str);
+            const lines = [];
+            let cur = '';
+            const flush = () => {
+                if (cur.endsWith(' ')) cur = cur.slice(0, -1) + '=20';
+                if (cur.endsWith('\t')) cur = cur.slice(0, -1) + '=09';
+                lines.push(cur);
+                cur = '';
+            };
+            for (let i = 0; i < bytes.length; i++) {
+                const b = bytes[i];
+                if (b === 13) continue;
+                if (b === 10) { flush(); continue; }
+                const chunk = ((b >= 33 && b <= 126 && b !== 61) || b === 32 || b === 9)
+                    ? String.fromCharCode(b)
+                    : '=' + b.toString(16).toUpperCase().padStart(2, '0');
+                if (cur.length + chunk.length > 74) { lines.push(cur + '='); cur = ''; }
+                cur += chunk;
+            }
+            if (cur) flush();
+            return lines.join('\r\n');
+        }
+
+        function qpDecode(str) {
+            const cleaned = str.replace(/=\r?\n/g, '');
+            const bytes = [];
+            for (let i = 0; i < cleaned.length; i++) {
+                const c = cleaned[i];
+                if (c === '=' && /^[0-9A-F]{2}$/i.test(cleaned.substr(i + 1, 2))) {
+                    bytes.push(parseInt(cleaned.substr(i + 1, 2), 16));
+                    i += 2;
+                } else if (c.charCodeAt(0) < 128) {
+                    bytes.push(c.charCodeAt(0));
                 } else {
-                    textInput.value = element.textContent;
+                    bytes.push(...new TextEncoder().encode(c));
                 }
-                linkInput.value = element.href || '';
-                linkSection.style.display = 'block';
-            } else {
-                textInput.value = element.textContent;
             }
-            
-            const frame = document.getElementById('preview-frame');
-            const frameRect = frame.getBoundingClientRect();
-            
-            popup.classList.add('active');
-            
-            const x = Math.min(event.clientX, window.innerWidth - 350);
-            const y = Math.min(event.clientY, window.innerHeight - 300);
-            
-            popup.style.left = x + 'px';
-            popup.style.top = y + 'px';
-            
-            setTimeout(() => textInput.focus(), 100);
+            return new TextDecoder().decode(new Uint8Array(bytes));
         }
 
-        function closeEditPopup() {
-            const popup = document.getElementById('editPopup');
-            popup.classList.remove('active');
-            
-            if (currentEditElement) {
-                currentEditElement.classList.remove('edit-highlight');
-            }
-            
-            currentEditElement = null;
-            currentEditParent = null;
-            
-            document.getElementById('textError').classList.remove('active');
-            document.getElementById('linkError').classList.remove('active');
-            document.getElementById('imageError').classList.remove('active');
+        function qpDecodeSafe(str) {
+            try { return qpDecode(str); } catch (e) { return ''; }
         }
 
-        function validateURL(url) {
-            try {
-                const urlObj = new URL(url);
-                return urlObj.protocol === 'http:' || urlObj.protocol === 'https:';
-            } catch (e) {
-                return false;
+        function detectFormat(str) {
+            const t = str.trim();
+            if (!t) return { name: 'Editor is empty', key: 'empty' };
+            const compact = t.replace(/\s+/g, '');
+            if (/^[A-Za-z0-9+/]+={0,2}$/.test(compact) && compact.length % 4 === 0 && compact.length > 8) {
+                try {
+                    const dec = b64DecodeUnicode(compact);
+                    if (dec.includes('<')) return { name: 'Base64 (contains HTML)', key: 'base64' };
+                } catch (e) { /* not base64 */ }
             }
+            if (/=[0-9A-F]{2}/i.test(t) && qpDecodeSafe(t).includes('<')) {
+                return { name: 'Quoted-Printable (contains HTML)', key: 'quoted-printable' };
+            }
+            if (t.includes('<')) return { name: 'Plain HTML (8-bit)', key: '8bit' };
+            return { name: 'Plain text (treated as 8-bit)', key: '8bit' };
         }
 
-        function saveEdit() {
-            if (!currentEditElement) return;
-            
-            const textInput = document.getElementById('editText');
-            const linkInput = document.getElementById('editLink');
-            const imageInput = document.getElementById('editImage');
-            const textError = document.getElementById('textError');
-            const linkError = document.getElementById('linkError');
-            const imageError = document.getElementById('imageError');
-            
-            textError.classList.remove('active');
-            linkError.classList.remove('active');
-            imageError.classList.remove('active');
-            
-            const newText = textInput.value.trim();
-            const newLink = linkInput.value.trim();
-            const newImage = imageInput.value.trim();
-            
-            if (currentEditElement.tagName === 'IMG') {
-                if (newImage) {
-                    currentEditElement.src = newImage;
-                }
-                
-                currentEditElement.alt = newText;
-                
-                if (currentEditElement.parentElement && currentEditElement.parentElement.tagName === 'A') {
-                    if (newLink && validateURL(newLink)) {
-                        currentEditElement.parentElement.href = newLink;
-                    } else if (!newLink) {
-                        const parent = currentEditElement.parentElement;
-                        parent.replaceWith(currentEditElement);
-                    }
-                } else if (newLink && validateURL(newLink)) {
-                    const link = document.createElement('a');
-                    link.href = newLink;
-                    link.target = '_blank';
-                    currentEditElement.parentElement.insertBefore(link, currentEditElement);
-                    link.appendChild(currentEditElement);
-                }
-            } else if (currentEditElement.tagName === 'A') {
-                const img = currentEditElement.querySelector('img');
-                
-                if (img && newImage) {
-                    img.src = newImage;
-                    img.alt = newText;
-                }
-                
-                if (!img) {
-                    currentEditElement.textContent = newText;
-                }
-                
-                if (newLink && validateURL(newLink)) {
-                    currentEditElement.href = newLink;
-                } else if (!newLink) {
-                    if (img) {
-                        currentEditElement.replaceWith(img);
-                    } else {
-                        const textNode = document.createTextNode(newText);
-                        currentEditElement.replaceWith(textNode);
-                    }
-                }
-            } else {
-                currentEditElement.textContent = newText;
-            }
-            
-            try {
-                const frame = document.getElementById('preview-frame');
-                const doc = frame.contentDocument || frame.contentWindow.document;
-                const newHTML = doc.documentElement.outerHTML;
-                
-                const formatted = html_beautify(newHTML, {
-                    indent_size: 2,
-                    wrap_line_length: 80,
-                    preserve_newlines: true
-                });
-                editor.setValue(formatted);
-                
-                setStatus('Changes saved successfully', 'success');
-            } catch (error) {
-                console.error('Error updating code:', error);
-                setStatus('Error saving changes', 'error');
-            }
-            
-            closeEditPopup();
+        function toPlain(code, fmt) {
+            if (fmt === 'base64') return b64DecodeUnicode(code);
+            if (fmt === 'quoted-printable') return qpDecode(code);
+            return code;
         }
-
-        // ==============================================
-        // SMART ENCODING/DECODING FUNCTIONS
-        // ==============================================
 
         function smartEncodeDecode() {
-            const content = editor.getValue();
-            if (!content.trim()) {
-                setStatus('Editor is empty', 'error');
+            if (!requireEditor()) return;
+            showModal('smart-encode-modal');
+            const chip = document.getElementById('detected-format');
+            const code = editor.getValue();
+            if (!code.trim()) {
+                chip.innerHTML = '<i class="fas fa-info-circle"></i> Editor is empty';
+                lastConversion = null;
+                document.getElementById('apply-convert-btn').style.display = 'none';
+                document.getElementById('conversion-preview').style.display = 'none';
                 return;
             }
-            
-            const analysis = analyzeContent(content);
-            
-            const detectedEl = document.getElementById('detected-format');
-            detectedEl.innerHTML = `
-                <strong>Detected Format:</strong> ${analysis.format}<br>
-                <small style="color: #aaa;">${analysis.confidence}</small>
-            `;
-            
-            const defaultFormat = analysis.format === '8bit (Plain HTML)' ? '8bit' : 
-                                 analysis.format.toLowerCase().includes('base64') ? 'base64' : 'quoted-printable';
-            
-            document.querySelector(`input[name="target-format"][value="${defaultFormat}"]`).checked = true;
-            
-            document.getElementById('smart-encode-modal').classList.add('active');
-            
-            updateConversionPreview();
-        }
-
-        function analyzeContent(content) {
-            const trimmed = content.trim();
-            
-            if (isValidBase64(trimmed)) {
-                try {
-                    const decoded = decodeBase64Safe(trimmed);
-                    const controlCharRatio = (decoded.match(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g) || []).length / decoded.length;
-                    if (controlCharRatio < 0.1) {
-                        return {
-                            format: 'Base64 Encoded',
-                            confidence: '✓ Valid Base64 detected',
-                            type: 'base64',
-                            decoded: decoded
-                        };
-                    }
-                } catch (e) {}
-            }
-            
-            if (isQuotedPrintable(trimmed)) {
-                try {
-                    const decoded = decodeQuotedPrintableText(trimmed);
-                    return {
-                        format: 'Quoted-Printable',
-                        confidence: '✓ Contains Quoted-Printable encoding patterns',
-                        type: 'quoted-printable',
-                        decoded: decoded
-                    };
-                } catch (e) {}
-            }
-            
-            return {
-                format: '8bit (Plain HTML)',
-                confidence: '✓ Normal HTML/text content',
-                type: '8bit',
-                decoded: content
-            };
-        }
-
-        function isValidBase64(str) {
-            const base64Regex = /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
-            const base64RegexWithNewlines = /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?(?:\s|\n|\r\n)?$/;
-            
-            const cleanStr = str.replace(/\s/g, '');
-            
-            if (cleanStr.length % 4 !== 0) return false;
-            
-            return base64Regex.test(cleanStr) || base64RegexWithNewlines.test(str);
-        }
-
-        function isQuotedPrintable(str) {
-            const qpPatterns = [
-                /=([0-9A-F]{2})/gi,
-                /=\r\n/g,
-                /=\n/g
-            ];
-            
-            let qpScore = 0;
-            const lines = str.split('\n');
-            
-            for (let line of lines) {
-                const hexMatches = line.match(/=([0-9A-F]{2})/gi) || [];
-                qpScore += hexMatches.length;
-                
-                if (line.trim().endsWith('=') && line.length < 78) {
-                    qpScore += 2;
-                }
-                
-                const controlChars = line.match(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g) || [];
-                if (controlChars.length > 0 && hexMatches.length === 0) {
-                    qpScore -= 5;
-                }
-            }
-            
-            return qpScore > 3 || str.includes('=3D') || str.includes('=20') || str.includes('=0D=0A');
-        }
-
-        function decodeBase64Safe(base64) {
-            try {
-                const binary = atob(base64);
-                const bytes = new Uint8Array(binary.length);
-                for (let i = 0; i < binary.length; i++) {
-                    bytes[i] = binary.charCodeAt(i);
-                }
-                return new TextDecoder().decode(bytes);
-            } catch (e) {
-                return atob(base64);
-            }
-        }
-
-        function encodeBase64Safe(text) {
-            try {
-                const encoder = new TextEncoder();
-                const data = encoder.encode(text);
-                let binary = '';
-                for (let i = 0; i < data.length; i++) {
-                    binary += String.fromCharCode(data[i]);
-                }
-                return btoa(binary);
-            } catch (e) {
-                return btoa(unescape(encodeURIComponent(text)));
-            }
-        }
-
-        function decodeQuotedPrintableText(qpText) {
-            let result = '';
-            let i = 0;
-            
-            while (i < qpText.length) {
-                if (qpText[i] === '=') {
-                    if (qpText[i + 1] === '\r' && qpText[i + 2] === '\n') {
-                        i += 3;
-                        continue;
-                    }
-                    if (qpText[i + 1] === '\n') {
-                        i += 2;
-                        continue;
-                    }
-                    
-                    const hex = qpText.substring(i + 1, i + 3);
-                    if (/^[0-9A-Fa-f]{2}$/.test(hex)) {
-                        result += String.fromCharCode(parseInt(hex, 16));
-                        i += 3;
-                    } else {
-                        result += qpText[i];
-                        i++;
-                    }
-                } else {
-                    result += qpText[i];
-                    i++;
-                }
-            }
-            
-            return result;
-        }
-
-        function encodeToQuotedPrintable(text) {
-            let encoded = '';
-            let lineLength = 0;
-            
-            for (let i = 0; i < text.length; i++) {
-                const char = text[i];
-                const code = char.charCodeAt(0);
-                
-                const mustEncode = 
-                    code < 32 || code > 126 || 
-                    char === '=' ||
-                    (char === ' ' && (i === text.length - 1 || text[i + 1] === '\n' || text[i + 1] === '\r'));
-                
-                if (mustEncode) {
-                    if (char === '\r' && i + 1 < text.length && text[i + 1] === '\n') {
-                        encoded += '\r\n';
-                        lineLength = 0;
-                        i++;
-                        continue;
-                    } else if (char === '\n') {
-                        encoded += '\r\n';
-                        lineLength = 0;
-                        continue;
-                    }
-                    
-                    const hex = code.toString(16).toUpperCase().padStart(2, '0');
-                    const encodedChar = '=' + hex;
-                    
-                    if (lineLength + encodedChar.length > 76) {
-                        encoded += '=\r\n';
-                        lineLength = 0;
-                    }
-                    
-                    encoded += encodedChar;
-                    lineLength += encodedChar.length;
-                } else {
-                    if (lineLength + 1 > 76) {
-                        encoded += '=\r\n';
-                        lineLength = 0;
-                    }
-                    
-                    encoded += char;
-                    lineLength++;
-                }
-            }
-            
-            return encoded;
-        }
-
-        function updateConversionPreview() {
-            const content = editor.getValue();
-            const targetFormat = document.querySelector('input[name="target-format"]:checked').value;
-            
-            try {
-                let previewText = '';
-                const analysis = analyzeContent(content);
-                
-                switch(targetFormat) {
-                    case '8bit':
-                        if (analysis.type === 'base64') {
-                            previewText = decodeBase64Safe(content);
-                        } else if (analysis.type === 'quoted-printable') {
-                            previewText = decodeQuotedPrintableText(content);
-                        } else {
-                            previewText = content;
-                        }
-                        break;
-                        
-                    case 'base64':
-                        if (analysis.type === 'base64') {
-                            previewText = content;
-                        } else if (analysis.type === 'quoted-printable') {
-                            const decoded = decodeQuotedPrintableText(content);
-                            previewText = encodeBase64Safe(decoded);
-                        } else {
-                            previewText = encodeBase64Safe(content);
-                        }
-                        break;
-                        
-                    case 'quoted-printable':
-                        if (analysis.type === 'quoted-printable') {
-                            previewText = content;
-                        } else if (analysis.type === 'base64') {
-                            const decoded = decodeBase64Safe(content);
-                            previewText = encodeToQuotedPrintable(decoded);
-                        } else {
-                            previewText = encodeToQuotedPrintable(content);
-                        }
-                        break;
-                }
-                
-                const maxPreviewLength = 500;
-                const displayText = previewText.length > maxPreviewLength 
-                    ? previewText.substring(0, maxPreviewLength) + '...' 
-                    : previewText;
-                
-                document.getElementById('preview-content').textContent = displayText;
-                document.getElementById('conversion-preview').style.display = 'block';
-                
-            } catch (error) {
-                document.getElementById('preview-content').textContent = 'Error generating preview: ' + error.message;
-                document.getElementById('conversion-preview').style.display = 'block';
-            }
+            const f = detectFormat(code);
+            chip.innerHTML = '<i class="fas fa-check-circle"></i> Detected: <strong>' + escapeHtml(f.name) + '</strong>';
+            performConversion();
         }
 
         function performConversion() {
-            const content = editor.getValue();
-            const targetFormat = document.querySelector('input[name="target-format"]:checked').value;
-            
+            if (!requireEditor()) return;
+            const applyBtn = document.getElementById('apply-convert-btn');
+            const box = document.getElementById('conversion-preview');
+            const previewEl = document.getElementById('preview-content');
+            lastConversion = null;
+            applyBtn.style.display = 'none';
+
+            const code = editor.getValue();
+            if (!code.trim()) { box.style.display = 'none'; return; }
+
+            const target = document.querySelector('input[name="target-format"]:checked').value;
             try {
-                let result = '';
-                const analysis = analyzeContent(content);
-                let action = '';
-                
-                switch(targetFormat) {
-                    case '8bit':
-                        if (analysis.type === 'base64') {
-                            result = decodeBase64Safe(content);
-                            action = 'Decoded from Base64 to plain HTML';
-                        } else if (analysis.type === 'quoted-printable') {
-                            result = decodeQuotedPrintableText(content);
-                            action = 'Decoded from Quoted-Printable to plain HTML';
-                        } else {
-                            result = content;
-                            action = 'Content is already plain HTML';
-                        }
-                        break;
-                        
-                    case 'base64':
-                        if (analysis.type === 'base64') {
-                            result = content;
-                            action = 'Content is already Base64 encoded';
-                        } else if (analysis.type === 'quoted-printable') {
-                            const decoded = decodeQuotedPrintableText(content);
-                            result = encodeBase64Safe(decoded);
-                            action = 'Converted from Quoted-Printable to Base64';
-                        } else {
-                            result = encodeBase64Safe(content);
-                            action = 'Encoded to Base64';
-                        }
-                        break;
-                        
-                    case 'quoted-printable':
-                        if (analysis.type === 'quoted-printable') {
-                            result = content;
-                            action = 'Content is already Quoted-Printable encoded';
-                        } else if (analysis.type === 'base64') {
-                            const decoded = decodeBase64Safe(content);
-                            result = encodeToQuotedPrintable(decoded);
-                            action = 'Converted from Base64 to Quoted-Printable';
-                        } else {
-                            result = encodeToQuotedPrintable(content);
-                            action = 'Encoded to Quoted-Printable';
-                        }
-                        break;
-                }
-                
-                editor.setValue(result);
-                
-                closeModal('smart-encode-modal');
-                
-                setStatus(action, 'success');
-                
-            } catch (error) {
-                setStatus('Conversion error: ' + error.message, 'error');
-                console.error('Conversion error:', error);
+                const fmt = detectFormat(code).key;
+                const plain = toPlain(code, fmt);
+                let result;
+                if (target === '8bit') result = plain;
+                else if (target === 'base64') result = b64EncodeUnicode(plain);
+                else result = qpEncode(plain);
+
+                if (result === code) { box.style.display = 'none'; setStatus('Already in the target format', 'info'); return; }
+                lastConversion = result;
+                previewEl.textContent = result.length > 4000 ? result.slice(0, 4000) + '\n… (truncated preview)' : result;
+                box.style.display = 'block';
+                applyBtn.style.display = '';
+                setStatus('Conversion ready — review the preview then click "Apply to Editor"', 'info');
+            } catch (e) {
+                console.error(e);
+                box.style.display = 'none';
+                setStatus('Conversion failed — input may not be valid ' + target, 'error');
             }
         }
 
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
+        function applyConversion() {
+            if (!lastConversion) return;
+            pushVersion('before conversion');
+            editor.setValue(lastConversion);
+            lastConversion = null;
+            closeModal('smart-encode-modal');
+            setStatus('Converted code applied to editor', 'success');
         }
 
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.classList.remove('active');
-            }
+        /* ============================================================
+           13. PROJECTS
+           ============================================================ */
+        function getProjects() {
+            try { return JSON.parse(localStorage.getItem('htmlEditorProjects') || '[]'); }
+            catch (e) { return []; }
         }
 
         function openProjectManager() {
-            loadSavedProjects();
-            document.getElementById('project-manager-modal').classList.add('active');
+            loadProjectsList();
+            showModal('project-manager-modal');
         }
 
         function saveCurrentProject() {
+            if (!requireEditor()) return;
+            const nameEl = document.getElementById('project-name-input');
+            const name = (nameEl.value || '').trim();
+            if (!name) { setStatus('Please enter a project name', 'error'); nameEl.focus(); return; }
+            const projects = getProjects();
+            const entry = { name: name, code: editor.getValue(), date: new Date().toISOString() };
+            const existing = projects.findIndex(p => p.name === name);
+            if (existing >= 0) projects[existing] = entry;
+            else projects.unshift(entry);
             try {
-                const projectName = document.getElementById('project-name-input').value.trim();
-                
-                if (!projectName) {
-                    alert('Please enter a project name');
-                    return;
-                }
-
-                const projects = JSON.parse(localStorage.getItem('htmlEditorProjects') || '[]');
-                
-                const project = {
-                    id: Date.now(),
-                    name: projectName,
-                    code: editor.getValue(),
-                    date: new Date().toISOString()
-                };
-
-                projects.push(project);
                 localStorage.setItem('htmlEditorProjects', JSON.stringify(projects));
-                
-                document.getElementById('project-name-input').value = '';
-                loadSavedProjects();
-                setStatus(`Project "${projectName}" saved successfully`, 'success');
-            } catch (error) {
-                console.error('Save project error:', error);
-                setStatus('Error saving project', 'error');
-            }
+            } catch (e) { setStatus('Storage full — could not save project', 'error'); return; }
+            nameEl.value = '';
+            loadProjectsList();
+            setStatus(`Project "${name}" saved`, 'success');
         }
 
-        function loadSavedProjects() {
-            try {
-                const projects = JSON.parse(localStorage.getItem('htmlEditorProjects') || '[]');
-                const listContainer = document.getElementById('saved-projects-list');
-                
-                if (projects.length === 0) {
-                    listContainer.innerHTML = '<p style="text-align: center; color: #aaa; padding: 40px 20px;">No saved projects yet</p>';
-                    return;
-                }
-
-                listContainer.innerHTML = projects.map(project => {
-                    const date = new Date(project.date).toLocaleString();
-                    return `
-                        <div class="project-item">
-                            <div class="project-info">
-                                <div class="project-name">${escapeHtml(project.name)}</div>
-                                <div class="project-date">${date}</div>
-                            </div>
-                            <div class="project-actions">
-                                <button class="project-btn" onclick="loadProject(${project.id})">
-                                    <i class="fas fa-folder-open"></i> Load
-                                </button>
-                                <button class="project-btn danger" onclick="deleteProject(${project.id})">
-                                    <i class="fas fa-trash"></i> Delete
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-            } catch (error) {
-                console.error('Load projects error:', error);
+        function loadProjectsList() {
+            const list = document.getElementById('saved-projects-list');
+            const projects = getProjects();
+            if (!projects.length) {
+                list.innerHTML = '<p style="text-align: center; color: #aaa; padding: 40px 20px;">No saved projects yet</p>';
+                return;
             }
+            list.innerHTML = projects.map((p, i) => `
+                <div class="project-item">
+                    <div class="project-info">
+                        <div class="project-name">${escapeHtml(p.name)}</div>
+                        <div class="project-date">${new Date(p.date).toLocaleString()} · ${p.code.length.toLocaleString()} chars</div>
+                    </div>
+                    <div class="project-actions">
+                        <button class="project-btn" onclick="loadProject(${i})"><i class="fas fa-folder-open"></i> Load</button>
+                        <button class="project-btn danger" onclick="deleteProject(${i})"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>`).join('');
         }
 
-        function loadProject(projectId) {
+        function loadProject(i) {
+            const projects = getProjects();
+            if (!projects[i]) return;
+            pushVersion('before project load');
+            editor.setValue(projects[i].code);
+            closeModal('project-manager-modal');
+            setStatus(`Project "${projects[i].name}" loaded`, 'success');
+        }
+
+        function deleteProject(i) {
+            const projects = getProjects();
+            if (!projects[i]) return;
+            if (!confirm(`Delete project "${projects[i].name}"?`)) return;
+            projects.splice(i, 1);
+            localStorage.setItem('htmlEditorProjects', JSON.stringify(projects));
+            loadProjectsList();
+            setStatus('Project deleted', 'success');
+        }
+
+        /* ============================================================
+           14. VERSION HISTORY
+           ============================================================ */
+        function getVersions() {
+            try { return JSON.parse(localStorage.getItem('htmlEditorVersions') || '[]'); }
+            catch (e) { return []; }
+        }
+
+        function pushVersion(label) {
+            if (!editor) return false;
             try {
-                const projects = JSON.parse(localStorage.getItem('htmlEditorProjects') || '[]');
-                const project = projects.find(p => p.id === projectId);
-                
-                if (project) {
-                    if (confirm(`Load project "${project.name}"? Your current work will be replaced.`)) {
-                        editor.setValue(project.code);
-                        closeModal('project-manager-modal');
-                        setStatus(`Project "${project.name}" loaded`, 'success');
+                const versions = getVersions();
+                const code = editor.getValue();
+                if (versions[0] && versions[0].code === code) return false;
+                versions.unshift({ code: code, ts: Date.now(), label: label || '' });
+                if (versions.length > 20) versions.length = 20;
+                localStorage.setItem('htmlEditorVersions', JSON.stringify(versions));
+                return true;
+            } catch (e) { return false; }
+        }
+
+        function openHistory() { renderHistory(); showModal('history-modal'); }
+
+        function renderHistory() {
+            const list = document.getElementById('history-list');
+            const versions = getVersions();
+            if (!versions.length) {
+                list.innerHTML = '<p style="text-align: center; color: #aaa; padding: 40px 20px;">No versions yet. Snapshots are saved automatically before Format, Clean, Clear, Import, Conversions and project loads — or use "Save snapshot now".</p>';
+                return;
+            }
+            list.innerHTML = versions.map((v, i) => `
+                <div class="project-item">
+                    <div class="project-info">
+                        <div class="project-name">${new Date(v.ts).toLocaleString()}${v.label ? ' — ' + escapeHtml(v.label) : ''}</div>
+                        <div class="project-date">${v.code.length.toLocaleString()} chars · ${v.code.split('\n').length} lines</div>
+                    </div>
+                    <div class="project-actions">
+                        <button class="project-btn" onclick="restoreVersion(${i})"><i class="fas fa-rotate-left"></i> Restore</button>
+                        <button class="project-btn danger" onclick="deleteVersion(${i})"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>`).join('');
+        }
+
+        function restoreVersion(i) {
+            const versions = getVersions();
+            if (!versions[i]) return;
+            pushVersion('before version restore');
+            editor.setValue(versions[i].code);
+            closeModal('history-modal');
+            setStatus('Version restored', 'success');
+        }
+
+        function deleteVersion(i) {
+            const versions = getVersions();
+            if (!versions[i]) return;
+            versions.splice(i, 1);
+            localStorage.setItem('htmlEditorVersions', JSON.stringify(versions));
+            renderHistory();
+            setStatus('Version deleted', 'success');
+        }
+
+        function pushSnapshotNow() {
+            const ok = pushVersion('manual snapshot');
+            setStatus(ok ? 'Snapshot saved' : 'No changes since the last snapshot', ok ? 'success' : 'info');
+            renderHistory();
+        }
+
+        /* ============================================================
+           15. SNIPPETS LIBRARY
+           ============================================================ */
+        const SNIPPETS = [
+            { icon: 'fa-file-code', name: 'HTML5 Boilerplate', code: '<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>Document</title>\n</head>\n<body>\n  <h1>Hello World</h1>\n</body>\n</html>' },
+            { icon: 'fa-bars', name: 'Responsive Navbar', code: '<nav style="display:flex;justify-content:space-between;align-items:center;padding:14px 24px;background:#1e293b;color:#fff;">\n  <strong>MySite</strong>\n  <div style="display:flex;gap:18px;">\n    <a href="#" style="color:#cbd5e1;text-decoration:none;">Home</a>\n    <a href="#" style="color:#cbd5e1;text-decoration:none;">About</a>\n    <a href="#" style="color:#cbd5e1;text-decoration:none;">Contact</a>\n  </div>\n</nav>' },
+            { icon: 'fa-heading', name: 'Hero Section', code: '<section style="text-align:center;padding:80px 20px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:12px;">\n  <h1 style="margin:0 0 12px;">Build something amazing</h1>\n  <p style="opacity:.9;margin:0 0 24px;">A modern hero section for your landing page.</p>\n  <button style="padding:12px 28px;border:none;border-radius:8px;background:#fff;color:#4f46e5;font-weight:700;cursor:pointer;">Get Started</button>\n</section>' },
+            { icon: 'fa-table-cells', name: 'Cards Grid', code: '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;">\n  <div style="border:1px solid #e5e7eb;border-radius:12px;padding:20px;">\n    <h3>Card One</h3>\n    <p style="color:#6b7280;">Short description of this card.</p>\n  </div>\n  <div style="border:1px solid #e5e7eb;border-radius:12px;padding:20px;">\n    <h3>Card Two</h3>\n    <p style="color:#6b7280;">Short description of this card.</p>\n  </div>\n  <div style="border:1px solid #e5e7eb;border-radius:12px;padding:20px;">\n    <h3>Card Three</h3>\n    <p style="color:#6b7280;">Short description of this card.</p>\n  </div>\n</div>' },
+            { icon: 'fa-envelope', name: 'Contact Form', code: '<form style="max-width:420px;display:grid;gap:12px;">\n  <input type="text" placeholder="Your name" style="padding:10px;border:1px solid #d1d5db;border-radius:8px;">\n  <input type="email" placeholder="Email address" style="padding:10px;border:1px solid #d1d5db;border-radius:8px;">\n  <textarea placeholder="Message" rows="4" style="padding:10px;border:1px solid #d1d5db;border-radius:8px;"></textarea>\n  <button type="submit" style="padding:12px;border:none;border-radius:8px;background:#4f46e5;color:#fff;font-weight:600;cursor:pointer;">Send Message</button>\n</form>' },
+            { icon: 'fa-table', name: 'Data Table', code: '<table style="width:100%;border-collapse:collapse;">\n  <thead>\n    <tr style="background:#f3f4f6;">\n      <th style="padding:10px;text-align:left;border-bottom:2px solid #e5e7eb;">Name</th>\n      <th style="padding:10px;text-align:left;border-bottom:2px solid #e5e7eb;">Email</th>\n      <th style="padding:10px;text-align:left;border-bottom:2px solid #e5e7eb;">Role</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr><td style="padding:10px;border-bottom:1px solid #e5e7eb;">Alice</td><td style="padding:10px;border-bottom:1px solid #e5e7eb;">alice@mail.com</td><td style="padding:10px;border-bottom:1px solid #e5e7eb;">Admin</td></tr>\n    <tr><td style="padding:10px;border-bottom:1px solid #e5e7eb;">Bob</td><td style="padding:10px;border-bottom:1px solid #e5e7eb;">bob@mail.com</td><td style="padding:10px;border-bottom:1px solid #e5e7eb;">Editor</td></tr>\n  </tbody>\n</table>' },
+            { icon: 'fa-quote-right', name: 'Footer', code: '<footer style="text-align:center;padding:24px;background:#111827;color:#9ca3af;border-radius:8px;">\n  <p>© 2025 MySite. All rights reserved.</p>\n  <div style="margin-top:8px;display:flex;gap:14px;justify-content:center;">\n    <a href="#" style="color:#9ca3af;">Privacy</a>\n    <a href="#" style="color:#9ca3af;">Terms</a>\n    <a href="#" style="color:#9ca3af;">Contact</a>\n  </div>\n</footer>' },
+            { icon: 'fa-hand-pointer', name: 'Buttons Set', code: '<div style="display:flex;gap:10px;flex-wrap:wrap;">\n  <button style="padding:10px 20px;border:none;border-radius:8px;background:#4f46e5;color:#fff;cursor:pointer;">Primary</button>\n  <button style="padding:10px 20px;border:1px solid #4f46e5;border-radius:8px;background:transparent;color:#4f46e5;cursor:pointer;">Outline</button>\n  <button style="padding:10px 20px;border:none;border-radius:8px;background:#10b981;color:#fff;cursor:pointer;">Success</button>\n  <button style="padding:10px 20px;border:none;border-radius:8px;background:#ef4444;color:#fff;cursor:pointer;">Danger</button>\n</div>' },
+            { icon: 'fa-images', name: 'Image Gallery', code: '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;">\n  <img src="https://picsum.photos/300/200?random=1" alt="Photo 1" style="width:100%;border-radius:8px;">\n  <img src="https://picsum.photos/300/200?random=2" alt="Photo 2" style="width:100%;border-radius:8px;">\n  <img src="https://picsum.photos/300/200?random=3" alt="Photo 3" style="width:100%;border-radius:8px;">\n  <img src="https://picsum.photos/300/200?random=4" alt="Photo 4" style="width:100%;border-radius:8px;">\n</div>' },
+            { icon: 'fa-up-down-left-right', name: 'Flexbox Center', code: '<div style="display:flex;justify-content:center;align-items:center;min-height:300px;border:2px dashed #cbd5e1;border-radius:12px;">\n  <p>Centered content</p>\n</div>' },
+            { icon: 'fa-palette', name: 'CSS Variables Starter', code: '<style>\n  :root {\n    --primary: #4f46e5;\n    --text: #1f2937;\n    --bg: #f9fafb;\n    --radius: 10px;\n  }\n  body {\n    background: var(--bg);\n    color: var(--text);\n    font-family: system-ui, sans-serif;\n  }\n  .btn {\n    background: var(--primary);\n    color: #fff;\n    border-radius: var(--radius);\n    padding: 10px 20px;\n  }\n</style>' },
+            { icon: 'fa-video', name: 'Video Embed', code: '<iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Video" frameborder="0" allowfullscreen style="border-radius:12px;max-width:100%;"></iframe>' }
+        ];
+
+        function openSnippets() {
+            renderSnippets();
+            showModal('snippets-modal');
+        }
+
+        function renderSnippets() {
+            const grid = document.getElementById('snippets-grid');
+            grid.innerHTML = SNIPPETS.map((s, i) => `
+                <div class="snippet-card" onclick="insertSnippet(${i})">
+                    <i class="fas ${s.icon}"></i>
+                    <div>${escapeHtml(s.name)}</div>
+                </div>`).join('');
+        }
+
+        function insertSnippet(i) {
+            if (!requireEditor()) return;
+            editor.replaceSelection(SNIPPETS[i].code);
+            closeModal('snippets-modal');
+            editor.focus();
+            setStatus(`Snippet "${SNIPPETS[i].name}" inserted`, 'success');
+        }
+
+        /* ============================================================
+           16. EMMET (Tab expansion)
+           ============================================================ */
+        const EMMET_VOID = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr']);
+
+        function splitTopLevel(str, chars) {
+            const parts = [];
+            let cur = '', depth = 0;
+            for (const ch of str) {
+                if ('([{'.includes(ch)) depth++;
+                else if (')]}'.includes(ch)) depth--;
+                if (depth === 0 && chars.includes(ch)) { parts.push(cur); cur = ''; }
+                else cur += ch;
+            }
+            parts.push(cur);
+            return parts;
+        }
+
+        function parseEmmetNode(str) {
+            if (!str) return null;
+            let mult = 1;
+            const mm = str.match(/\*(\d+)$/);
+            if (mm) { mult = parseInt(mm[1], 10); if (mult > 100) return null; str = str.slice(0, mm.index); }
+            let text = '';
+            const tm = str.match(/\{([^{}]*)\}$/);
+            if (tm) { text = tm[1]; str = str.slice(0, tm.index); }
+            const attrs = {};
+            let m;
+            const attrRe = /\[([^\[\]]*)\]/g;
+            while ((m = attrRe.exec(str))) {
+                m[1].split(';').forEach(pair => {
+                    const eq = pair.indexOf('=');
+                    if (eq === -1) { if (pair.trim()) attrs[pair.trim()] = ''; }
+                    else attrs[pair.slice(0, eq).trim()] = pair.slice(eq + 1).replace(/^["']|["']$/g, '');
+                });
+            }
+            str = str.replace(attrRe, '');
+            let tag = 'div';
+            const t2 = str.match(/^([a-zA-Z][a-zA-Z0-9-]*)/);
+            if (t2) { tag = t2[1].toLowerCase(); str = str.slice(t2[1].length); }
+            const im = str.match(/#([-\w]+)/);
+            if (im) attrs.id = im[1];
+            const classes = [];
+            let cm;
+            const clsRe = /\.([-\w]+)/g;
+            while ((cm = clsRe.exec(str))) classes.push(cm[1]);
+            if (classes.length) attrs.class = classes.join(' ');
+            const rest = str.replace(/#([-\w]+)/, '').replace(/\.([-\w]+)/g, '');
+            if (rest) return null;
+            if (!/^[a-z][a-z0-9-]*$/.test(tag)) return null;
+            return { tag: tag, attrs: attrs, text: text, mult: mult, children: null };
+        }
+
+        function renderEmmetNodes(nodes, indent) {
+            let out = '';
+            const pad = '  '.repeat(indent);
+            nodes.forEach(node => {
+                for (let i = 0; i < node.mult; i++) {
+                    const attrs = Object.entries(node.attrs).map(([k, v]) => ` ${k}="${escapeHtml(v)}"`).join('');
+                    if (EMMET_VOID.has(node.tag)) {
+                        out += pad + '<' + node.tag + attrs + '>\n';
+                    } else if (node.children && node.children.length) {
+                        out += pad + '<' + node.tag + attrs + '>\n' + renderEmmetNodes(node.children, indent + 1) + pad + '</' + node.tag + '>\n';
+                    } else if (node.text) {
+                        out += pad + '<' + node.tag + attrs + '>' + escapeHtml(node.text) + '</' + node.tag + '>\n';
+                    } else {
+                        out += pad + '<' + node.tag + attrs + '></' + node.tag + '>\n';
                     }
                 }
-            } catch (error) {
-                console.error('Load project error:', error);
-                setStatus('Error loading project', 'error');
-            }
+            });
+            return out;
         }
 
-        function deleteProject(projectId) {
+        function emmetExpand(abbr) {
+            if (abbr === '!') {
+                return '<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>Document</title>\n</head>\n<body>\n  \n</body>\n</html>';
+            }
+            if (!abbr || /\s/.test(abbr)) return null;
+            if (!/[.#>*+\[{}]/.test(abbr)) return null; // plain words → normal indent
             try {
-                const projects = JSON.parse(localStorage.getItem('htmlEditorProjects') || '[]');
-                const project = projects.find(p => p.id === projectId);
-                
-                if (project && confirm(`Delete project "${project.name}"?`)) {
-                    const updatedProjects = projects.filter(p => p.id !== projectId);
-                    localStorage.setItem('htmlEditorProjects', JSON.stringify(updatedProjects));
-                    loadSavedProjects();
-                    setStatus(`Project "${project.name}" deleted`, 'success');
+                const groups = splitTopLevel(abbr, '>');
+                let children = null;
+                for (let g = groups.length - 1; g >= 0; g--) {
+                    const siblings = splitTopLevel(groups[g], '+').map(parseEmmetNode);
+                    if (siblings.some(n => n === null)) return null;
+                    if (children) siblings[siblings.length - 1].children = children;
+                    children = siblings;
                 }
-            } catch (error) {
-                console.error('Delete project error:', error);
-                setStatus('Error deleting project', 'error');
+                if (!children || !children.length) return null;
+                return renderEmmetNodes(children, 0).replace(/\n$/, '');
+            } catch (e) { return null; }
+        }
+
+        function emmetTabKey(cm) {
+            const cur = cm.getCursor();
+            const lineText = cm.getLine(cur.line).slice(0, cur.ch);
+            const m = lineText.match(/([^\s<>]+|!)$/);
+            if (m) {
+                const expanded = emmetExpand(m[1]);
+                if (expanded) {
+                    cm.replaceRange(expanded, { line: cur.line, ch: cur.ch - m[1].length }, cur);
+                    return;
+                }
+            }
+            cm.replaceSelection('  ');
+        }
+
+        function emmetShiftTabKey(cm) {
+            if (cm.somethingSelected()) { cm.execCommand('indentLess'); return; }
+            const cur = cm.getCursor();
+            const line = cm.getLine(cur.line);
+            const strip = line.match(/^ {1,2}/);
+            if (strip) cm.replaceRange('', { line: cur.line, ch: 0 }, { line: cur.line, ch: strip[0].length });
+        }
+
+        /* ============================================================
+           17. SHARE LINK / IMPORT URL
+           ============================================================ */
+        function shareLink() {
+            if (!requireEditor()) return;
+            try {
+                const compressed = LZString.compressToEncodedURIComponent(editor.getValue());
+                const url = location.origin + location.pathname + '#code=' + compressed;
+                history.replaceState(null, '', '#code=' + compressed);
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(url)
+                        .then(() => setStatus('Share link copied to clipboard', 'success'))
+                        .catch(() => prompt('Copy this share link:', url));
+                } else {
+                    prompt('Copy this share link:', url);
+                }
+            } catch (e) {
+                console.error(e);
+                setStatus('Share failed — code may be too large', 'error');
             }
         }
 
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
+        function openImportUrl() { showModal('import-url-modal'); }
+
+        function fetchText(u) {
+            return fetch(u).then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); });
         }
 
-        window.addEventListener('DOMContentLoaded', () => {
-            initEditor();
-            const savedTheme = localStorage.getItem('editorTheme') || 'dark';
-            applyTheme(savedTheme);
-            
-            // Add event listeners for smart encoding
-            const formatOptions = document.querySelectorAll('input[name="target-format"]');
-            formatOptions.forEach(radio => {
-                radio.addEventListener('change', updateConversionPreview);
+        async function importFromUrl() {
+            if (!requireEditor()) return;
+            const urlEl = document.getElementById('import-url-input');
+            const url = urlEl.value.trim();
+            if (!url) { setStatus('Enter a URL first', 'error'); return; }
+            showLoading('Fetching page…');
+            try {
+                let text;
+                try { text = await fetchText(url); }
+                catch (e1) {
+                    // CORS fallback via public proxy
+                    text = await fetchText('https://api.allorigins.win/raw?url=' + encodeURIComponent(url));
+                }
+                pushVersion('before URL import');
+                editor.setValue(text);
+                closeModal('import-url-modal');
+                urlEl.value = '';
+                setStatus('Page imported successfully', 'success');
+            } catch (e) {
+                console.error(e);
+                setStatus('Import failed (CORS or network). Download the file and use Upload instead.', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        /* ============================================================
+           18. ZEN MODE
+           ============================================================ */
+        function toggleZen() {
+            const zen = document.body.classList.toggle('zen');
+            document.getElementById('zen-exit').hidden = !zen;
+            setStatus(zen ? 'Zen mode ON — press Esc or Alt+Z to exit' : 'Zen mode off', 'success');
+        }
+
+        /* ============================================================
+           19. SPLIT DIVIDER (draggable)
+           ============================================================ */
+        (function initDivider() {
+            const divider = document.getElementById('split-divider');
+            const codePane = document.getElementById('code-pane');
+            const container = document.querySelector('.container');
+            let dragging = false;
+
+            divider.addEventListener('mousedown', (e) => {
+                dragging = true;
+                divider.classList.add('dragging');
+                document.body.style.cursor = 'col-resize';
+                e.preventDefault();
             });
-            
-            const formatLabels = document.querySelectorAll('.format-option');
-            formatLabels.forEach(label => {
-                label.addEventListener('click', function() {
-                    formatLabels.forEach(l => l.classList.remove('selected'));
-                    this.classList.add('selected');
-                });
+            document.addEventListener('mousemove', (e) => {
+                if (!dragging) return;
+                if (window.innerWidth <= 1024) return;
+                const rect = container.getBoundingClientRect();
+                let pct = ((e.clientX - rect.left) / rect.width) * 100;
+                pct = Math.max(15, Math.min(85, pct));
+                codePane.style.flex = '0 0 ' + pct + '%';
             });
+            document.addEventListener('mouseup', () => {
+                if (dragging) { dragging = false; divider.classList.remove('dragging'); document.body.style.cursor = ''; }
+            });
+            divider.addEventListener('dblclick', () => { codePane.style.flex = ''; });
+            window.addEventListener('resize', () => {
+                if (window.innerWidth <= 1024) codePane.style.flex = '';
+            });
+        })();
+
+        /* ============================================================
+           20. GLOBAL WIRING & BOOT
+           ============================================================ */
+
+        // Insert Link modal
+        function insertLinkSubmit() {
+            if (!requireEditor()) return;
+            const url = document.getElementById('link-url').value.trim();
+            const text = document.getElementById('link-text').value.trim();
+            if (!url) { setStatus('Please enter a URL', 'error'); return; }
+            if (!isSafeURL(url)) { setStatus('javascript: URLs are not allowed', 'error'); return; }
+            const html = '<a href="' + escapeHtml(url) + '">' + escapeHtml(text || url) + '</a>';
+            editor.replaceSelection(html);
+            document.getElementById('link-url').value = '';
+            document.getElementById('link-text').value = '';
+            closeModal('link-modal');
+            editor.focus();
+            setStatus('Link inserted', 'success');
+        }
+
+        // Insert Image modal
+        function insertImageSubmit() {
+            if (!requireEditor()) return;
+            const url = document.getElementById('image-url').value.trim();
+            const alt = document.getElementById('image-alt').value.trim();
+            if (!url) { setStatus('Please enter an image URL', 'error'); return; }
+            if (!isSafeURL(url)) { setStatus('Dangerous URL blocked', 'error'); return; }
+            const html = '<img src="' + escapeHtml(url) + '" alt="' + escapeHtml(alt) + '">';
+            editor.replaceSelection(html);
+            document.getElementById('image-url').value = '';
+            document.getElementById('image-alt').value = '';
+            closeModal('image-modal');
+            editor.focus();
+            setStatus('Image inserted', 'success');
+        }
+
+        // Shortcuts modal
+        function showShortcuts() { showModal('shortcuts-modal'); }
+
+        // Preview console messages from the iframe
+        window.addEventListener('message', (e) => {
+            const d = e.data;
+            if (!d || d.__pc !== 1) return;
+            addConsoleEntry(d.level || 'log', (d.args || []).join(' '));
         });
+
+        // Close modal on backdrop click
+        document.querySelectorAll('.modal').forEach(m => {
+            m.addEventListener('mousedown', (e) => { if (e.target === m) closeModal(m.id); });
+        });
+
+        // Keyboard shortcuts + Escape behavior
+        document.addEventListener('keydown', (e) => {
+            const mod = e.ctrlKey || e.metaKey;
+            if (mod && !e.shiftKey && e.code === 'KeyS') { e.preventDefault(); exportHTML(); return; }
+            if (mod && !e.shiftKey && e.code === 'KeyE') { e.preventDefault(); if (editor) toggleEditMode(); return; }
+            if (mod && e.shiftKey && e.code === 'KeyF') { e.preventDefault(); formatCode(); return; }
+            if (mod && e.shiftKey && e.code === 'KeyP') { e.preventDefault(); openProjectManager(); return; }
+            if (mod && e.shiftKey && e.code === 'KeyT') { e.preventDefault(); toggleTheme(); return; }
+            if (e.altKey && e.code === 'KeyZ') { e.preventDefault(); toggleZen(); return; }
+
+            if (e.key === 'Escape') {
+                const popupOpen = document.getElementById('editPopup').classList.contains('active');
+                if (popupOpen) { closeEditPopup(); return; }
+                const open = document.querySelector('.modal.active');
+                if (open) { closeModal(open.id); return; }
+                if (document.body.classList.contains('zen')) toggleZen();
+            }
+        });
+
+        // Live conversion preview when switching target format
+        document.querySelectorAll('input[name="target-format"]').forEach(r => {
+            r.addEventListener('change', () => { if (editor) performConversion(); });
+        });
+
+        // Boot
+        window.addEventListener('load', initEditor);
     </script>
 </body>
 </html>
